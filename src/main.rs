@@ -19,7 +19,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> String {
 }
 
 fn parse_args() {
-    let matches = App::new("kmon")
+    let _matches = App::new("kmon")
                     .version(VERSION)
                     .get_matches();
 }

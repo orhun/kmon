@@ -1,10 +1,15 @@
+extern crate clap;
+use clap::{Arg, App};
+
 const VERSION: &'static str = "0.1.0";
 
 fn parse_args() -> bool {
-    println!("kmon v{}", VERSION);
+    let matches = App::new("kmon")
+                    .version(VERSION)
+                    .get_matches();
     return true;
 }
 
 fn main() {
-    parse_cli_args();
+    parse_args();
 }

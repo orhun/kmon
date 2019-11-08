@@ -12,9 +12,9 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> String {
                         .expect("failed to execute command");
     io::stderr().write_all(&output.stderr).unwrap();
     if output.status.success() {
-        return String::from_utf8(output.stdout).expect("Not UTF-8");
+        return String::from_utf8(output.stdout).expect("not UTF-8");
     } else {
-        return String::from("woo");
+        panic!("{} {}", cmd, cmd_args.join(" "));
     }
 }
 
@@ -26,5 +26,5 @@ fn parse_args() {
 
 fn main() {
     parse_args();
-    println!("{}", exec_cmd("ls", &["-a", "-x"]));
+    println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]));
 }

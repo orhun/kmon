@@ -6,6 +6,8 @@ use tui::backend::TermionBackend;
 use tui::widgets::{Widget, Block, Borders};
 use tui::layout::{Layout, Constraint, Direction};
 use termion::raw::IntoRawMode;
+use termion::input::MouseTerminal;
+use termion::screen::AlternateScreen;
 
 
 const VERSION: &'static str = "0.1.0"; /* Version */
@@ -46,8 +48,11 @@ fn parse_args() {
  */
 fn create_term() -> Result<(), io::Error> {
     let stdout = io::stdout().into_raw_mode()?;
+    let stdout = MouseTerminal::from(stdout);
+    let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
+    terminal.hide_cursor()?;
     terminal.draw(|mut f| {
         let size = f.size();
             Block::default().borders(Borders::ALL).render(&mut f, size);

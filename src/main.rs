@@ -24,6 +24,9 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> String {
     }
 }
 
+/**
+ * Parse command line arguments using 'clap'.
+ */
 fn parse_args() {
     let _matches = App::new("kmon")
         .version(VERSION).get_matches();

@@ -54,3 +54,15 @@ fn main() {
     println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]).unwrap());
     create_term().expect("failed to create terminal");
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_exec_cmd() -> Result<(), String> {
+        assert_eq!("test", exec_cmd("printf", &["test"]).unwrap());
+        assert_eq!("true\n", exec_cmd("sh", &["-c",
+            "test 10 -eq 10 && echo 'true'"]).unwrap());
+        Ok(())
+    }
+}

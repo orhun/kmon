@@ -47,5 +47,5 @@ fn create_term() -> Result<(), io::Error> {
 fn main() {
     parse_args();
     println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]));
-    create_term();
+    create_term().expect("failed to create terminal");
 }

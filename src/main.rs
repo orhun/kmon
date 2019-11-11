@@ -34,6 +34,11 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
+/**
+ * Create a terminal instance using termion as backend.
+ *
+ * @return result
+ */
 fn create_term() -> Result<(), io::Error> {
     let stdout = io::stdout().into_raw_mode()?;
     let backend = TermionBackend::new(stdout);

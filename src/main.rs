@@ -1,6 +1,9 @@
-use clap::{App};
-use std::process::Command;
 use std::io::{self, Write};
+use std::process::Command;
+use clap::{App};
+use tui::Terminal;
+use tui::backend::TermionBackend;
+use termion::raw::IntoRawMode;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 
@@ -31,10 +34,18 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
+fn create_term() -> Result<(), io::Error> {
+    let stdout = io::stdout().into_raw_mode()?;
+    let backend = TermionBackend::new(stdout);
+    let mut _terminal = Terminal::new(backend)?;
+    Ok(())
+}
+
 /**
  * Entry point.
  */
 fn main() {
     parse_args();
     println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]));
+    create_term();
 }

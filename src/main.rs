@@ -1,4 +1,3 @@
-extern crate clap;
 use clap::{App};
 use std::process::Command;
 use std::io::{self, Write};

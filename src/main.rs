@@ -52,13 +52,17 @@ fn create_term() -> Result<(), io::Error> {
             Block::default().borders(Borders::ALL).render(&mut f, size);
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
-                .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
-                .split(f.size());
+                .constraints([
+                        Constraint::Percentage(50),
+                        Constraint::Percentage(50)
+                    ].as_ref()).split(f.size());
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
-                    .split(chunks[0]);
+                    .constraints([
+                        Constraint::Percentage(50),
+                        Constraint::Percentage(50)
+                    ].as_ref()).split(chunks[0]);
                 Block::default()
                     .title("Row 1 Block 1")
                     .borders(Borders::ALL)
@@ -71,8 +75,10 @@ fn create_term() -> Result<(), io::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
-                    .split(chunks[1]);
+                    .constraints([
+                        Constraint::Percentage(50),
+                        Constraint::Percentage(50)
+                        ].as_ref()).split(chunks[1]);
                 Block::default()
                     .title("Row 2 Block 1")
                     .borders(Borders::ALL)

@@ -20,7 +20,8 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     /* Write error output to stderr stream. */
     io::stderr().write_all(&output.stderr).unwrap();
     if output.status.success() {
-        Ok(String::from_utf8(output.stdout).expect("not UTF-8"))
+        Ok((String::from_utf8(output.stdout).expect("not UTF-8"))
+            .trim_end().to_string())
     } else {
         Err(format!("{} {}", cmd, cmd_args.join(" ")))
     }

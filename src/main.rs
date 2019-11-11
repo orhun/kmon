@@ -17,6 +17,7 @@ const VERSION: &'static str = "0.1.0"; /* Version */
  * @param  cmd_args
  * @return result
  */
+#[allow(dead_code)]
 fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     let output = Command::new(cmd).args(cmd_args)
         .output().expect("failed to execute command");
@@ -96,7 +97,6 @@ fn create_term() -> Result<(), io::Error> {
  */
 fn main() {
     parse_args();
-    println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]).unwrap());
     create_term().expect("failed to create terminal");
 }
 

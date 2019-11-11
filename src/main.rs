@@ -32,6 +32,9 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
+/**
+ * Entry point.
+ */
 fn main() {
     parse_args();
     println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]));

@@ -3,7 +3,10 @@ use std::process::Command;
 use clap::{App};
 use tui::Terminal;
 use tui::backend::TermionBackend;
+use tui::widgets::{Widget, Block, Borders};
+use tui::layout::{Layout, Constraint, Direction};
 use termion::raw::IntoRawMode;
+
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 
@@ -43,8 +46,43 @@ fn parse_args() {
 fn create_term() -> Result<(), io::Error> {
     let stdout = io::stdout().into_raw_mode()?;
     let backend = TermionBackend::new(stdout);
-    let mut _terminal = Terminal::new(backend)?;
-    Ok(())
+    let mut terminal = Terminal::new(backend)?;
+    terminal.draw(|mut f| {
+        let size = f.size();
+            Block::default().borders(Borders::ALL).render(&mut f, size);
+            let chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                .split(f.size());
+            {
+                let chunks = Layout::default()
+                    .direction(Direction::Horizontal)
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .split(chunks[0]);
+                Block::default()
+                    .title("Row 1 Block 1")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[0]);
+                Block::default()
+                    .title("Row 1 Block 2")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+            }
+            {
+                let chunks = Layout::default()
+                    .direction(Direction::Horizontal)
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .split(chunks[1]);
+                Block::default()
+                    .title("Row 2 Block 1")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[0]);
+                Block::default()
+                    .title("Row 2 Block 2")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+            }
+    })
 }
 
 /**

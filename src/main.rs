@@ -12,17 +12,17 @@ const VERSION: &'static str = "0.1.0"; /* Version */
  *
  * @param  cmd
  * @param  cmd_args
- * @return output
+ * @return result
  */
-fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> String {
+fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     let output = Command::new(cmd).args(cmd_args)
         .output().expect("failed to execute command");
     /* Write error output to stderr stream. */
     io::stderr().write_all(&output.stderr).unwrap();
     if output.status.success() {
-        return String::from_utf8(output.stdout).expect("not UTF-8");
+        Ok(String::from_utf8(output.stdout).expect("not UTF-8"))
     } else {
-        panic!("{} {}", cmd, cmd_args.join(" "));
+        Err(format!("{} {}", cmd, cmd_args.join(" ")))
     }
 }
 
@@ -46,6 +46,6 @@ fn create_term() -> Result<(), io::Error> {
  */
 fn main() {
     parse_args();
-    println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]));
+    println!("{}", exec_cmd("sh", &["-c", "echo 'x'"]).unwrap());
     create_term().expect("failed to create terminal");
 }

@@ -9,7 +9,6 @@ use termion::raw::IntoRawMode;
 use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
-
 const VERSION: &'static str = "0.1.0"; /* Version */
 
 /**
@@ -53,65 +52,69 @@ fn create_term() -> Result<(), io::Error> {
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
     terminal.hide_cursor()?;
-    terminal.draw(|mut f| {
-        let size = f.size();
-            Block::default().borders(Borders::ALL).render(&mut f, size);
-            let chunks = Layout::default()
-                .direction(Direction::Vertical)
-                .constraints([
-                        Constraint::Percentage(25),
-                        Constraint::Percentage(50),
-                        Constraint::Percentage(25)
-                    ].as_ref()).split(f.size());
-            {
+    loop {
+        terminal.draw(|mut f| {
+            let size = f.size();
+                Block::default().borders(Borders::ALL).render(&mut f, size);
                 let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
+                    .direction(Direction::Vertical)
                     .constraints([
-                        Constraint::Percentage(50),
-                        Constraint::Percentage(50)
-                    ].as_ref()).split(chunks[0]);
-                Block::default()
-                    .title("Row 1 Block 1")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 1 Block 2")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[1]);
-            }
-            {
-                let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
-                    .constraints([
-                        Constraint::Percentage(50),
-                        Constraint::Percentage(50)
-                        ].as_ref()).split(chunks[1]);
-                Block::default()
-                    .title("Row 2 Block 1")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 2 Block 2")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[1]);
-            }
-            {
-                let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
-                    .constraints([
-                        Constraint::Percentage(20),
-                        Constraint::Percentage(80)
-                        ].as_ref()).split(chunks[2]);
-                Block::default()
-                    .title("Row 3 Block 1")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 3 Block 2")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[1]);
-            }
-    })
+                            Constraint::Percentage(25),
+                            Constraint::Percentage(50),
+                            Constraint::Percentage(25)
+                        ].as_ref()).split(f.size());
+                {
+                    let chunks = Layout::default()
+                        .direction(Direction::Horizontal)
+                        .constraints([
+                            Constraint::Percentage(50),
+                            Constraint::Percentage(50)
+                        ].as_ref()).split(chunks[0]);
+                    Block::default()
+                        .title("Row 1 Block 1")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[0]);
+                    Block::default()
+                        .title("Row 1 Block 2")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[1]);
+                }
+                {
+                    let chunks = Layout::default()
+                        .direction(Direction::Horizontal)
+                        .constraints([
+                            Constraint::Percentage(50),
+                            Constraint::Percentage(50)
+                            ].as_ref()).split(chunks[1]);
+                    Block::default()
+                        .title("Row 2 Block 1")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[0]);
+                    Block::default()
+                        .title("Row 2 Block 2")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[1]);
+                }
+                {
+                    let chunks = Layout::default()
+                        .direction(Direction::Horizontal)
+                        .constraints([
+                            Constraint::Percentage(20),
+                            Constraint::Percentage(80)
+                            ].as_ref()).split(chunks[2]);
+                    Block::default()
+                        .title("Row 3 Block 1")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[0]);
+                    Block::default()
+                        .title("Row 3 Block 2")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[1]);
+                }
+        })?;
+        break; // TODO: Add event handler.
+    }
+    Ok(())
 }
 
 /**

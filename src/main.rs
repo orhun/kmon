@@ -65,7 +65,7 @@ mod tests {
     #[test]
     fn test_exec_cmd() {
         assert_eq!("test", exec_cmd("printf", &["test"]).unwrap());
-        assert_eq!("true\n", exec_cmd("sh", &["-c",
+        assert_eq!("true", exec_cmd("sh", &["-c",
             "test 10 -eq 10 && echo 'true'"]).unwrap());
     }
 }

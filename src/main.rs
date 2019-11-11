@@ -3,7 +3,7 @@ use clap::{App};
 use std::process::Command;
 use std::io::{self, Write};
 
-const VERSION: &'static str = "0.1.0";
+const VERSION: &'static str = "0.1.0"; /* Version */
 
 /**
  * Execute a operating system command and return its output.

@@ -2,6 +2,7 @@ use std::io::{self, Write};
 use std::sync::mpsc;
 use std::thread;
 use std::process::Command;
+use std::time::Duration;
 use clap::{App};
 use tui::Terminal;
 use tui::backend::TermionBackend;
@@ -14,6 +15,8 @@ use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
+const EXIT_KEY:termion::event::Key = Key::Char('q');
+const TICK_RATE:std::time::Duration = Duration::from_millis(250);
 
 enum Event<I> {
     Input(I),
@@ -56,7 +59,41 @@ fn parse_args() {
 }
 
 fn get_term_events() -> Events {
-    // TODO
+    let (tx, rx) = mpsc::channel();
+    let input_handle = {
+        let tx = tx.clone();
+        thread::spawn(move || {
+            let stdin = io::stdin();
+            for evt in stdin.keys() {
+                match evt {
+                    Ok(key) => {
+                        if let Err(_) = tx.send(Event::Input(key)) {
+                            return;
+                        }
+                        if key == EXIT_KEY {
+                            return;
+                        }
+                    }
+                    Err(_) => {}
+                }
+            }
+        })
+    };
+    let tick_handle = {
+        let tx = tx.clone();
+        thread::spawn(move || {
+            let tx = tx.clone();
+            loop {
+                tx.send(Event::Tick).unwrap();
+                thread::sleep(TICK_RATE);
+            }
+        })
+    };
+    Events {
+        rx,
+        input_handle,
+        tick_handle,
+    }
 }
 
 /**

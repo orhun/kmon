@@ -9,6 +9,7 @@ use tui::widgets::{Widget, Block, Borders};
 use tui::layout::{Layout, Constraint, Direction};
 use termion::event::Key;
 use termion::raw::IntoRawMode;
+use termion::input::TermRead;
 use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
@@ -54,6 +55,10 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
+fn get_term_events() -> Events {
+    // TODO
+}
+
 /**
  * Create a terminal instance using termion as backend.
  *
@@ -65,6 +70,7 @@ fn create_term() -> Result<(), io::Error> {
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
+    let events = get_term_events();
     terminal.hide_cursor()?;
     loop {
         terminal.draw(|mut f| {

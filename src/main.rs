@@ -15,7 +15,6 @@ use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
-const EXIT_KEY:termion::event::Key = Key::Char('q');
 const TICK_RATE:std::time::Duration = Duration::from_millis(250);
 
 enum Event<I> {
@@ -168,7 +167,7 @@ fn create_term() -> Result<(), failure::Error> {
         })?;
         match events.rx.recv()? {
             Event::Input(key) => {
-                if key == EXIT_KEY {
+                if key == Key::Char('q') {
                     break;
                 }
             }

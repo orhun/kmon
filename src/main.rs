@@ -70,9 +70,6 @@ fn get_term_events() -> Events {
                         if let Err(_) = tx.send(Event::Input(key)) {
                             return;
                         }
-                        if key == EXIT_KEY {
-                            return;
-                        }
                     }
                     Err(_) => {}
                 }
@@ -175,7 +172,7 @@ fn create_term() -> Result<(), failure::Error> {
                     break;
                 }
             }
-            _ => {}
+            Event::Tick => {}
         }
     }
     Ok(())

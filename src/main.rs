@@ -1,15 +1,29 @@
 use std::io::{self, Write};
+use std::sync::mpsc;
+use std::thread;
 use std::process::Command;
 use clap::{App};
 use tui::Terminal;
 use tui::backend::TermionBackend;
 use tui::widgets::{Widget, Block, Borders};
 use tui::layout::{Layout, Constraint, Direction};
+use termion::event::Key;
 use termion::raw::IntoRawMode;
 use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
+
+enum Event<I> {
+    Input(I),
+    Tick,
+}
+struct Events {
+    rx: mpsc::Receiver<Event<Key>>,
+    input_handle: thread::JoinHandle<()>,
+    tick_handle: thread::JoinHandle<()>,
+}
+
 
 /**
  * Execute a operating system command and return its output.

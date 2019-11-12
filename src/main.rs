@@ -57,7 +57,7 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
-fn get_term_events() -> Events {
+fn get_events() -> Events {
     let (tx, rx) = mpsc::channel();
     let input_handle = {
         let tx = tx.clone();
@@ -103,7 +103,7 @@ fn create_term() -> Result<(), failure::Error> {
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
-    let events = get_term_events();
+    let events = get_events();
     terminal.hide_cursor()?;
     loop {
         terminal.draw(|mut f| {

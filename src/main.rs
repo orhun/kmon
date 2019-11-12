@@ -166,10 +166,11 @@ fn create_term() -> Result<(), failure::Error> {
                 }
         })?;
         match events.rx.recv()? {
-            Event::Input(key) => {
-                if key == Key::Char('q') {
+           Event::Input(input) => match input {
+                Key::Char('q') => {
                     break;
                 }
+                _ => {}
             }
             Event::Tick => {}
         }

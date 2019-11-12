@@ -167,7 +167,8 @@ fn create_term() -> Result<(), failure::Error> {
         })?;
         match events.rx.recv()? {
            Event::Input(input) => match input {
-                Key::Char('q') => {
+                Key::Char('q') | Key::Ctrl('c')
+                    | Key::Ctrl('d') => {
                     break;
                 }
                 _ => {}

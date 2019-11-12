@@ -101,7 +101,7 @@ fn get_term_events() -> Events {
  *
  * @return result
  */
-fn create_term() -> Result<(), io::Error> {
+fn create_term() -> Result<(), failure::Error> {
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
     let stdout = AlternateScreen::from(stdout);
@@ -169,7 +169,14 @@ fn create_term() -> Result<(), io::Error> {
                         .render(&mut f, chunks[1]);
                 }
         })?;
-        break; // TODO: Add event handler.
+        match events.rx.recv()? {
+            Event::Input(key) => {
+                if key == EXIT_KEY {
+                    break;
+                }
+            }
+            _ => {}
+        }
     }
     Ok(())
 }

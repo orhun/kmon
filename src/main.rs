@@ -210,4 +210,12 @@ mod tests {
         assert_eq!("true", exec_cmd("sh", &["-c",
             "test 10 -eq 10 && echo 'true'"]).unwrap());
     }
+    #[test]
+    fn test_get_events() ->  Result<(), std::sync::mpsc::RecvError>{
+        let events = get_events();
+        match events.rx.recv()? {
+            Event::Input(_) => {Ok(())}
+            Event::Tick => {Ok(())}
+        }
+    }
 }

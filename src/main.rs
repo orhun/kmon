@@ -14,19 +14,17 @@ use termion::input::TermRead;
 use termion::input::MouseTerminal;
 use termion::screen::AlternateScreen;
 
-const VERSION: &'static str = "0.1.0"; /* Version */
-const TICK_RATE:std::time::Duration = Duration::from_millis(250);
-
-enum Event<I> {
+const VERSION: &'static str = "0.1.0";                              /* Version */
+const TICK_RATE:std::time::Duration = Duration::from_millis(250);   /* Tick rate for event handling */
+enum Event<I> {                                                     /* Terminal event enumerator */
     Input(I),
     Tick,
 }
-struct Events {
+struct Events {                                                     /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
     input_handle: thread::JoinHandle<()>,
     tick_handle: thread::JoinHandle<()>,
 }
-
 
 /**
  * Execute a operating system command and return its output.

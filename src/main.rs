@@ -61,7 +61,9 @@ fn parse_args() {
  * @return Events
  */
 fn get_events() -> Events {
+    /* Create a new asynchronous channel. */
     let (tx, rx) = mpsc::channel();
+    /* Handle inputs using stdin stream and sender of the channel. */
     let input_handle = {
         let tx = tx.clone();
         thread::spawn(move || {
@@ -78,6 +80,7 @@ fn get_events() -> Events {
             }
         })
     };
+    /* Create a loop for handling events. */
     let tick_handle = {
         let tx = tx.clone();
         thread::spawn(move || {
@@ -88,6 +91,7 @@ fn get_events() -> Events {
             }
         })
     };
+    /* Return events. */
     Events {
         rx,
         input_handle,

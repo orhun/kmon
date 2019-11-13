@@ -55,6 +55,11 @@ fn parse_args() {
         .version(VERSION).get_matches();
 }
 
+/**
+ * Return terminal events after setting handlers.
+ *
+ * @return Events
+ */
 fn get_events() -> Events {
     let (tx, rx) = mpsc::channel();
     let input_handle = {

@@ -31,7 +31,7 @@ struct Events {                                                     /* Events st
  *
  * @param  cmd
  * @param  cmd_args
- * @return result
+ * @return Result
  */
 #[allow(dead_code)]
 fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
@@ -98,7 +98,7 @@ fn get_events() -> Events {
 /**
  * Create a terminal instance using termion as backend.
  *
- * @return result
+ * @return Result
  */
 fn create_term() -> Result<(), failure::Error> {
     let stdout = io::stdout().into_raw_mode()?;

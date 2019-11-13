@@ -100,11 +100,12 @@ fn get_events() -> Events {
 }
 
 /**
- * Create a terminal instance using termion as backend.
+ * Create a terminal instance with using termion as backend.
  *
  * @return Result
  */
 fn create_term() -> Result<(), failure::Error> {
+    /* Configure the terminal. */
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
     let stdout = AlternateScreen::from(stdout);
@@ -112,6 +113,7 @@ fn create_term() -> Result<(), failure::Error> {
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
     terminal.hide_cursor()?;
+    /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
             let size = f.size();
@@ -172,6 +174,7 @@ fn create_term() -> Result<(), failure::Error> {
                         .render(&mut f, chunks[1]);
                 }
         })?;
+        /* Handle terminal events. */
         match events.rx.recv()? {
            Event::Input(input) => match input {
                 Key::Char('q') | Key::Ctrl('c')

@@ -20,6 +20,7 @@ enum Event<I> {                                                     /* Terminal 
     Input(I),
     Tick,
 }
+#[allow(dead_code)]
 struct Events {                                                     /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
     input_handle: thread::JoinHandle<()>,

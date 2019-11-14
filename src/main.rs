@@ -1,27 +1,29 @@
+use clap::App;
 use std::io::{self, Write};
+use std::process::Command;
 use std::sync::mpsc;
 use std::thread;
-use std::process::Command;
 use std::time::Duration;
-use clap::{App};
-use tui::Terminal;
-use tui::backend::TermionBackend;
-use tui::widgets::{Widget, Block, Borders};
-use tui::layout::{Layout, Constraint, Direction};
 use termion::event::Key;
-use termion::raw::IntoRawMode;
-use termion::input::TermRead;
 use termion::input::MouseTerminal;
+use termion::input::TermRead;
+use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
+use tui::backend::TermionBackend;
+use tui::layout::{Constraint, Direction, Layout};
+use tui::widgets::{Block, Borders, Widget};
+use tui::Terminal;
 
-const VERSION: &'static str = "0.1.0";                              /* Version */
-const TICK_RATE:std::time::Duration = Duration::from_millis(250);   /* Tick rate for event handling */
-enum Event<I> {                                                     /* Terminal event enumerator */
+const VERSION: &'static str = "0.1.0"; /* Version */
+const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
+enum Event<I> {
+    /* Terminal event enumerator */
     Input(I),
     Tick,
 }
 #[allow(dead_code)]
-struct Events {                                                     /* Events struct for receive, input and tick */
+struct Events {
+    /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
     input_handle: thread::JoinHandle<()>,
     tick_handle: thread::JoinHandle<()>,
@@ -36,13 +38,16 @@ struct Events {                                                     /* Events st
  */
 #[allow(dead_code)]
 fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
-    let output = Command::new(cmd).args(cmd_args)
-        .output().expect("failed to execute command");
+    let output = Command::new(cmd)
+        .args(cmd_args)
+        .output()
+        .expect("failed to execute command");
     /* Write error output to stderr stream. */
     io::stderr().write_all(&output.stderr).unwrap();
     if output.status.success() {
         Ok((String::from_utf8(output.stdout).expect("not UTF-8"))
-            .trim_end().to_string())
+            .trim_end()
+            .to_string())
     } else {
         Err(format!("{} {}", cmd, cmd_args.join(" ")))
     }
@@ -52,8 +57,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
  * Parse command line arguments using 'clap'.
  */
 fn parse_args() {
-    let _matches = App::new("kmon")
-        .version(VERSION).get_matches();
+    let _matches = App::new("kmon").version(VERSION).get_matches();
 }
 
 /**
@@ -118,72 +122,69 @@ fn create_term() -> Result<(), failure::Error> {
     loop {
         terminal.draw(|mut f| {
             let size = f.size();
-                Block::default().borders(Borders::ALL).render(&mut f, size);
+            Block::default().borders(Borders::ALL).render(&mut f, size);
+            let chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints(
+                    [
+                        Constraint::Percentage(25),
+                        Constraint::Percentage(50),
+                        Constraint::Percentage(25),
+                    ]
+                    .as_ref(),
+                )
+                .split(f.size());
+            {
                 let chunks = Layout::default()
-                    .direction(Direction::Vertical)
-                    .constraints([
-                            Constraint::Percentage(25),
-                            Constraint::Percentage(50),
-                            Constraint::Percentage(25)
-                        ].as_ref()).split(f.size());
-                {
-                    let chunks = Layout::default()
-                        .direction(Direction::Horizontal)
-                        .constraints([
-                            Constraint::Percentage(50),
-                            Constraint::Percentage(50)
-                        ].as_ref()).split(chunks[0]);
-                    Block::default()
-                        .title("Row 1 Block 1")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[0]);
-                    Block::default()
-                        .title("Row 1 Block 2")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[1]);
-                }
-                {
-                    let chunks = Layout::default()
-                        .direction(Direction::Horizontal)
-                        .constraints([
-                            Constraint::Percentage(50),
-                            Constraint::Percentage(50)
-                            ].as_ref()).split(chunks[1]);
-                    Block::default()
-                        .title("Row 2 Block 1")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[0]);
-                    Block::default()
-                        .title("Row 2 Block 2")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[1]);
-                }
-                {
-                    let chunks = Layout::default()
-                        .direction(Direction::Horizontal)
-                        .constraints([
-                            Constraint::Percentage(20),
-                            Constraint::Percentage(80)
-                            ].as_ref()).split(chunks[2]);
-                    Block::default()
-                        .title("Row 3 Block 1")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[0]);
-                    Block::default()
-                        .title("Row 3 Block 2")
-                        .borders(Borders::ALL)
-                        .render(&mut f, chunks[1]);
-                }
+                    .direction(Direction::Horizontal)
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .split(chunks[0]);
+                Block::default()
+                    .title("Row 1 Block 1")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[0]);
+                Block::default()
+                    .title("Row 1 Block 2")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+            }
+            {
+                let chunks = Layout::default()
+                    .direction(Direction::Horizontal)
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .split(chunks[1]);
+                Block::default()
+                    .title("Row 2 Block 1")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[0]);
+                Block::default()
+                    .title("Row 2 Block 2")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+            }
+            {
+                let chunks = Layout::default()
+                    .direction(Direction::Horizontal)
+                    .constraints([Constraint::Percentage(20), Constraint::Percentage(80)].as_ref())
+                    .split(chunks[2]);
+                Block::default()
+                    .title("Row 3 Block 1")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[0]);
+                Block::default()
+                    .title("Row 3 Block 2")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+            }
         })?;
         /* Handle terminal events. */
         match events.rx.recv()? {
-           Event::Input(input) => match input {
-                Key::Char('q') | Key::Ctrl('c')
-                    | Key::Ctrl('d') => {
+            Event::Input(input) => match input {
+                Key::Char('q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
                 _ => {}
-            }
+            },
             Event::Tick => {}
         }
     }
@@ -207,15 +208,17 @@ mod tests {
     #[test]
     fn test_exec_cmd() {
         assert_eq!("test", exec_cmd("printf", &["test"]).unwrap());
-        assert_eq!("true", exec_cmd("sh", &["-c",
-            "test 10 -eq 10 && echo 'true'"]).unwrap());
+        assert_eq!(
+            "true",
+            exec_cmd("sh", &["-c", "test 10 -eq 10 && echo 'true'"]).unwrap()
+        );
     }
     #[test]
-    fn test_get_events() ->  Result<(), std::sync::mpsc::RecvError>{
+    fn test_get_events() -> Result<(), std::sync::mpsc::RecvError> {
         let events = get_events();
         match events.rx.recv()? {
-            Event::Input(_) => {Ok(())}
-            Event::Tick => {Ok(())}
+            Event::Input(_) => Ok(()),
+            Event::Tick => Ok(()),
         }
     }
 }

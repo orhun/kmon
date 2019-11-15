@@ -10,8 +10,8 @@ use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
-use tui::layout::{Constraint, Direction, Layout};
-use tui::widgets::{Block, Borders, Widget};
+use tui::layout::{Alignment, Constraint, Direction, Layout};
+use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
 use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                             /* Version */
@@ -117,6 +117,7 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     /* Set widgets and draw the terminal. */
+    let mut text = [Text::raw("Test\n")];
     loop {
         terminal.draw(|mut f| {
             let size = f.size();
@@ -172,9 +173,12 @@ fn create_term() -> Result<(), failure::Error> {
                     .title("Row 3 Block 1")
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 3 Block 2")
-                    .borders(Borders::ALL)
+                let block = Block::default()
+                    .borders(Borders::ALL);
+                Paragraph::new(text.iter())
+                    .block(block.clone().title("Row 3 Block 2"))
+                    .alignment(Alignment::Left)
+                    .wrap(true)
                     .render(&mut f, chunks[1]);
             }
         })?;

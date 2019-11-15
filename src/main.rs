@@ -14,16 +14,14 @@ use tui::layout::{Constraint, Direction, Layout};
 use tui::widgets::{Block, Borders, Widget};
 use tui::Terminal;
 
-const VERSION: &'static str = "0.1.0"; /* Version */
+const VERSION: &'static str = "0.1.0";                             /* Version */
 const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
-enum Event<I> {
-    /* Terminal event enumerator */
+enum Event<I> { /* Terminal event enumerator */
     Input(I),
     Tick,
 }
 #[allow(dead_code)]
-struct Events {
-    /* Events struct for receive, input and tick */
+struct Events { /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
     input_handle: thread::JoinHandle<()>,
     tick_handle: thread::JoinHandle<()>,
@@ -137,7 +135,8 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .constraints([Constraint::Percentage(50),
+                        Constraint::Percentage(50)].as_ref())
                     .split(chunks[0]);
                 Block::default()
                     .title("Row 1 Block 1")
@@ -151,7 +150,8 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .constraints([Constraint::Percentage(50),
+                        Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
                 Block::default()
                     .title("Row 2 Block 1")
@@ -165,7 +165,8 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(20), Constraint::Percentage(80)].as_ref())
+                    .constraints([Constraint::Percentage(20),
+                        Constraint::Percentage(80)].as_ref())
                     .split(chunks[2]);
                 Block::default()
                     .title("Row 3 Block 1")

@@ -23,8 +23,8 @@ enum Event<I> { /* Terminal event enumerator */
 #[allow(dead_code)]
 struct Events { /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
-    input_handle: thread::JoinHandle<()>,
-    tick_handle: thread::JoinHandle<()>,
+    input_handler: thread::JoinHandle<()>,
+    tick_handler: thread::JoinHandle<()>,
 }
 
 /**
@@ -67,7 +67,7 @@ fn get_events() -> Events {
     /* Create a new asynchronous channel. */
     let (tx, rx) = mpsc::channel();
     /* Handle inputs using stdin stream and sender of the channel. */
-    let input_handle = {
+    let input_handler = {
         let tx = tx.clone();
         thread::spawn(move || {
             let stdin = io::stdin();
@@ -84,7 +84,7 @@ fn get_events() -> Events {
         })
     };
     /* Create a loop for handling events. */
-    let tick_handle = {
+    let tick_handler = {
         let tx = tx.clone();
         thread::spawn(move || {
             let tx = tx.clone();
@@ -97,8 +97,8 @@ fn get_events() -> Events {
     /* Return events. */
     Events {
         rx,
-        input_handle,
-        tick_handle,
+        input_handler,
+        tick_handler,
     }
 }
 

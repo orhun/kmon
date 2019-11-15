@@ -117,7 +117,9 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     /* Set widgets and draw the terminal. */
-    let mut text = [Text::raw("Test\n")];
+    let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
+    let kernel_logs: Vec<tui::widgets::Text> = dmesg_output.lines()
+        .rev().map(|x| Text::raw(format!("{}\n", x))).collect();
     loop {
         terminal.draw(|mut f| {
             let size = f.size();
@@ -175,7 +177,7 @@ fn create_term() -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
                 let block = Block::default()
                     .borders(Borders::ALL);
-                Paragraph::new(text.iter())
+                Paragraph::new(kernel_logs.iter())
                     .block(block.clone().title("Row 3 Block 2"))
                     .alignment(Alignment::Left)
                     .wrap(true)

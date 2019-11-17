@@ -16,7 +16,6 @@ use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                             /* Version */
 const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
-const DMESG_INTERVAL: u128 = 1000;
 
 enum Event<I> { /* Terminal event enumerator */
     Input(I),
@@ -27,6 +26,7 @@ enum Event<I> { /* Terminal event enumerator */
 struct Events { /* Events struct for receive, input and tick */
     rx: mpsc::Receiver<Event<Key>>,
     input_handler: thread::JoinHandle<()>,
+    kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
 
@@ -86,23 +86,26 @@ fn get_events() -> Events {
             }
         })
     };
-    /* Create a loop for handling events. */
+    let kernel_handler = {
+        let tx = tx.clone();
+        thread::spawn(move || {
+            loop {
+                let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
+                tx.send(
+                    Event::Kernel(dmesg_output.lines().rev()
+                    .map(|x| Text::raw(format!("{}\n", x))).collect()))
+                    .unwrap();
+                thread::sleep(TICK_RATE*4);
+            }
+        })
+    };
+     /* Create a loop for handling events. */
     let tick_handler = {
         let tx = tx.clone();
         thread::spawn(move || {
             let tx = tx.clone();
-            let mut dmesg_est_time: u128 = 0;
             loop {
                 tx.send(Event::Tick).unwrap();
-                dmesg_est_time += TICK_RATE.as_millis();
-                if dmesg_est_time == DMESG_INTERVAL {
-                    let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
-                    tx.send(
-                        Event::Kernel(dmesg_output.lines().rev()
-                        .map(|x| Text::raw(format!("{}\n", x))).collect()))
-                        .unwrap();
-                    dmesg_est_time = 0;
-                }
                 thread::sleep(TICK_RATE);
             }
         })
@@ -111,6 +114,7 @@ fn get_events() -> Events {
     Events {
         rx,
         input_handler,
+        kernel_handler,
         tick_handler,
     }
 }

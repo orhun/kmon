@@ -17,8 +17,10 @@ use tui::Terminal;
 const VERSION: &'static str = "0.1.0";                             /* Version */
 const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
 const DMESG_INTERVAL: u128 = 1000;
+
 enum Event<I> { /* Terminal event enumerator */
     Input(I),
+    Kernel(Vec<tui::widgets::Text<'static>>),
     Tick,
 }
 #[allow(dead_code)]
@@ -89,8 +91,18 @@ fn get_events() -> Events {
         let tx = tx.clone();
         thread::spawn(move || {
             let tx = tx.clone();
+            let mut dmesg_est_time: u128 = 0;
             loop {
                 tx.send(Event::Tick).unwrap();
+                dmesg_est_time += TICK_RATE.as_millis();
+                if dmesg_est_time == DMESG_INTERVAL {
+                    let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
+                    tx.send(
+                        Event::Kernel(dmesg_output.lines().rev()
+                        .map(|x| Text::raw(format!("{}\n", x))).collect()))
+                        .unwrap();
+                    dmesg_est_time = 0;
+                }
                 thread::sleep(TICK_RATE);
             }
         })
@@ -117,9 +129,7 @@ fn create_term() -> Result<(), failure::Error> {
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
     terminal.hide_cursor()?;
-
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
-    let mut dmesg_est_time: u128 = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -193,15 +203,10 @@ fn create_term() -> Result<(), failure::Error> {
                 }
                 _ => {}
             },
-            Event::Tick => {
-                dmesg_est_time += TICK_RATE.as_millis();
-                if dmesg_est_time == DMESG_INTERVAL || kernel_logs.len() == 0 {
-                    dmesg_est_time = 0;
-                    let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
-                    kernel_logs = dmesg_output.lines()
-                            .rev().map(|x| Text::raw(format!("{}\n", x))).collect();
-                }
-            }
+            Event::Kernel(logs) => {
+                kernel_logs = logs;
+            },
+            Event::Tick => {}
         }
     }
     Ok(())

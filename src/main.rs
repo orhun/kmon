@@ -239,11 +239,18 @@ mod tests {
         );
     }
     #[test]
-    fn test_get_events() -> Result<(), std::sync::mpsc::RecvError> {
+    fn test_get_events() -> Result<(), failure::Error> {
         let events = get_events();
         match events.rx.recv()? {
             Event::Input(_) => Ok(()),
             Event::Tick => Ok(()),
+            Event::Kernel(logs) => {
+                if logs.len() > 0 {
+                    Ok(())
+                } else {
+                    Err(failure::err_msg("failed to retrieve kernel logs"))
+                }
+            }
         }
     }
 }

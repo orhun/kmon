@@ -88,6 +88,7 @@ fn get_events() -> Events {
     let kernel_handler = {
         let tx = tx.clone();
         thread::spawn(move || {
+            let tx = tx.clone();
             loop {
                 let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
                 tx.send(

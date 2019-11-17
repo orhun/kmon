@@ -78,9 +78,7 @@ fn get_events() -> Events {
             for evt in stdin.keys() {
                 match evt {
                     Ok(key) => {
-                        if let Err(_) = tx.send(Event::Input(key)) {
-                            return;
-                        }
+                        tx.send(Event::Input(key)).unwrap();
                     }
                     Err(_) => {}
                 }

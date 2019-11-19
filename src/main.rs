@@ -91,7 +91,8 @@ fn get_events() -> Events {
         thread::spawn(move || {
             let tx = tx.clone();
             loop {
-                let dmesg_output = exec_cmd("dmesg", &[]).unwrap();
+                let dmesg_output = exec_cmd("dmesg",
+                    &["--kernel", "--human", "--color=never"]).unwrap();
                 tx.send(
                     Event::Kernel(dmesg_output.lines().rev()
                     .map(|x| Text::raw(format!("{}\n", x))).collect()))

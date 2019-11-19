@@ -16,7 +16,6 @@ use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                             /* Version */
 const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
-const KERNEL_LOG_RATE: u32 = 5;
 
 enum Event<I> { /* Terminal event enumerator */
     Input(I),
@@ -95,7 +94,7 @@ fn get_events() -> Events {
                     Event::Kernel(dmesg_output.lines().rev()
                     .map(|x| Text::raw(format!("{}\n", x))).collect()))
                     .unwrap();
-                thread::sleep(TICK_RATE * KERNEL_LOG_RATE);
+                thread::sleep(TICK_RATE * 5);
             }
         })
     };

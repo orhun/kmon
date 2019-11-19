@@ -17,13 +17,13 @@ use tui::Terminal;
 const VERSION: &'static str = "0.1.0";                             /* Version */
 const TICK_RATE: std::time::Duration = Duration::from_millis(250); /* Tick rate for event handling */
 
-enum Event<I> { /* Terminal event enumerator */
+enum Event<I> { /* Terminal events enumerator */
     Input(I),
     Kernel(Vec<tui::widgets::Text<'static>>),
     Tick,
 }
 #[allow(dead_code)]
-struct Events { /* Events struct for receive, input and tick */
+struct Events { /* Terminal events struct */
     rx: mpsc::Receiver<Event<Key>>,
     input_handler: thread::JoinHandle<()>,
     kernel_handler: thread::JoinHandle<()>,

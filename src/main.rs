@@ -184,13 +184,8 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(20),
-                        Constraint::Percentage(80)].as_ref())
+                    .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
-                Block::default()
-                    .title("Row 3 Block 1")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[0]);
                 let block = Block::default()
                     .title_style(Style::default().modifier(Modifier::BOLD))
                     .borders(Borders::ALL);
@@ -198,7 +193,7 @@ fn create_term() -> Result<(), failure::Error> {
                     .block(block.clone().title("Kernel Activities"))
                     .alignment(Alignment::Left)
                     .wrap(true)
-                    .render(&mut f, chunks[1]);
+                    .render(&mut f, chunks[0]);
             }
         })?;
         /* Handle terminal events. */

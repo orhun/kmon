@@ -12,7 +12,7 @@ use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
 use tui::layout::{Alignment, Constraint, Direction, Layout};
 use tui::style::{Modifier, Style};
-use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
+use tui::widgets::{Block, Borders, Paragraph, SelectableList, Text, Widget};
 use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                                /* Version */
@@ -184,9 +184,12 @@ fn create_term() -> Result<(), failure::Error> {
                         Constraint::Percentage(20),
                         Constraint::Percentage(50),].as_ref())
                     .split(chunks[0]);
-                     Block::default()
-                    .title("Row 2 Block 1")
-                    .render(&mut f, chunks[0]);
+                    let block = Block::default()
+                        .title_style(Style::default().modifier(Modifier::BOLD));
+                    SelectableList::default()
+                        .block(block.clone().title("Row 2 Block 1"))
+                        .items(&vec!["Item1", "Item2"])
+                        .render(&mut f, chunks[0]);
                     Block::default()
                         .title("Row 2 Block 2")
                         .render(&mut f, chunks[1]);

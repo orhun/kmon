@@ -187,8 +187,8 @@ fn create_term() -> Result<(), failure::Error> {
                     let block = Block::default()
                         .title_style(Style::default().modifier(Modifier::BOLD));
                     SelectableList::default()
-                        .block(block.clone().title("Row 2 Block 1"))
-                        .items(&vec!["Item1", "Item2"])
+                        .block(block.clone().title(" Row 2 Block 1"))
+                        .items(&vec![" Item1", " Item2"])
                         .render(&mut f, chunks[0]);
                     Block::default()
                         .title("Row 2 Block 2")

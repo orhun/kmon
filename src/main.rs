@@ -91,17 +91,22 @@ fn get_events() -> Events {
         thread::spawn(move || {
             let tx = tx.clone();
             loop {
-                let dmesg_output = exec_cmd("dmesg",
-                    &["--kernel", "--human", "--color=never"]).unwrap();
-                tx.send(
-                    Event::Kernel(dmesg_output.lines().rev()
-                    .map(|x| Text::raw(format!("{}\n", x))).collect()))
-                    .unwrap();
+                let dmesg_output =
+                    exec_cmd("dmesg", &["--kernel", "--human",
+                        "--color=never"]).unwrap();
+                tx.send(Event::Kernel(
+                    dmesg_output
+                        .lines()
+                        .rev()
+                        .map(|x| Text::raw(format!("{}\n", x)))
+                        .collect(),
+                ))
+                .unwrap();
                 thread::sleep(REFRESH_RATE * 20);
             }
         })
     };
-     /* Create a loop for handling events. */
+    /* Create a loop for handling events. */
     let tick_handler = {
         let tx = tx.clone();
         thread::spawn(move || {
@@ -168,24 +173,28 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([
-                        Constraint::Percentage(50),
+                    .constraints([Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
-                    Block::default()
+                Block::default()
                     .title("Row 2 Block 4")
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[1]);
                 {
                     let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
-                    .constraints([
-                        Constraint::Percentage(30),
-                        Constraint::Percentage(20),
-                        Constraint::Percentage(50),].as_ref())
-                    .split(chunks[0]);
-                    let block = Block::default()
-                        .title_style(Style::default().modifier(Modifier::BOLD));
+                        .direction(Direction::Horizontal)
+                        .constraints(
+                            [
+                                Constraint::Percentage(30),
+                                Constraint::Percentage(20),
+                                Constraint::Percentage(50),
+                            ]
+                            .as_ref(),
+                        )
+                        .split(chunks[0]);
+                    let block =
+                        Block::default().title_style(
+                            Style::default().modifier(Modifier::BOLD));
                     SelectableList::default()
                         .block(block.clone().title(" Row 2 Block 1"))
                         .items(&vec![" Item1", " Item2"])
@@ -224,7 +233,7 @@ fn create_term() -> Result<(), failure::Error> {
             },
             Event::Kernel(logs) => {
                 kernel_logs = logs;
-            },
+            }
             Event::Tick => {}
         }
     }

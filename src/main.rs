@@ -188,15 +188,12 @@ fn create_term() -> Result<(), failure::Error> {
                     .split(chunks[0]);
                      Block::default()
                     .title("Row 2 Block 1")
-                    .borders(Borders::ALL)
                     .render(&mut f, chunks[0]);
                     Block::default()
                         .title("Row 2 Block 2")
-                        .borders(Borders::ALL)
                         .render(&mut f, chunks[1]);
                     Block::default()
                         .title("Row 2 Block 3")
-                        .borders(Borders::ALL)
                         .render(&mut f, chunks[2]);
                 }
             }

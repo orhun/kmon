@@ -170,7 +170,10 @@ fn create_term() -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50),
+                    .constraints([
+                        Constraint::Percentage(15),
+                        Constraint::Percentage(10),
+                        Constraint::Percentage(25),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
                 Block::default()
@@ -181,6 +184,14 @@ fn create_term() -> Result<(), failure::Error> {
                     .title("Row 2 Block 2")
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[1]);
+                Block::default()
+                    .title("Row 2 Block 3")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[2]);
+                Block::default()
+                    .title("Row 2 Block 4")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[3]);
             }
             {
                 let chunks = Layout::default()

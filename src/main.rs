@@ -202,7 +202,8 @@ fn create_term() -> Result<(), failure::Error> {
         /* Handle terminal events. */
         match events.rx.recv()? {
             Event::Input(input) => match input {
-                Key::Char('q') | Key::Ctrl('c') | Key::Ctrl('d') => {
+                Key::Char('q') | Key::Char('Q') |
+                Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
                 _ => {}

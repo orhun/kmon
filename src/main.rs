@@ -11,6 +11,7 @@ use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
 use tui::layout::{Alignment, Constraint, Direction, Layout};
+use tui::style::{Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
 use tui::Terminal;
 
@@ -191,9 +192,10 @@ fn create_term() -> Result<(), failure::Error> {
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[0]);
                 let block = Block::default()
+                    .title_style(Style::default().modifier(Modifier::BOLD))
                     .borders(Borders::ALL);
                 Paragraph::new(kernel_logs.iter())
-                    .block(block.clone().title("Row 3 Block 2"))
+                    .block(block.clone().title("Kernel Activities"))
                     .alignment(Alignment::Left)
                     .wrap(true)
                     .render(&mut f, chunks[1]);

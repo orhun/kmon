@@ -139,8 +139,6 @@ fn create_term() -> Result<(), failure::Error> {
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
-            let size = f.size();
-            Block::default().borders(Borders::ALL).render(&mut f, size);
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints(

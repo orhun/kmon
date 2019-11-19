@@ -16,7 +16,7 @@ use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
 use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                                /* Version */
-const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
+const REFRESH_RATE: std::time::Duration = Duration::from_millis(500); /* Refresh rate of the terminal */
 
 enum Event<I> { /* Terminal events enumerator */
     Input(I),
@@ -96,7 +96,7 @@ fn get_events() -> Events {
                     Event::Kernel(dmesg_output.lines().rev()
                     .map(|x| Text::raw(format!("{}\n", x))).collect()))
                     .unwrap();
-                thread::sleep(REFRESH_RATE * 5);
+                thread::sleep(REFRESH_RATE * 10);
             }
         })
     };

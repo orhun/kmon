@@ -171,27 +171,34 @@ fn create_term() -> Result<(), failure::Error> {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([
-                        Constraint::Percentage(15),
-                        Constraint::Percentage(10),
-                        Constraint::Percentage(25),
+                        Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
-                Block::default()
+                    Block::default()
+                    .title("Row 2 Block 4")
+                    .borders(Borders::ALL)
+                    .render(&mut f, chunks[1]);
+                {
+                    let chunks = Layout::default()
+                    .direction(Direction::Horizontal)
+                    .constraints([
+                        Constraint::Percentage(30),
+                        Constraint::Percentage(20),
+                        Constraint::Percentage(50),].as_ref())
+                    .split(chunks[0]);
+                     Block::default()
                     .title("Row 2 Block 1")
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 2 Block 2")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[1]);
-                Block::default()
-                    .title("Row 2 Block 3")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[2]);
-                Block::default()
-                    .title("Row 2 Block 4")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[3]);
+                    Block::default()
+                        .title("Row 2 Block 2")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[1]);
+                    Block::default()
+                        .title("Row 2 Block 3")
+                        .borders(Borders::ALL)
+                        .render(&mut f, chunks[2]);
+                }
             }
             {
                 let chunks = Layout::default()

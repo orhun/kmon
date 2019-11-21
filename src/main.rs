@@ -198,6 +198,8 @@ fn create_term() -> Result<(), failure::Error> {
                     SelectableList::default()
                         .block(block.clone().title(" Row 2 Block 1"))
                         .items(&vec![" Item1", " Item2"])
+                        .select(Some(0))
+                        .highlight_symbol(">>")
                         .render(&mut f, chunks[0]);
                     Block::default()
                         .title("Row 2 Block 2")

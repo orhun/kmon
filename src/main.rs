@@ -202,8 +202,13 @@ fn create_term() -> Result<(), failure::Error> {
                         .select(Some(selected_index))
                         .highlight_symbol(">")
                         .render(&mut f, chunks[0]);
-                    Block::default()
-                        .title("Row 2 Block 2")
+                    let block =
+                        Block::default().title_style(
+                            Style::default().modifier(Modifier::BOLD));
+                    SelectableList::default()
+                        .block(block.clone().title(" Row 2 Block 2"))
+                        .items(&vec![" Item3", " Item4"])
+                        .select(Some(selected_index))
                         .render(&mut f, chunks[1]);
                     Block::default()
                         .title("Row 2 Block 3")

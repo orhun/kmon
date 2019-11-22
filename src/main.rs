@@ -141,6 +141,7 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
+    let selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -198,7 +199,7 @@ fn create_term() -> Result<(), failure::Error> {
                     SelectableList::default()
                         .block(block.clone().title(" Row 2 Block 1"))
                         .items(&vec![" Item1", " Item2"])
-                        .select(Some(0))
+                        .select(Some(selected_index))
                         .highlight_symbol(">>")
                         .render(&mut f, chunks[0]);
                     Block::default()
@@ -232,7 +233,7 @@ fn create_term() -> Result<(), failure::Error> {
                     break;
                 }
                 _ => {}
-            },
+            }
             Event::Kernel(logs) => {
                 kernel_logs = logs;
             }

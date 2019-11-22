@@ -141,7 +141,7 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
-    let selected_index: usize = 0;
+    let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -231,7 +231,13 @@ fn create_term() -> Result<(), failure::Error> {
                 Key::Char('q') | Key::Char('Q') |
                 Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
-                }
+                },
+                Key::Down => {
+                    selected_index = selected_index + 1;
+                },
+                Key::Up => {
+                    selected_index = selected_index - 1;
+                },
                 _ => {}
             }
             Event::Kernel(logs) => {

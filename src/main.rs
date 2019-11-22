@@ -200,7 +200,7 @@ fn create_term() -> Result<(), failure::Error> {
                         .block(block.clone().title(" Row 2 Block 1"))
                         .items(&vec![" Item1", " Item2"])
                         .select(Some(selected_index))
-                        .highlight_symbol(">>")
+                        .highlight_symbol(">")
                         .render(&mut f, chunks[0]);
                     Block::default()
                         .title("Row 2 Block 2")

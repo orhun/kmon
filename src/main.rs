@@ -11,8 +11,8 @@ use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
 use tui::layout::{Alignment, Constraint, Direction, Layout};
-use tui::style::{Modifier, Style};
-use tui::widgets::{Block, Borders, Paragraph, SelectableList, Text, Widget};
+use tui::style::{Color, Modifier, Style};
+use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                                /* Version */
@@ -141,7 +141,6 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
-    let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -177,43 +176,29 @@ fn create_term() -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
+
+
+                let block = Block::default()
+                    .title_style(Style::default().modifier(Modifier::BOLD))
+                    .borders(Borders::ALL);
+                let header = ["Header1", "Header2", "Header3"];
+                let items = vec![
+                    vec!["Row11", "Row12", "Row13"],
+                    vec!["Row21", "Row22", "Row23"],
+                ];
+                let normal_style = Style::default().fg(Color::White);
+                let rows = items.iter().enumerate().map(|(i, item)| {
+                    Row::StyledData(item.into_iter(), normal_style)
+                });
+                Table::new(header.into_iter(), rows.into_iter())
+                    .block(block.clone().title("Row 2 Block 1"))
+                    .widths(&[50, 10, 10])
+                    .render(&mut f, chunks[0]);
+
                 Block::default()
-                    .title("Row 2 Block 4")
+                    .title("Row 2 Block 2")
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[1]);
-                {
-                    let chunks = Layout::default()
-                        .direction(Direction::Horizontal)
-                        .constraints(
-                            [
-                                Constraint::Percentage(30),
-                                Constraint::Percentage(20),
-                                Constraint::Percentage(50),
-                            ]
-                            .as_ref(),
-                        )
-                        .split(chunks[0]);
-                    let block =
-                        Block::default().title_style(
-                            Style::default().modifier(Modifier::BOLD));
-                    SelectableList::default()
-                        .block(block.clone().title(" Row 2 Block 1"))
-                        .items(&vec![" Item1", " Item2"])
-                        .select(Some(selected_index))
-                        .highlight_symbol(">")
-                        .render(&mut f, chunks[0]);
-                    let block =
-                        Block::default().title_style(
-                            Style::default().modifier(Modifier::BOLD));
-                    SelectableList::default()
-                        .block(block.clone().title(" Row 2 Block 2"))
-                        .items(&vec![" Item3", " Item4"])
-                        .select(Some(selected_index))
-                        .render(&mut f, chunks[1]);
-                    Block::default()
-                        .title("Row 2 Block 3")
-                        .render(&mut f, chunks[2]);
-                }
             }
             {
                 let chunks = Layout::default()
@@ -238,10 +223,9 @@ fn create_term() -> Result<(), failure::Error> {
                     break;
                 },
                 Key::Down => {
-                    selected_index = selected_index + 1;
+
                 },
                 Key::Up => {
-                    selected_index = selected_index - 1;
                 },
                 _ => {}
             }

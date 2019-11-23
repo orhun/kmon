@@ -146,6 +146,7 @@ fn create_term() -> Result<(), failure::Error> {
                     vec!["Row11", "Row12", "Row13"],
                     vec!["Row21", "Row22", "Row23"],
                 ];
+    let mut selected_index = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -185,7 +186,12 @@ fn create_term() -> Result<(), failure::Error> {
                     .title_style(Style::default().modifier(Modifier::BOLD))
                     .borders(Borders::ALL);
                 let rows = items.iter().enumerate().map(|(i, item)| {
-                    Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                    if selected_index == i {
+                        Row::StyledData(item.into_iter(),
+                            Style::default().fg(Color::White).modifier(Modifier::BOLD))
+                    } else {
+                        Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                    }
                 });
                 Table::new(header.into_iter(), rows.into_iter())
                     .block(block.clone().title("Row 2 Block 1"))
@@ -219,10 +225,10 @@ fn create_term() -> Result<(), failure::Error> {
                     break;
                 },
                 Key::Down => {
-
+                    selected_index = selected_index + 1;
                 },
                 Key::Up => {
-
+                    selected_index = selected_index - 1;
                 },
                 _ => {}
             }

@@ -141,6 +141,11 @@ fn create_term() -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
+    let header = ["Header1", "Header2", "Header3"];
+    let items = vec![
+                    vec!["Row11", "Row12", "Row13"],
+                    vec!["Row21", "Row22", "Row23"],
+                ];
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -176,25 +181,16 @@ fn create_term() -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
-
-
                 let block = Block::default()
                     .title_style(Style::default().modifier(Modifier::BOLD))
                     .borders(Borders::ALL);
-                let header = ["Header1", "Header2", "Header3"];
-                let items = vec![
-                    vec!["Row11", "Row12", "Row13"],
-                    vec!["Row21", "Row22", "Row23"],
-                ];
-                let normal_style = Style::default().fg(Color::White);
                 let rows = items.iter().enumerate().map(|(i, item)| {
-                    Row::StyledData(item.into_iter(), normal_style)
+                    Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                 });
                 Table::new(header.into_iter(), rows.into_iter())
                     .block(block.clone().title("Row 2 Block 1"))
                     .widths(&[50, 10, 10])
                     .render(&mut f, chunks[0]);
-
                 Block::default()
                     .title("Row 2 Block 2")
                     .borders(Borders::ALL)
@@ -226,6 +222,7 @@ fn create_term() -> Result<(), failure::Error> {
 
                 },
                 Key::Up => {
+
                 },
                 _ => {}
             }

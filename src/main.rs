@@ -185,15 +185,15 @@ fn create_term() -> Result<(), failure::Error> {
                 let block = Block::default()
                     .title_style(Style::default().modifier(Modifier::BOLD))
                     .borders(Borders::ALL);
-                let rows = items.iter().enumerate().map(|(i, item)| {
-                    if selected_index == i {
+                let table_rows = items.iter().enumerate().map(|(i, item)| {
+                    if i == selected_index {
                         Row::StyledData(item.into_iter(),
                             Style::default().fg(Color::White).modifier(Modifier::BOLD))
                     } else {
                         Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                     }
                 });
-                Table::new(header.into_iter(), rows.into_iter())
+                Table::new(header.into_iter(), table_rows.into_iter())
                     .block(block.clone().title("Row 2 Block 1"))
                     .widths(&[50, 10, 10])
                     .render(&mut f, chunks[0]);

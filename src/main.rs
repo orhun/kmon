@@ -226,10 +226,14 @@ fn create_term() -> Result<(), failure::Error> {
                     break;
                 },
                 Key::Down => {
-                    selected_index = selected_index + 1;
+                    if selected_index < items.len() - 1 {
+                        selected_index = selected_index + 1;
+                    }
                 },
                 Key::Up => {
-                    selected_index = selected_index - 1;
+                    if selected_index > 0 {
+                        selected_index = selected_index - 1;
+                    }
                 },
                 _ => {}
             }

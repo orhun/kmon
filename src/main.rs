@@ -182,9 +182,6 @@ fn create_term() -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
-                let block = Block::default()
-                    .title_style(Style::default().modifier(Modifier::BOLD))
-                    .borders(Borders::ALL);
                 let table_rows = items.iter().enumerate().map(|(i, item)| {
                     if i == selected_index {
                         Row::StyledData(item.into_iter(),
@@ -194,7 +191,9 @@ fn create_term() -> Result<(), failure::Error> {
                     }
                 });
                 Table::new(header.into_iter(), table_rows.into_iter())
-                    .block(block.clone().title("Row 2 Block 1"))
+                    .block(Block::default()
+                        .title_style(Style::default().modifier(Modifier::BOLD))
+                        .borders(Borders::ALL).title("Row 2 Block 1"))
                     .widths(&[
                         (f64::from(chunks[0].width) * 0.3) as u16,
                         (f64::from(chunks[0].width) * 0.5) as u16,
@@ -210,11 +209,10 @@ fn create_term() -> Result<(), failure::Error> {
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
-                let block = Block::default()
-                    .title_style(Style::default().modifier(Modifier::BOLD))
-                    .borders(Borders::ALL);
                 Paragraph::new(kernel_logs.iter())
-                    .block(block.clone().title("Kernel Activities"))
+                    .block(Block::default()
+                        .title_style(Style::default().modifier(Modifier::BOLD))
+                        .borders(Borders::ALL).title("Kernel Activities"))
                     .alignment(Alignment::Left)
                     .wrap(true)
                     .render(&mut f, chunks[0]);

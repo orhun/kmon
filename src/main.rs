@@ -56,13 +56,6 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 }
 
 /**
- * Parse command line arguments using 'clap'.
- */
-fn parse_args() {
-    let _matches = App::new("kmon").version(VERSION).get_matches();
-}
-
-/**
  * Return terminal events after setting handlers.
  *
  * @return Events
@@ -244,6 +237,13 @@ fn create_term() -> Result<(), failure::Error> {
         }
     }
     Ok(())
+}
+
+/**
+ * Parse command line arguments using 'clap'.
+ */
+fn parse_args() {
+    let _matches = App::new("kmon").version(VERSION).get_matches();
 }
 
 /**

@@ -1,5 +1,6 @@
 use clap::App;
-use std::io::{self, Write};
+use std::io::{self, Write, BufReader, prelude::*};
+use std::fs::File;
 use std::process::Command;
 use std::sync::mpsc;
 use std::thread;
@@ -53,6 +54,21 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     } else {
         Err(format!("{} {}", cmd, cmd_args.join(" ")))
     }
+}
+
+fn get_kernel_modules() -> Vec<Vec<String>> {
+    let file = File::open("/proc/modules").expect("failed to read /proc/modules");
+    let reader = BufReader::new(file);
+    let mut kernel_modules: Vec<Vec<String>> = Vec::new();
+    for line in reader.lines() {
+        let line = line.unwrap();
+        let mut module: Vec<String> = Vec::new();
+        for column in line.split_whitespace().collect::<Vec<&str>>() {
+            module.push(column.to_string());
+        }
+        kernel_modules.push(module);
+    }
+    kernel_modules
 }
 
 /**
@@ -135,10 +151,7 @@ fn create_term() -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let header = ["Header1", "Header2", "Header3"];
-    let items = vec![
-                    vec!["Row11", "Row12", "Row13"],
-                    vec!["Row21", "Row22", "Row23"],
-                ];
+    let items = get_kernel_modules();
     let mut selected_index = 0;
     /* Set widgets and draw the terminal. */
     loop {

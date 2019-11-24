@@ -195,7 +195,10 @@ fn create_term() -> Result<(), failure::Error> {
                 });
                 Table::new(header.into_iter(), table_rows.into_iter())
                     .block(block.clone().title("Row 2 Block 1"))
-                    .widths(&[50, 10, 10])
+                    .widths(&[
+                        (f64::from(chunks[0].width) * 0.3) as u16,
+                        (f64::from(chunks[0].width) * 0.5) as u16,
+                        (f64::from(chunks[0].width) * 0.1) as u16])
                     .render(&mut f, chunks[0]);
                 Block::default()
                     .title("Row 2 Block 2")

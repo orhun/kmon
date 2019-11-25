@@ -315,7 +315,8 @@ mod tests {
     }
     #[test]
     fn test_get_kernel_modules() {
-        assert_ne!(0, get_kernel_modules(true).len());
+        let matches = App::new("test").get_matches();
+        assert_ne!(0, get_kernel_modules(matches).len());
     }
     #[test]
     fn test_get_events() -> Result<(), failure::Error> {

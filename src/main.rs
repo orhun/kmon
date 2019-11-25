@@ -41,7 +41,6 @@ struct Events { /* Terminal events struct */
  * @param  cmd_args
  * @return Result
  */
-#[allow(dead_code)]
 fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     let output = Command::new(cmd)
         .args(cmd_args)

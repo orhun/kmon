@@ -274,11 +274,10 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
 fn parse_args() -> clap::ArgMatches<'static>  {
     App::new("kmon").version(VERSION)
         .arg(Arg::with_name("sort")
-                               .short("s")
-                               .long("sort")
-                               .help("Sort kernel modules by size"))
-                               .get_matches()
-
+            .short("s")
+            .long("sort")
+            .help("Sort kernel modules by size"))
+        .get_matches()
 }
 
 /**

@@ -110,8 +110,7 @@ fn get_events() -> Events {
                         .rev()
                         .map(|x| Text::raw(format!("{}\n", x)))
                         .collect(),
-                ))
-                .unwrap();
+                )).unwrap();
                 thread::sleep(REFRESH_RATE * 20);
             }
         })

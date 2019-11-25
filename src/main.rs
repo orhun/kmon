@@ -1,5 +1,6 @@
 use bytesize::ByteSize;
 use clap::App;
+use clap::Arg;
 use std::io::{self, Write};
 use std::process::Command;
 use std::sync::mpsc;
@@ -56,8 +57,12 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
-fn get_kernel_modules() -> Vec<Vec<String>> {
-    let modules_content = exec_cmd("sh", &["-c", "cat /proc/modules"])
+fn get_kernel_modules(sort_modules: bool) -> Vec<Vec<String>> {
+    let exec_args = &mut ["-c", "cat /proc/modules"];
+    if sort_modules {
+        exec_args[1].to_owned().push_str(" | sort -n -r -t ' ' -k2");
+    }
+    let modules_content = exec_cmd("sh", exec_args)
         .expect("failed to read /proc/modules");
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     for line in modules_content.lines() {
@@ -139,7 +144,7 @@ fn get_events() -> Events {
  *
  * @return Result
  */
-fn create_term() -> Result<(), failure::Error> {
+fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     /* Configure the terminal. */
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
@@ -150,7 +155,7 @@ fn create_term() -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let header = ["Header1", "Header2", "Header3"];
-    let kernel_modules = get_kernel_modules();
+    let kernel_modules = get_kernel_modules(args.is_present("sort"));
     let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
@@ -263,16 +268,22 @@ fn create_term() -> Result<(), failure::Error> {
 /**
  * Parse command line arguments using 'clap'.
  */
-fn parse_args() {
-    let _matches = App::new("kmon").version(VERSION).get_matches();
+fn parse_args() -> clap::ArgMatches<'static>  {
+    App::new("kmon").version(VERSION)
+        .arg(Arg::with_name("sort")
+                               .short("s")
+                               .long("sort")
+                               .help("Sort kernel modules by size"))
+                               .get_matches()
+
 }
 
 /**
  * Entry point.
  */
 fn main() {
-    parse_args();
-    create_term().expect("failed to create terminal");
+    let matches = parse_args();
+    create_term(matches).expect("failed to create terminal");
 }
 
 /**

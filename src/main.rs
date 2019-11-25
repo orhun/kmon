@@ -57,7 +57,8 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
-fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
+fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
+    let module_headers = ["Header1", "Header2", "Header3"];
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     let mut module_read_cmd = String::from("cat /proc/modules");
     if let Some(matches) = args.subcommand_matches("sort") {
@@ -77,7 +78,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
             columns[3].to_string(),
         ]);
     }
-    kernel_modules
+    (module_headers, kernel_modules)
 }
 
 /**
@@ -158,8 +159,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
-    let header = ["Header1", "Header2", "Header3"];
-    let kernel_modules = get_kernel_modules(args);
+    let (module_headers, kernel_modules) = get_kernel_modules(args);
     let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
@@ -214,7 +214,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                                 Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                             }
                         });
-                Table::new(header.into_iter(), modules.into_iter())
+                Table::new(module_headers.into_iter(), modules.into_iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))

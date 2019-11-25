@@ -142,6 +142,7 @@ fn get_events() -> Events {
 /**
  * Create a terminal instance with using termion as backend.
  *
+ * @param  ArgMatches
  * @return Result
  */
 fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
@@ -267,6 +268,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
 
 /**
  * Parse command line arguments using 'clap'.
+ *
+ * @return ArgMatches
  */
 fn parse_args() -> clap::ArgMatches<'static>  {
     App::new("kmon").version(VERSION)

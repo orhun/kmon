@@ -303,6 +303,10 @@ mod tests {
         );
     }
     #[test]
+    fn test_get_kernel_modules() {
+        assert_ne!(0, get_kernel_modules(true).len());
+    }
+    #[test]
     fn test_get_events() -> Result<(), failure::Error> {
         let events = get_events();
         match events.rx.recv()? {

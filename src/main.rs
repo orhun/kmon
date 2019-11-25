@@ -1,3 +1,4 @@
+use bytesize::ByteSize;
 use clap::App;
 use std::io::{self, Write, BufReader, prelude::*};
 use std::fs::File;
@@ -62,11 +63,11 @@ fn get_kernel_modules() -> Vec<Vec<String>> {
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     for line in reader.lines() {
         let line = line.unwrap();
-        let mut module: Vec<String> = Vec::new();
-        for column in line.split_whitespace().collect::<Vec<&str>>() {
-            module.push(column.to_string());
-        }
-        kernel_modules.push(module);
+        let columns = line.split_whitespace().collect::<Vec<&str>>();
+        kernel_modules.push(vec![columns[0].to_string(),
+            ByteSize::b(columns[1].to_string()
+                .parse().unwrap()).to_string(),
+            columns[3].to_string()]);
     }
     kernel_modules
 }

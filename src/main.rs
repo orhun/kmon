@@ -58,11 +58,11 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 }
 
 fn get_kernel_modules(sort_modules: bool) -> Vec<Vec<String>> {
-    let exec_args = &mut ["-c", "cat /proc/modules"];
+    let mut module_read_cmd = String::from("cat /proc/modules");
     if sort_modules {
-        exec_args[1].to_owned().push_str(" | sort -n -r -t ' ' -k2");
+        module_read_cmd += " | sort -n -r -t ' ' -k2";
     }
-    let modules_content = exec_cmd("sh", exec_args)
+    let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
         .expect("failed to read /proc/modules");
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     for line in modules_content.lines() {

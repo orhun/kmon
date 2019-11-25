@@ -57,8 +57,8 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
-fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
-    let module_headers = ["Header1", "Header2", "Header3"];
+fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 4], Vec<Vec<String>>) {
+    let module_headers = ["Module", "Size", "Used by", "State"];
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     let mut module_read_cmd = String::from("cat /proc/modules");
     if let Some(matches) = args.subcommand_matches("sort") {
@@ -76,6 +76,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
             columns[0].to_string(),
             ByteSize::b(columns[1].to_string().parse().unwrap()).to_string(),
             columns[3].to_string(),
+            columns[4].to_string(),
         ]);
     }
     (module_headers, kernel_modules)
@@ -223,7 +224,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .widths(&[
                         (f64::from(chunks[0].width - 3) * 0.3) as u16,
-                        (f64::from(chunks[0].width - 3) * 0.5) as u16,
+                        (f64::from(chunks[0].width - 3) * 0.2) as u16,
+                        (f64::from(chunks[0].width - 3) * 0.4) as u16,
                         (f64::from(chunks[0].width - 3) * 0.1) as u16,
                     ])
                     .render(&mut f, chunks[0]);

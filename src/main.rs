@@ -102,7 +102,8 @@ fn get_events() -> Events {
             loop {
                 let dmesg_output =
                     exec_cmd("dmesg", &["--kernel", "--human",
-                        "--color=never"]).unwrap();
+                        "--color=never"])
+                        .expect("failed to retrieve dmesg output");
                 tx.send(Event::Kernel(
                     dmesg_output
                         .lines()

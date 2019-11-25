@@ -206,9 +206,9 @@ fn create_term() -> Result<(), failure::Error> {
                         .title_style(Style::default().modifier(Modifier::BOLD))
                         .borders(Borders::ALL).title("Row 2 Block 1"))
                     .widths(&[
-                        (f64::from(chunks[0].width) * 0.3) as u16,
-                        (f64::from(chunks[0].width) * 0.5) as u16,
-                        (f64::from(chunks[0].width) * 0.1) as u16])
+                        (f64::from(chunks[0].width - 3) * 0.3) as u16,
+                        (f64::from(chunks[0].width - 3) * 0.5) as u16,
+                        (f64::from(chunks[0].width - 3) * 0.1) as u16])
                     .render(&mut f, chunks[0]);
                 Block::default()
                     .title("Row 2 Block 2")

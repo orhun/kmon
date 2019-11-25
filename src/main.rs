@@ -68,14 +68,15 @@ fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
             module_read_cmd += " | sort -t ' ' -k1";
         }
     }
-    let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
-        .expect("failed to read /proc/modules");
+    let modules_content =
+        exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
     for line in modules_content.lines() {
         let columns = line.split_whitespace().collect::<Vec<&str>>();
-        kernel_modules.push(vec![columns[0].to_string(),
-            ByteSize::b(columns[1].to_string()
-                .parse().unwrap()).to_string(),
-            columns[3].to_string()]);
+        kernel_modules.push(vec![
+            columns[0].to_string(),
+            ByteSize::b(columns[1].to_string().parse().unwrap()).to_string(),
+            columns[3].to_string(),
+        ]);
     }
     kernel_modules
 }
@@ -109,10 +110,8 @@ fn get_events() -> Events {
         thread::spawn(move || {
             let tx = tx.clone();
             loop {
-                let dmesg_output =
-                    exec_cmd("dmesg", &["--kernel", "--human",
-                        "--color=never"])
-                        .expect("failed to retrieve dmesg output");
+                let dmesg_output = exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
+                    .expect("failed to retrieve dmesg output");
                 tx.send(Event::Kernel(
                     dmesg_output
                         .lines()
@@ -180,8 +179,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50),
-                        Constraint::Percentage(50)].as_ref())
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
                     .split(chunks[0]);
                 Block::default()
                     .title("Row 1 Block 1")
@@ -195,31 +193,40 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50),
-                        Constraint::Percentage(50)].as_ref())
+                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
                 let scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
                     .and_then(|height| selected_index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let modules = kernel_modules.iter().skip(scroll_offset)
-                    .enumerate().map(|(i, item)| {
-                    if Some(i) == selected_index.checked_sub(scroll_offset) {
-                        Row::StyledData(item.into_iter(),
-                            Style::default().fg(Color::White).modifier(Modifier::BOLD))
-                    } else {
-                        Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
-                    }
-                });
+                let modules =
+                    kernel_modules
+                        .iter()
+                        .skip(scroll_offset)
+                        .enumerate()
+                        .map(|(i, item)| {
+                            if Some(i) == selected_index.checked_sub(scroll_offset) {
+                                Row::StyledData(
+                                    item.into_iter(),
+                                    Style::default().fg(Color::White).modifier(Modifier::BOLD),
+                                )
+                            } else {
+                                Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                            }
+                        });
                 Table::new(header.into_iter(), modules.into_iter())
-                    .block(Block::default()
-                        .title_style(Style::default().modifier(Modifier::BOLD))
-                        .borders(Borders::ALL).title("Row 2 Block 1"))
+                    .block(
+                        Block::default()
+                            .title_style(Style::default().modifier(Modifier::BOLD))
+                            .borders(Borders::ALL)
+                            .title("Row 2 Block 1"),
+                    )
                     .widths(&[
                         (f64::from(chunks[0].width - 3) * 0.3) as u16,
                         (f64::from(chunks[0].width - 3) * 0.5) as u16,
-                        (f64::from(chunks[0].width - 3) * 0.1) as u16])
+                        (f64::from(chunks[0].width - 3) * 0.1) as u16,
+                    ])
                     .render(&mut f, chunks[0]);
                 Block::default()
                     .title("Row 2 Block 2")
@@ -232,9 +239,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
                 Paragraph::new(kernel_logs.iter())
-                    .block(Block::default()
-                        .title_style(Style::default().modifier(Modifier::BOLD))
-                        .borders(Borders::ALL).title("Kernel Activities"))
+                    .block(
+                        Block::default()
+                            .title_style(Style::default().modifier(Modifier::BOLD))
+                            .borders(Borders::ALL)
+                            .title("Kernel Activities"),
+                    )
                     .alignment(Alignment::Left)
                     .wrap(true)
                     .render(&mut f, chunks[0]);
@@ -243,25 +253,24 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
         /* Handle terminal events. */
         match events.rx.recv()? {
             Event::Input(input) => match input {
-                Key::Char('q') | Key::Char('Q') |
-                Key::Ctrl('c') | Key::Ctrl('d') => {
+                Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
-                },
+                }
                 Key::Down => {
                     selected_index += 1;
                     if selected_index > kernel_modules.len() - 1 {
                         selected_index = 0;
                     }
-                },
+                }
                 Key::Up => {
                     if selected_index > 0 {
                         selected_index -= 1;
                     } else {
                         selected_index = kernel_modules.len() - 1;
                     }
-                },
+                }
                 _ => {}
-            }
+            },
             Event::Kernel(logs) => {
                 kernel_logs = logs;
             }
@@ -276,18 +285,25 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
  *
  * @return ArgMatches
  */
-fn parse_args() -> clap::ArgMatches<'static>  {
-    App::new("kmon").version(VERSION)
-        .subcommand(SubCommand::with_name("sort")
+fn parse_args() -> clap::ArgMatches<'static> {
+    App::new("kmon")
+        .version(VERSION)
+        .subcommand(
+            SubCommand::with_name("sort")
                 .about("Sort kernel modules")
-                    .arg(Arg::with_name("size")
+                .arg(
+                    Arg::with_name("size")
                         .short("s")
                         .long("size")
-                        .help("Sort modules by their sizes"))
-                    .arg(Arg::with_name("name")
+                        .help("Sort modules by their sizes"),
+                )
+                .arg(
+                    Arg::with_name("name")
                         .short("n")
                         .long("name")
-                        .help("Sort modules by their names")))
+                        .help("Sort modules by their names"),
+                ),
+        )
         .get_matches()
 }
 

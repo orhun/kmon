@@ -58,11 +58,8 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 }
 
 fn get_kernel_modules() -> Vec<Vec<String>> {
-    let file = File::open("/proc/modules").expect("failed to read /proc/modules");
-    let reader = BufReader::new(file);
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
-    for line in reader.lines() {
-        let line = line.unwrap();
+    for line in exec_cmd("sh", &["-c", "cat /proc/modules |"]).unwrap().lines() {
         let columns = line.split_whitespace().collect::<Vec<&str>>();
         kernel_modules.push(vec![columns[0].to_string(),
             ByteSize::b(columns[1].to_string()

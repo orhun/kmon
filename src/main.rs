@@ -152,7 +152,7 @@ fn create_term() -> Result<(), failure::Error> {
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let header = ["Header1", "Header2", "Header3"];
     let items = get_kernel_modules();
-    let mut selected_index = 0;
+    let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -188,8 +188,13 @@ fn create_term() -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(50),
                         Constraint::Percentage(50)].as_ref())
                     .split(chunks[1]);
-                let table_rows = items.iter().enumerate().map(|(i, item)| {
-                    if i == selected_index {
+                let scroll_offset = chunks[0]
+                    .height
+                    .checked_sub(5)
+                    .and_then(|height| selected_index.checked_sub(height as usize))
+                    .unwrap_or(0);
+                let table_rows = items.iter().skip(scroll_offset).enumerate().map(|(i, item)| {
+                    if Some(i) == selected_index.checked_sub(scroll_offset) {
                         Row::StyledData(item.into_iter(),
                             Style::default().fg(Color::White).modifier(Modifier::BOLD))
                     } else {

@@ -59,6 +59,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 }
 
 fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
+    let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     let mut module_read_cmd = String::from("cat /proc/modules");
     if let Some(matches) = args.subcommand_matches("sort") {
         if matches.is_present("size") {
@@ -69,7 +70,6 @@ fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
     }
     let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
         .expect("failed to read /proc/modules");
-    let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     for line in modules_content.lines() {
         let columns = line.split_whitespace().collect::<Vec<&str>>();
         kernel_modules.push(vec![columns[0].to_string(),

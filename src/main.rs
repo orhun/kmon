@@ -1,6 +1,7 @@
 use bytesize::ByteSize;
 use clap::App;
 use clap::Arg;
+use clap::SubCommand;
 use std::io::{self, Write};
 use std::process::Command;
 use std::sync::mpsc;
@@ -57,10 +58,14 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
-fn get_kernel_modules(sort_modules: bool) -> Vec<Vec<String>> {
+fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
     let mut module_read_cmd = String::from("cat /proc/modules");
-    if sort_modules {
-        module_read_cmd += " | sort -n -r -t ' ' -k2";
+    if let Some(matches) = args.subcommand_matches("sort") {
+        if matches.is_present("size") {
+            module_read_cmd += " | sort -n -r -t ' ' -k2";
+        } else {
+            module_read_cmd += " | sort -t ' ' -k1";
+        }
     }
     let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
         .expect("failed to read /proc/modules");
@@ -156,7 +161,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let header = ["Header1", "Header2", "Header3"];
-    let kernel_modules = get_kernel_modules(args.is_present("sort"));
+    let kernel_modules = get_kernel_modules(args);
     let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
@@ -273,10 +278,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
  */
 fn parse_args() -> clap::ArgMatches<'static>  {
     App::new("kmon").version(VERSION)
-        .arg(Arg::with_name("sort")
-            .short("s")
-            .long("sort")
-            .help("Sort kernel modules by size"))
+        .subcommand(SubCommand::with_name("sort")
+                .about("Sort kernel modules")
+                    .arg(Arg::with_name("size")
+                        .short("s")
+                        .long("size")
+                        .help("Sort modules by their sizes"))
+                    .arg(Arg::with_name("name")
+                        .short("n")
+                        .long("name")
+                        .help("Sort modules by their names")))
         .get_matches()
 }
 

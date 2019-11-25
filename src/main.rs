@@ -150,7 +150,7 @@ fn create_term() -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let header = ["Header1", "Header2", "Header3"];
-    let items = get_kernel_modules();
+    let kernel_modules = get_kernel_modules();
     let mut selected_index: usize = 0;
     /* Set widgets and draw the terminal. */
     loop {
@@ -192,7 +192,8 @@ fn create_term() -> Result<(), failure::Error> {
                     .checked_sub(5)
                     .and_then(|height| selected_index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let table_rows = items.iter().skip(scroll_offset).enumerate().map(|(i, item)| {
+                let modules = kernel_modules.iter().skip(scroll_offset)
+                    .enumerate().map(|(i, item)| {
                     if Some(i) == selected_index.checked_sub(scroll_offset) {
                         Row::StyledData(item.into_iter(),
                             Style::default().fg(Color::White).modifier(Modifier::BOLD))
@@ -200,7 +201,7 @@ fn create_term() -> Result<(), failure::Error> {
                         Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                     }
                 });
-                Table::new(header.into_iter(), table_rows.into_iter())
+                Table::new(header.into_iter(), modules.into_iter())
                     .block(Block::default()
                         .title_style(Style::default().modifier(Modifier::BOLD))
                         .borders(Borders::ALL).title("Row 2 Block 1"))
@@ -237,7 +238,7 @@ fn create_term() -> Result<(), failure::Error> {
                 },
                 Key::Down => {
                     selected_index += 1;
-                    if selected_index > items.len() - 1 {
+                    if selected_index > kernel_modules.len() - 1 {
                         selected_index = 0;
                     }
                 },
@@ -245,7 +246,7 @@ fn create_term() -> Result<(), failure::Error> {
                     if selected_index > 0 {
                         selected_index -= 1;
                     } else {
-                        selected_index = items.len() - 1;
+                        selected_index = kernel_modules.len() - 1;
                     }
                 },
                 _ => {}

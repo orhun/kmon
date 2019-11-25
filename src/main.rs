@@ -1,7 +1,6 @@
 use bytesize::ByteSize;
 use clap::App;
-use std::io::{self, Write, BufReader, prelude::*};
-use std::fs::File;
+use std::io::{self, Write};
 use std::process::Command;
 use std::sync::mpsc;
 use std::thread;

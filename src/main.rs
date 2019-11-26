@@ -81,11 +81,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
             used_modules.pop();
         }
         let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
-        kernel_modules.push(vec![
-            module_name,
-            module_size,
-            used_modules
-        ]);
+        kernel_modules.push(vec![module_name, module_size, used_modules]);
     }
     (module_headers, kernel_modules)
 }
@@ -127,7 +123,8 @@ fn get_events() -> Events {
                         .rev()
                         .map(|x| Text::raw(format!("{}\n", x)))
                         .collect(),
-                )).unwrap();
+                ))
+                .unwrap();
                 thread::sleep(REFRESH_RATE * 20);
             }
         })
@@ -229,8 +226,11 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title(&format!("Loaded Kernel Modules ({}/{})",
-                                selected_index + 1, kernel_modules.len())),
+                            .title(&format!(
+                                "Loaded Kernel Modules ({}/{})",
+                                selected_index + 1,
+                                kernel_modules.len()
+                            )),
                     )
                     .widths(&[
                         (f64::from(chunks[0].width - 3) * 0.3) as u16,
@@ -275,14 +275,23 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Down | Key::Up => {
                     if input == Key::Down {
                         selected_index += 1;
-                        if selected_index > kernel_modules.len() - 1 { selected_index = 0; }
+                        if selected_index > kernel_modules.len() - 1 {
+                            selected_index = 0;
+                        }
                     } else {
-                        if selected_index > 0 { selected_index -= 1; }
-                        else { selected_index = kernel_modules.len() - 1; }
+                        if selected_index > 0 {
+                            selected_index -= 1;
+                        } else {
+                            selected_index = kernel_modules.len() - 1;
+                        }
                     }
-                    module_info = exec_cmd("modinfo",
-                        &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]])
-                        .unwrap();
+                    module_info = exec_cmd(
+                        "modinfo",
+                        &[kernel_modules[selected_index][0]
+                            .split(" (")
+                            .collect::<Vec<&str>>()[0]],
+                    )
+                    .unwrap();
                 }
                 _ => {}
             },

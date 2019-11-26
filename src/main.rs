@@ -185,6 +185,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let (module_headers, kernel_modules) = get_kernel_modules(args);
     let mut selected_index: usize = 0;
     let mut module_info = String::from("-");
+    let mut module_info_scroll: u16 = 0;
     let mut selected_module_name = String::from("-");
     /* Set widgets and draw the terminal. */
     loop {
@@ -265,6 +266,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
+                    .scroll(module_info_scroll)
                     .render(&mut f, chunks[1]);
             }
             {
@@ -301,6 +303,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         &[&selected_module_name],
                     )
                     .unwrap();
+                }
+                Key::Right => {
+                    module_info_scroll += 1;
+                }
+                Key::Left => {
+                    module_info_scroll -= 1;
                 }
                 _ => {}
             },

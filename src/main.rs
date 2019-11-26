@@ -293,6 +293,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 Key::Down | Key::Up => {
+                    module_info_scroll_offset = 0;
                     selected_index =
                         get_next_index(input == Key::Up, selected_index, kernel_modules.len());
                     selected_module_name = kernel_modules[selected_index][0]

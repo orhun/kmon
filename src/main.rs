@@ -72,7 +72,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 4], Vec<Vec<String>>) {
         exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
     for line in modules_content.lines() {
         let columns = line.split_whitespace().collect::<Vec<&str>>();
-        let mut used_modules = (columns[3].split(",").count() - 1).to_string() + " " + columns[3];
+        let mut used_modules = format!("{} {}", columns[2], columns[3]);
         if used_modules.chars().last().unwrap() == ',' {
             used_modules.pop();
         }

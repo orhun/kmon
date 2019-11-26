@@ -272,20 +272,22 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
-                Key::Down => {
-                    selected_index += 1;
-                    if selected_index > kernel_modules.len() - 1 {
-                        selected_index = 0;
-                    }
-                    module_info = exec_cmd("modinfo", &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]]).unwrap();
-                }
-                Key::Up => {
-                    if selected_index > 0 {
-                        selected_index -= 1;
+                Key::Down | Key::Up => {
+                    if input == Key::Down {
+                        selected_index += 1;
+                        if selected_index > kernel_modules.len() - 1 {
+                            selected_index = 0;
+                        }
                     } else {
-                        selected_index = kernel_modules.len() - 1;
+                        if selected_index > 0 {
+                            selected_index -= 1;
+                        } else {
+                            selected_index = kernel_modules.len() - 1;
+                        }
                     }
-                    module_info = exec_cmd("modinfo", &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]]).unwrap();
+                    module_info = exec_cmd("modinfo",
+                        &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]])
+                        .unwrap();
                 }
                 _ => {}
             },

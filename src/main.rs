@@ -170,6 +170,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let (module_headers, kernel_modules) = get_kernel_modules(args);
     let mut selected_index: usize = 0;
+    let mut module_info = String::from("-");
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -237,7 +238,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         (f64::from(chunks[0].width - 3) * 0.5) as u16,
                     ])
                     .render(&mut f, chunks[0]);
-                Paragraph::new([Text::raw("test")].iter())
+                Paragraph::new([Text::raw(module_info.to_string())].iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
@@ -276,6 +277,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     if selected_index > kernel_modules.len() - 1 {
                         selected_index = 0;
                     }
+                    module_info = exec_cmd("modinfo", &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]]).unwrap();
                 }
                 Key::Up => {
                     if selected_index > 0 {
@@ -283,6 +285,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     } else {
                         selected_index = kernel_modules.len() - 1;
                     }
+                    module_info = exec_cmd("modinfo", &[kernel_modules[selected_index][0].split(" (").collect::<Vec<&str>>()[0]]).unwrap();
                 }
                 _ => {}
             },

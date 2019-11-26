@@ -80,9 +80,10 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 4], Vec<Vec<String>>) {
         if used_modules.chars().last().unwrap() == ',' {
             used_modules.pop();
         }
+        let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
         kernel_modules.push(vec![
             module_name,
-            ByteSize::b(columns[1].to_string().parse().unwrap()).to_string(),
+            module_size,
             used_modules,
             columns[4].to_string(),
         ]);

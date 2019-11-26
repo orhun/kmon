@@ -185,6 +185,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let (module_headers, kernel_modules) = get_kernel_modules(args);
     let mut selected_index: usize = 0;
     let mut module_info = String::from("-");
+    let mut selected_module_name = String::from("-");
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -260,7 +261,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title("Row 2 Block 2"),
+                            .title(&format!("Module: {}", selected_module_name)),
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
@@ -292,11 +293,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Down | Key::Up => {
                     selected_index =
                         get_next_index(input == Key::Up, selected_index, kernel_modules.len());
+                    selected_module_name = kernel_modules[selected_index][0]
+                            .split(" (")
+                            .collect::<Vec<&str>>()[0].to_string();
                     module_info = exec_cmd(
                         "modinfo",
-                        &[kernel_modules[selected_index][0]
-                            .split(" (")
-                            .collect::<Vec<&str>>()[0]],
+                        &[&selected_module_name],
                     )
                     .unwrap();
                 }

@@ -185,7 +185,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let (module_headers, kernel_modules) = get_kernel_modules(args);
     let mut selected_index: usize = 0;
     let mut module_info = String::from("-");
-    let mut module_info_scroll: u16 = 0;
+    let mut module_info_scroll_offset: u16 = 0;
     let mut selected_module_name = String::from("-");
     /* Set widgets and draw the terminal. */
     loop {
@@ -220,7 +220,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
-                let scroll_offset = chunks[0]
+                let modules_scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
                     .and_then(|height| selected_index.checked_sub(height as usize))
@@ -228,10 +228,10 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 let modules =
                     kernel_modules
                         .iter()
-                        .skip(scroll_offset)
+                        .skip(modules_scroll_offset)
                         .enumerate()
                         .map(|(i, item)| {
-                            if Some(i) == selected_index.checked_sub(scroll_offset) {
+                            if Some(i) == selected_index.checked_sub(modules_scroll_offset) {
                                 Row::StyledData(
                                     item.into_iter(),
                                     Style::default().fg(Color::White).modifier(Modifier::BOLD),
@@ -266,7 +266,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
-                    .scroll(module_info_scroll)
+                    .scroll(module_info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
             {
@@ -305,11 +305,11 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .unwrap();
                 }
                 Key::Right => {
-                    module_info_scroll += 1;
+                    module_info_scroll_offset += 1;
                 }
                 Key::Left => {
-                    if module_info_scroll > 0 {
-                        module_info_scroll -= 1;
+                    if module_info_scroll_offset > 0 {
+                        module_info_scroll_offset -= 1;
                     }
                 }
                 _ => {}

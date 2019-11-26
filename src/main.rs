@@ -237,9 +237,15 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         (f64::from(chunks[0].width - 3) * 0.5) as u16,
                     ])
                     .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 2 Block 2")
-                    .borders(Borders::ALL)
+                Paragraph::new([Text::raw("test")].iter())
+                    .block(
+                        Block::default()
+                            .title_style(Style::default().modifier(Modifier::BOLD))
+                            .borders(Borders::ALL)
+                            .title("Row 2 Block 2"),
+                    )
+                    .alignment(Alignment::Left)
+                    .wrap(true)
                     .render(&mut f, chunks[1]);
             }
             {

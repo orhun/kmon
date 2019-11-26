@@ -86,6 +86,23 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
     (module_headers, kernel_modules)
 }
 
+fn get_next_index(direction_up: bool, current_index: usize, elements_count: usize) -> usize {
+    let mut next_index = current_index;
+    if direction_up {
+        if next_index > 0 {
+            next_index -= 1;
+        } else {
+            next_index = elements_count - 1;
+        }
+    } else {
+        next_index += 1;
+        if next_index > elements_count - 1 {
+            next_index = 0;
+        }
+    }
+    next_index
+}
+
 /**
  * Return terminal events after setting handlers.
  *
@@ -273,18 +290,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 Key::Down | Key::Up => {
-                    if input == Key::Down {
-                        selected_index += 1;
-                        if selected_index > kernel_modules.len() - 1 {
-                            selected_index = 0;
-                        }
-                    } else {
-                        if selected_index > 0 {
-                            selected_index -= 1;
-                        } else {
-                            selected_index = kernel_modules.len() - 1;
-                        }
-                    }
+                    selected_index =
+                        get_next_index(input == Key::Up, selected_index, kernel_modules.len());
                     module_info = exec_cmd(
                         "modinfo",
                         &[kernel_modules[selected_index][0]

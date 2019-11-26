@@ -224,7 +224,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title("Row 2 Block 1"),
+                            .title(&format!("Loaded Kernel Modules ({}/{})",
+                                selected_index + 1, kernel_modules.len())),
                     )
                     .widths(&[
                         (f64::from(chunks[0].width - 3) * 0.3) as u16,

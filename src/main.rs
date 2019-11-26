@@ -308,7 +308,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     module_info_scroll += 1;
                 }
                 Key::Left => {
-                    module_info_scroll -= 1;
+                    if module_info_scroll > 0 {
+                        module_info_scroll -= 1;
+                    }
                 }
                 _ => {}
             },

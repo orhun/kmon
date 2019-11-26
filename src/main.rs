@@ -169,8 +169,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 .direction(Direction::Vertical)
                 .constraints(
                     [
-                        Constraint::Percentage(25),
-                        Constraint::Percentage(50),
+                        Constraint::Percentage(15),
+                        Constraint::Percentage(60),
                         Constraint::Percentage(25),
                     ]
                     .as_ref(),

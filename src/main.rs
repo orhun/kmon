@@ -307,6 +307,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 }
                 Key::Right => {
                     module_info_scroll_offset += 1;
+                    module_info_scroll_offset %= (module_info.lines().count() as u16) * 2;
                 }
                 Key::Left => {
                     if module_info_scroll_offset > 0 {

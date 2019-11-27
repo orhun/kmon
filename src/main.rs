@@ -335,7 +335,14 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         .to_string();
                     module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }
-                Key::Right | Key::Left => module.scroll_mod_info(input == Key::Left),
+                Key::Right
+                | Key::Left
+                | Key::Char('h')
+                | Key::Char('H')
+                | Key::Char('l')
+                | Key::Char('L') => module.scroll_mod_info(
+                    input == Key::Left || input == Key::Char('h') || input == Key::Char('H'),
+                ),
                 Key::PageDown => {
                     logs_scroll_offset += 3;
                     logs_scroll_offset %= (kernel_logs.len() as u16) * 2;

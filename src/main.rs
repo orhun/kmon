@@ -251,21 +251,20 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .checked_sub(5)
                     .and_then(|height| module.index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let modules =
-                    kernel_modules
-                        .iter()
-                        .skip(modules_scroll_offset)
-                        .enumerate()
-                        .map(|(i, item)| {
-                            if Some(i) == module.index.checked_sub(modules_scroll_offset) {
-                                Row::StyledData(
-                                    item.into_iter(),
-                                    Style::default().fg(Color::White).modifier(Modifier::BOLD),
-                                )
-                            } else {
-                                Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
-                            }
-                        });
+                let modules = kernel_modules
+                    .iter()
+                    .skip(modules_scroll_offset)
+                    .enumerate()
+                    .map(|(i, item)| {
+                        if Some(i) == module.index.checked_sub(modules_scroll_offset) {
+                            Row::StyledData(
+                                item.into_iter(),
+                                Style::default().fg(Color::White).modifier(Modifier::BOLD),
+                            )
+                        } else {
+                            Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                        }
+                    });
                 Table::new(module_headers.into_iter(), modules.into_iter())
                     .block(
                         Block::default()
@@ -321,17 +320,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Down | Key::Up => {
                     module.scroll_list(input == Key::Up, kernel_modules.len());
                     module.name = kernel_modules[module.index][0]
-                            .split(" (")
-                            .collect::<Vec<&str>>()[0].to_string();
-                    module.info = exec_cmd(
-                        "modinfo",
-                        &[&module.name],
-                    )
-                    .unwrap();
+                        .split(" (")
+                        .collect::<Vec<&str>>()[0]
+                        .to_string();
+                    module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }
-                Key::Right | Key::Left => {
-                    module.scroll_mod_info(input == Key::Left)
-                }
+                Key::Right | Key::Left => module.scroll_mod_info(input == Key::Left),
                 _ => {}
             },
             Event::Kernel(logs) => {

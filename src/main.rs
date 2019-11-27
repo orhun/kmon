@@ -48,21 +48,21 @@ impl Module {
             info_scroll_offset: 0,
         }
     }
-    fn scroll(&mut self, direction_up: bool, size: usize) {
+    fn scroll_list(&mut self, direction_up: bool, size: usize) {
         if direction_up {
-            self.previous(size);
+            self.previous_module(size);
         } else {
-            self.next(size);
+            self.next_module(size);
         }
     }
-    fn next(&mut self, size: usize) {
+    fn next_module(&mut self, size: usize) {
         self.info_scroll_offset = 0;
         self.index += 1;
         if self.index > size - 1 {
             self.index = 0;
         }
     }
-    fn previous(&mut self, size: usize) {
+    fn previous_module(&mut self, size: usize) {
         self.info_scroll_offset = 0;
         if self.index > 0 {
             self.index -= 1;
@@ -70,7 +70,7 @@ impl Module {
             self.index = size - 1;
         }
     }
-    fn scroll_info(&mut self, direction_up: bool) {
+    fn scroll_mod_info(&mut self, direction_up: bool) {
         if direction_up && self.info_scroll_offset > 0 {
             self.info_scroll_offset -= 1;
         } else if !direction_up {
@@ -319,7 +319,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 Key::Down | Key::Up => {
-                    module.scroll(input == Key::Up, kernel_modules.len());
+                    module.scroll_list(input == Key::Up, kernel_modules.len());
                     module.name = kernel_modules[module.index][0]
                             .split(" (")
                             .collect::<Vec<&str>>()[0].to_string();
@@ -330,7 +330,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .unwrap();
                 }
                 Key::Right | Key::Left => {
-                    module.scroll_info(input == Key::Left)
+                    module.scroll_mod_info(input == Key::Left)
                 }
                 _ => {}
             },

@@ -117,23 +117,6 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
     (module_headers, kernel_modules)
 }
 
-fn get_next_index(direction_up: bool, current_index: usize, elements_count: usize) -> usize {
-    let mut next_index = current_index;
-    if direction_up {
-        if next_index > 0 {
-            next_index -= 1;
-        } else {
-            next_index = elements_count - 1;
-        }
-    } else {
-        next_index += 1;
-        if next_index > elements_count - 1 {
-            next_index = 0;
-        }
-    }
-    next_index
-}
-
 /**
  * Return terminal events after setting handlers.
  *

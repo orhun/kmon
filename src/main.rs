@@ -48,6 +48,21 @@ impl Module {
             info_scroll_offset: 0,
         }
     }
+    fn next(&mut self, size: usize) {
+        self.info_scroll_offset = 0;
+        self.index += 1;
+        if self.index > size - 1 {
+            self.index = 0;
+        }
+    }
+    fn previous(&mut self, size: usize) {
+        self.info_scroll_offset = 0;
+        if self.index > 0 {
+            self.index -= 1;
+        } else {
+            self.index = size - 1;
+        }
+    }
 }
 
 /**
@@ -306,9 +321,14 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 Key::Down | Key::Up => {
-                    module.info_scroll_offset = 0;
-                    module.index =
-                        get_next_index(input == Key::Up, module.index, kernel_modules.len());
+                    /*module.info_scroll_offset = 0;*/
+                    /*module.index =
+                        get_next_index(input == Key::Up, module.index, kernel_modules.len());*/
+                    if input == Key::Down {
+                        module.next(kernel_modules.len());
+                    } else {
+                        module.previous(kernel_modules.len());
+                    }
                     module.name = kernel_modules[module.index][0]
                             .split(" (")
                             .collect::<Vec<&str>>()[0].to_string();

@@ -20,6 +20,7 @@ use tui::Terminal;
 
 const VERSION: &'static str = "0.1.0";                                /* Version */
 const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
+const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"];        /* Header of the kernel modules table */
 
 enum Event<I> { /* Terminal events enumerator */
     Input(I),
@@ -103,8 +104,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
-fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
-    let module_headers = ["Module", "Size", "Used by"];
+fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     let mut module_read_cmd = String::from("cat /proc/modules");
     if let Some(matches) = args.subcommand_matches("sort") {
@@ -129,7 +129,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> ([&str; 3], Vec<Vec<String>>) {
         let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
         kernel_modules.push(vec![module_name, module_size, used_modules]);
     }
-    (module_headers, kernel_modules)
+    kernel_modules
 }
 
 /**
@@ -211,7 +211,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
-    let (module_headers, kernel_modules) = get_kernel_modules(args);
+    let kernel_modules = get_kernel_modules(args);
     let mut module = Module::new("-", "-");
     /* Set widgets and draw the terminal. */
     loop {
@@ -265,7 +265,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                             Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                         }
                     });
-                Table::new(module_headers.into_iter(), modules.into_iter())
+                Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))

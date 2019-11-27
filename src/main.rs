@@ -212,6 +212,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let kernel_modules = get_kernel_modules(args);
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
+    let mut logs_scroll_offset: u16 = 0;
     let mut module = Module::new("-", "-");
     /* Set widgets and draw the terminal. */
     loop {
@@ -308,6 +309,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
+                    .scroll(logs_scroll_offset)
                     .render(&mut f, chunks[0]);
             }
         })?;
@@ -334,6 +336,15 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }
                 Key::Right | Key::Left => module.scroll_mod_info(input == Key::Left),
+                Key::PageDown => {
+                    logs_scroll_offset += 3;
+                    logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
+                }
+                Key::PageUp => {
+                     if logs_scroll_offset > 2 {
+                        logs_scroll_offset -= 3;
+                     }
+                }
                 _ => {}
             },
             Event::Kernel(logs) => {

@@ -317,8 +317,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
-                Key::Down | Key::Up => {
-                    module.scroll_list(input == Key::Up, kernel_modules.len());
+                Key::Down
+                | Key::Up
+                | Key::Char('j')
+                | Key::Char('J')
+                | Key::Char('k')
+                | Key::Char('K') => {
+                    module.scroll_list(
+                        input == Key::Up || input == Key::Char('K') || input == Key::Char('k'),
+                        kernel_modules.len(),
+                    );
                     module.name = kernel_modules[module.index][0]
                         .split(" (")
                         .collect::<Vec<&str>>()[0]

@@ -70,6 +70,14 @@ impl Module {
             self.index = size - 1;
         }
     }
+    fn scroll_info(&mut self, direction_up: bool) {
+        if direction_up && self.info_scroll_offset > 0 {
+            self.info_scroll_offset -= 1;
+        } else if !direction_up {
+            self.info_scroll_offset += 1;
+            self.info_scroll_offset %= (self.info.lines().count() as u16) * 2;
+        }
+    }
 }
 
 /**
@@ -321,14 +329,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .unwrap();
                 }
-                Key::Right => {
-                    module.info_scroll_offset += 1;
-                    module.info_scroll_offset %= (module.info.lines().count() as u16) * 2;
-                }
-                Key::Left => {
-                    if module.info_scroll_offset > 0 {
-                        module.info_scroll_offset -= 1;
-                    }
+                Key::Right | Key::Left => {
+                    module.scroll_info(input == Key::Left)
                 }
                 _ => {}
             },

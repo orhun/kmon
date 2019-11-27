@@ -210,8 +210,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
     terminal.hide_cursor()?;
-    let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let kernel_modules = get_kernel_modules(args);
+    let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut module = Module::new("-", "-");
     /* Set widgets and draw the terminal. */
     loop {

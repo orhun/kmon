@@ -33,6 +33,12 @@ struct Events { /* Terminal events struct */
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+struct Module {
+    name: String,
+    info: String,
+    index: usize,
+    info_scroll_offset: u16,
+}
 
 /**
  * Execute a operating system command and return its output.
@@ -183,10 +189,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let (module_headers, kernel_modules) = get_kernel_modules(args);
-    let mut selected_index: usize = 0;
-    let mut module_info = String::from("-");
-    let mut module_info_scroll_offset: u16 = 0;
-    let mut selected_module_name = String::from("-");
+    let mut module = Module {
+        name: String::from("-"),
+        info: String::from("-"),
+        index: 0,
+        info_scroll_offset: 0,
+    };
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -223,7 +231,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 let modules_scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
-                    .and_then(|height| selected_index.checked_sub(height as usize))
+                    .and_then(|height| module.index.checked_sub(height as usize))
                     .unwrap_or(0);
                 let modules =
                     kernel_modules
@@ -231,7 +239,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         .skip(modules_scroll_offset)
                         .enumerate()
                         .map(|(i, item)| {
-                            if Some(i) == selected_index.checked_sub(modules_scroll_offset) {
+                            if Some(i) == module.index.checked_sub(modules_scroll_offset) {
                                 Row::StyledData(
                                     item.into_iter(),
                                     Style::default().fg(Color::White).modifier(Modifier::BOLD),
@@ -247,7 +255,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                             .borders(Borders::ALL)
                             .title(&format!(
                                 "Loaded Kernel Modules ({}/{})",
-                                selected_index + 1,
+                                module.index + 1,
                                 kernel_modules.len()
                             )),
                     )
@@ -257,16 +265,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         (f64::from(chunks[0].width - 3) * 0.5) as u16,
                     ])
                     .render(&mut f, chunks[0]);
-                Paragraph::new([Text::raw(module_info.to_string())].iter())
+                Paragraph::new([Text::raw(module.info.to_string())].iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title(&format!("Module: {}", selected_module_name)),
+                            .title(&format!("Module: {}", module.name)),
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
-                    .scroll(module_info_scroll_offset)
+                    .scroll(module.info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
             {
@@ -293,25 +301,25 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 Key::Down | Key::Up => {
-                    module_info_scroll_offset = 0;
-                    selected_index =
-                        get_next_index(input == Key::Up, selected_index, kernel_modules.len());
-                    selected_module_name = kernel_modules[selected_index][0]
+                    module.info_scroll_offset = 0;
+                    module.index =
+                        get_next_index(input == Key::Up, module.index, kernel_modules.len());
+                    module.name = kernel_modules[module.index][0]
                             .split(" (")
                             .collect::<Vec<&str>>()[0].to_string();
-                    module_info = exec_cmd(
+                    module.info = exec_cmd(
                         "modinfo",
-                        &[&selected_module_name],
+                        &[&module.name],
                     )
                     .unwrap();
                 }
                 Key::Right => {
-                    module_info_scroll_offset += 1;
-                    module_info_scroll_offset %= (module_info.lines().count() as u16) * 2;
+                    module.info_scroll_offset += 1;
+                    module.info_scroll_offset %= (module.info.lines().count() as u16) * 2;
                 }
                 Key::Left => {
-                    if module_info_scroll_offset > 0 {
-                        module_info_scroll_offset -= 1;
+                    if module.info_scroll_offset > 0 {
+                        module.info_scroll_offset -= 1;
                     }
                 }
                 _ => {}

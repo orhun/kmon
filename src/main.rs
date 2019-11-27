@@ -326,7 +326,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 | Key::Char('k')
                 | Key::Char('K') => {
                     module.scroll_list(
-                        input == Key::Up || input == Key::Char('K') || input == Key::Char('k'),
+                        input == Key::Up || input == Key::Char('k') || input == Key::Char('K'),
                         kernel_modules.len(),
                     );
                     module.name = kernel_modules[module.index][0]

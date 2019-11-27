@@ -33,7 +33,7 @@ struct Events { /* Terminal events struct */
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
-struct Module {
+struct Module { /* Kernel module struct */
     name: String,
     info: String,
     index: usize,

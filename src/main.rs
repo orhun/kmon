@@ -167,7 +167,7 @@ fn get_events() -> Events {
                     dmesg_output
                         .lines()
                         .rev()
-                        .map(|x| Text::raw(format!("{}\n", x)))
+                        .map(|x| Text::raw(x.to_string() + "\n"))
                         .collect(),
                 ))
                 .unwrap();

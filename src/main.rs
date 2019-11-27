@@ -39,6 +39,16 @@ struct Module { /* Kernel module struct */
     index: usize,
     info_scroll_offset: u16,
 }
+impl Module {
+    fn new(name: &str, info: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            info: info.to_string(),
+            index: 0,
+            info_scroll_offset: 0,
+        }
+    }
+}
 
 /**
  * Execute a operating system command and return its output.
@@ -189,12 +199,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let (module_headers, kernel_modules) = get_kernel_modules(args);
-    let mut module = Module {
-        name: String::from("-"),
-        info: String::from("-"),
-        index: 0,
-        info_scroll_offset: 0,
-    };
+    let mut module = Module::new("-", "-");
     /* Set widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {

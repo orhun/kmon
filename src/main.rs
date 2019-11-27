@@ -341,9 +341,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                 }
                 Key::PageUp => {
-                     if logs_scroll_offset > 2 {
+                    if logs_scroll_offset > 2 {
                         logs_scroll_offset -= 3;
-                     }
+                    }
                 }
                 _ => {}
             },

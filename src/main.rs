@@ -104,7 +104,7 @@ impl Module {
     fn scroll_mod_info(&mut self, direction_up: bool) {
         if direction_up && self.info_scroll_offset > 0 {
             self.info_scroll_offset -= 1;
-        } else if !direction_up {
+        } else if !direction_up && self.info.lines().count() > 0 {
             self.info_scroll_offset += 1;
             self.info_scroll_offset %= (self.info.lines().count() as u16) * 2;
         }

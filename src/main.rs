@@ -390,16 +390,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Left | Key::Char('h') | Key::Char('H') => module.scroll_mod_info(true),
                 /* Scroll module information down. */
                 Key::Right | Key::Char('l') | Key::Char('L') => module.scroll_mod_info(false),
-                /* Scroll kernel activities down. */
-                Key::PageDown => {
-                    logs_scroll_offset += 3;
-                    logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
-                }
                 /* Scroll kernel activities up. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {
                         logs_scroll_offset -= 3;
                     }
+                }
+                /* Scroll kernel activities down. */
+                Key::PageDown => {
+                    logs_scroll_offset += 3;
+                    logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                 }
                 _ => {}
             },

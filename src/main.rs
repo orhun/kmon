@@ -198,17 +198,22 @@ fn get_events() -> Events {
         let tx = tx.clone();
         thread::spawn(move || {
             let tx = tx.clone();
+            let mut dmesg_output;
+            let mut line_count = 0;
             loop {
-                let dmesg_output = exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
+                dmesg_output = exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
                     .expect("failed to retrieve dmesg output");
-                tx.send(Event::Kernel(
-                    dmesg_output
-                        .lines()
-                        .rev()
-                        .map(|x| Text::raw(format!("{}\n", x)))
-                        .collect(),
-                ))
-                .unwrap();
+                if dmesg_output.lines().count() > line_count {
+                    tx.send(Event::Kernel(
+                        dmesg_output
+                            .lines()
+                            .rev()
+                            .map(|x| Text::raw(format!("{}\n", x)))
+                            .collect(),
+                    ))
+                    .unwrap();
+                }
+                line_count = dmesg_output.lines().count();
                 thread::sleep(REFRESH_RATE * 20);
             }
         })

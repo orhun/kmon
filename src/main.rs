@@ -365,9 +365,11 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
         /* Handle terminal events. */
         match events.rx.recv()? {
             Event::Input(input) => match input {
+                /* Quit. */
                 Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
+                /* Scroll the kernel modules. */
                 Key::Down
                 | Key::Up
                 | Key::Char('j')
@@ -384,12 +386,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         .to_string();
                     module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }
+                /* Scroll module information up. */
                 Key::Left | Key::Char('h') | Key::Char('H') => module.scroll_mod_info(true),
+                /* Scroll module information down. */
                 Key::Right | Key::Char('l') | Key::Char('L') => module.scroll_mod_info(false),
+                /* Scroll kernel activities down. */
                 Key::PageDown => {
                     logs_scroll_offset += 3;
                     logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                 }
+                /* Scroll kernel activities up. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {
                         logs_scroll_offset -= 3;

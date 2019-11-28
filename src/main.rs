@@ -214,7 +214,7 @@ fn get_events() -> Events {
                     .unwrap();
                 }
                 last_line = dmesg_output.lines().next().unwrap().to_string();
-                thread::sleep(REFRESH_RATE * 20);
+                thread::sleep(REFRESH_RATE * 10);
             }
         })
     };

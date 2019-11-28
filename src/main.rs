@@ -386,17 +386,17 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         .to_string();
                     module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }
-                /* Scroll module information up. */
+                /* Scroll up through the module information. */
                 Key::Left | Key::Char('h') | Key::Char('H') => module.scroll_mod_info(true),
-                /* Scroll module information down. */
+                /* Scroll down through the module information. */
                 Key::Right | Key::Char('l') | Key::Char('L') => module.scroll_mod_info(false),
-                /* Scroll kernel activities up. */
+                /* Scroll up through kernel activities. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {
                         logs_scroll_offset -= 3;
                     }
                 }
-                /* Scroll kernel activities down. */
+                /* Scroll down through kernel activities. */
                 Key::PageDown => {
                     logs_scroll_offset += 3;
                     logs_scroll_offset %= (kernel_logs.len() as u16) * 2;

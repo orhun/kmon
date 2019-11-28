@@ -406,7 +406,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
             Event::Kernel(logs) => {
                 kernel_logs = logs;
             }
-            Event::Tick => {}
+            _ => {}
         }
     }
     Ok(())

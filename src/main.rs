@@ -253,13 +253,15 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
     terminal.hide_cursor()?;
+    /* Set required items for the terminal widgets. */
     let kernel_modules = get_kernel_modules(args);
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut module = Module::new("-", "-");
-    /* Set widgets and draw the terminal. */
+    /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
+            /* Configure the main terminal layout. */
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints(
@@ -285,11 +287,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[1]);
             }
-            {
+            { /* Set chunks for modules table and information text. */
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
+                /* Set selected and scroll state of the modules. */
                 let modules_scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
@@ -309,6 +312,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                             Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
                         }
                     });
+                /* Kernel modules table. */
                 Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
                     .block(
                         Block::default()
@@ -326,6 +330,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         (f64::from(chunks[0].width - 3) * 0.5) as u16,
                     ])
                     .render(&mut f, chunks[0]);
+                /* Module information. */
                 Paragraph::new([Text::raw(module.info.to_string())].iter())
                     .block(
                         Block::default()
@@ -338,11 +343,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .scroll(module.info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
-            {
+            {   /* Set chunks for kernel activities text. */
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
+                /* Kernel activities. */
                 Paragraph::new(kernel_logs.iter())
                     .block(
                         Block::default()

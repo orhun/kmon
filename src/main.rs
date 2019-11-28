@@ -199,11 +199,11 @@ fn get_events() -> Events {
         thread::spawn(move || {
             let tx = tx.clone();
             let mut dmesg_output;
-            let mut line_count = 0;
+            let mut last_line = String::from("");
             loop {
                 dmesg_output = exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
                     .expect("failed to retrieve dmesg output");
-                if dmesg_output.lines().count() > line_count {
+                if dmesg_output.lines().next().unwrap() != &last_line {
                     tx.send(Event::Kernel(
                         dmesg_output
                             .lines()
@@ -213,7 +213,7 @@ fn get_events() -> Events {
                     ))
                     .unwrap();
                 }
-                line_count = dmesg_output.lines().count();
+                last_line = dmesg_output.lines().next().unwrap().to_string();
                 thread::sleep(REFRESH_RATE * 20);
             }
         })

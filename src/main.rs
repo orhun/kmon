@@ -384,8 +384,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         kernel_modules.len(),
                     );
                     module.name = kernel_modules[module.index][0]
-                        .split(" (")
-                        .collect::<Vec<&str>>()[0]
+                        .split_whitespace()
+                        .next()
+                        .unwrap()
                         .to_string();
                     module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
                 }

@@ -18,29 +18,38 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 
-const VERSION: &'static str = "0.1.0";                                /* Version */
+const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
-const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"];        /* Header of the kernel modules table */
-
-enum Event<I> { /* Terminal events enumerator */
+const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
+/* Terminal events enumerator */
+enum Event<I> {
     Input(I),
     Kernel(Vec<tui::widgets::Text<'static>>),
     Tick,
 }
+/* Terminal events struct */
 #[allow(dead_code)]
-struct Events { /* Terminal events struct */
+struct Events {
     rx: mpsc::Receiver<Event<Key>>,
     input_handler: thread::JoinHandle<()>,
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
-struct Module { /* Kernel module struct */
+/* Kernel module struct and implementation */
+struct Module {
     name: String,
     info: String,
     index: usize,
     info_scroll_offset: u16,
 }
 impl Module {
+    /**
+     * Create a new Module instance.
+     *
+     * @param  name
+     * @param  info
+     * @return Module
+     */
     fn new(name: &str, info: &str) -> Self {
         Self {
             name: name.to_string(),
@@ -49,6 +58,12 @@ impl Module {
             info_scroll_offset: 0,
         }
     }
+    /**
+     * Scroll up/down and select module from list.
+     *
+     * @param direction_up
+     * @param size
+     */
     fn scroll_list(&mut self, direction_up: bool, size: usize) {
         if direction_up {
             self.previous_module(size);
@@ -56,6 +71,11 @@ impl Module {
             self.next_module(size);
         }
     }
+    /**
+     * Select the next module.
+     *
+     * @param size
+     */
     fn next_module(&mut self, size: usize) {
         self.info_scroll_offset = 0;
         self.index += 1;
@@ -63,6 +83,11 @@ impl Module {
             self.index = 0;
         }
     }
+    /**
+     * Select the previous module.
+     *
+     * @param size
+     */
     fn previous_module(&mut self, size: usize) {
         self.info_scroll_offset = 0;
         if self.index > 0 {
@@ -71,6 +96,11 @@ impl Module {
             self.index = size - 1;
         }
     }
+    /**
+     * Scroll the module information text.
+     *
+     * @param direction_up
+     */
     fn scroll_mod_info(&mut self, direction_up: bool) {
         if direction_up && self.info_scroll_offset > 0 {
             self.info_scroll_offset -= 1;

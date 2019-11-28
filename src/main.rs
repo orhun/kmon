@@ -364,12 +364,13 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
         })?;
         /* Handle terminal events. */
         match events.rx.recv()? {
+            /* Key input events. */
             Event::Input(input) => match input {
                 /* Quit. */
                 Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
-                /* Scroll the kernel modules. */
+                /* Scroll through the kernel modules and show information. */
                 Key::Down
                 | Key::Up
                 | Key::Char('j')
@@ -403,6 +404,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 }
                 _ => {}
             },
+            /* Kernel events. */
             Event::Kernel(logs) => {
                 kernel_logs = logs;
             }

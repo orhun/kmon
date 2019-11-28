@@ -287,7 +287,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .borders(Borders::ALL)
                     .render(&mut f, chunks[1]);
             }
-            { /* Set chunks for modules table and information text. */
+            {
+                /* Set chunks for modules table and information text. */
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
@@ -343,7 +344,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .scroll(module.info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
-            {   /* Set chunks for kernel activities text. */
+            {
+                /* Set chunks for kernel activities text. */
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(100)].as_ref())

@@ -409,8 +409,10 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 }
                 /* Scroll kernel activities down. */
                 Key::PageDown => {
-                    logs_scroll_offset += 3;
-                    logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
+                    if kernel_logs.len() > 0 {
+                        logs_scroll_offset += 3;
+                        logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
+                    }
                 }
                 _ => {}
             },

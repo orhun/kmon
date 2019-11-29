@@ -78,6 +78,12 @@ impl KernelModules {
             ScrollDirection::Top => self.index = 0,
             ScrollDirection::Bottom => self.index = self.list.len() - 1,
         }
+        self.current_name = self.list[self.index][0]
+                        .split_whitespace()
+                        .next()
+                        .unwrap()
+                        .to_string();
+        self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
     }
     /**
      * Select the next module.
@@ -406,12 +412,6 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         _ => kernel_modules.scroll_list(ScrollDirection::Down),
                     }
-                    /*ckernel_modules.current_name = kernel_modules[kernel_modules.index][0]
-                        .split_whitespace()
-                        .next()
-                        .unwrap()
-                        .to_string();
-                    module.info = exec_cmd("modinfo", &[&kernel_modules.current_name]).unwrap();*/
                 }
                 /* Scroll the module information up. */
                 Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(true),

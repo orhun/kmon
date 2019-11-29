@@ -157,7 +157,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
  * @param args
  * @return kernel_modules
  */
-fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
+fn get_kernel_modules(args: clap::ArgMatches) -> KernelModules {
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();
     /* Set the command for reading kernel modules and execute. */
     let mut module_read_cmd = String::from("cat /proc/modules");
@@ -184,7 +184,7 @@ fn get_kernel_modules(args: clap::ArgMatches) -> Vec<Vec<String>> {
         let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
         kernel_modules.push(vec![module_name, module_size, used_modules]);
     }
-    kernel_modules
+    KernelModules::new(kernel_modules)
 }
 
 /**
@@ -273,7 +273,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     /* Set required items for the terminal widgets. */
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
-    let mut kernel_modules = KernelModules::new(get_kernel_modules(args));
+    let mut kernel_modules = get_kernel_modules(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {

@@ -158,7 +158,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
  * @return KernelModules
  */
 fn get_kernel_modules(args: clap::ArgMatches) -> KernelModules {
-    let mut kernel_modules: Vec<Vec<String>> = Vec::new();
+    let mut module_list: Vec<Vec<String>> = Vec::new();
     /* Set the command for reading kernel modules and execute. */
     let mut module_read_cmd = String::from("cat /proc/modules");
     if let Some(matches) = args.subcommand_matches("sort") {
@@ -182,9 +182,9 @@ fn get_kernel_modules(args: clap::ArgMatches) -> KernelModules {
             used_modules.pop();
         }
         let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
-        kernel_modules.push(vec![module_name, module_size, used_modules]);
+        module_list.push(vec![module_name, module_size, used_modules]);
     }
-    KernelModules::new(kernel_modules)
+    KernelModules::new(module_list)
 }
 
 /**

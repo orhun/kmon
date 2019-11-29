@@ -51,10 +51,10 @@ struct KernelModules {
 }
 impl KernelModules {
     /**
-     * Create a new KernelModules instance.
+     * Create a new kernel modules instance.
      *
      * @param  list
-     * @return Module
+     * @return KernelModules
      */
     fn new(module_list: Vec<Vec<String>>) -> Self {
         Self {

@@ -390,29 +390,10 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 /* Scroll through the kernel modules and show information. */
-                Key::Down
-                | Key::Up
-                | Key::Char('j')
-                | Key::Char('J')
-                | Key::Char('k')
-                | Key::Char('K')
-                | Key::Char('t')
-                | Key::Char('T')
-                | Key::Char('b')
-                | Key::Char('B') => {
-                    match input {
-                        Key::Char('t') | Key::Char('T') => {
-                            kernel_modules.scroll_list(ScrollDirection::Top)
-                        }
-                        Key::Char('b') | Key::Char('B') => {
-                            kernel_modules.scroll_list(ScrollDirection::Bottom)
-                        }
-                        Key::Up | Key::Char('k') | Key::Char('K') => {
-                            kernel_modules.scroll_list(ScrollDirection::Up)
-                        }
-                        _ => kernel_modules.scroll_list(ScrollDirection::Down),
-                    }
-                }
+                Key::Up | Key::Char('k') | Key::Char('K') => kernel_modules.scroll_list(ScrollDirection::Up),
+                Key::Down | Key::Char('j') | Key::Char('J') => kernel_modules.scroll_list(ScrollDirection::Down),
+                Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
+                Key::Char('b') | Key::Char('B') => kernel_modules.scroll_list(ScrollDirection::Bottom),
                 /* Scroll the module information up. */
                 Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(true),
                 /* Scroll the module information down. */

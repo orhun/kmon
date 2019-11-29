@@ -68,39 +68,34 @@ impl KernelModules {
     /**
      * Scroll up/down and select module from list.
      *
-     * @param direction_up
-     * @param size
+     * @param direction
      */
-    fn scroll_list(&mut self, direction: ScrollDirection, size: usize) {
+    fn scroll_list(&mut self, direction: ScrollDirection) {
         self.info_scroll_offset = 0;
         match direction {
-            ScrollDirection::Up => self.previous_module(size),
-            ScrollDirection::Down => self.next_module(size),
+            ScrollDirection::Up => self.previous_module(),
+            ScrollDirection::Down => self.next_module(),
             ScrollDirection::Top => self.index = 0,
-            ScrollDirection::Bottom => self.index = size - 1,
+            ScrollDirection::Bottom => self.index = self.list.len() - 1,
         }
     }
     /**
      * Select the next module.
-     *
-     * @param size
      */
-    fn next_module(&mut self, size: usize) {
+    fn next_module(&mut self) {
         self.index += 1;
-        if self.index > size - 1 {
+        if self.index > self.list.len() - 1 {
             self.index = 0;
         }
     }
     /**
      * Select the previous module.
-     *
-     * @param size
      */
-    fn previous_module(&mut self, size: usize) {
+    fn previous_module(&mut self) {
         if self.index > 0 {
             self.index -= 1;
         } else {
-            self.index = size - 1;
+            self.index = self.list.len() - 1;
         }
     }
     /**
@@ -401,15 +396,15 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 | Key::Char('B') => {
                     match input {
                         Key::Char('t') | Key::Char('T') => {
-                            kernel_modules.scroll_list(ScrollDirection::Top, kernel_modules.list.len())
+                            kernel_modules.scroll_list(ScrollDirection::Top)
                         }
                         Key::Char('b') | Key::Char('B') => {
-                            kernel_modules.scroll_list(ScrollDirection::Bottom, kernel_modules.list.len())
+                            kernel_modules.scroll_list(ScrollDirection::Bottom)
                         }
                         Key::Up | Key::Char('k') | Key::Char('K') => {
-                            kernel_modules.scroll_list(ScrollDirection::Up, kernel_modules.list.len())
+                            kernel_modules.scroll_list(ScrollDirection::Up)
                         }
-                        _ => kernel_modules.scroll_list(ScrollDirection::Down, kernel_modules.list.len()),
+                        _ => kernel_modules.scroll_list(ScrollDirection::Down),
                     }
                     /*ckernel_modules.current_name = kernel_modules[kernel_modules.index][0]
                         .split_whitespace()

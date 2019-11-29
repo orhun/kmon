@@ -154,8 +154,8 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 /**
  * Parse kernel modules using '/proc/modules' file.
  *
- * @param args
- * @return kernel_modules
+ * @param  args
+ * @return KernelModules
  */
 fn get_kernel_modules(args: clap::ArgMatches) -> KernelModules {
     let mut kernel_modules: Vec<Vec<String>> = Vec::new();

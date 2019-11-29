@@ -35,6 +35,7 @@ struct Events {
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+/* Enumerator of directions of scrolling */
 enum ScrollDirection {
     Up,
     Down,

@@ -273,14 +273,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut kernel_modules = KernelModules::new(get_kernel_modules(args));
-    /*Module::new(
-        kernel_modules[0][0].split_whitespace().next().unwrap(),
-        &exec_cmd(
-            "modinfo",
-            &[kernel_modules[0][0].split_whitespace().next().unwrap()],
-        )
-        .unwrap(),
-    );*/
+    kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {

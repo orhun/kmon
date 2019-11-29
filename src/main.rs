@@ -327,7 +327,7 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
                             .title(&format!(
-                                "Loaded Kernel Modules ({}/{}) ~ %{}",
+                                "Loaded Kernel Modules ({}/{}) [{}%]",
                                 module.index + 1,
                                 kernel_modules.len(),
                                 ((module.index + 1) as f64 / kernel_modules.len() as f64 * 100.0)

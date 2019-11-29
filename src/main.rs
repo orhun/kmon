@@ -59,8 +59,8 @@ impl KernelModules {
     fn new(module_list: Vec<Vec<String>>) -> Self {
         Self {
             list: module_list,
-            current_name: String::from("todo"),
-            current_info: String::from("todo"),
+            current_name: String::new(),
+            current_info: String::new(),
             index: 0,
             info_scroll_offset: 0,
         }

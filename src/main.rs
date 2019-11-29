@@ -41,25 +41,26 @@ enum ScrollDirection {
     Top,
     Bottom,
 }
-/* Kernel module struct and implementation */
-struct Module {
-    name: String,
-    info: String,
+/* Kernel modules struct and implementation */
+struct KernelModules {
+    list: Vec<Vec<String>>,
+    current_name: String,
+    current_info: String,
     index: usize,
     info_scroll_offset: u16,
 }
-impl Module {
+impl KernelModules {
     /**
-     * Create a new Module instance.
+     * Create a new KernelModules instance.
      *
-     * @param  name
-     * @param  info
+     * @param  list
      * @return Module
      */
-    fn new(name: &str, info: &str) -> Self {
+    fn new(module_list: Vec<Vec<String>>) -> Self {
         Self {
-            name: name.to_string(),
-            info: info.to_string(),
+            list: module_list,
+            current_name: String::from("todo"),
+            current_info: String::from("todo"),
             index: 0,
             info_scroll_offset: 0,
         }
@@ -110,9 +111,9 @@ impl Module {
     fn scroll_mod_info(&mut self, direction_up: bool) {
         if direction_up && self.info_scroll_offset > 1 {
             self.info_scroll_offset -= 2;
-        } else if !direction_up && self.info.lines().count() > 0 {
+        } else if !direction_up && self.current_info.lines().count() > 0 {
             self.info_scroll_offset += 2;
-            self.info_scroll_offset %= (self.info.lines().count() as u16) * 2;
+            self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
         }
     }
 }
@@ -260,17 +261,17 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
-    let kernel_modules = get_kernel_modules(args);
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
-    let mut module = Module::new(
+    let mut kernel_modules = KernelModules::new(get_kernel_modules(args));
+    /*Module::new(
         kernel_modules[0][0].split_whitespace().next().unwrap(),
         &exec_cmd(
             "modinfo",
             &[kernel_modules[0][0].split_whitespace().next().unwrap()],
         )
         .unwrap(),
-    );
+    );*/
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -310,14 +311,14 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 let modules_scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
-                    .and_then(|height| module.index.checked_sub(height as usize))
+                    .and_then(|height| kernel_modules.index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let modules = kernel_modules
+                let modules = kernel_modules.list
                     .iter()
                     .skip(modules_scroll_offset)
                     .enumerate()
                     .map(|(i, item)| {
-                        if Some(i) == module.index.checked_sub(modules_scroll_offset) {
+                        if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
                             Row::StyledData(
                                 item.into_iter(),
                                 Style::default().fg(Color::White).modifier(Modifier::BOLD),
@@ -334,9 +335,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                             .borders(Borders::ALL)
                             .title(&format!(
                                 "Loaded Kernel Modules ({}/{}) [{}%]",
-                                module.index + 1,
-                                kernel_modules.len(),
-                                ((module.index + 1) as f64 / kernel_modules.len() as f64 * 100.0)
+                                kernel_modules.index + 1,
+                                kernel_modules.list.len(),
+                                ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64 * 100.0)
                                     as usize
                             )),
                     )
@@ -347,16 +348,16 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     ])
                     .render(&mut f, chunks[0]);
                 /* Module information. */
-                Paragraph::new([Text::raw(module.info.to_string())].iter())
+                Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title(&format!("Module: {}", module.name)),
+                            .title(&format!("Module: {}", kernel_modules.current_name)),
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
-                    .scroll(module.info_scroll_offset)
+                    .scroll(kernel_modules.info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
             {
@@ -400,27 +401,27 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 | Key::Char('B') => {
                     match input {
                         Key::Char('t') | Key::Char('T') => {
-                            module.scroll_list(ScrollDirection::Top, kernel_modules.len())
+                            kernel_modules.scroll_list(ScrollDirection::Top, kernel_modules.list.len())
                         }
                         Key::Char('b') | Key::Char('B') => {
-                            module.scroll_list(ScrollDirection::Bottom, kernel_modules.len())
+                            kernel_modules.scroll_list(ScrollDirection::Bottom, kernel_modules.list.len())
                         }
                         Key::Up | Key::Char('k') | Key::Char('K') => {
-                            module.scroll_list(ScrollDirection::Up, kernel_modules.len())
+                            kernel_modules.scroll_list(ScrollDirection::Up, kernel_modules.list.len())
                         }
-                        _ => module.scroll_list(ScrollDirection::Down, kernel_modules.len()),
+                        _ => kernel_modules.scroll_list(ScrollDirection::Down, kernel_modules.list.len()),
                     }
-                    module.name = kernel_modules[module.index][0]
+                    /*ckernel_modules.current_name = kernel_modules[kernel_modules.index][0]
                         .split_whitespace()
                         .next()
                         .unwrap()
                         .to_string();
-                    module.info = exec_cmd("modinfo", &[&module.name]).unwrap();
+                    module.info = exec_cmd("modinfo", &[&kernel_modules.current_name]).unwrap();*/
                 }
                 /* Scroll the module information up. */
-                Key::Left | Key::Char('h') | Key::Char('H') => module.scroll_mod_info(true),
+                Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(true),
                 /* Scroll the module information down. */
-                Key::Right | Key::Char('l') | Key::Char('L') => module.scroll_mod_info(false),
+                Key::Right | Key::Char('l') | Key::Char('L') => kernel_modules.scroll_mod_info(false),
                 /* Scroll kernel activities up. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {

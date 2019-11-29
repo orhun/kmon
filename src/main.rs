@@ -65,6 +65,7 @@ impl Module {
      * @param size
      */
     fn scroll_list(&mut self, direction_up: bool, size: usize) {
+        self.info_scroll_offset = 0;
         if direction_up {
             self.previous_module(size);
         } else {
@@ -77,7 +78,6 @@ impl Module {
      * @param size
      */
     fn next_module(&mut self, size: usize) {
-        self.info_scroll_offset = 0;
         self.index += 1;
         if self.index > size - 1 {
             self.index = 0;
@@ -89,7 +89,6 @@ impl Module {
      * @param size
      */
     fn previous_module(&mut self, size: usize) {
-        self.info_scroll_offset = 0;
         if self.index > 0 {
             self.index -= 1;
         } else {

@@ -80,10 +80,10 @@ impl KernelModules {
             ScrollDirection::Bottom => self.index = self.list.len() - 1,
         }
         self.current_name = self.list[self.index][0]
-                        .split_whitespace()
-                        .next()
-                        .unwrap()
-                        .to_string();
+            .split_whitespace()
+            .next()
+            .unwrap()
+            .to_string();
         self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
     }
     /**
@@ -116,13 +116,13 @@ impl KernelModules {
                 if self.info_scroll_offset > 1 {
                     self.info_scroll_offset -= 2;
                 }
-            },
+            }
             ScrollDirection::Down => {
                 if self.current_info.lines().count() > 0 {
                     self.info_scroll_offset += 2;
                     self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
                 }
-            },
+            }
             _ => {}
         }
     }
@@ -316,7 +316,8 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     .checked_sub(5)
                     .and_then(|height| kernel_modules.index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let modules = kernel_modules.list
+                let modules = kernel_modules
+                    .list
                     .iter()
                     .skip(modules_scroll_offset)
                     .enumerate()
@@ -340,8 +341,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                                 "Loaded Kernel Modules ({}/{}) [{}%]",
                                 kernel_modules.index + 1,
                                 kernel_modules.list.len(),
-                                ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64 * 100.0)
-                                    as usize
+                                ((kernel_modules.index + 1) as f64
+                                    / kernel_modules.list.len() as f64
+                                    * 100.0) as usize
                             )),
                     )
                     .widths(&[
@@ -392,14 +394,24 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 /* Scroll through the kernel modules and show information. */
-                Key::Up | Key::Char('k') | Key::Char('K') => kernel_modules.scroll_list(ScrollDirection::Up),
-                Key::Down | Key::Char('j') | Key::Char('J') => kernel_modules.scroll_list(ScrollDirection::Down),
+                Key::Up | Key::Char('k') | Key::Char('K') => {
+                    kernel_modules.scroll_list(ScrollDirection::Up)
+                }
+                Key::Down | Key::Char('j') | Key::Char('J') => {
+                    kernel_modules.scroll_list(ScrollDirection::Down)
+                }
                 Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
-                Key::Char('b') | Key::Char('B') => kernel_modules.scroll_list(ScrollDirection::Bottom),
+                Key::Char('b') | Key::Char('B') => {
+                    kernel_modules.scroll_list(ScrollDirection::Bottom)
+                }
                 /* Scroll the module information up. */
-                Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(ScrollDirection::Up),
+                Key::Left | Key::Char('h') | Key::Char('H') => {
+                    kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                }
                 /* Scroll the module information down. */
-                Key::Right | Key::Char('l') | Key::Char('L') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
+                Key::Right | Key::Char('l') | Key::Char('L') => {
+                    kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                }
                 /* Scroll kernel activities up. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {

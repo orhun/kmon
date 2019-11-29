@@ -387,11 +387,25 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 | Key::Char('j')
                 | Key::Char('J')
                 | Key::Char('k')
-                | Key::Char('K') => {
-                    module.scroll_list(
-                        input == Key::Up || input == Key::Char('k') || input == Key::Char('K'),
-                        kernel_modules.len(),
-                    );
+                | Key::Char('K')
+                | Key::Char('t')
+                | Key::Char('T')
+                | Key::Char('b')
+                | Key::Char('B') => {
+                    match input {
+                        Key::Char('t') | Key::Char('T') => {
+                            module.info_scroll_offset = 0;
+                            module.index = 0;
+                        }
+                        Key::Char('b') | Key::Char('B') => {
+                            module.info_scroll_offset = 0;
+                            module.index = kernel_modules.len() - 1;
+                        }
+                        _ => module.scroll_list(
+                            input == Key::Up || input == Key::Char('k') || input == Key::Char('K'),
+                            kernel_modules.len(),
+                        )
+                    }
                     module.name = kernel_modules[module.index][0]
                         .split_whitespace()
                         .next()

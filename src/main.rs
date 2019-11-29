@@ -35,6 +35,12 @@ struct Events {
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+enum ScrollDirection {
+    Up,
+    Down,
+    Top,
+    Bottom,
+}
 /* Kernel module struct and implementation */
 struct Module {
     name: String,
@@ -64,12 +70,13 @@ impl Module {
      * @param direction_up
      * @param size
      */
-    fn scroll_list(&mut self, direction_up: bool, size: usize) {
+    fn scroll_list(&mut self, direction: ScrollDirection, size: usize) {
         self.info_scroll_offset = 0;
-        if direction_up {
-            self.previous_module(size);
-        } else {
-            self.next_module(size);
+        match direction {
+            ScrollDirection::Up => self.previous_module(size),
+            ScrollDirection::Down => self.next_module(size),
+            ScrollDirection::Top => self.index = 0,
+            ScrollDirection::Bottom => self.index = size - 1,
         }
     }
     /**
@@ -393,17 +400,15 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 | Key::Char('B') => {
                     match input {
                         Key::Char('t') | Key::Char('T') => {
-                            module.info_scroll_offset = 0;
-                            module.index = 0;
+                            module.scroll_list(ScrollDirection::Top, kernel_modules.len())
                         }
                         Key::Char('b') | Key::Char('B') => {
-                            module.info_scroll_offset = 0;
-                            module.index = kernel_modules.len() - 1;
+                            module.scroll_list(ScrollDirection::Bottom, kernel_modules.len())
                         }
-                        _ => module.scroll_list(
-                            input == Key::Up || input == Key::Char('k') || input == Key::Char('K'),
-                            kernel_modules.len(),
-                        )
+                        Key::Up | Key::Char('k') | Key::Char('K') => {
+                            module.scroll_list(ScrollDirection::Up, kernel_modules.len())
+                        }
+                        _ => module.scroll_list(ScrollDirection::Down, kernel_modules.len()),
                     }
                     module.name = kernel_modules[module.index][0]
                         .split_whitespace()

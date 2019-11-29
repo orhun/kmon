@@ -107,14 +107,22 @@ impl KernelModules {
     /**
      * Scroll the module information text.
      *
-     * @param direction_up
+     * @param direction
      */
-    fn scroll_mod_info(&mut self, direction_up: bool) {
-        if direction_up && self.info_scroll_offset > 1 {
-            self.info_scroll_offset -= 2;
-        } else if !direction_up && self.current_info.lines().count() > 0 {
-            self.info_scroll_offset += 2;
-            self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
+    fn scroll_mod_info(&mut self, direction: ScrollDirection) {
+        match direction {
+            ScrollDirection::Up => {
+                if self.info_scroll_offset > 1 {
+                    self.info_scroll_offset -= 2;
+                }
+            },
+            ScrollDirection::Down => {
+                if self.current_info.lines().count() > 0 {
+                    self.info_scroll_offset += 2;
+                    self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
+                }
+            },
+            _ => {}
         }
     }
 }
@@ -395,9 +403,9 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
                 Key::Char('b') | Key::Char('B') => kernel_modules.scroll_list(ScrollDirection::Bottom),
                 /* Scroll the module information up. */
-                Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(true),
+                Key::Left | Key::Char('h') | Key::Char('H') => kernel_modules.scroll_mod_info(ScrollDirection::Up),
                 /* Scroll the module information down. */
-                Key::Right | Key::Char('l') | Key::Char('L') => kernel_modules.scroll_mod_info(false),
+                Key::Right | Key::Char('l') | Key::Char('L') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                 /* Scroll kernel activities up. */
                 Key::PageUp => {
                     if logs_scroll_offset > 2 {

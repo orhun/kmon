@@ -406,6 +406,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 
             match events.rx.recv()? {
                 Event::Input(input) => match input {
+                        Key::Ctrl('c') | Key::Ctrl('d') => {
+                            break;
+                        }
                         Key::Char('\n') => {
                             search_mode = false;
                             terminal.hide_cursor()?;

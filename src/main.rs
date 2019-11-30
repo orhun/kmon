@@ -276,8 +276,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut kernel_modules = get_kernel_modules(args);
-    let mut search_query = String::new();
     kernel_modules.scroll_list(ScrollDirection::Top);
+    let mut search_query = String::new();
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {

@@ -393,6 +393,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
+
+        /* Handle terminal events. */
+
         if search_mode {
             write!(
                 terminal.backend_mut(),
@@ -400,80 +403,85 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 Goto(2 + search_query.width() as u16, 2)
             )?;
             io::stdout().flush().ok();
-        }
 
-        /* Handle terminal events. */
-        match events.rx.recv()? {
-            /* Key input events. */
-            Event::Input(input) => match input {
-                /* Quit. */
-                Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
-                    break;
-                }
-                /* Refresh. */
-                /*Key::Char('r') | Key::Char('R') => {
-                    logs_scroll_offset = 0;
-                    kernel_modules = get_kernel_modules(args);
-                    kernel_modules.scroll_list(ScrollDirection::Top);
-                }
-                /* Scroll through the kernel modules and show information. */
-                Key::Up | Key::Char('k') | Key::Char('K') => {
-                    kernel_modules.scroll_list(ScrollDirection::Up)
-                }
-                Key::Down | Key::Char('j') | Key::Char('J') => {
-                    kernel_modules.scroll_list(ScrollDirection::Down)
-                }
-                Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
-                Key::Char('b') | Key::Char('B') => {
-                    kernel_modules.scroll_list(ScrollDirection::Bottom)
-                }
-                /* Scroll the module information up. */
-                Key::Left | Key::Char('h') | Key::Char('H') => {
-                    kernel_modules.scroll_mod_info(ScrollDirection::Up)
-                }
-                /* Scroll the module information down. */
-                Key::Right | Key::Char('l') | Key::Char('L') => {
-                    kernel_modules.scroll_mod_info(ScrollDirection::Down)
-                }
-                /* Scroll kernel activities up. */
-                Key::PageUp => {
-                    if logs_scroll_offset > 2 {
-                        logs_scroll_offset -= 3;
-                    }
-                }
-                /* Scroll kernel activities down. */
-                Key::PageDown => {
-                    if kernel_logs.len() > 0 {
-                        logs_scroll_offset += 3;
-                        logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
-                    }
-                }*/
-                Key::Char('s') | Key::Char('S') => {
-                    search_mode = !search_mode;
-                    search_query = String::new();
-                    if search_mode {
-                        terminal.show_cursor()?;
-                    } else {
-                        terminal.hide_cursor()?;
-                    }
-                }
-                Key::Char(c) => {
-                    if search_mode {
-                        search_query.push(c);
-                    }
-                }
-                Key::Backspace => {
-                    if search_mode {
-                        search_query.pop();
-                    }
+            match events.rx.recv()? {
+                Event::Input(input) => match input {
+                        Key::Char('\n') => {
+                            search_mode = false;
+                            terminal.hide_cursor()?;
+                        }
+                        Key::Char(c) => {
+                            search_query.push(c);
+                        }
+                        Key::Backspace => {
+                            search_query.pop();
+                        }
+                        _ => {}
+                    },
+                Event::Kernel(logs) => {
+                    kernel_logs = logs;
                 }
                 _ => {}
-            },
-            /* Kernel events. */
-            Event::Kernel(logs) => {
-                kernel_logs = logs;
             }
-            _ => {}
+        } else {
+            match events.rx.recv()? {
+                /* Key input events. */
+                Event::Input(input) => match input {
+                    /* Quit. */
+                    Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
+                        break;
+                    }
+                    /* Refresh. */
+                    Key::Char('r') | Key::Char('R') => {
+                        logs_scroll_offset = 0;
+                        kernel_modules = get_kernel_modules(args);
+                        kernel_modules.scroll_list(ScrollDirection::Top);
+                    }
+                    /* Scroll through the kernel modules and show information. */
+                    Key::Up | Key::Char('k') | Key::Char('K') => {
+                        kernel_modules.scroll_list(ScrollDirection::Up)
+                    }
+                    Key::Down | Key::Char('j') | Key::Char('J') => {
+                        kernel_modules.scroll_list(ScrollDirection::Down)
+                    }
+                    Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
+                    Key::Char('b') | Key::Char('B') => {
+                        kernel_modules.scroll_list(ScrollDirection::Bottom)
+                    }
+                    /* Scroll the module information up. */
+                    Key::Left | Key::Char('h') | Key::Char('H') => {
+                        kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                    }
+                    /* Scroll the module information down. */
+                    Key::Right | Key::Char('l') | Key::Char('L') => {
+                        kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                    }
+                    /* Scroll kernel activities up. */
+                    Key::PageUp => {
+                        if logs_scroll_offset > 2 {
+                            logs_scroll_offset -= 3;
+                        }
+                    }
+                    /* Scroll kernel activities down. */
+                    Key::PageDown => {
+                        if kernel_logs.len() > 0 {
+                            logs_scroll_offset += 3;
+                            logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
+                        }
+                    }
+                    Key::Char('s') | Key::Char('S') => {
+                        search_mode = true;
+                        search_query = String::new();
+                        terminal.show_cursor()?;
+                    }
+                    _ => {}
+                },
+                /* Kernel events. */
+                Event::Kernel(logs) => {
+                    kernel_logs = logs;
+                }
+                _ => {}
+            }
         }
     }
     Ok(())

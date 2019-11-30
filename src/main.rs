@@ -393,7 +393,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
-        /* Set cursor location and flush stdout. */
+        /* Set cursor position and flush stdout. */
         if search_mode {
             write!(
                 terminal.backend_mut(),

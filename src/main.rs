@@ -320,13 +320,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
-
+                /* Filter the module list depending on the search query. */
                 let mut kernel_module_list = kernel_modules.default_list.clone();
                 if search_query.len() > 0 {
                     kernel_module_list.retain(|module| module[0].contains(&search_query));
                 }
                 kernel_modules.list = kernel_module_list.clone();
-
                 /* Set selected and scroll state of the modules. */
                 let modules_scroll_offset = chunks[0]
                     .height

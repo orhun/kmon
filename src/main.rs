@@ -409,7 +409,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Ctrl('c') | Key::Ctrl('d') => {
                             break;
                         }
-                        Key::Char('\n') => {
+                        Key::Char('\n') | Key::End => {
                             search_mode = false;
                             terminal.hide_cursor()?;
                         }
@@ -472,10 +472,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                         }
                     }
-                    Key::Char('s') | Key::Char('S') | Key::Ctrl('s') => {
+                    Key::Char('s') | Key::Char('S') | Key::Ctrl('s') | Key::Home | Key::Char('/') => {
                         search_mode = true;
                         terminal.show_cursor()?;
-                        if input == Key::Ctrl('s') {
+                        if input == Key::Ctrl('s') || input == Key::Char('/') {
                             search_query = String::new();
                         }
                     }

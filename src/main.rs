@@ -321,7 +321,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
 
-                let mut kernel_module_list: Vec<Vec<String>> = kernel_modules.default_list.clone();
+                let mut kernel_module_list = kernel_modules.default_list.clone();
                 if search_query.len() > 0 {
                     kernel_module_list.retain(|module| module[0].contains(&search_query));
                 }

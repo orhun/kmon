@@ -271,13 +271,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
-    //terminal.hide_cursor()?;
+    terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut kernel_modules = get_kernel_modules(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
     let mut search_query = String::new();
+    let mut search_mode = false;
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -392,13 +393,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
-
-        write!(
-            terminal.backend_mut(),
-            "{}",
-            Goto(2 + search_query.width() as u16, 2)
-        )?;
-        io::stdout().flush().ok();
+        if search_mode {
+            write!(
+                terminal.backend_mut(),
+                "{}",
+                Goto(2 + search_query.width() as u16, 2)
+            )?;
+            io::stdout().flush().ok();
+        }
 
         /* Handle terminal events. */
         match events.rx.recv()? {
@@ -446,11 +448,24 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                     }
                 }*/
+                Key::Char('s') | Key::Char('S') => {
+                    search_mode = !search_mode;
+                    search_query = String::new();
+                    if search_mode {
+                        terminal.show_cursor()?;
+                    } else {
+                        terminal.hide_cursor()?;
+                    }
+                }
                 Key::Char(c) => {
-                    search_query.push(c);
+                    if search_mode {
+                        search_query.push(c);
+                    }
                 }
                 Key::Backspace => {
-                    search_query.pop();
+                    if search_mode {
+                        search_query.pop();
+                    }
                 }
                 _ => {}
             },

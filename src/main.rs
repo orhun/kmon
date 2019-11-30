@@ -47,6 +47,7 @@ enum ScrollDirection {
 /* Kernel modules struct and implementation */
 struct KernelModules {
     list: Vec<Vec<String>>,
+    list_length: usize,
     current_name: String,
     current_info: String,
     index: usize,
@@ -61,7 +62,8 @@ impl KernelModules {
      */
     fn new(module_list: Vec<Vec<String>>) -> Self {
         Self {
-            list: module_list,
+            list: module_list.clone(),
+            list_length: module_list.len(),
             current_name: String::new(),
             current_info: String::new(),
             index: 0,
@@ -79,7 +81,7 @@ impl KernelModules {
             ScrollDirection::Up => self.previous_module(),
             ScrollDirection::Down => self.next_module(),
             ScrollDirection::Top => self.index = 0,
-            ScrollDirection::Bottom => self.index = self.list.len() - 1,
+            ScrollDirection::Bottom => self.index = self.list_length - 1,
         }
         self.current_name = self.list[self.index][0]
             .split_whitespace()
@@ -93,7 +95,7 @@ impl KernelModules {
      */
     fn next_module(&mut self) {
         self.index += 1;
-        if self.index > self.list.len() - 1 {
+        if self.index > self.list_length - 1 {
             self.index = 0;
         }
     }
@@ -104,7 +106,7 @@ impl KernelModules {
         if self.index > 0 {
             self.index -= 1;
         } else {
-            self.index = self.list.len() - 1;
+            self.index = self.list_length - 1;
         }
     }
     /**
@@ -319,11 +321,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
 
-
                 let mut kernel_module_list: Vec<Vec<String>> = kernel_modules.list.clone();
                 if search_query.len() > 0 {
                     kernel_module_list.retain(|module| module[0].contains(&search_query));
                 }
+                kernel_modules.list_length = kernel_module_list.len();
+
                 /* Set selected and scroll state of the modules. */
                 let modules_scroll_offset = chunks[0]
                     .height
@@ -353,9 +356,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             .title(&format!(
                                 "Loaded Kernel Modules ({}/{}) [{}%]",
                                 kernel_modules.index + 1,
-                                kernel_modules.list.len(),
+                                kernel_modules.list_length,
                                 ((kernel_modules.index + 1) as f64
-                                    / kernel_modules.list.len() as f64
+                                    / kernel_modules.list_length as f64
                                     * 100.0) as usize
                             )),
                     )

@@ -406,21 +406,21 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 
             match events.rx.recv()? {
                 Event::Input(input) => match input {
-                        Key::Ctrl('c') | Key::Ctrl('d') => {
-                            break;
-                        }
-                        Key::Char('\n') | Key::End => {
-                            search_mode = false;
-                            terminal.hide_cursor()?;
-                        }
-                        Key::Char(c) => {
-                            search_query.push(c);
-                        }
-                        Key::Backspace => {
-                            search_query.pop();
-                        }
-                        _ => {}
-                    },
+                    Key::Ctrl('c') | Key::Ctrl('d') => {
+                        break;
+                    }
+                    Key::Char('\n') | Key::End => {
+                        search_mode = false;
+                        terminal.hide_cursor()?;
+                    }
+                    Key::Char(c) => {
+                        search_query.push(c);
+                    }
+                    Key::Backspace => {
+                        search_query.pop();
+                    }
+                    _ => {}
+                },
                 Event::Kernel(logs) => {
                     kernel_logs = logs;
                 }
@@ -447,7 +447,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Key::Down | Key::Char('j') | Key::Char('J') => {
                         kernel_modules.scroll_list(ScrollDirection::Down)
                     }
-                    Key::Char('t') | Key::Char('T') => kernel_modules.scroll_list(ScrollDirection::Top),
+                    Key::Char('t') | Key::Char('T') => {
+                        kernel_modules.scroll_list(ScrollDirection::Top)
+                    }
                     Key::Char('b') | Key::Char('B') => {
                         kernel_modules.scroll_list(ScrollDirection::Bottom)
                     }
@@ -472,7 +474,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                         }
                     }
-                    Key::Char('s') | Key::Char('S') | Key::Ctrl('s') | Key::Home | Key::Char('/') => {
+                    Key::Char('s')
+                    | Key::Char('S')
+                    | Key::Ctrl('s')
+                    | Key::Home
+                    | Key::Char('/') => {
                         search_mode = true;
                         terminal.show_cursor()?;
                         if input == Key::Ctrl('s') || input == Key::Char('/') {

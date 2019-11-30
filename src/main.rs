@@ -356,9 +356,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             .title(&format!(
                                 "Loaded Kernel Modules ({}/{}) [{}%]",
                                 kernel_modules.index + 1,
-                                kernel_modules.list_length,
+                                kernel_module_list.len(),
                                 ((kernel_modules.index + 1) as f64
-                                    / kernel_modules.list_length as f64
+                                    / kernel_module_list.len() as f64
                                     * 100.0) as usize
                             )),
                     )

@@ -393,13 +393,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
-
         /* Handle terminal events. */
-
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
                 if !search_mode {
+                    /* Default input mode. */
                     match input {
                         /* Quit. */
                         Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
@@ -459,23 +458,29 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         _ => {}
                     }
                 } else {
+                    /* Set cursor location and flush stdout. */
                     write!(
                         terminal.backend_mut(),
                         "{}",
                         Goto(2 + search_query.width() as u16, 2)
                     )?;
                     io::stdout().flush().ok();
+                    /* Search mode. */
                     match input {
+                        /* Quit with ctrl+key combinations. */
                         Key::Ctrl('c') | Key::Ctrl('d') => {
                             break;
                         }
+                        /* Exit search mode. */
                         Key::Char('\n') | Key::End => {
                             search_mode = false;
                             terminal.hide_cursor()?;
                         }
+                        /* Append character to search query. */
                         Key::Char(c) => {
                             search_query.push(c);
                         }
+                        /* Delete last character from search query. */
                         Key::Backspace => {
                             search_query.pop();
                         }

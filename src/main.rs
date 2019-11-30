@@ -318,14 +318,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[1]);
+
+
+                let mut kernel_module_list: Vec<Vec<String>> = kernel_modules.list.clone();
+                kernel_module_list.retain(|module| search_query.len() == 0 || module[0].contains(&search_query));
+
                 /* Set selected and scroll state of the modules. */
                 let modules_scroll_offset = chunks[0]
                     .height
                     .checked_sub(5)
                     .and_then(|height| kernel_modules.index.checked_sub(height as usize))
                     .unwrap_or(0);
-                let modules = kernel_modules
-                    .list
+                let modules = kernel_module_list
                     .iter()
                     .skip(modules_scroll_offset)
                     .enumerate()

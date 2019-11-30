@@ -458,11 +458,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         | Key::Ctrl('s')
                         | Key::Home
                         | Key::Char('/') => {
-                            search_mode = true;
-                            terminal.show_cursor()?;
                             if input == Key::Ctrl('s') || input == Key::Char('/') {
                                 search_query = String::new();
                             }
+                            write!(
+                                terminal.backend_mut(),
+                                "{}",
+                                Goto(2 + search_query.width() as u16, 2)
+                            )?;
+                            terminal.show_cursor()?;
+                            search_mode = true;
                         }
                         _ => {}
                     }

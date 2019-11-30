@@ -469,10 +469,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                         }
                     }
-                    Key::Char('s') | Key::Char('S') => {
+                    Key::Char('s') | Key::Char('S') | Key::Ctrl('s') => {
                         search_mode = true;
-                        search_query = String::new();
                         terminal.show_cursor()?;
+                        if input == Key::Ctrl('s') {
+                            search_query = String::new();
+                        }
                     }
                     _ => {}
                 },

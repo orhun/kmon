@@ -321,8 +321,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 
 
                 let mut kernel_module_list: Vec<Vec<String>> = kernel_modules.list.clone();
-                kernel_module_list.retain(|module| search_query.len() == 0 || module[0].contains(&search_query));
-
+                if search_query.len() > 0 {
+                    kernel_module_list.retain(|module| module[0].contains(&search_query));
+                }
                 /* Set selected and scroll state of the modules. */
                 let modules_scroll_offset = chunks[0]
                     .height

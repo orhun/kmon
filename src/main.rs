@@ -77,18 +77,22 @@ impl KernelModules {
      */
     fn scroll_list(&mut self, direction: ScrollDirection) {
         self.info_scroll_offset = 0;
-        match direction {
-            ScrollDirection::Up => self.previous_module(),
-            ScrollDirection::Down => self.next_module(),
-            ScrollDirection::Top => self.index = 0,
-            ScrollDirection::Bottom => self.index = self.list.len() - 1,
+        if self.list.len() == 0 {
+            self.index = 0;
+        } else {
+            match direction {
+                ScrollDirection::Up => self.previous_module(),
+                ScrollDirection::Down => self.next_module(),
+                ScrollDirection::Top => self.index = 0,
+                ScrollDirection::Bottom => self.index = self.list.len() - 1,
+            }
+            self.current_name = self.list[self.index][0]
+                .split_whitespace()
+                .next()
+                .unwrap()
+                .to_string();
+            self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
         }
-        self.current_name = self.list[self.index][0]
-            .split_whitespace()
-            .next()
-            .unwrap()
-            .to_string();
-        self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
     }
     /**
      * Select the next module.

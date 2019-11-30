@@ -157,7 +157,7 @@ fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
  * @param  args
  * @return KernelModules
  */
-fn get_kernel_modules(args: clap::ArgMatches) -> KernelModules {
+fn get_kernel_modules(args: &clap::ArgMatches) -> KernelModules {
     let mut module_list: Vec<Vec<String>> = Vec::new();
     /* Set the command for reading kernel modules and execute. */
     let mut module_read_cmd = String::from("cat /proc/modules");
@@ -261,7 +261,7 @@ fn get_events() -> Events {
  * @param  ArgMatches
  * @return Result
  */
-fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
+fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Configure the terminal. */
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
@@ -393,6 +393,12 @@ fn create_term(args: clap::ArgMatches) -> Result<(), failure::Error> {
                 Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
                     break;
                 }
+                /* Refresh. */
+                Key::Char('r') | Key::Char('R') => {
+                    logs_scroll_offset = 0;
+                    kernel_modules = get_kernel_modules(args);
+                    kernel_modules.scroll_list(ScrollDirection::Top);
+                }
                 /* Scroll through the kernel modules and show information. */
                 Key::Up | Key::Char('k') | Key::Char('K') => {
                     kernel_modules.scroll_list(ScrollDirection::Up)
@@ -469,7 +475,7 @@ fn parse_args() -> clap::ArgMatches<'static> {
  */
 fn main() {
     let matches = parse_args();
-    create_term(matches).expect("failed to create terminal");
+    create_term(&matches).expect("failed to create terminal");
 }
 
 /**

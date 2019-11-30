@@ -393,6 +393,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
+        /* Set cursor location and flush stdout. */
+        if search_mode {
+            write!(
+                terminal.backend_mut(),
+                "{}",
+                Goto(2 + search_query.width() as u16, 2)
+            )?;
+            io::stdout().flush().ok();
+        }
         /* Handle terminal events. */
         match events.rx.recv()? {
             /* Key input events. */
@@ -458,13 +467,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         _ => {}
                     }
                 } else {
-                    /* Set cursor location and flush stdout. */
-                    write!(
-                        terminal.backend_mut(),
-                        "{}",
-                        Goto(2 + search_query.width() as u16, 2)
-                    )?;
-                    io::stdout().flush().ok();
                     /* Search mode. */
                     match input {
                         /* Quit with ctrl+key combinations. */

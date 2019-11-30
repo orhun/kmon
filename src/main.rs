@@ -7,6 +7,7 @@ use std::process::Command;
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
+use termion::cursor::Goto;
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::input::TermRead;
@@ -17,6 +18,7 @@ use tui::layout::{Alignment, Constraint, Direction, Layout};
 use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
+use unicode_width::UnicodeWidthStr;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
@@ -269,11 +271,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
     let events = get_events();
-    terminal.hide_cursor()?;
+    //terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut kernel_modules = get_kernel_modules(args);
+    let mut search_query = String::new();
     kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {
@@ -295,9 +298,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
                     .split(chunks[0]);
-                Block::default()
-                    .title("Row 1 Block 1")
-                    .borders(Borders::ALL)
+                Paragraph::new([Text::raw(&search_query)].iter())
+                    .block(
+                        Block::default()
+                            .title_style(Style::default().modifier(Modifier::BOLD))
+                            .borders(Borders::ALL)
+                            .title("Row 1 Block 1"),
+                    )
                     .render(&mut f, chunks[0]);
                 Block::default()
                     .title("Row 1 Block 2")
@@ -385,6 +392,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[0]);
             }
         })?;
+
+        write!(
+            terminal.backend_mut(),
+            "{}",
+            Goto(2 + search_query.width() as u16, 2)
+        )?;
+        io::stdout().flush().ok();
+
         /* Handle terminal events. */
         match events.rx.recv()? {
             /* Key input events. */
@@ -394,7 +409,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     break;
                 }
                 /* Refresh. */
-                Key::Char('r') | Key::Char('R') => {
+                /*Key::Char('r') | Key::Char('R') => {
                     logs_scroll_offset = 0;
                     kernel_modules = get_kernel_modules(args);
                     kernel_modules.scroll_list(ScrollDirection::Top);
@@ -430,6 +445,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         logs_scroll_offset += 3;
                         logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                     }
+                }*/
+                Key::Char(c) => {
+                    search_query.push(c);
+                }
+                Key::Backspace => {
+                    search_query.pop();
                 }
                 _ => {}
             },

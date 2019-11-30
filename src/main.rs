@@ -174,7 +174,7 @@ fn get_kernel_modules(args: &clap::ArgMatches) -> KernelModules {
         exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
     /* Parse content for module name, size and related information. */
     for line in modules_content.lines() {
-        let columns = line.split_whitespace().collect::<Vec<&str>>();
+        let columns: Vec<&str> = line.split_whitespace().collect();
         let mut module_name = columns[0].to_string();
         if columns.len() >= 7 {
             module_name = format!("{} {}", module_name, columns[6]);

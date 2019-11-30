@@ -71,7 +71,7 @@ impl KernelModules {
         }
     }
     /**
-     * Scroll up/down and select module from list.
+     * Scroll module list and select module.
      *
      * @param direction
      */

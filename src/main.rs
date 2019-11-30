@@ -570,7 +570,7 @@ mod tests {
     #[test]
     fn test_get_kernel_modules() {
         let matches = App::new("test").get_matches();
-        assert_ne!(0, get_kernel_modules(matches).len());
+        assert_ne!(0, get_kernel_modules(&matches).default_list.len());
     }
     #[test]
     fn test_get_events() -> Result<(), failure::Error> {

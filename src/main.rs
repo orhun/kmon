@@ -493,10 +493,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Append character to search query. */
                         Key::Char(c) => {
                             search_query.push(c);
+                            kernel_modules.index = 0;
                         }
                         /* Delete last character from search query. */
                         Key::Backspace => {
                             search_query.pop();
+                            kernel_modules.index = 0;
                         }
                         _ => {}
                     }

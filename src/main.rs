@@ -258,7 +258,8 @@ fn get_events() -> Events {
             let mut kernel_logs = KernelLogs::new();
             loop {
                 if kernel_logs.update() {
-                    tx.send(Event::Kernel(kernel_logs.output.to_string())).unwrap();
+                    tx.send(Event::Kernel(kernel_logs.output.to_string()))
+                        .unwrap();
                 }
                 thread::sleep(REFRESH_RATE * 10);
             }

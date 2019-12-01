@@ -51,14 +51,11 @@ impl KernelLogs {
         }
     }
     fn update(&mut self) -> bool {
-        let dmesg_output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
+        self.output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
             .expect("failed to retrieve dmesg output");
-        if dmesg_output.lines().next().unwrap() != &self.last_line {
-            self.output = dmesg_output;
-            return true;
-        }
-        self.last_line = dmesg_output.lines().next().unwrap().to_string();
-        return false;
+        let logs_updated = self.output.lines().next().unwrap() != &self.last_line;
+        self.last_line = self.output.lines().next().unwrap().to_string();
+        logs_updated
     }
 }
 /* Enumerator of directions of scrolling */

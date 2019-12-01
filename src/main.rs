@@ -464,6 +464,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                             }
                         }
+                        /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             if input != Key::Char('\n') {
                                 search_query = String::new();

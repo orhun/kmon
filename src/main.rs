@@ -29,6 +29,13 @@ enum Event<I> {
     Kernel(String),
     Tick,
 }
+/* Scrolling directions enumerator */
+enum ScrollDirection {
+    Up,
+    Down,
+    Top,
+    Bottom,
+}
 /* Terminal events struct */
 #[allow(dead_code)]
 struct Events {
@@ -68,13 +75,6 @@ impl KernelLogs {
         self.last_line = self.output.lines().next().unwrap().to_string();
         logs_updated
     }
-}
-/* Enumerator of directions of scrolling */
-enum ScrollDirection {
-    Up,
-    Down,
-    Top,
-    Bottom,
 }
 /* Kernel modules struct and implementation */
 struct KernelModules {

@@ -247,8 +247,7 @@ fn get_events() -> Events {
             let mut kernel_logs = KernelLogs::new();
             loop {
                 if kernel_logs.update() {
-                    tx.send(Event::Kernel(kernel_logs.output.to_string()))
-                        .unwrap();
+                    tx.send(Event::Kernel(kernel_logs.output.to_string())).unwrap();
                 }
                 thread::sleep(REFRESH_RATE * 10);
             }
@@ -290,8 +289,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
-    let mut kernel_logs = String::new();
-    let mut logs_scroll_offset: u16 = 0;
+    let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = get_kernel_modules(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
     let mut search_query = String::new();
@@ -402,7 +400,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
                 /* Kernel activities. */
-                Paragraph::new([Text::raw(kernel_logs.to_string())].iter())
+                Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
@@ -411,7 +409,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     )
                     .alignment(Alignment::Left)
                     .wrap(true)
-                    .scroll(logs_scroll_offset)
+                    .scroll(kernel_logs.scroll_offset)
                     .render(&mut f, chunks[0]);
             }
         })?;
@@ -437,7 +435,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Refresh. */
                         Key::Char('r') | Key::Char('R') => {
-                            logs_scroll_offset = 0;
+                            kernel_logs.scroll_offset = 0;
                             kernel_modules = get_kernel_modules(args);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
@@ -464,15 +462,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Scroll kernel activities up. */
                         Key::PageUp => {
-                            if logs_scroll_offset > 2 {
-                                logs_scroll_offset -= 3;
+                            if kernel_logs.scroll_offset > 2 {
+                                kernel_logs.scroll_offset -= 3;
                             }
                         }
                         /* Scroll kernel activities down. */
                         Key::PageDown => {
-                            if kernel_logs.len() > 0 {
-                                logs_scroll_offset += 3;
-                                logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
+                            if kernel_logs.output.len() > 0 {
+                                kernel_logs.scroll_offset += 3;
+                                kernel_logs.scroll_offset %= (kernel_logs.output.len() as u16) * 2;
                             }
                         }
                         /* Search in modules. */
@@ -518,7 +516,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             }
             /* Kernel events. */
             Event::Kernel(logs) => {
-                kernel_logs = logs;
+                kernel_logs.output = logs;
             }
             _ => {}
         }

@@ -488,8 +488,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Exit search mode. */
                         Key::Char('\n') => {
-                            search_mode = false;
                             terminal.hide_cursor()?;
+                            search_mode = false;
                         }
                         /* Append character to search query. */
                         Key::Char(c) => {

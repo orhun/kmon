@@ -44,6 +44,11 @@ struct KernelLogs {
     scroll_offset: u16,
 }
 impl KernelLogs {
+    /**
+     * Create a new kernel logs instance.
+     *
+     * @return KernelLogs
+     */
     fn new() -> Self {
         Self {
             output: String::new(),
@@ -51,6 +56,11 @@ impl KernelLogs {
             scroll_offset: 0,
         }
     }
+    /**
+     * Update the output variable value if 'dmesg' logs changed.
+     *
+     * @return logs_updated
+     */
     fn update(&mut self) -> bool {
         self.output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
             .expect("failed to retrieve dmesg output");

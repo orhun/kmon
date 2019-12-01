@@ -37,6 +37,7 @@ struct Events {
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+/* Kernel logs struct and implementation. */
 struct KernelLogs {
     output: String,
     last_line: String,

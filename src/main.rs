@@ -26,7 +26,7 @@ const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the 
 /* Terminal events enumerator */
 enum Event<I> {
     Input(I),
-    Kernel(Vec<tui::widgets::Text<'static>>),
+    Kernel(String),
     Tick,
 }
 /* Terminal events struct */
@@ -226,17 +226,11 @@ fn get_events() -> Events {
             let mut dmesg_output;
             let mut last_line = String::from("");
             loop {
-                dmesg_output = exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
-                    .expect("failed to retrieve dmesg output");
+                dmesg_output =
+                    exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
+                        .expect("failed to retrieve dmesg output");
                 if dmesg_output.lines().next().unwrap() != &last_line {
-                    tx.send(Event::Kernel(
-                        dmesg_output
-                            .lines()
-                            .rev()
-                            .map(|x| Text::raw(format!("{}\n", x)))
-                            .collect(),
-                    ))
-                    .unwrap();
+                    tx.send(Event::Kernel(dmesg_output.to_string())).unwrap();
                 }
                 last_line = dmesg_output.lines().next().unwrap().to_string();
                 thread::sleep(REFRESH_RATE * 10);
@@ -279,7 +273,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let events = get_events();
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
-    let mut kernel_logs: Vec<tui::widgets::Text> = Vec::new();
+    let mut kernel_logs = String::new();
     let mut logs_scroll_offset: u16 = 0;
     let mut kernel_modules = get_kernel_modules(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
@@ -391,7 +385,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .constraints([Constraint::Percentage(100)].as_ref())
                     .split(chunks[2]);
                 /* Kernel activities. */
-                Paragraph::new(kernel_logs.iter())
+                Paragraph::new([Text::raw(kernel_logs.to_string())].iter())
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))

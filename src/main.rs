@@ -37,6 +37,30 @@ struct Events {
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+struct KernelLogs {
+    output: String,
+    last_line: String,
+    scroll_offset: u16,
+}
+impl KernelLogs {
+    fn new() -> Self {
+        Self {
+            output: String::new(),
+            last_line: String::new(),
+            scroll_offset: 0,
+        }
+    }
+    fn update(&mut self) -> bool {
+        let dmesg_output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
+            .expect("failed to retrieve dmesg output");
+        if dmesg_output.lines().next().unwrap() != &self.last_line {
+            self.output = dmesg_output;
+            return true;
+        }
+        self.last_line = dmesg_output.lines().next().unwrap().to_string();
+        return false;
+    }
+}
 /* Enumerator of directions of scrolling */
 enum ScrollDirection {
     Up,
@@ -223,16 +247,12 @@ fn get_events() -> Events {
         let tx = tx.clone();
         thread::spawn(move || {
             let tx = tx.clone();
-            let mut dmesg_output;
-            let mut last_line = String::from("");
+            let mut kernel_logs = KernelLogs::new();
             loop {
-                dmesg_output =
-                    exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
-                        .expect("failed to retrieve dmesg output");
-                if dmesg_output.lines().next().unwrap() != &last_line {
-                    tx.send(Event::Kernel(dmesg_output.to_string())).unwrap();
+                if kernel_logs.update() {
+                    tx.send(Event::Kernel(kernel_logs.output.to_string()))
+                        .unwrap();
                 }
-                last_line = dmesg_output.lines().next().unwrap().to_string();
                 thread::sleep(REFRESH_RATE * 10);
             }
         })

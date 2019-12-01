@@ -464,12 +464,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 logs_scroll_offset %= (kernel_logs.len() as u16) * 2;
                             }
                         }
-                        Key::Char('s')
-                        | Key::Char('S')
-                        | Key::Ctrl('s')
-                        | Key::Home
-                        | Key::Char('/') => {
-                            if input == Key::Ctrl('s') || input == Key::Char('/') {
+                        Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
+                            if input != Key::Char('\n') {
                                 search_query = String::new();
                             }
                             write!(
@@ -490,7 +486,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             break;
                         }
                         /* Exit search mode. */
-                        Key::Char('\n') | Key::End => {
+                        Key::Char('\n') => {
                             search_mode = false;
                             terminal.hide_cursor()?;
                         }

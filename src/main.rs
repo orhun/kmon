@@ -7,7 +7,6 @@ use std::process::Command;
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
-use termion::cursor::Goto;
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::input::TermRead;
@@ -430,7 +429,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             write!(
                 terminal.backend_mut(),
                 "{}",
-                Goto(2 + search_query.width() as u16, 2)
+                termion::cursor::Goto(2 + search_query.width() as u16, 2)
             )?;
             io::stdout().flush().ok();
         }
@@ -493,7 +492,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             write!(
                                 terminal.backend_mut(),
                                 "{}",
-                                Goto(2 + search_query.width() as u16, 2)
+                                termion::cursor::Goto(2 + search_query.width() as u16, 2)
                             )?;
                             terminal.show_cursor()?;
                             search_mode = true;

@@ -22,7 +22,7 @@ mod util;
 use event::Event;
 use event::Events;
 use kernel::log::KernelLogs;
-use kernel::module::{ScrollDirection, KernelModules};
+use kernel::module::{KernelModules, ScrollDirection};
 use util::exec_cmd;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
@@ -64,7 +64,6 @@ fn get_kernel_modules(args: &clap::ArgMatches) -> KernelModules {
     }
     KernelModules::new(module_list)
 }
-
 
 /**
  * Create a terminal instance with using termion as backend.
@@ -263,7 +262,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::PageDown => {
                             if kernel_logs.output.len() > 0 {
                                 kernel_logs.scroll_offset += 3;
-                                kernel_logs.scroll_offset %= (kernel_logs.output.lines().count() as u16) * 2;
+                                kernel_logs.scroll_offset %=
+                                    (kernel_logs.output.lines().count() as u16) * 2;
                             }
                         }
                         /* Search in modules. */

@@ -1,9 +1,9 @@
+use crate::kernel::log::KernelLogs;
 use std::io;
 use std::sync::mpsc;
 use std::thread;
-use termion::input::TermRead;
 use termion::event::Key;
-use crate::kernel::log::KernelLogs;
+use termion::input::TermRead;
 
 /* Terminal events enumerator */
 pub enum Event<I> {

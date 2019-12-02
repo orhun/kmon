@@ -19,7 +19,8 @@ mod event;
 mod kernel;
 mod util;
 
-use event::{Event, get_events};
+use event::Event;
+use event::Events;
 use kernel::log::KernelLogs;
 use kernel::module::{ScrollDirection, KernelModules};
 use util::exec_cmd;
@@ -78,7 +79,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
-    let events = get_events(REFRESH_RATE);
+    let events = Events::new(REFRESH_RATE);
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();

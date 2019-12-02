@@ -1,5 +1,6 @@
 use crate::kernel::log::KernelLogs;
 use std::io;
+use std::time::Duration;
 use std::sync::mpsc;
 use std::thread;
 use termion::event::Key;
@@ -79,6 +80,29 @@ impl Events {
             input_handler,
             kernel_handler,
             tick_handler,
+        }
+    }
+}
+
+/**
+ * Unit tests.
+ */
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_events() -> Result<(), failure::Error> {
+        let events = Events::new(Duration::from_millis(250));
+        match events.rx.recv()? {
+            Event::Input(_) => Ok(()),
+            Event::Tick => Ok(()),
+            Event::Kernel(logs) => {
+                if logs.len() > 0 {
+                    Ok(())
+                } else {
+                    Err(failure::err_msg("failed to retrieve kernel logs"))
+                }
+            }
         }
     }
 }

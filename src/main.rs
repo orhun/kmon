@@ -366,19 +366,4 @@ mod tests {
         let matches = App::new("test").get_matches();
         assert_ne!(0, get_kernel_modules(&matches).default_list.len());
     }
-    #[test]
-    fn test_get_events() -> Result<(), failure::Error> {
-        let events = Events::new(Duration::from_millis(250));
-        match events.rx.recv()? {
-            Event::Input(_) => Ok(()),
-            Event::Tick => Ok(()),
-            Event::Kernel(logs) => {
-                if logs.len() > 0 {
-                    Ok(())
-                } else {
-                    Err(failure::err_msg("failed to retrieve kernel logs"))
-                }
-            }
-        }
-    }
 }

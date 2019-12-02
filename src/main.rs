@@ -61,7 +61,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+                    .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[0]);
                 Paragraph::new([Text::raw(&search_query)].iter())
                     .block(

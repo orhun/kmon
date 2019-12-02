@@ -261,7 +261,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::PageDown => {
                             if kernel_logs.output.len() > 0 {
                                 kernel_logs.scroll_offset += 3;
-                                kernel_logs.scroll_offset %= (kernel_logs.output.len() as u16) * 2;
+                                kernel_logs.scroll_offset %= (kernel_logs.output.lines().count() as u16) * 2;
                             }
                         }
                         /* Search in modules. */

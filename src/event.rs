@@ -1,12 +1,9 @@
 use std::io;
 use std::sync::mpsc;
-use std::time::Duration;
 use std::thread;
 use termion::input::TermRead;
 use termion::event::Key;
 use crate::kernel::log::KernelLogs;
-
-const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 
 /* Terminal events enumerator */
 pub enum Event<I> {
@@ -27,9 +24,10 @@ pub struct Events {
 /**
  * Return terminal events after setting handlers.
  *
+ * @param  refresh_rate
  * @return Events
  */
-pub fn get_events() -> Events {
+pub fn get_events(refresh_rate: std::time::Duration) -> Events {
     /* Create a new asynchronous channel. */
     let (tx, rx) = mpsc::channel();
     /* Handle inputs using stdin stream and sender of the channel. */
@@ -58,7 +56,7 @@ pub fn get_events() -> Events {
                     tx.send(Event::Kernel(kernel_logs.output.to_string()))
                         .unwrap();
                 }
-                thread::sleep(REFRESH_RATE * 10);
+                thread::sleep(refresh_rate * 10);
             }
         })
     };
@@ -69,7 +67,7 @@ pub fn get_events() -> Events {
             let tx = tx.clone();
             loop {
                 tx.send(Event::Tick).unwrap();
-                thread::sleep(REFRESH_RATE);
+                thread::sleep(refresh_rate);
             }
         })
     };

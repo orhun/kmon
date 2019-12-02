@@ -350,7 +350,7 @@ fn main() {
 }
 
 /**
- * Unit test module.
+ * Unit tests.
  */
 #[cfg(test)]
 mod tests {
@@ -376,7 +376,7 @@ mod tests {
     }
     #[test]
     fn test_get_events() -> Result<(), failure::Error> {
-        let events = get_events();
+        let events = Events::new(Duration::from_millis(250));
         match events.rx.recv()? {
             Event::Input(_) => Ok(()),
             Event::Tick => Ok(()),

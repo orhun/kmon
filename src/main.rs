@@ -1,7 +1,13 @@
+mod event;
+mod kernel;
+mod util;
 use bytesize::ByteSize;
 use clap::App;
 use clap::Arg;
 use clap::SubCommand;
+use event::{Event, Events};
+use kernel::log::KernelLogs;
+use kernel::module::{KernelModules, ScrollDirection};
 use std::io::{self, Write};
 use std::time::Duration;
 use termion::event::Key;
@@ -14,15 +20,6 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
-
-mod event;
-mod kernel;
-mod util;
-
-use event::Event;
-use event::Events;
-use kernel::log::KernelLogs;
-use kernel::module::{KernelModules, ScrollDirection};
 use util::exec_cmd;
 
 const VERSION: &'static str = "0.1.0"; /* Version */

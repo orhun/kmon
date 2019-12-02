@@ -46,89 +46,77 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
-            /* Configure the main terminal layout. */
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
-                .constraints(
-                    [
-                        Constraint::Length(3),
-                        Constraint::Percentage(60),
-                        Constraint::Percentage(25),
-                    ]
-                    .as_ref(),
-                )
+                .constraints([Constraint::Percentage(75), Constraint::Percentage(25)].as_ref())
                 .split(f.size());
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
                     .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
                     .split(chunks[0]);
-                Paragraph::new([Text::raw(&search_query)].iter())
-                    .block(
-                        Block::default()
-                            .title_style(Style::default().modifier(Modifier::BOLD))
-                            .borders(Borders::ALL)
-                            .title("Search"),
-                    )
-                    .render(&mut f, chunks[0]);
-                Block::default()
-                    .title("Row 1 Block 2")
-                    .borders(Borders::ALL)
-                    .render(&mut f, chunks[1]);
-            }
-            {
-                /* Set chunks for modules table and information text. */
-                let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
-                    .split(chunks[1]);
-                /* Filter the module list depending on the search query. */
-                let mut kernel_module_list = kernel_modules.default_list.clone();
-                if search_query.len() > 0 {
-                    kernel_module_list.retain(|module| module[0].contains(&search_query));
+                {
+                    let chunks = Layout::default()
+                        .direction(Direction::Vertical)
+                        .constraints([Constraint::Length(3), Constraint::Percentage(100)].as_ref())
+                        .split(chunks[0]);
+                    /* Search input. */
+                    Paragraph::new([Text::raw(&search_query)].iter())
+                        .block(
+                            Block::default()
+                                .title_style(Style::default().modifier(Modifier::BOLD))
+                                .borders(Borders::ALL)
+                                .title("Search"),
+                        )
+                        .render(&mut f, chunks[0]);
+                    /* Filter the module list depending on the search query. */
+                    let mut kernel_module_list = kernel_modules.default_list.clone();
+                    if search_query.len() > 0 {
+                        kernel_module_list.retain(|module| module[0].contains(&search_query));
+                    }
+                    kernel_modules.list = kernel_module_list.clone();
+                    /* Set selected and scroll state of the modules. */
+                    let modules_scroll_offset = chunks[1]
+                        .height
+                        .checked_sub(5)
+                        .and_then(|height| kernel_modules.index.checked_sub(height as usize))
+                        .unwrap_or(0);
+                    let modules = kernel_module_list
+                        .iter()
+                        .skip(modules_scroll_offset)
+                        .enumerate()
+                        .map(|(i, item)| {
+                            if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
+                                Row::StyledData(
+                                    item.into_iter(),
+                                    Style::default().fg(Color::White).modifier(Modifier::BOLD),
+                                )
+                            } else {
+                                Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                            }
+                        });
+                    /* Kernel modules table. */
+                    Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
+                        .block(
+                            Block::default()
+                                .title_style(Style::default().modifier(Modifier::BOLD))
+                                .borders(Borders::ALL)
+                                .title(&format!(
+                                    "Loaded Kernel Modules ({}/{}) [{}%]",
+                                    kernel_modules.index + 1,
+                                    kernel_modules.list.len(),
+                                    ((kernel_modules.index + 1) as f64
+                                        / kernel_modules.list.len() as f64
+                                        * 100.0) as usize
+                                )),
+                        )
+                        .widths(&[
+                            (f64::from(chunks[1].width - 3) * 0.3) as u16,
+                            (f64::from(chunks[1].width - 3) * 0.2) as u16,
+                            (f64::from(chunks[1].width - 3) * 0.5) as u16,
+                        ])
+                        .render(&mut f, chunks[1]);
                 }
-                kernel_modules.list = kernel_module_list.clone();
-                /* Set selected and scroll state of the modules. */
-                let modules_scroll_offset = chunks[0]
-                    .height
-                    .checked_sub(5)
-                    .and_then(|height| kernel_modules.index.checked_sub(height as usize))
-                    .unwrap_or(0);
-                let modules = kernel_module_list
-                    .iter()
-                    .skip(modules_scroll_offset)
-                    .enumerate()
-                    .map(|(i, item)| {
-                        if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
-                            Row::StyledData(
-                                item.into_iter(),
-                                Style::default().fg(Color::White).modifier(Modifier::BOLD),
-                            )
-                        } else {
-                            Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
-                        }
-                    });
-                /* Kernel modules table. */
-                Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
-                    .block(
-                        Block::default()
-                            .title_style(Style::default().modifier(Modifier::BOLD))
-                            .borders(Borders::ALL)
-                            .title(&format!(
-                                "Loaded Kernel Modules ({}/{}) [{}%]",
-                                kernel_modules.index + 1,
-                                kernel_modules.list.len(),
-                                ((kernel_modules.index + 1) as f64
-                                    / kernel_modules.list.len() as f64
-                                    * 100.0) as usize
-                            )),
-                    )
-                    .widths(&[
-                        (f64::from(chunks[0].width - 3) * 0.3) as u16,
-                        (f64::from(chunks[0].width - 3) * 0.2) as u16,
-                        (f64::from(chunks[0].width - 3) * 0.5) as u16,
-                    ])
-                    .render(&mut f, chunks[0]);
                 /* Module information. */
                 Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
                     .block(
@@ -142,25 +130,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .scroll(kernel_modules.info_scroll_offset)
                     .render(&mut f, chunks[1]);
             }
-            {
-                /* Set chunks for kernel activities text. */
-                let chunks = Layout::default()
-                    .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(100)].as_ref())
-                    .split(chunks[2]);
-                /* Kernel activities. */
-                Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
-                    .block(
-                        Block::default()
-                            .title_style(Style::default().modifier(Modifier::BOLD))
-                            .borders(Borders::ALL)
-                            .title("Kernel Activities"),
-                    )
-                    .alignment(Alignment::Left)
-                    .wrap(true)
-                    .scroll(kernel_logs.scroll_offset)
-                    .render(&mut f, chunks[0]);
-            }
+            /* Kernel activities. */
+            Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
+                .block(
+                    Block::default()
+                        .title_style(Style::default().modifier(Modifier::BOLD))
+                        .borders(Borders::ALL)
+                        .title("Kernel Activities"),
+                )
+                .alignment(Alignment::Left)
+                .wrap(true)
+                .scroll(kernel_logs.scroll_offset)
+                .render(&mut f, chunks[1]);
         })?;
         /* Set cursor position and flush stdout. */
         if search_mode {

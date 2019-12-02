@@ -1,9 +1,6 @@
 mod event;
 mod kernel;
 mod util;
-use clap::App;
-use clap::Arg;
-use clap::SubCommand;
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
@@ -19,6 +16,7 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
+use util::parse_args;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
@@ -277,37 +275,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 }
 
 /**
- * Parse command line arguments using 'clap'.
- *
- * @return ArgMatches
- */
-fn parse_args() -> clap::ArgMatches<'static> {
-    App::new("kmon")
-        .version(VERSION)
-        .subcommand(
-            SubCommand::with_name("sort")
-                .about("Sort kernel modules")
-                .arg(
-                    Arg::with_name("size")
-                        .short("s")
-                        .long("size")
-                        .help("Sort modules by their sizes"),
-                )
-                .arg(
-                    Arg::with_name("name")
-                        .short("n")
-                        .long("name")
-                        .help("Sort modules by their names"),
-                ),
-        )
-        .get_matches()
-}
-
-/**
  * Entry point.
  */
 fn main() {
-    let matches = parse_args();
+    let matches = parse_args(VERSION);
     create_term(&matches).expect("failed to create terminal");
 }
 

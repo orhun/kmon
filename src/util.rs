@@ -1,5 +1,35 @@
+use clap::App;
+use clap::Arg;
+use clap::SubCommand;
 use std::io::{self, Write};
 use std::process::Command;
+
+/**
+ * Parse command line arguments using 'clap'.
+ *
+ * @return ArgMatches
+ */
+pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
+    App::new("kmon")
+        .version(version)
+        .subcommand(
+            SubCommand::with_name("sort")
+                .about("Sort kernel modules")
+                .arg(
+                    Arg::with_name("size")
+                        .short("s")
+                        .long("size")
+                        .help("Sort modules by their sizes"),
+                )
+                .arg(
+                    Arg::with_name("name")
+                        .short("n")
+                        .long("name")
+                        .help("Sort modules by their names"),
+                ),
+        )
+        .get_matches()
+}
 
 /**
  * Execute a operating system command and return its output.

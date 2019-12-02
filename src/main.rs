@@ -331,7 +331,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .borders(Borders::ALL)
-                            .title("Row 1 Block 1"),
+                            .title("Search"),
                     )
                     .render(&mut f, chunks[0]);
                 Block::default()

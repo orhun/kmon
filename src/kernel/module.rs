@@ -24,7 +24,7 @@ impl KernelModules {
     /**
      * Create a new kernel modules instance.
      *
-     * @param  list
+     * @param  args
      * @return KernelModules
      */
     pub fn new(args: &clap::ArgMatches) -> Self {

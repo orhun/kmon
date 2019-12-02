@@ -356,14 +356,6 @@ fn main() {
 mod tests {
     use super::*;
     #[test]
-    fn test_exec_cmd() {
-        assert_eq!("test", exec_cmd("printf", &["test"]).unwrap());
-        assert_eq!(
-            "true",
-            exec_cmd("sh", &["-c", "test 10 -eq 10 && echo 'true'"]).unwrap()
-        );
-    }
-    #[test]
     fn test_parse_args() {
         let matches = parse_args();
         assert_eq!(0, matches.args.len());

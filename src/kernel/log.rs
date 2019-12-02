@@ -1,11 +1,13 @@
 use crate::util::exec_cmd;
 
-/* Kernel logs struct and implementation. */
+/* Kernel logs struct. */
 pub struct KernelLogs {
     pub output: String,
     last_line: String,
     pub scroll_offset: u16,
 }
+
+/* Kernel logs implementation */
 impl KernelLogs {
     /**
      * Create a new kernel logs instance.
@@ -19,6 +21,7 @@ impl KernelLogs {
             scroll_offset: 0,
         }
     }
+
     /**
      * Update the output variable value if 'dmesg' logs changed.
      *

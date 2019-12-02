@@ -8,7 +8,7 @@ pub enum ScrollDirection {
     Bottom,
 }
 
-/* Kernel modules struct and implementation */
+/* Kernel modules struct */
 pub struct KernelModules {
     pub default_list: Vec<Vec<String>>,
     pub list: Vec<Vec<String>>,
@@ -17,6 +17,8 @@ pub struct KernelModules {
     pub index: usize,
     pub info_scroll_offset: u16,
 }
+
+/* Kernel modules implementation */
 impl KernelModules {
     /**
      * Create a new kernel modules instance.
@@ -34,6 +36,7 @@ impl KernelModules {
             info_scroll_offset: 0,
         }
     }
+
     /**
      * Scroll module list and select module.
      *
@@ -58,6 +61,7 @@ impl KernelModules {
             self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
         }
     }
+
     /**
      * Select the next module.
      */
@@ -67,6 +71,7 @@ impl KernelModules {
             self.index = 0;
         }
     }
+
     /**
      * Select the previous module.
      */
@@ -77,6 +82,7 @@ impl KernelModules {
             self.index = self.list.len() - 1;
         }
     }
+
     /**
      * Scroll the module information text.
      *

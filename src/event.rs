@@ -11,7 +11,8 @@ pub enum Event<I> {
     Kernel(String),
     Tick,
 }
-/* Terminal events struct and implementation. */
+
+/* Terminal events struct */
 #[allow(dead_code)]
 pub struct Events {
     pub rx: mpsc::Receiver<Event<Key>>,
@@ -19,6 +20,8 @@ pub struct Events {
     kernel_handler: thread::JoinHandle<()>,
     tick_handler: thread::JoinHandle<()>,
 }
+
+/* Terminal events implementation */
 impl Events {
     /**
      * Create a new events instance.

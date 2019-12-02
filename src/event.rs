@@ -11,7 +11,6 @@ pub enum Event<I> {
     Kernel(String),
     Tick,
 }
-
 /* Terminal events struct and implementation. */
 #[allow(dead_code)]
 pub struct Events {

@@ -281,17 +281,3 @@ fn main() {
     let matches = parse_args(VERSION);
     create_term(&matches).expect("failed to create terminal");
 }
-
-/**
- * Unit tests.
- */
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn test_parse_args() {
-        let matches = parse_args();
-        assert_eq!(0, matches.args.len());
-        assert_eq!(true, matches.usage.unwrap().lines().count() > 1);
-    }
-}

@@ -1,4 +1,5 @@
 use crate::util::exec_cmd;
+use bytesize::ByteSize;
 
 /* Scrolling directions enumerator */
 pub enum ScrollDirection {
@@ -26,7 +27,34 @@ impl KernelModules {
      * @param  list
      * @return KernelModules
      */
-    pub fn new(module_list: Vec<Vec<String>>) -> Self {
+    pub fn new(args: &clap::ArgMatches) -> Self {
+        let mut module_list: Vec<Vec<String>> = Vec::new();
+        /* Set the command for reading kernel modules and execute. */
+        let mut module_read_cmd = String::from("cat /proc/modules");
+        if let Some(matches) = args.subcommand_matches("sort") {
+            if matches.is_present("size") {
+                module_read_cmd += " | sort -n -r -t ' ' -k2";
+            } else {
+                module_read_cmd += " | sort -t ' ' -k1";
+            }
+        }
+        let modules_content =
+            exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
+        /* Parse content for module name, size and related information. */
+        for line in modules_content.lines() {
+            let columns: Vec<&str> = line.split_whitespace().collect();
+            let mut module_name = columns[0].to_string();
+            if columns.len() >= 7 {
+                module_name = format!("{} {}", module_name, columns[6]);
+            }
+            let mut used_modules = format!("{} {}", columns[2], columns[3]);
+            if used_modules.chars().last().unwrap() == ',' {
+                used_modules.pop();
+            }
+            let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
+            module_list.push(vec![module_name, module_size, used_modules]);
+        }
+        /* Return kernel modules. */
         Self {
             default_list: module_list.clone(),
             list: module_list,

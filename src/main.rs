@@ -1,7 +1,6 @@
 mod event;
 mod kernel;
 mod util;
-use bytesize::ByteSize;
 use clap::App;
 use clap::Arg;
 use clap::SubCommand;
@@ -20,47 +19,10 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
-use util::exec_cmd;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
-
-/**
- * Parse kernel modules using '/proc/modules' file.
- *
- * @param  args
- * @return KernelModules
- */
-fn get_kernel_modules(args: &clap::ArgMatches) -> KernelModules {
-    let mut module_list: Vec<Vec<String>> = Vec::new();
-    /* Set the command for reading kernel modules and execute. */
-    let mut module_read_cmd = String::from("cat /proc/modules");
-    if let Some(matches) = args.subcommand_matches("sort") {
-        if matches.is_present("size") {
-            module_read_cmd += " | sort -n -r -t ' ' -k2";
-        } else {
-            module_read_cmd += " | sort -t ' ' -k1";
-        }
-    }
-    let modules_content =
-        exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
-    /* Parse content for module name, size and related information. */
-    for line in modules_content.lines() {
-        let columns: Vec<&str> = line.split_whitespace().collect();
-        let mut module_name = columns[0].to_string();
-        if columns.len() >= 7 {
-            module_name = format!("{} {}", module_name, columns[6]);
-        }
-        let mut used_modules = format!("{} {}", columns[2], columns[3]);
-        if used_modules.chars().last().unwrap() == ',' {
-            used_modules.pop();
-        }
-        let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
-        module_list.push(vec![module_name, module_size, used_modules]);
-    }
-    KernelModules::new(module_list)
-}
 
 /**
  * Create a terminal instance with using termion as backend.
@@ -79,7 +41,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();
-    let mut kernel_modules = get_kernel_modules(args);
+    let mut kernel_modules = KernelModules::new(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
     let mut search_query = String::new();
     let mut search_mode = false;
@@ -225,7 +187,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Refresh. */
                         Key::Char('r') | Key::Char('R') => {
                             kernel_logs.scroll_offset = 0;
-                            kernel_modules = get_kernel_modules(args);
+                            kernel_modules = KernelModules::new(args);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll through the kernel modules and show information. */

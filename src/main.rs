@@ -3,13 +3,8 @@ use clap::App;
 use clap::Arg;
 use clap::SubCommand;
 use std::io::{self, Write};
-use std::process::Command;
-use std::sync::mpsc;
-use std::thread;
-use std::time::Duration;
 use termion::event::Key;
 use termion::input::MouseTerminal;
-use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
@@ -19,176 +14,18 @@ use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 
-const VERSION: &'static str = "0.1.0"; /* Version */
-const REFRESH_RATE: std::time::Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
-const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
-/* Terminal events enumerator */
-enum Event<I> {
-    Input(I),
-    Kernel(String),
-    Tick,
-}
-/* Scrolling directions enumerator */
-enum ScrollDirection {
-    Up,
-    Down,
-    Top,
-    Bottom,
-}
-/* Terminal events struct */
-#[allow(dead_code)]
-struct Events {
-    rx: mpsc::Receiver<Event<Key>>,
-    input_handler: thread::JoinHandle<()>,
-    kernel_handler: thread::JoinHandle<()>,
-    tick_handler: thread::JoinHandle<()>,
-}
-/* Kernel logs struct and implementation. */
-struct KernelLogs {
-    output: String,
-    last_line: String,
-    scroll_offset: u16,
-}
-impl KernelLogs {
-    /**
-     * Create a new kernel logs instance.
-     *
-     * @return KernelLogs
-     */
-    fn new() -> Self {
-        Self {
-            output: String::new(),
-            last_line: String::new(),
-            scroll_offset: 0,
-        }
-    }
-    /**
-     * Update the output variable value if 'dmesg' logs changed.
-     *
-     * @return logs_updated
-     */
-    fn update(&mut self) -> bool {
-        self.output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
-            .expect("failed to retrieve dmesg output");
-        let logs_updated = self.output.lines().next().unwrap() != &self.last_line;
-        self.last_line = self.output.lines().next().unwrap().to_string();
-        logs_updated
-    }
-}
-/* Kernel modules struct and implementation */
-struct KernelModules {
-    default_list: Vec<Vec<String>>,
-    list: Vec<Vec<String>>,
-    current_name: String,
-    current_info: String,
-    index: usize,
-    info_scroll_offset: u16,
-}
-impl KernelModules {
-    /**
-     * Create a new kernel modules instance.
-     *
-     * @param  list
-     * @return KernelModules
-     */
-    fn new(module_list: Vec<Vec<String>>) -> Self {
-        Self {
-            default_list: module_list.clone(),
-            list: module_list,
-            current_name: String::new(),
-            current_info: String::new(),
-            index: 0,
-            info_scroll_offset: 0,
-        }
-    }
-    /**
-     * Scroll module list and select module.
-     *
-     * @param direction
-     */
-    fn scroll_list(&mut self, direction: ScrollDirection) {
-        self.info_scroll_offset = 0;
-        if self.list.len() == 0 {
-            self.index = 0;
-        } else {
-            match direction {
-                ScrollDirection::Up => self.previous_module(),
-                ScrollDirection::Down => self.next_module(),
-                ScrollDirection::Top => self.index = 0,
-                ScrollDirection::Bottom => self.index = self.list.len() - 1,
-            }
-            self.current_name = self.list[self.index][0]
-                .split_whitespace()
-                .next()
-                .unwrap()
-                .to_string();
-            self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap();
-        }
-    }
-    /**
-     * Select the next module.
-     */
-    fn next_module(&mut self) {
-        self.index += 1;
-        if self.index > self.list.len() - 1 {
-            self.index = 0;
-        }
-    }
-    /**
-     * Select the previous module.
-     */
-    fn previous_module(&mut self) {
-        if self.index > 0 {
-            self.index -= 1;
-        } else {
-            self.index = self.list.len() - 1;
-        }
-    }
-    /**
-     * Scroll the module information text.
-     *
-     * @param direction
-     */
-    fn scroll_mod_info(&mut self, direction: ScrollDirection) {
-        match direction {
-            ScrollDirection::Up => {
-                if self.info_scroll_offset > 1 {
-                    self.info_scroll_offset -= 2;
-                }
-            }
-            ScrollDirection::Down => {
-                if self.current_info.lines().count() > 0 {
-                    self.info_scroll_offset += 2;
-                    self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
-                }
-            }
-            _ => {}
-        }
-    }
-}
+mod event;
+mod kernel;
+mod util;
 
-/**
- * Execute a operating system command and return its output.
- *
- * @param  cmd
- * @param  cmd_args
- * @return Result
- */
-fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
-    let output = Command::new(cmd)
-        .args(cmd_args)
-        .output()
-        .expect("failed to execute command");
-    /* Write error output to stderr stream. */
-    io::stderr().write_all(&output.stderr).unwrap();
-    if output.status.success() {
-        Ok((String::from_utf8(output.stdout).expect("not UTF-8"))
-            .trim_end()
-            .to_string())
-    } else {
-        Err(format!("{} {}", cmd, cmd_args.join(" ")))
-    }
-}
+use event::{Event, get_events};
+use kernel::log::KernelLogs;
+use kernel::module::{ScrollDirection, KernelModules};
+use util::exec_cmd;
+
+const VERSION: &'static str = "0.1.0"; /* Version */
+
+const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
 
 /**
  * Parse kernel modules using '/proc/modules' file.
@@ -226,63 +63,6 @@ fn get_kernel_modules(args: &clap::ArgMatches) -> KernelModules {
     KernelModules::new(module_list)
 }
 
-/**
- * Return terminal events after setting handlers.
- *
- * @return Events
- */
-fn get_events() -> Events {
-    /* Create a new asynchronous channel. */
-    let (tx, rx) = mpsc::channel();
-    /* Handle inputs using stdin stream and sender of the channel. */
-    let input_handler = {
-        let tx = tx.clone();
-        thread::spawn(move || {
-            let stdin = io::stdin();
-            for evt in stdin.keys() {
-                match evt {
-                    Ok(key) => {
-                        tx.send(Event::Input(key)).unwrap();
-                    }
-                    Err(_) => {}
-                }
-            }
-        })
-    };
-    /* Handle kernel logs with getting 'dmesg' output. */
-    let kernel_handler = {
-        let tx = tx.clone();
-        thread::spawn(move || {
-            let tx = tx.clone();
-            let mut kernel_logs = KernelLogs::new();
-            loop {
-                if kernel_logs.update() {
-                    tx.send(Event::Kernel(kernel_logs.output.to_string()))
-                        .unwrap();
-                }
-                thread::sleep(REFRESH_RATE * 10);
-            }
-        })
-    };
-    /* Create a loop for handling events. */
-    let tick_handler = {
-        let tx = tx.clone();
-        thread::spawn(move || {
-            let tx = tx.clone();
-            loop {
-                tx.send(Event::Tick).unwrap();
-                thread::sleep(REFRESH_RATE);
-            }
-        })
-    };
-    /* Return events. */
-    Events {
-        rx,
-        input_handler,
-        kernel_handler,
-        tick_handler,
-    }
-}
 
 /**
  * Create a terminal instance with using termion as backend.

@@ -287,7 +287,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             break;
                         }
                         /* Exit search mode. */
-                        Key::Char('\n') | Key::Left | Key::Right => {
+                        Key::Char('\n') | Key::Right | Key::Left => {
                             if input == Key::Left {
                                 selected_block = match selected_block.prev_variant() {
                                     Some(v) => v,

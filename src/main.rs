@@ -77,8 +77,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
                                 .border_style(match selected_block {
-                                    Blocks::SearchInput => Style::default().fg(Color::Cyan),
-                                    _ => Style::default(),
+                                    Blocks::SearchInput => Style::default().fg(Color::White),
+                                    _ => Style::default().fg(Color::DarkGray),
                                 })
                                 .borders(Borders::ALL)
                                 .title("Search"),
@@ -116,8 +116,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
                                 .border_style(match selected_block {
-                                    Blocks::ModuleTable => Style::default().fg(Color::Cyan),
-                                    _ => Style::default(),
+                                    Blocks::ModuleTable => Style::default().fg(Color::White),
+                                    _ => Style::default().fg(Color::DarkGray),
                                 })
                                 .borders(Borders::ALL)
                                 .title(&format!(
@@ -142,8 +142,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .border_style(match selected_block {
-                                Blocks::ModuleInfo => Style::default().fg(Color::Cyan),
-                                _ => Style::default(),
+                                Blocks::ModuleInfo => Style::default().fg(Color::White),
+                                _ => Style::default().fg(Color::DarkGray),
                             })
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
@@ -159,8 +159,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Block::default()
                         .title_style(Style::default().modifier(Modifier::BOLD))
                         .border_style(match selected_block {
-                            Blocks::Activities => Style::default().fg(Color::Cyan),
-                            _ => Style::default(),
+                            Blocks::Activities => Style::default().fg(Color::White),
+                            _ => Style::default().fg(Color::DarkGray),
                         })
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),

@@ -77,7 +77,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
                                 .border_style(match selected_block {
-                                    Blocks::SearchInput => Style::default().fg(Color::White),
+                                    Blocks::SearchInput => {
+                                        if !search_mode {
+                                            events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
+                                        }
+                                        Style::default().fg(Color::White)
+                                    },
                                     _ => Style::default().fg(Color::DarkGray),
                                 })
                                 .borders(Borders::ALL)

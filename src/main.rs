@@ -282,7 +282,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             break;
                         }
                         /* Exit search mode. */
-                        Key::Char('\n') => {
+                        Key::Char('\n') | Key::Left | Key::Right => {
                             selected_block = Blocks::ModuleTable;
                             terminal.hide_cursor()?;
                             search_mode = false;

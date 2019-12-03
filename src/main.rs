@@ -21,6 +21,12 @@ use util::parse_args;
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
+enum Blocks {
+    SearchInput,
+    ModuleTable,
+    ModuleInfo,
+    Activities,
+}
 
 /**
  * Create a terminal instance with using termion as backend.
@@ -43,6 +49,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     kernel_modules.scroll_list(ScrollDirection::Top);
     let mut search_query = String::new();
     let mut search_mode = false;
+    let mut selected_block = Blocks::ModuleTable;
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {
@@ -65,6 +72,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .block(
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
+                                .border_style(match selected_block {
+                                    Blocks::SearchInput => Style::default().fg(Color::Cyan),
+                                    _ => Style::default(),
+                                })
                                 .borders(Borders::ALL)
                                 .title("Search"),
                         )
@@ -100,6 +111,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .block(
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
+                                .border_style(match selected_block {
+                                    Blocks::ModuleTable => Style::default().fg(Color::Cyan),
+                                    _ => Style::default(),
+                                })
                                 .borders(Borders::ALL)
                                 .title(&format!(
                                     "Loaded Kernel Modules ({}/{}) [{}%]",
@@ -122,6 +137,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .block(
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
+                            .border_style(match selected_block {
+                                    Blocks::ModuleInfo => Style::default().fg(Color::Cyan),
+                                    _ => Style::default(),
+                                })
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
                     )
@@ -135,6 +154,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 .block(
                     Block::default()
                         .title_style(Style::default().modifier(Modifier::BOLD))
+                        .border_style(match selected_block {
+                                    Blocks::Activities => Style::default().fg(Color::Cyan),
+                                    _ => Style::default(),
+                                })
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),
                 )

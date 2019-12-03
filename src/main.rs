@@ -203,9 +203,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 kernel_modules.scroll_mod_info(ScrollDirection::Up)
                             }
                             Blocks::Activities => {
-                                if kernel_logs.scroll_offset > 2 {
-                                    kernel_logs.scroll_offset -= 3;
-                                }
+                                events.tx.send(Event::Input(Key::PageUp)).unwrap();
                             }
                             _ => {}
                         },
@@ -218,11 +216,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 kernel_modules.scroll_mod_info(ScrollDirection::Down)
                             }
                             Blocks::Activities => {
-                                if kernel_logs.output.len() > 0 {
-                                    kernel_logs.scroll_offset += 3;
-                                    kernel_logs.scroll_offset %=
-                                        (kernel_logs.output.lines().count() as u16) * 2;
-                                }
+                                events.tx.send(Event::Input(Key::PageDown)).unwrap();
                             }
                             _ => {}
                         },
@@ -250,12 +244,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Scroll kernel activities up. */
                         Key::PageUp => {
+                            selected_block = Blocks::Activities;
                             if kernel_logs.scroll_offset > 2 {
                                 kernel_logs.scroll_offset -= 3;
                             }
                         }
                         /* Scroll kernel activities down. */
                         Key::PageDown => {
+                            selected_block = Blocks::Activities;
                             if kernel_logs.output.len() > 0 {
                                 kernel_logs.scroll_offset += 3;
                                 kernel_logs.scroll_offset %=

@@ -53,7 +53,6 @@ impl Events {
         let kernel_handler = {
             let tx = tx.clone();
             thread::spawn(move || {
-                let tx = tx.clone();
                 let mut kernel_logs = KernelLogs::new();
                 loop {
                     if kernel_logs.update() {
@@ -68,7 +67,6 @@ impl Events {
         let tick_handler = {
             let tx = tx.clone();
             thread::spawn(move || {
-                let tx = tx.clone();
                 loop {
                     tx.send(Event::Tick).unwrap();
                     thread::sleep(refresh_rate);

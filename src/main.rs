@@ -196,7 +196,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules = KernelModules::new(args);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
-                        /* Scroll through the kernel modules and show information. */
+                        /* Scroll the selected block up. */
                         Key::Up | Key::Char('k') | Key::Char('K') => match selected_block {
                             Blocks::SearchInput => {}
                             Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
@@ -209,6 +209,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 }
                             }
                         },
+                        /* Scroll the selected block down. */
                         Key::Down | Key::Char('j') | Key::Char('J') => match selected_block {
                             Blocks::SearchInput => {}
                             Blocks::ModuleTable => {

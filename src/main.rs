@@ -288,7 +288,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Exit search mode. */
                         Key::Char('\n') | Key::Left | Key::Right => {
-                            selected_block = Blocks::ModuleTable;
+                            if input == Key::Left {
+                                selected_block = match selected_block.prev_variant() {
+                                    Some(v) => v,
+                                    None => Blocks::max_value(),
+                                }
+                            } else {
+                                selected_block = Blocks::ModuleTable;
+                            }
                             terminal.hide_cursor()?;
                             search_mode = false;
                         }

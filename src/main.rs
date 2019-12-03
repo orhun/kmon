@@ -226,18 +226,22 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 }
                             }
                         },
+                        /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
                             kernel_modules.scroll_list(ScrollDirection::Top)
                         }
+                        /* Scroll to the bottom of the module list. */
                         Key::Char('b') | Key::Char('B') => {
                             kernel_modules.scroll_list(ScrollDirection::Bottom)
                         }
+                        /* Select the next terminal block. */
                         Key::Left | Key::Char('h') | Key::Char('H') => {
                             selected_block = match selected_block.prev_variant() {
                                 Some(v) => v,
                                 None => Blocks::max_value(),
                             }
                         }
+                        /* Select the previous terminal block. */
                         Key::Right | Key::Char('l') | Key::Char('L') => {
                             selected_block = match selected_block.next_variant() {
                                 Some(v) => v,

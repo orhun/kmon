@@ -198,7 +198,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Scroll the selected block up. */
                         Key::Up | Key::Char('k') | Key::Char('K') => match selected_block {
-                            Blocks::SearchInput => {}
                             Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
                             Blocks::ModuleInfo => {
                                 kernel_modules.scroll_mod_info(ScrollDirection::Up)
@@ -208,10 +207,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     kernel_logs.scroll_offset -= 3;
                                 }
                             }
+                            _ => {}
                         },
                         /* Scroll the selected block down. */
                         Key::Down | Key::Char('j') | Key::Char('J') => match selected_block {
-                            Blocks::SearchInput => {}
                             Blocks::ModuleTable => {
                                 kernel_modules.scroll_list(ScrollDirection::Down)
                             }
@@ -225,6 +224,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                         (kernel_logs.output.lines().count() as u16) * 2;
                                 }
                             }
+                            _ => {}
                         },
                         /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
@@ -307,7 +307,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             Event::Kernel(logs) => {
                 kernel_logs.output = logs;
             }
-            Event::Tick => {}
+            _ => {}
         }
     }
     Ok(())

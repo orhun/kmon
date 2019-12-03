@@ -5,9 +5,9 @@ mod event;
 mod kernel;
 mod util;
 use event::{Event, Events};
-use num_traits::FromPrimitive;
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
+use num_traits::FromPrimitive;
 use std::io::{self, Write};
 use std::time::Duration;
 use termion::event::Key;
@@ -144,9 +144,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(Style::default().modifier(Modifier::BOLD))
                             .border_style(match selected_block {
-                                    Blocks::ModuleInfo => Style::default().fg(Color::Cyan),
-                                    _ => Style::default(),
-                                })
+                                Blocks::ModuleInfo => Style::default().fg(Color::Cyan),
+                                _ => Style::default(),
+                            })
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
                     )
@@ -161,9 +161,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Block::default()
                         .title_style(Style::default().modifier(Modifier::BOLD))
                         .border_style(match selected_block {
-                                    Blocks::Activities => Style::default().fg(Color::Cyan),
-                                    _ => Style::default(),
-                                })
+                            Blocks::Activities => Style::default().fg(Color::Cyan),
+                            _ => Style::default(),
+                        })
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),
                 )

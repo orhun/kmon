@@ -82,7 +82,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                             events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
                                         }
                                         Style::default().fg(Color::White)
-                                    },
+                                    }
                                     _ => Style::default().fg(Color::DarkGray),
                                 })
                                 .borders(Borders::ALL)

@@ -16,6 +16,7 @@ pub enum Event<I> {
 /* Terminal events struct */
 #[allow(dead_code)]
 pub struct Events {
+    pub tx: mpsc::Sender<Event<Key>>,
     pub rx: mpsc::Receiver<Event<Key>>,
     input_handler: thread::JoinHandle<()>,
     kernel_handler: thread::JoinHandle<()>,
@@ -76,6 +77,7 @@ impl Events {
         };
         /* Return events. */
         Self {
+            tx,
             rx,
             input_handler,
             kernel_handler,

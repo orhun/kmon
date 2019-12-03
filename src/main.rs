@@ -264,6 +264,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
+                            selected_block = Blocks::SearchInput;
                             if input != Key::Char('\n') {
                                 search_query = String::new();
                             }
@@ -286,6 +287,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Exit search mode. */
                         Key::Char('\n') => {
+                            selected_block = Blocks::ModuleTable;
                             terminal.hide_cursor()?;
                             search_mode = false;
                         }

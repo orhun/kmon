@@ -1,13 +1,10 @@
-#[macro_use]
-extern crate num_derive;
-extern crate num_traits;
 mod event;
 mod kernel;
 mod util;
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
-use num_traits::FromPrimitive;
+use enum_unitary::{enum_unitary, EnumUnitary, Bounded};
 use std::io::{self, Write};
 use std::time::Duration;
 use termion::event::Key;
@@ -26,12 +23,13 @@ const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
 
-#[derive(Clone, FromPrimitive)]
-enum Blocks {
-    SearchInput,
-    ModuleTable,
-    ModuleInfo,
-    Activities,
+enum_unitary! {
+    enum Blocks {
+        SearchInput,
+        ModuleTable,
+        ModuleInfo,
+        Activities,
+    }
 }
 
 /**
@@ -220,14 +218,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules.scroll_mod_info(ScrollDirection::Down)
                         }*/
                         Key::Left | Key::Char('h') | Key::Char('H') => {
-                            let mut next_block = 3;
-                            if selected_block.clone() as u8 != 0 {
-                                next_block = FromPrimitive::from_u8(selected_block as u8 - 1).unwrap();
+                            selected_block = match selected_block.prev_variant() {
+                                Some(v) => v,
+                                None => Blocks::max_value(),
                             }
-                            selected_block = FromPrimitive::from_u8(next_block).unwrap();
                         }
                         Key::Right | Key::Char('l') | Key::Char('L') => {
-                            selected_block = FromPrimitive::from_u8((selected_block as u8 + 1) % 4).unwrap();
+                            selected_block = match selected_block.next_variant() {
+                                Some(v) => v,
+                                None => Blocks::min_value(),
+                            }
                         }
                         /* Scroll kernel activities up. */
                         Key::PageUp => {

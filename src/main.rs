@@ -197,9 +197,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll through the kernel modules and show information. */
-                        Key::Up | Key::Char('k') | Key::Char('K') => {
-                            kernel_modules.scroll_list(ScrollDirection::Up)
-                        }
+                        Key::Up | Key::Char('k') | Key::Char('K') => match selected_block {
+                            Blocks::SearchInput => {}
+                            Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
+                            Blocks::ModuleInfo => {
+                                kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                            }
+                            Blocks::Activities => {
+                                if kernel_logs.scroll_offset > 2 {
+                                    kernel_logs.scroll_offset -= 3;
+                                }
+                            }
+                        },
                         Key::Down | Key::Char('j') | Key::Char('J') => {
                             kernel_modules.scroll_list(ScrollDirection::Down)
                         }

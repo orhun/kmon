@@ -128,7 +128,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 .title(&format!(
                                     "Loaded Kernel Modules ({}/{}) [{}%]",
                                     match kernel_modules.list.len() {
-                                        0 => 0,
+                                        0 => kernel_modules.index,
                                         _ => kernel_modules.index + 1
                                     },
                                     kernel_modules.list.len(),

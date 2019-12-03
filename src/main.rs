@@ -209,9 +209,22 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 }
                             }
                         },
-                        Key::Down | Key::Char('j') | Key::Char('J') => {
-                            kernel_modules.scroll_list(ScrollDirection::Down)
-                        }
+                        Key::Down | Key::Char('j') | Key::Char('J') => match selected_block {
+                            Blocks::SearchInput => {}
+                            Blocks::ModuleTable => {
+                                kernel_modules.scroll_list(ScrollDirection::Down)
+                            }
+                            Blocks::ModuleInfo => {
+                                kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                            }
+                            Blocks::Activities => {
+                                if kernel_logs.output.len() > 0 {
+                                    kernel_logs.scroll_offset += 3;
+                                    kernel_logs.scroll_offset %=
+                                        (kernel_logs.output.lines().count() as u16) * 2;
+                                }
+                            }
+                        },
                         Key::Char('t') | Key::Char('T') => {
                             kernel_modules.scroll_list(ScrollDirection::Top)
                         }

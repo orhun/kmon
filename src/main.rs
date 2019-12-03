@@ -1,10 +1,10 @@
 mod event;
 mod kernel;
 mod util;
+use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
-use enum_unitary::{enum_unitary, EnumUnitary, Bounded};
 use std::io::{self, Write};
 use std::time::Duration;
 use termion::event::Key;

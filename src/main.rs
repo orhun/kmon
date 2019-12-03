@@ -231,14 +231,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char('b') | Key::Char('B') => {
                             kernel_modules.scroll_list(ScrollDirection::Bottom)
                         }
-                        /* Scroll the module information up. */
-                        /*Key::Left | Key::Char('h') | Key::Char('H') => {
-                            kernel_modules.scroll_mod_info(ScrollDirection::Up)
-                        }
-                        /* Scroll the module information down. */
-                        Key::Right | Key::Char('l') | Key::Char('L') => {
-                            kernel_modules.scroll_mod_info(ScrollDirection::Down)
-                        }*/
                         Key::Left | Key::Char('h') | Key::Char('H') => {
                             selected_block = match selected_block.prev_variant() {
                                 Some(v) => v,

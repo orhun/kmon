@@ -74,7 +74,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                         }
                                         settings.selected_style
                                     }
-                                    _ => Style::default().fg(Color::DarkGray),
+                                    _ => settings.unselected_style,
                                 })
                                 .borders(Borders::ALL)
                                 .title("Search"),
@@ -114,7 +114,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 .title_style(settings.title_style)
                                 .border_style(match settings.selected_block {
                                     Blocks::ModuleTable => settings.selected_style,
-                                    _ => Style::default().fg(Color::DarkGray),
+                                    _ => settings.unselected_style,
                                 })
                                 .borders(Borders::ALL)
                                 .title(&format!(
@@ -143,7 +143,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             .title_style(settings.title_style)
                             .border_style(match settings.selected_block {
                                 Blocks::ModuleInfo => settings.selected_style,
-                                _ => Style::default().fg(Color::DarkGray),
+                                _ => settings.unselected_style,
                             })
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
@@ -160,7 +160,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .title_style(settings.title_style)
                         .border_style(match settings.selected_block {
                             Blocks::Activities => settings.selected_style,
-                            _ => Style::default().fg(Color::DarkGray),
+                            _ => settings.unselected_style,
                         })
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),

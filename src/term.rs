@@ -38,6 +38,12 @@ impl Settings {
             unselected_style: Style::default().fg(Color::DarkGray),
         }
     }
+    /**
+     * Get style depending on the selected state of the block.
+     *
+     * @param  block
+     * @return Style
+     */
     pub fn block_style(&self, block: Blocks) -> Style {
         if block == self.selected_block {
             self.selected_style

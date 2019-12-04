@@ -106,7 +106,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();
                     if settings.search_query.len() > 0 {
-                        kernel_module_list.retain(|module| module[0].contains(&settings.search_query));
+                        kernel_module_list
+                            .retain(|module| module[0].contains(&settings.search_query));
                     }
                     kernel_modules.list = kernel_module_list.clone();
                     /* Set selected and scroll state of the modules. */
@@ -219,29 +220,35 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */
-                        Key::Up | Key::Char('k') | Key::Char('K') => match settings.selected_block {
-                            Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
-                            Blocks::ModuleInfo => {
-                                kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                        Key::Up | Key::Char('k') | Key::Char('K') => {
+                            match settings.selected_block {
+                                Blocks::ModuleTable => {
+                                    kernel_modules.scroll_list(ScrollDirection::Up)
+                                }
+                                Blocks::ModuleInfo => {
+                                    kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                                }
+                                Blocks::Activities => {
+                                    events.tx.send(Event::Input(Key::PageUp)).unwrap();
+                                }
+                                _ => {}
                             }
-                            Blocks::Activities => {
-                                events.tx.send(Event::Input(Key::PageUp)).unwrap();
-                            }
-                            _ => {}
-                        },
+                        }
                         /* Scroll the selected block down. */
-                        Key::Down | Key::Char('j') | Key::Char('J') => match settings.selected_block {
-                            Blocks::ModuleTable => {
-                                kernel_modules.scroll_list(ScrollDirection::Down)
+                        Key::Down | Key::Char('j') | Key::Char('J') => {
+                            match settings.selected_block {
+                                Blocks::ModuleTable => {
+                                    kernel_modules.scroll_list(ScrollDirection::Down)
+                                }
+                                Blocks::ModuleInfo => {
+                                    kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                                }
+                                Blocks::Activities => {
+                                    events.tx.send(Event::Input(Key::PageDown)).unwrap();
+                                }
+                                _ => {}
                             }
-                            Blocks::ModuleInfo => {
-                                kernel_modules.scroll_mod_info(ScrollDirection::Down)
-                            }
-                            Blocks::Activities => {
-                                events.tx.send(Event::Input(Key::PageDown)).unwrap();
-                            }
-                            _ => {}
-                        },
+                        }
                         /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
                             kernel_modules.scroll_list(ScrollDirection::Top)
@@ -306,10 +313,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Exit search mode. */
                         Key::Char('\n') | Key::Right | Key::Left => {
                             if input == Key::Left {
-                                settings.selected_block = match settings.selected_block.prev_variant() {
-                                    Some(v) => v,
-                                    None => Blocks::max_value(),
-                                }
+                                settings.selected_block =
+                                    match settings.selected_block.prev_variant() {
+                                        Some(v) => v,
+                                        None => Blocks::max_value(),
+                                    }
                             } else {
                                 settings.selected_block = Blocks::ModuleTable;
                             }

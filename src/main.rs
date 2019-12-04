@@ -8,6 +8,7 @@ use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
 use std::io::{self, Write};
 use std::time::Duration;
+use term::{Blocks, Settings};
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
@@ -19,7 +20,6 @@ use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 use util::parse_args;
-use term::{Blocks, Settings};
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */

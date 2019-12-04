@@ -112,10 +112,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .block(
                             Block::default()
                                 .title_style(settings.title_style)
-                                .border_style(match settings.selected_block {
-                                    Blocks::ModuleTable => settings.selected_style,
-                                    _ => settings.unselected_style,
-                                })
+                                .border_style(settings.block_style(Blocks::ModuleTable))
                                 .borders(Borders::ALL)
                                 .title(&format!(
                                     "Loaded Kernel Modules ({}/{}) [{}%]",
@@ -141,10 +138,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .block(
                         Block::default()
                             .title_style(settings.title_style)
-                            .border_style(match settings.selected_block {
-                                Blocks::ModuleInfo => settings.selected_style,
-                                _ => settings.unselected_style,
-                            })
+                            .border_style(settings.block_style(Blocks::ModuleInfo))
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
                     )
@@ -158,10 +152,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 .block(
                     Block::default()
                         .title_style(settings.title_style)
-                        .border_style(match settings.selected_block {
-                            Blocks::Activities => settings.selected_style,
-                            _ => settings.unselected_style,
-                        })
+                        .border_style(settings.block_style(Blocks::Activities))
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),
                 )

@@ -1,6 +1,6 @@
 use crate::util::exec_cmd;
 
-/* Kernel logs struct. */
+/* Kernel logs struct */
 pub struct KernelLogs {
     pub output: String,
     last_line: String,

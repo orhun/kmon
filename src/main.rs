@@ -22,7 +22,7 @@ use util::parse_args;
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
-/* Terminal block widgets enumerator. */
+/* Terminal block widgets enumerator */
 enum_unitary! {
     enum Blocks {
         SearchInput,
@@ -31,13 +31,13 @@ enum_unitary! {
         Activities,
     }
 }
-
+/* Terminal settings struct */
 struct TerminalSettings {
     selected_block: Blocks,
     search_mode: bool,
     search_query: String,
 }
-
+/* Terminal settings implementation */
 impl TerminalSettings {
     fn new(block: Blocks) -> Self {
         Self {

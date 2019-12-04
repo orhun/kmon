@@ -72,7 +72,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                         if !settings.search_mode {
                                             events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
                                         }
-                                        Style::default().fg(Color::White)
+                                        settings.selected_style
                                     }
                                     _ => Style::default().fg(Color::DarkGray),
                                 })
@@ -101,10 +101,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
                                 Row::StyledData(
                                     item.into_iter(),
-                                    Style::default().fg(Color::White).modifier(Modifier::BOLD),
+                                    settings.selected_style.modifier(Modifier::BOLD),
                                 )
                             } else {
-                                Row::StyledData(item.into_iter(), Style::default().fg(Color::White))
+                                Row::StyledData(item.into_iter(), settings.selected_style)
                             }
                         });
                     /* Kernel modules table. */
@@ -113,7 +113,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             Block::default()
                                 .title_style(settings.title_style)
                                 .border_style(match settings.selected_block {
-                                    Blocks::ModuleTable => Style::default().fg(Color::White),
+                                    Blocks::ModuleTable => settings.selected_style,
                                     _ => Style::default().fg(Color::DarkGray),
                                 })
                                 .borders(Borders::ALL)
@@ -142,7 +142,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Block::default()
                             .title_style(settings.title_style)
                             .border_style(match settings.selected_block {
-                                Blocks::ModuleInfo => Style::default().fg(Color::White),
+                                Blocks::ModuleInfo => settings.selected_style,
                                 _ => Style::default().fg(Color::DarkGray),
                             })
                             .borders(Borders::ALL)
@@ -159,7 +159,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Block::default()
                         .title_style(settings.title_style)
                         .border_style(match settings.selected_block {
-                            Blocks::Activities => Style::default().fg(Color::White),
+                            Blocks::Activities => settings.selected_style,
                             _ => Style::default().fg(Color::DarkGray),
                         })
                         .borders(Borders::ALL)

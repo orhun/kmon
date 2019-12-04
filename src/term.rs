@@ -16,6 +16,7 @@ pub struct Settings {
     pub search_mode: bool,
     pub search_query: String,
     pub title_style: Style,
+    pub selected_style: Style,
 }
 /* Terminal settings implementation */
 impl Settings {
@@ -31,6 +32,7 @@ impl Settings {
             search_mode: false,
             search_query: String::new(),
             title_style: Style::default().modifier(Modifier::BOLD),
+            selected_style: Style::default().fg(Color::White),
         }
     }
 }

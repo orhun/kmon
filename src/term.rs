@@ -17,6 +17,12 @@ pub struct Settings {
 }
 /* Terminal settings implementation */
 impl Settings {
+    /**
+     * Create a new settings instance.
+     *
+     * @param  block
+     * @return Settings
+     */
     pub fn new(block: Blocks) -> Self {
         Self {
             selected_block: block,

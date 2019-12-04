@@ -1,4 +1,5 @@
 use enum_unitary::enum_unitary;
+use tui::style::{Color, Modifier, Style};
 
 /* Terminal block widgets enumerator */
 enum_unitary! {
@@ -14,6 +15,7 @@ pub struct Settings {
     pub selected_block: Blocks,
     pub search_mode: bool,
     pub search_query: String,
+    pub title_style: Style,
 }
 /* Terminal settings implementation */
 impl Settings {
@@ -28,6 +30,7 @@ impl Settings {
             selected_block: block,
             search_mode: false,
             search_query: String::new(),
+            title_style: Style::default().modifier(Modifier::BOLD),
         }
     }
 }

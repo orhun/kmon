@@ -66,7 +66,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Paragraph::new([Text::raw(&settings.search_query)].iter())
                         .block(
                             Block::default()
-                                .title_style(Style::default().modifier(Modifier::BOLD))
+                                .title_style(settings.title_style)
                                 .border_style(match settings.selected_block {
                                     Blocks::SearchInput => {
                                         if !settings.search_mode {
@@ -111,7 +111,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
                         .block(
                             Block::default()
-                                .title_style(Style::default().modifier(Modifier::BOLD))
+                                .title_style(settings.title_style)
                                 .border_style(match settings.selected_block {
                                     Blocks::ModuleTable => Style::default().fg(Color::White),
                                     _ => Style::default().fg(Color::DarkGray),
@@ -140,7 +140,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
                     .block(
                         Block::default()
-                            .title_style(Style::default().modifier(Modifier::BOLD))
+                            .title_style(settings.title_style)
                             .border_style(match settings.selected_block {
                                 Blocks::ModuleInfo => Style::default().fg(Color::White),
                                 _ => Style::default().fg(Color::DarkGray),
@@ -157,7 +157,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
                 .block(
                     Block::default()
-                        .title_style(Style::default().modifier(Modifier::BOLD))
+                        .title_style(settings.title_style)
                         .border_style(match settings.selected_block {
                             Blocks::Activities => Style::default().fg(Color::White),
                             _ => Style::default().fg(Color::DarkGray),

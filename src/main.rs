@@ -34,12 +34,16 @@ enum_unitary! {
 
 struct TerminalSettings {
     selected_block: Blocks,
+    search_mode: bool,
+    search_query: String,
 }
 
 impl TerminalSettings {
     fn new(block: Blocks) -> Self {
         Self {
             selected_block: block,
+            search_mode: false,
+            search_query: String::new(),
         }
     }
 }
@@ -63,8 +67,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
-    let mut search_query = String::new();
-    let mut search_mode = false;
     let mut settings = TerminalSettings::new(Blocks::ModuleTable);
     /* Create widgets and draw the terminal. */
     loop {
@@ -84,13 +86,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .constraints([Constraint::Length(3), Constraint::Percentage(100)].as_ref())
                         .split(chunks[0]);
                     /* Search input. */
-                    Paragraph::new([Text::raw(&search_query)].iter())
+                    Paragraph::new([Text::raw(&settings.search_query)].iter())
                         .block(
                             Block::default()
                                 .title_style(Style::default().modifier(Modifier::BOLD))
                                 .border_style(match settings.selected_block {
                                     Blocks::SearchInput => {
-                                        if !search_mode {
+                                        if !settings.search_mode {
                                             events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
                                         }
                                         Style::default().fg(Color::White)
@@ -103,8 +105,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .render(&mut f, chunks[0]);
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();
-                    if search_query.len() > 0 {
-                        kernel_module_list.retain(|module| module[0].contains(&search_query));
+                    if settings.search_query.len() > 0 {
+                        kernel_module_list.retain(|module| module[0].contains(&settings.search_query));
                     }
                     kernel_modules.list = kernel_module_list.clone();
                     /* Set selected and scroll state of the modules. */
@@ -191,11 +193,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 .render(&mut f, chunks[1]);
         })?;
         /* Set cursor position and flush stdout. */
-        if search_mode {
+        if settings.search_mode {
             write!(
                 terminal.backend_mut(),
                 "{}",
-                termion::cursor::Goto(2 + search_query.width() as u16, 2)
+                termion::cursor::Goto(2 + settings.search_query.width() as u16, 2)
             )?;
             io::stdout().flush().ok();
         }
@@ -203,7 +205,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
-                if !search_mode {
+                if !settings.search_mode {
                     /* Default input mode. */
                     match input {
                         /* Quit. */
@@ -282,15 +284,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             settings.selected_block = Blocks::SearchInput;
                             if input != Key::Char('\n') {
-                                search_query = String::new();
+                                settings.search_query = String::new();
                             }
                             write!(
                                 terminal.backend_mut(),
                                 "{}",
-                                termion::cursor::Goto(2 + search_query.width() as u16, 2)
+                                termion::cursor::Goto(2 + settings.search_query.width() as u16, 2)
                             )?;
                             terminal.show_cursor()?;
-                            search_mode = true;
+                            settings.search_mode = true;
                         }
                         _ => {}
                     }
@@ -312,16 +314,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 settings.selected_block = Blocks::ModuleTable;
                             }
                             terminal.hide_cursor()?;
-                            search_mode = false;
+                            settings.search_mode = false;
                         }
                         /* Append character to search query. */
                         Key::Char(c) => {
-                            search_query.push(c);
+                            settings.search_query.push(c);
                             kernel_modules.index = 0;
                         }
                         /* Delete last character from search query. */
                         Key::Backspace => {
-                            search_query.pop();
+                            settings.search_query.pop();
                             kernel_modules.index = 0;
                         }
                         _ => {}

@@ -1,7 +1,8 @@
 mod event;
 mod kernel;
+mod term;
 mod util;
-use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
+use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
@@ -18,35 +19,11 @@ use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 use util::parse_args;
+use term::{Blocks, Settings};
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
-/* Terminal block widgets enumerator */
-enum_unitary! {
-    enum Blocks {
-        SearchInput,
-        ModuleTable,
-        ModuleInfo,
-        Activities,
-    }
-}
-/* Terminal settings struct */
-struct TerminalSettings {
-    selected_block: Blocks,
-    search_mode: bool,
-    search_query: String,
-}
-/* Terminal settings implementation */
-impl TerminalSettings {
-    fn new(block: Blocks) -> Self {
-        Self {
-            selected_block: block,
-            search_mode: false,
-            search_query: String::new(),
-        }
-    }
-}
 
 /**
  * Create a terminal instance with using termion as backend.
@@ -66,7 +43,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
-    let mut settings = TerminalSettings::new(Blocks::ModuleTable);
+    let mut settings = Settings::new(Blocks::ModuleTable);
     kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {

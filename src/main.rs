@@ -66,8 +66,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
-    kernel_modules.scroll_list(ScrollDirection::Top);
     let mut settings = TerminalSettings::new(Blocks::ModuleTable);
+    kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {
         terminal.draw(|mut f| {

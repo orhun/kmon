@@ -262,6 +262,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     (kernel_logs.output.lines().count() as u16) * 2;
                             }
                         }
+                        Key::Char(' ') => {
+                            kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                        }
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             settings.selected_block = Blocks::SearchInput;

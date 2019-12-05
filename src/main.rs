@@ -287,6 +287,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Exit search mode. */
                         Key::Char('\n') | Key::Right | Key::Left => {
+                            /* Select the next or previous block. */
                             if input == Key::Left {
                                 settings.selected_block =
                                     match settings.selected_block.prev_variant() {
@@ -296,9 +297,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             } else {
                                 settings.selected_block = Blocks::ModuleTable;
                             }
+                            /* Show the first modules information. */
                             if kernel_modules.index == 0 {
                                 kernel_modules.scroll_list(ScrollDirection::Top);
                             }
+                            /* Hide terminal cursor and set search mode flag. */
                             terminal.hide_cursor()?;
                             settings.search_mode = false;
                         }

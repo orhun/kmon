@@ -222,16 +222,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 _ => {}
                             }
                         }
-                        /* Scroll to the top of the module list. */
-                        Key::Char('t') | Key::Char('T') => {
-                            settings.selected_block = Blocks::ModuleTable;
-                            kernel_modules.scroll_list(ScrollDirection::Top)
-                        }
-                        /* Scroll to the bottom of the module list. */
-                        Key::Char('b') | Key::Char('B') => {
-                            settings.selected_block = Blocks::ModuleTable;
-                            kernel_modules.scroll_list(ScrollDirection::Bottom)
-                        }
                         /* Select the next terminal block. */
                         Key::Left | Key::Char('h') | Key::Char('H') => {
                             settings.selected_block = match settings.selected_block.prev_variant() {
@@ -245,7 +235,17 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 Some(v) => v,
                                 None => Blocks::min_value(),
                             }
-                        } // TODO: Add extra keys for scrolling module information.
+                        }
+                        /* Scroll to the top of the module list. */
+                        Key::Char('t') | Key::Char('T') => {
+                            settings.selected_block = Blocks::ModuleTable;
+                            kernel_modules.scroll_list(ScrollDirection::Top)
+                        }
+                        /* Scroll to the bottom of the module list. */
+                        Key::Char('b') | Key::Char('B') => {
+                            settings.selected_block = Blocks::ModuleTable;
+                            kernel_modules.scroll_list(ScrollDirection::Bottom)
+                        }
                         /* Scroll kernel activities up. */
                         Key::PageUp => {
                             settings.selected_block = Blocks::Activities;
@@ -286,9 +286,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             break;
                         }
                         /* Exit search mode. */
-                        Key::Char('\n') | Key::Right | Key::Left => {
+                        Key::Char('\n')
+                        | Key::Right
+                        | Key::Char('l')
+                        | Key::Char('L')
+                        | Key::Left
+                        | Key::Char('h')
+                        | Key::Char('H') => {
                             /* Select the next or previous block. */
-                            if input == Key::Left {
+                            if input == Key::Left
+                                || input == Key::Char('h')
+                                || input == Key::Char('H')
+                            {
                                 settings.selected_block =
                                     match settings.selected_block.prev_variant() {
                                         Some(v) => v,

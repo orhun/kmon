@@ -294,18 +294,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         | Key::Char('h')
                         | Key::Char('H') => {
                             /* Select the next or previous block. */
-                            if input == Key::Left
-                                || input == Key::Char('h')
-                                || input == Key::Char('H')
-                            {
-                                settings.selected_block =
+                            settings.selected_block = match input {
+                                Key::Left | Key::Char('h') | Key::Char('H') => {
                                     match settings.selected_block.prev_variant() {
                                         Some(v) => v,
                                         None => Blocks::max_value(),
                                     }
-                            } else {
-                                settings.selected_block = Blocks::ModuleTable;
-                            }
+                                }
+                                _ => Blocks::ModuleTable,
+                            };
                             /* Show the first modules information. */
                             if kernel_modules.index == 0 {
                                 kernel_modules.scroll_list(ScrollDirection::Top);

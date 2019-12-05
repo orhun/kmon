@@ -189,6 +189,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char('r') | Key::Char('R') => {
                             kernel_logs.scroll_offset = 0;
                             kernel_modules = KernelModules::new(args);
+                            settings = Settings::new(Blocks::ModuleTable);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */

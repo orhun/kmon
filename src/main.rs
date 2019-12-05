@@ -87,8 +87,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();
                     if settings.search_query.len() > 0 {
-                        kernel_module_list
-                            .retain(|module| module[0].contains(&settings.search_query));
+                        kernel_module_list.retain(|module| {
+                            module[0]
+                                .to_lowercase()
+                                .contains(&settings.search_query.to_lowercase())
+                        });
                     }
                     kernel_modules.list = kernel_module_list.clone();
                     /* Set selected and scroll state of the modules. */

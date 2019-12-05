@@ -21,7 +21,7 @@ use unicode_width::UnicodeWidthStr;
 use util::parse_args;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
-const REFRESH_RATE: &'static str = "250"; /* Refresh rate of the terminal */
+const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
 
 /**

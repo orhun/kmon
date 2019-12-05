@@ -223,10 +223,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
+                            settings.selected_block = Blocks::ModuleTable;
                             kernel_modules.scroll_list(ScrollDirection::Top)
                         }
                         /* Scroll to the bottom of the module list. */
                         Key::Char('b') | Key::Char('B') => {
+                            settings.selected_block = Blocks::ModuleTable;
                             kernel_modules.scroll_list(ScrollDirection::Bottom)
                         }
                         /* Select the next terminal block. */

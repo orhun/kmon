@@ -262,6 +262,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     (kernel_logs.output.lines().count() as u16) * 2;
                             }
                         }
+                        /* Scroll module information down. */
                         Key::Char(' ') => {
                             kernel_modules.scroll_mod_info(ScrollDirection::Down)
                         }

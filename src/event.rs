@@ -31,7 +31,8 @@ impl Events {
      * @param  refresh_rate
      * @return Events
      */
-    pub fn new(refresh_rate: Duration) -> Self {
+    pub fn new(refresh_rate: u64) -> Self {
+        let refresh_rate = Duration::from_millis(refresh_rate);
         /* Create a new asynchronous channel. */
         let (tx, rx) = mpsc::channel();
         /* Handle inputs using stdin stream and sender of the channel. */

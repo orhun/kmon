@@ -12,6 +12,14 @@ use std::process::Command;
 pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
     App::new("kmon")
         .version(version)
+        .arg(
+            Arg::with_name("rate")
+                .short("r")
+                .long("rate")
+                .value_name("MS")
+                .help("Refresh rate of the terminal")
+                .takes_value(true),
+        )
         .subcommand(
             SubCommand::with_name("sort")
                 .about("Sort kernel modules")

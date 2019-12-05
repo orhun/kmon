@@ -7,7 +7,6 @@ use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
 use std::io::{self, Write};
-use std::time::Duration;
 use term::{Blocks, Settings};
 use termion::event::Key;
 use termion::input::MouseTerminal;
@@ -22,7 +21,7 @@ use unicode_width::UnicodeWidthStr;
 use util::parse_args;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
-const REFRESH_RATE: Duration = Duration::from_millis(250); /* Refresh rate of the terminal */
+const REFRESH_RATE: &'static str = "250"; /* Refresh rate of the terminal */
 const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
 
 /**
@@ -38,7 +37,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
-    let events = Events::new(REFRESH_RATE);
+    let events = Events::new(args.value_of("rate").unwrap_or(REFRESH_RATE).parse::<u64>().unwrap());
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();
@@ -238,7 +237,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 Some(v) => v,
                                 None => Blocks::min_value(),
                             }
-                        }
+                        } // TODO: Add extra keys for scrolling module information.
                         /* Scroll kernel activities up. */
                         Key::PageUp => {
                             settings.selected_block = Blocks::Activities;

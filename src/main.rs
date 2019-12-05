@@ -288,14 +288,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Exit search mode. */
                         Key::Char('\n')
                         | Key::Right
-                        | Key::Char('l')
-                        | Key::Char('L')
+                        | Key::Ctrl('l')
                         | Key::Left
-                        | Key::Char('h')
-                        | Key::Char('H') => {
+                        | Key::Ctrl('h') => {
                             /* Select the next or previous block. */
                             settings.selected_block = match input {
-                                Key::Left | Key::Char('h') | Key::Char('H') => {
+                                Key::Left | Key::Ctrl('h') => {
                                     match settings.selected_block.prev_variant() {
                                         Some(v) => v,
                                         None => Blocks::max_value(),

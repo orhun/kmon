@@ -263,9 +263,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         }
                         /* Scroll module information down. */
-                        Key::Char(' ') => {
-                            kernel_modules.scroll_mod_info(ScrollDirection::Down)
-                        }
+                        Key::Backspace => kernel_modules.scroll_mod_info(ScrollDirection::Up),
+                        /* Scroll module information down. */
+                        Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             settings.selected_block = Blocks::SearchInput;

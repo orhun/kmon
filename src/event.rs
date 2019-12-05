@@ -92,7 +92,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_events() -> Result<(), failure::Error> {
-        let events = Events::new(Duration::from_millis(250));
+        let events = Events::new(250);
         match events.rx.recv()? {
             Event::Input(_) => Ok(()),
             Event::Tick => Ok(()),

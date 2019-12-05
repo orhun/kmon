@@ -296,6 +296,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             } else {
                                 settings.selected_block = Blocks::ModuleTable;
                             }
+                            if kernel_modules.index == 0 {
+                                kernel_modules.scroll_list(ScrollDirection::Top);
+                            }
                             terminal.hide_cursor()?;
                             settings.search_mode = false;
                         }

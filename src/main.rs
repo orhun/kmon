@@ -37,7 +37,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
-    let events = Events::new(args.value_of("rate").unwrap_or(REFRESH_RATE).parse::<u64>().unwrap());
+    let events = Events::new(
+        args.value_of("rate")
+            .unwrap_or(REFRESH_RATE)
+            .parse::<u64>()
+            .unwrap(),
+    );
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();

@@ -223,14 +223,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         }
                         /* Select the next terminal block. */
-                        Key::Left | Key::Char('h') | Key::Char('H') => {
+                        Key::Left | Key::Char('h') | Key::Char('H') | Key::Ctrl('h') => {
                             settings.selected_block = match settings.selected_block.prev_variant() {
                                 Some(v) => v,
                                 None => Blocks::max_value(),
                             }
                         }
                         /* Select the previous terminal block. */
-                        Key::Right | Key::Char('l') | Key::Char('L') => {
+                        Key::Right | Key::Char('l') | Key::Char('L') | Key::Ctrl('l') => {
                             settings.selected_block = match settings.selected_block.next_variant() {
                                 Some(v) => v,
                                 None => Blocks::min_value(),

@@ -62,7 +62,13 @@ mod tests {
     #[test]
     fn test_settings() {
         let settings = Settings::new(Blocks::ModuleTable);
-        assert_eq!(settings.selected_style, settings.block_style(Blocks::ModuleTable));
-        assert_eq!(settings.unselected_style, settings.block_style(Blocks::Activities));
+        assert_eq!(
+            settings.selected_style,
+            settings.block_style(Blocks::ModuleTable)
+        );
+        assert_eq!(
+            settings.unselected_style,
+            settings.block_style(Blocks::Activities)
+        );
     }
 }

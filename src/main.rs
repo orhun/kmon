@@ -94,6 +94,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     .title("Search"),
                             )
                             .render(&mut f, chunks[0]);
+                        Paragraph::new([Text::raw("")].iter())
+                            .block(
+                                Block::default()
+                                    .title_style(settings.title_style)
+                                    .borders(Borders::ALL)
+                                    .title("Kernel Version"),
+                            )
+                            .render(&mut f, chunks[1]);
                     }
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();

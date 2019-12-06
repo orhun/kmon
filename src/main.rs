@@ -66,24 +66,35 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         .direction(Direction::Vertical)
                         .constraints([Constraint::Length(3), Constraint::Percentage(100)].as_ref())
                         .split(chunks[0]);
-                    /* Search input. */
-                    Paragraph::new([Text::raw(&settings.search_query)].iter())
-                        .block(
-                            Block::default()
-                                .title_style(settings.title_style)
-                                .border_style(match settings.selected_block {
-                                    Blocks::SearchInput => {
-                                        if !settings.search_mode {
-                                            events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
+                    {
+                        let chunks = Layout::default()
+                            .direction(Direction::Horizontal)
+                            .constraints(
+                                [Constraint::Percentage(50), Constraint::Percentage(50)].as_ref(),
+                            )
+                            .split(chunks[0]);
+                        /* Search input. */
+                        Paragraph::new([Text::raw(&settings.search_query)].iter())
+                            .block(
+                                Block::default()
+                                    .title_style(settings.title_style)
+                                    .border_style(match settings.selected_block {
+                                        Blocks::SearchInput => {
+                                            if !settings.search_mode {
+                                                events
+                                                    .tx
+                                                    .send(Event::Input(Key::Char('\n')))
+                                                    .unwrap();
+                                            }
+                                            settings.selected_style
                                         }
-                                        settings.selected_style
-                                    }
-                                    _ => settings.unselected_style,
-                                })
-                                .borders(Borders::ALL)
-                                .title("Search"),
-                        )
-                        .render(&mut f, chunks[0]);
+                                        _ => settings.unselected_style,
+                                    })
+                                    .borders(Borders::ALL)
+                                    .title("Search"),
+                            )
+                            .render(&mut f, chunks[0]);
+                    }
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();
                     if settings.search_query.len() > 0 {

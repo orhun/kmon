@@ -4,6 +4,7 @@ use crate::util::exec_cmd;
 pub struct KernelLogs {
     pub output: String,
     last_line: String,
+    pub version: String,
     pub scroll_offset: u16,
 }
 
@@ -18,6 +19,7 @@ impl KernelLogs {
         Self {
             output: String::new(),
             last_line: String::new(),
+            version: exec_cmd("uname", &["-srm"]).unwrap().to_string(),
             scroll_offset: 0,
         }
     }

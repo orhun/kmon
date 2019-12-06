@@ -94,7 +94,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     .title("Search"),
                             )
                             .render(&mut f, chunks[0]);
-                        Paragraph::new([Text::raw("")].iter())
+                        Paragraph::new([Text::raw(kernel_logs.version.clone())].iter())
                             .block(
                                 Block::default()
                                     .title_style(settings.title_style)

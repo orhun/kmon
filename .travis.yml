@@ -1,0 +1,17 @@
+# Ubuntu Xenial 16.04
+dist: xenial
+# Rust
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+# Disable sudo for a faster build
+sudo: false
+# Script to execute
+script:
+  - cargo build --verbose --all
+  - cargo test --verbose --all
+# Only clone the most recent commit
+git:
+  depth: 1

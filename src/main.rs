@@ -98,6 +98,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             .block(
                                 Block::default()
                                     .title_style(settings.title_style)
+                                    .border_style(settings.unselected_style)
                                     .borders(Borders::ALL)
                                     .title("Kernel Version"),
                             )

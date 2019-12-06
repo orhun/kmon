@@ -135,7 +135,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         });
                     /* Kernel modules table. */
-                    Table::new(TABLE_HEADER.into_iter(), modules.into_iter())
+                    Table::new(TABLE_HEADER.iter(), modules.into_iter())
                         .block(
                             Block::default()
                                 .title_style(settings.title_style)

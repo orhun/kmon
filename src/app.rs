@@ -60,15 +60,15 @@ impl App {
 mod tests {
     use super::*;
     #[test]
-    fn test_settings() {
-        let settings = Settings::new(Blocks::ModuleTable);
+    fn test_app() {
+        let app = App::new(Blocks::ModuleTable);
         assert_eq!(
-            settings.selected_style,
-            settings.block_style(Blocks::ModuleTable)
+            app.selected_style,
+            app.block_style(Blocks::ModuleTable)
         );
         assert_eq!(
-            settings.unselected_style,
-            settings.block_style(Blocks::Activities)
+            app.unselected_style,
+            app.block_style(Blocks::Activities)
         );
     }
 }

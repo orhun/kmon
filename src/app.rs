@@ -11,8 +11,8 @@ enum_unitary! {
         Activities,
     }
 }
-/* Terminal settings struct */
-pub struct Settings {
+/* Terminal application struct */
+pub struct App {
     pub selected_block: Blocks,
     pub search_mode: bool,
     pub search_query: String,
@@ -20,13 +20,13 @@ pub struct Settings {
     pub selected_style: Style,
     pub unselected_style: Style,
 }
-/* Terminal settings implementation */
-impl Settings {
+/* Terminal application implementation */
+impl App {
     /**
-     * Create a new settings instance.
+     * Create a new app instance.
      *
      * @param  block
-     * @return Settings
+     * @return App
      */
     pub fn new(block: Blocks) -> Self {
         Self {

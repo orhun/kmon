@@ -1,13 +1,13 @@
+mod app;
 mod event;
 mod kernel;
-mod term;
 mod util;
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
 use std::io::{self, Write};
-use term::{Blocks, Settings};
+use app::{Blocks, App};
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
@@ -47,7 +47,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Set required items for the terminal widgets. */
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
-    let mut settings = Settings::new(Blocks::ModuleTable);
+    let mut app = App::new(Blocks::ModuleTable);
     kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {
@@ -74,21 +74,21 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             )
                             .split(chunks[0]);
                         /* Search input. */
-                        Paragraph::new([Text::raw(&settings.search_query)].iter())
+                        Paragraph::new([Text::raw(&app.search_query)].iter())
                             .block(
                                 Block::default()
-                                    .title_style(settings.title_style)
-                                    .border_style(match settings.selected_block {
+                                    .title_style(app.title_style)
+                                    .border_style(match app.selected_block {
                                         Blocks::SearchInput => {
-                                            if !settings.search_mode {
+                                            if !app.search_mode {
                                                 events
                                                     .tx
                                                     .send(Event::Input(Key::Char('\n')))
                                                     .unwrap();
                                             }
-                                            settings.selected_style
+                                            app.selected_style
                                         }
-                                        _ => settings.unselected_style,
+                                        _ => app.unselected_style,
                                     })
                                     .borders(Borders::ALL)
                                     .title("Search"),
@@ -98,8 +98,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Paragraph::new([Text::raw(&kernel_logs.version)].iter())
                             .block(
                                 Block::default()
-                                    .title_style(settings.title_style)
-                                    .border_style(settings.unselected_style)
+                                    .title_style(app.title_style)
+                                    .border_style(app.unselected_style)
                                     .borders(Borders::ALL)
                                     .title("Kernel Version"),
                             )
@@ -107,11 +107,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     }
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();
-                    if settings.search_query.len() > 0 {
+                    if app.search_query.len() > 0 {
                         kernel_module_list.retain(|module| {
                             module[0]
                                 .to_lowercase()
-                                .contains(&settings.search_query.to_lowercase())
+                                .contains(&app.search_query.to_lowercase())
                         });
                     }
                     kernel_modules.list = kernel_module_list.clone();
@@ -129,18 +129,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
                                 Row::StyledData(
                                     item.into_iter(),
-                                    settings.selected_style.modifier(Modifier::BOLD),
+                                    app.selected_style.modifier(Modifier::BOLD),
                                 )
                             } else {
-                                Row::StyledData(item.into_iter(), settings.selected_style)
+                                Row::StyledData(item.into_iter(), app.selected_style)
                             }
                         });
                     /* Kernel modules table. */
                     Table::new(TABLE_HEADER.iter(), modules.into_iter())
                         .block(
                             Block::default()
-                                .title_style(settings.title_style)
-                                .border_style(settings.block_style(Blocks::ModuleTable))
+                                .title_style(app.title_style)
+                                .border_style(app.block_style(Blocks::ModuleTable))
                                 .borders(Borders::ALL)
                                 .title(&format!(
                                     "Loaded Kernel Modules ({}/{}) [{}%]",
@@ -165,8 +165,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
                     .block(
                         Block::default()
-                            .title_style(settings.title_style)
-                            .border_style(settings.block_style(Blocks::ModuleInfo))
+                            .title_style(app.title_style)
+                            .border_style(app.block_style(Blocks::ModuleInfo))
                             .borders(Borders::ALL)
                             .title(&format!("Module: {}", kernel_modules.current_name)),
                     )
@@ -179,8 +179,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
                 .block(
                     Block::default()
-                        .title_style(settings.title_style)
-                        .border_style(settings.block_style(Blocks::Activities))
+                        .title_style(app.title_style)
+                        .border_style(app.block_style(Blocks::Activities))
                         .borders(Borders::ALL)
                         .title("Kernel Activities"),
                 )
@@ -190,11 +190,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                 .render(&mut f, chunks[1]);
         })?;
         /* Set cursor position and flush stdout. */
-        if settings.search_mode {
+        if app.search_mode {
             write!(
                 terminal.backend_mut(),
                 "{}",
-                termion::cursor::Goto(2 + settings.search_query.width() as u16, 2)
+                termion::cursor::Goto(2 + app.search_query.width() as u16, 2)
             )?;
             io::stdout().flush().ok();
         }
@@ -202,7 +202,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
-                if !settings.search_mode {
+                if !app.search_mode {
                     /* Default input mode. */
                     match input {
                         /* Quit. */
@@ -213,12 +213,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char('r') | Key::Char('R') => {
                             kernel_logs.scroll_offset = 0;
                             kernel_modules = KernelModules::new(args);
-                            settings = Settings::new(Blocks::ModuleTable);
+                            app = App::new(Blocks::ModuleTable);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */
                         Key::Up | Key::Char('k') | Key::Char('K') => {
-                            match settings.selected_block {
+                            match app.selected_block {
                                 Blocks::ModuleTable => {
                                     kernel_modules.scroll_list(ScrollDirection::Up)
                                 }
@@ -233,7 +233,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Scroll the selected block down. */
                         Key::Down | Key::Char('j') | Key::Char('J') => {
-                            match settings.selected_block {
+                            match app.selected_block {
                                 Blocks::ModuleTable => {
                                     kernel_modules.scroll_list(ScrollDirection::Down)
                                 }
@@ -248,38 +248,38 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Select the next terminal block. */
                         Key::Left | Key::Char('h') | Key::Char('H') | Key::Ctrl('h') => {
-                            settings.selected_block = match settings.selected_block.prev_variant() {
+                            app.selected_block = match app.selected_block.prev_variant() {
                                 Some(v) => v,
                                 None => Blocks::max_value(),
                             }
                         }
                         /* Select the previous terminal block. */
                         Key::Right | Key::Char('l') | Key::Char('L') | Key::Ctrl('l') => {
-                            settings.selected_block = match settings.selected_block.next_variant() {
+                            app.selected_block = match app.selected_block.next_variant() {
                                 Some(v) => v,
                                 None => Blocks::min_value(),
                             }
                         }
                         /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
-                            settings.selected_block = Blocks::ModuleTable;
+                            app.selected_block = Blocks::ModuleTable;
                             kernel_modules.scroll_list(ScrollDirection::Top)
                         }
                         /* Scroll to the bottom of the module list. */
                         Key::Char('b') | Key::Char('B') => {
-                            settings.selected_block = Blocks::ModuleTable;
+                            app.selected_block = Blocks::ModuleTable;
                             kernel_modules.scroll_list(ScrollDirection::Bottom)
                         }
                         /* Scroll kernel activities up. */
                         Key::PageUp => {
-                            settings.selected_block = Blocks::Activities;
+                            app.selected_block = Blocks::Activities;
                             if kernel_logs.scroll_offset > 2 {
                                 kernel_logs.scroll_offset -= 3;
                             }
                         }
                         /* Scroll kernel activities down. */
                         Key::PageDown => {
-                            settings.selected_block = Blocks::Activities;
+                            app.selected_block = Blocks::Activities;
                             if kernel_logs.output.len() > 0 {
                                 kernel_logs.scroll_offset += 3;
                                 kernel_logs.scroll_offset %=
@@ -292,17 +292,17 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
-                            settings.selected_block = Blocks::SearchInput;
+                            app.selected_block = Blocks::SearchInput;
                             if input != Key::Char('\n') {
-                                settings.search_query = String::new();
+                                app.search_query = String::new();
                             }
                             write!(
                                 terminal.backend_mut(),
                                 "{}",
-                                termion::cursor::Goto(2 + settings.search_query.width() as u16, 2)
+                                termion::cursor::Goto(2 + app.search_query.width() as u16, 2)
                             )?;
                             terminal.show_cursor()?;
-                            settings.search_mode = true;
+                            app.search_mode = true;
                         }
                         _ => {}
                     }
@@ -320,9 +320,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         | Key::Left
                         | Key::Ctrl('h') => {
                             /* Select the next or previous block. */
-                            settings.selected_block = match input {
+                            app.selected_block = match input {
                                 Key::Left | Key::Ctrl('h') => {
-                                    match settings.selected_block.prev_variant() {
+                                    match app.selected_block.prev_variant() {
                                         Some(v) => v,
                                         None => Blocks::max_value(),
                                     }
@@ -335,16 +335,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                             /* Hide terminal cursor and set search mode flag. */
                             terminal.hide_cursor()?;
-                            settings.search_mode = false;
+                            app.search_mode = false;
                         }
                         /* Append character to search query. */
                         Key::Char(c) => {
-                            settings.search_query.push(c);
+                            app.search_query.push(c);
                             kernel_modules.index = 0;
                         }
                         /* Delete last character from search query. */
                         Key::Backspace => {
-                            settings.search_query.pop();
+                            app.search_query.pop();
                             kernel_modules.index = 0;
                         }
                         _ => {}

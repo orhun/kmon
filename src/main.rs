@@ -94,6 +94,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     .title("Search"),
                             )
                             .render(&mut f, chunks[0]);
+                        /* Kernel version. */
                         Paragraph::new([Text::raw(&kernel_logs.version)].iter())
                             .block(
                                 Block::default()

@@ -22,7 +22,6 @@ use util::parse_args;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */
-const TABLE_HEADER: [&str; 3] = ["Module", "Size", "Used by"]; /* Header of the kernel modules table */
 
 /**
  * Create a terminal instance with using termion as backend.
@@ -136,7 +135,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         });
                     /* Kernel modules table. */
-                    Table::new(TABLE_HEADER.iter(), modules.into_iter())
+                    Table::new(app.table_header.iter(), modules.into_iter())
                         .block(
                             Block::default()
                                 .title_style(app.title_style)

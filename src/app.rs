@@ -11,6 +11,7 @@ enum_unitary! {
         Activities,
     }
 }
+
 /* Terminal application struct */
 pub struct App {
     pub selected_block: Blocks,
@@ -21,6 +22,7 @@ pub struct App {
     pub selected_style: Style,
     pub unselected_style: Style,
 }
+
 /* Terminal application implementation */
 impl App {
     /**
@@ -40,6 +42,7 @@ impl App {
             unselected_style: Style::default().fg(Color::DarkGray),
         }
     }
+
     /**
      * Get style depending on the selected state of the block.
      *
@@ -64,13 +67,7 @@ mod tests {
     #[test]
     fn test_app() {
         let app = App::new(Blocks::ModuleTable);
-        assert_eq!(
-            app.selected_style,
-            app.block_style(Blocks::ModuleTable)
-        );
-        assert_eq!(
-            app.unselected_style,
-            app.block_style(Blocks::Activities)
-        );
+        assert_eq!(app.selected_style, app.block_style(Blocks::ModuleTable));
+        assert_eq!(app.unselected_style, app.block_style(Blocks::Activities));
     }
 }

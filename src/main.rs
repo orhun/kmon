@@ -2,12 +2,12 @@ mod app;
 mod event;
 mod kernel;
 mod util;
+use app::{App, Blocks};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
 use std::io::{self, Write};
-use app::{Blocks, App};
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
@@ -216,35 +216,29 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */
-                        Key::Up | Key::Char('k') | Key::Char('K') => {
-                            match app.selected_block {
-                                Blocks::ModuleTable => {
-                                    kernel_modules.scroll_list(ScrollDirection::Up)
-                                }
-                                Blocks::ModuleInfo => {
-                                    kernel_modules.scroll_mod_info(ScrollDirection::Up)
-                                }
-                                Blocks::Activities => {
-                                    events.tx.send(Event::Input(Key::PageUp)).unwrap();
-                                }
-                                _ => {}
+                        Key::Up | Key::Char('k') | Key::Char('K') => match app.selected_block {
+                            Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
+                            Blocks::ModuleInfo => {
+                                kernel_modules.scroll_mod_info(ScrollDirection::Up)
                             }
-                        }
+                            Blocks::Activities => {
+                                events.tx.send(Event::Input(Key::PageUp)).unwrap();
+                            }
+                            _ => {}
+                        },
                         /* Scroll the selected block down. */
-                        Key::Down | Key::Char('j') | Key::Char('J') => {
-                            match app.selected_block {
-                                Blocks::ModuleTable => {
-                                    kernel_modules.scroll_list(ScrollDirection::Down)
-                                }
-                                Blocks::ModuleInfo => {
-                                    kernel_modules.scroll_mod_info(ScrollDirection::Down)
-                                }
-                                Blocks::Activities => {
-                                    events.tx.send(Event::Input(Key::PageDown)).unwrap();
-                                }
-                                _ => {}
+                        Key::Down | Key::Char('j') | Key::Char('J') => match app.selected_block {
+                            Blocks::ModuleTable => {
+                                kernel_modules.scroll_list(ScrollDirection::Down)
                             }
-                        }
+                            Blocks::ModuleInfo => {
+                                kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                            }
+                            Blocks::Activities => {
+                                events.tx.send(Event::Input(Key::PageDown)).unwrap();
+                            }
+                            _ => {}
+                        },
                         /* Select the next terminal block. */
                         Key::Left | Key::Char('h') | Key::Char('H') | Key::Ctrl('h') => {
                             app.selected_block = match app.selected_block.prev_variant() {

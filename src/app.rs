@@ -128,7 +128,7 @@ impl App {
             .checked_sub(5)
             .and_then(|height| kernel_modules.index.checked_sub(height as usize))
             .unwrap_or(0);
-        let modules = kernel_module_list
+        let modules = kernel_modules.list
             .iter()
             .skip(modules_scroll_offset)
             .enumerate()

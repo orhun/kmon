@@ -71,18 +71,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 [Constraint::Percentage(60), Constraint::Percentage(40)].as_ref(),
                             )
                             .split(chunks[0]);
-                        /* Search input. */
                         app.draw_search_input(&mut f, chunks[0], &events.tx);
-                        /* Kernel version. */
                         app.draw_kernel_version(&mut f, chunks[1], &kernel_logs.version)
                     }
-                    /* Kernel modules table. */
                     app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
                 }
-                /* Module information. */
                 app.draw_module_info(&mut f, chunks[1], &mut kernel_modules);
             }
-            /* Kernel activities. */
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
         /* Set cursor position and flush stdout. */

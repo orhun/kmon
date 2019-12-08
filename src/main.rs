@@ -94,18 +94,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     .render(&mut f, chunks[1]);
             }
             /* Kernel activities. */
-            Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
-                .block(
-                    Block::default()
-                        .title_style(app.title_style)
-                        .border_style(app.block_style(Blocks::Activities))
-                        .borders(Borders::ALL)
-                        .title("Kernel Activities"),
-                )
-                .alignment(Alignment::Left)
-                .wrap(true)
-                .scroll(kernel_logs.scroll_offset)
-                .render(&mut f, chunks[1]);
+            app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
         /* Set cursor position and flush stdout. */
         if app.search_mode {

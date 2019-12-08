@@ -80,18 +80,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
                 }
                 /* Module information. */
-                Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
-                    .block(
-                        Block::default()
-                            .title_style(app.title_style)
-                            .border_style(app.block_style(Blocks::ModuleInfo))
-                            .borders(Borders::ALL)
-                            .title(&format!("Module: {}", kernel_modules.current_name)),
-                    )
-                    .alignment(Alignment::Left)
-                    .wrap(true)
-                    .scroll(kernel_modules.info_scroll_offset)
-                    .render(&mut f, chunks[1]);
+                app.draw_module_info(&mut f, chunks[1], &mut kernel_modules);
             }
             /* Kernel activities. */
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);

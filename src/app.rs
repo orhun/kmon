@@ -167,6 +167,27 @@ impl App {
             .render(frame, area);
     }
 
+    pub fn draw_module_info<B>(
+        &self,
+        frame: &mut Frame<B>,
+        area: Rect,
+        kernel_modules: &mut KernelModules,
+    ) where
+        B: Backend,
+    {
+        Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
+                    .block(
+                        Block::default()
+                            .title_style(self.title_style)
+                            .border_style(self.block_style(Blocks::ModuleInfo))
+                            .borders(Borders::ALL)
+                            .title(&format!("Module: {}", kernel_modules.current_name)),
+                    )
+                    .wrap(true)
+                    .scroll(kernel_modules.info_scroll_offset)
+                    .render(frame, area);
+    }
+
     pub fn draw_kernel_activities<B>(
         &self,
         frame: &mut Frame<B>,

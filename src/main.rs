@@ -42,9 +42,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     );
     terminal.hide_cursor()?;
     /* Set required items for the terminal widgets. */
+    let mut app = App::new(Blocks::ModuleTable);
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
-    let mut app = App::new(Blocks::ModuleTable);
     kernel_modules.scroll_list(ScrollDirection::Top);
     /* Create widgets and draw the terminal. */
     loop {
@@ -101,9 +101,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Refresh. */
                         Key::Char('r') | Key::Char('R') => {
+                            app = App::new(Blocks::ModuleTable);
                             kernel_logs.scroll_offset = 0;
                             kernel_modules = KernelModules::new(args);
-                            app = App::new(Blocks::ModuleTable);
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */

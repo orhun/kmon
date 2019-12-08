@@ -63,6 +63,14 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     }
 }
 
+/**
+ * Set cursor position in terminal.
+ *
+ * @param  out
+ * @param  x
+ * @param  y
+ * @return Result
+ */
 pub fn set_cursor_pos<W>(mut out: W, x: u16, y: u16) -> Result<(), Error>
 where
     W: Write,

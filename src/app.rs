@@ -92,14 +92,14 @@ impl App {
         B: Backend,
     {
         Paragraph::new([Text::raw(version)].iter())
-                            .block(
-                                Block::default()
-                                    .title_style(self.title_style)
-                                    .border_style(self.unselected_style)
-                                    .borders(Borders::ALL)
-                                    .title("Kernel Version"),
-                            )
-                            .render(frame, layout);
+            .block(
+                Block::default()
+                    .title_style(self.title_style)
+                    .border_style(self.unselected_style)
+                    .borders(Borders::ALL)
+                    .title("Kernel Version"),
+            )
+            .render(frame, layout);
     }
 }
 

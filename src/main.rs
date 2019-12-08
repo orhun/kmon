@@ -73,26 +73,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             )
                             .split(chunks[0]);
                         /* Search input. */
-                        Paragraph::new([Text::raw(&app.search_query)].iter())
-                            .block(
-                                Block::default()
-                                    .title_style(app.title_style)
-                                    .border_style(match app.selected_block {
-                                        Blocks::SearchInput => {
-                                            if !app.search_mode {
-                                                events
-                                                    .tx
-                                                    .send(Event::Input(Key::Char('\n')))
-                                                    .unwrap();
-                                            }
-                                            app.selected_style
-                                        }
-                                        _ => app.unselected_style,
-                                    })
-                                    .borders(Borders::ALL)
-                                    .title("Search"),
-                            )
-                            .render(&mut f, chunks[0]);
+                        app.draw_search_input(&mut f, chunks[0], &events.tx);
                         /* Kernel version. */
                         Paragraph::new([Text::raw(&kernel_logs.version)].iter())
                             .block(

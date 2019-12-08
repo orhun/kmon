@@ -1,5 +1,12 @@
+use crate::event::Event;
 use enum_unitary::enum_unitary;
+use std::sync::mpsc::Sender;
+use termion::event::Key;
+use tui::backend::Backend;
+use tui::layout::Rect;
 use tui::style::{Color, Modifier, Style};
+use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
+use tui::Frame;
 
 /* Terminal block widgets enumerator */
 enum_unitary! {
@@ -55,6 +62,29 @@ impl App {
         } else {
             self.unselected_style
         }
+    }
+
+    pub fn draw_search_input<B>(&self, frame: &mut Frame<B>, layout: Rect, tx: &Sender<Event<Key>>)
+    where
+        B: Backend,
+    {
+        Paragraph::new([Text::raw(self.search_query.to_string())].iter())
+            .block(
+                Block::default()
+                    .title_style(self.title_style)
+                    .border_style(match self.selected_block {
+                        Blocks::SearchInput => {
+                            if !self.search_mode {
+                                tx.send(Event::Input(Key::Char('\n'))).unwrap();
+                            }
+                            self.selected_style
+                        }
+                        _ => self.unselected_style,
+                    })
+                    .borders(Borders::ALL)
+                    .title("Search"),
+            )
+            .render(frame, layout);
     }
 }
 

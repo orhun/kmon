@@ -128,43 +128,47 @@ impl App {
             .checked_sub(5)
             .and_then(|height| kernel_modules.index.checked_sub(height as usize))
             .unwrap_or(0);
-        let modules = kernel_modules.list
-            .iter()
-            .skip(modules_scroll_offset)
-            .enumerate()
-            .map(|(i, item)| {
-                if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
-                    Row::StyledData(
-                        item.into_iter(),
-                        self.selected_style.modifier(Modifier::BOLD),
-                    )
-                } else {
-                    Row::StyledData(item.into_iter(), self.selected_style)
-                }
-            });
-        Table::new(self.table_header.iter(), modules.into_iter())
-            .block(
-                Block::default()
-                    .title_style(self.title_style)
-                    .border_style(self.block_style(Blocks::ModuleTable))
-                    .borders(Borders::ALL)
-                    .title(&format!(
-                        "Loaded Kernel Modules ({}/{}) [{}%]",
-                        match kernel_modules.list.len() {
-                            0 => kernel_modules.index,
-                            _ => kernel_modules.index + 1,
-                        },
-                        kernel_modules.list.len(),
-                        ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64
-                            * 100.0) as usize
-                    )),
-            )
-            .widths(&[
-                (f64::from(area.width - 3) * 0.3) as u16,
-                (f64::from(area.width - 3) * 0.2) as u16,
-                (f64::from(area.width - 3) * 0.5) as u16,
-            ])
-            .render(frame, area);
+        Table::new(
+            self.table_header.iter(),
+            kernel_modules
+                .list
+                .iter()
+                .skip(modules_scroll_offset)
+                .enumerate()
+                .map(|(i, item)| {
+                    if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
+                        Row::StyledData(
+                            item.into_iter(),
+                            self.selected_style.modifier(Modifier::BOLD),
+                        )
+                    } else {
+                        Row::StyledData(item.into_iter(), self.selected_style)
+                    }
+                })
+                .into_iter(),
+        )
+        .block(
+            Block::default()
+                .title_style(self.title_style)
+                .border_style(self.block_style(Blocks::ModuleTable))
+                .borders(Borders::ALL)
+                .title(&format!(
+                    "Loaded Kernel Modules ({}/{}) [{}%]",
+                    match kernel_modules.list.len() {
+                        0 => kernel_modules.index,
+                        _ => kernel_modules.index + 1,
+                    },
+                    kernel_modules.list.len(),
+                    ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64 * 100.0)
+                        as usize
+                )),
+        )
+        .widths(&[
+            (f64::from(area.width - 3) * 0.3) as u16,
+            (f64::from(area.width - 3) * 0.2) as u16,
+            (f64::from(area.width - 3) * 0.5) as u16,
+        ])
+        .render(frame, area);
     }
 
     pub fn draw_module_info<B>(

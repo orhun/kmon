@@ -86,6 +86,21 @@ impl App {
             )
             .render(frame, layout);
     }
+
+    pub fn draw_kernel_version<B>(&self, frame: &mut Frame<B>, layout: Rect, version: &str)
+    where
+        B: Backend,
+    {
+        Paragraph::new([Text::raw(version)].iter())
+                            .block(
+                                Block::default()
+                                    .title_style(self.title_style)
+                                    .border_style(self.unselected_style)
+                                    .borders(Borders::ALL)
+                                    .title("Kernel Version"),
+                            )
+                            .render(frame, layout);
+    }
 }
 
 /**

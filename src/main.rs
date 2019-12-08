@@ -75,15 +75,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Search input. */
                         app.draw_search_input(&mut f, chunks[0], &events.tx);
                         /* Kernel version. */
-                        Paragraph::new([Text::raw(&kernel_logs.version)].iter())
-                            .block(
-                                Block::default()
-                                    .title_style(app.title_style)
-                                    .border_style(app.unselected_style)
-                                    .borders(Borders::ALL)
-                                    .title("Kernel Version"),
-                            )
-                            .render(&mut f, chunks[1]);
+                        app.draw_kernel_version(&mut f, chunks[1], &kernel_logs.version)
                     }
                     /* Filter the module list depending on the search query. */
                     let mut kernel_module_list = kernel_modules.default_list.clone();

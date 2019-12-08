@@ -65,7 +65,7 @@ impl App {
         }
     }
 
-    pub fn draw_search_input<B>(&self, frame: &mut Frame<B>, layout: Rect, tx: &Sender<Event<Key>>)
+    pub fn draw_search_input<B>(&self, frame: &mut Frame<B>, area: Rect, tx: &Sender<Event<Key>>)
     where
         B: Backend,
     {
@@ -85,10 +85,10 @@ impl App {
                     .borders(Borders::ALL)
                     .title("Search"),
             )
-            .render(frame, layout);
+            .render(frame, area);
     }
 
-    pub fn draw_kernel_version<B>(&self, frame: &mut Frame<B>, layout: Rect, version: &str)
+    pub fn draw_kernel_version<B>(&self, frame: &mut Frame<B>, area: Rect, version: &str)
     where
         B: Backend,
     {
@@ -100,13 +100,13 @@ impl App {
                     .borders(Borders::ALL)
                     .title("Kernel Version"),
             )
-            .render(frame, layout);
+            .render(frame, area);
     }
 
     pub fn draw_kernel_modules<B>(
         &self,
         frame: &mut Frame<B>,
-        layout: Rect,
+        area: Rect,
         kernel_modules: &mut KernelModules,
     ) where
         B: Backend,
@@ -122,7 +122,7 @@ impl App {
         }
         kernel_modules.list = kernel_module_list.clone();
         /* Set selected and scroll state of the modules. */
-        let modules_scroll_offset = layout
+        let modules_scroll_offset = area
             .height
             .checked_sub(5)
             .and_then(|height| kernel_modules.index.checked_sub(height as usize))
@@ -159,11 +159,11 @@ impl App {
                     )),
             )
             .widths(&[
-                (f64::from(layout.width - 3) * 0.3) as u16,
-                (f64::from(layout.width - 3) * 0.2) as u16,
-                (f64::from(layout.width - 3) * 0.5) as u16,
+                (f64::from(area.width - 3) * 0.3) as u16,
+                (f64::from(area.width - 3) * 0.2) as u16,
+                (f64::from(area.width - 3) * 0.5) as u16,
             ])
-            .render(frame, layout);
+            .render(frame, area);
     }
 }
 

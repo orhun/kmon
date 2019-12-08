@@ -1,6 +1,6 @@
 use crate::event::Event;
-use crate::kernel::module::KernelModules;
 use crate::kernel::log::KernelLogs;
+use crate::kernel::module::KernelModules;
 use enum_unitary::enum_unitary;
 use std::sync::mpsc::Sender;
 use termion::event::Key;
@@ -167,21 +167,25 @@ impl App {
             .render(frame, area);
     }
 
-     pub fn draw_kernel_activities<B>(&self, frame: &mut Frame<B>, area: Rect, kernel_logs: &mut KernelLogs)
-    where
+    pub fn draw_kernel_activities<B>(
+        &self,
+        frame: &mut Frame<B>,
+        area: Rect,
+        kernel_logs: &mut KernelLogs,
+    ) where
         B: Backend,
     {
         Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
-                .block(
-                    Block::default()
-                        .title_style(self.title_style)
-                        .border_style(self.block_style(Blocks::Activities))
-                        .borders(Borders::ALL)
-                        .title("Kernel Activities"),
-                )
-                .wrap(true)
-                .scroll(kernel_logs.scroll_offset)
-                .render(frame, area);
+            .block(
+                Block::default()
+                    .title_style(self.title_style)
+                    .border_style(self.block_style(Blocks::Activities))
+                    .borders(Borders::ALL)
+                    .title("Kernel Activities"),
+            )
+            .wrap(true)
+            .scroll(kernel_logs.scroll_offset)
+            .render(frame, area);
     }
 }
 

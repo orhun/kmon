@@ -121,7 +121,7 @@ impl App {
                     .contains(&self.search_query.to_lowercase())
             });
         }
-        kernel_modules.list = kernel_module_list.clone();
+        kernel_modules.list = kernel_module_list;
         /* Set selected and scroll state of the modules. */
         let modules_scroll_offset = area
             .height

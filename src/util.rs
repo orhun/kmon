@@ -1,8 +1,9 @@
 use clap::App;
 use clap::Arg;
 use clap::SubCommand;
-use std::io::{self, Write};
+use std::io::{stderr, stdout, Error, Write};
 use std::process::Command;
+use termion::cursor::Goto;
 
 /**
  * Parse command line arguments using 'clap'.
@@ -52,7 +53,7 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
         .output()
         .expect("failed to execute command");
     /* Write error output to stderr stream. */
-    io::stderr().write_all(&output.stderr).unwrap();
+    stderr().write_all(&output.stderr).unwrap();
     if output.status.success() {
         Ok((String::from_utf8(output.stdout).expect("not UTF-8"))
             .trim_end()
@@ -60,6 +61,15 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
     } else {
         Err(format!("{} {}", cmd, cmd_args.join(" ")))
     }
+}
+
+pub fn set_cursor_pos<W>(mut out: W, x: u16, y: u16) -> Result<(), Error>
+where
+    W: Write,
+{
+    write!(out, "{}", Goto(x, y))?;
+    stdout().flush().ok();
+    Ok(())
 }
 
 /**

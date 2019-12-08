@@ -7,7 +7,7 @@ use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
 use kernel::module::{KernelModules, ScrollDirection};
-use std::io::{self, Write};
+use std::io::stdout;
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
@@ -16,7 +16,6 @@ use tui::backend::TermionBackend;
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
-use util::parse_args;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */
@@ -29,7 +28,7 @@ const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the termina
  */
 fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     /* Configure the terminal. */
-    let stdout = io::stdout().into_raw_mode()?;
+    let stdout = stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
     let stdout = AlternateScreen::from(stdout);
     let backend = TermionBackend::new(stdout);
@@ -81,12 +80,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         })?;
         /* Set cursor position and flush stdout. */
         if app.search_mode {
-            write!(
+            util::set_cursor_pos(
                 terminal.backend_mut(),
-                "{}",
-                termion::cursor::Goto(2 + app.search_query.width() as u16, 2)
+                2 + app.search_query.width() as u16,
+                2,
             )?;
-            io::stdout().flush().ok();
         }
         /* Handle terminal events. */
         match events.rx.recv()? {
@@ -180,10 +178,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             if input != Key::Char('\n') {
                                 app.search_query = String::new();
                             }
-                            write!(
+                            util::set_cursor_pos(
                                 terminal.backend_mut(),
-                                "{}",
-                                termion::cursor::Goto(2 + app.search_query.width() as u16, 2)
+                                2 + app.search_query.width() as u16,
+                                2,
                             )?;
                             terminal.show_cursor()?;
                             app.search_mode = true;
@@ -249,6 +247,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
  * Entry point.
  */
 fn main() {
-    let matches = parse_args(VERSION);
+    let matches = util::parse_args(VERSION);
     create_term(&matches).expect("failed to create terminal");
 }

@@ -45,7 +45,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
     let mut kernel_logs = KernelLogs::new();
     let mut kernel_modules = KernelModules::new(args);
     kernel_modules.scroll_list(ScrollDirection::Top);
-    /* Create widgets and draw the terminal. */
+    /* Draw terminal and render the widgets. */
     loop {
         terminal.draw(|mut f| {
             let chunks = Layout::default()
@@ -78,7 +78,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             }
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
-        /* Set cursor position and flush stdout. */
+        /* Set cursor position if the search mode flag is set. */
         if app.search_mode {
             util::set_cursor_pos(
                 terminal.backend_mut(),

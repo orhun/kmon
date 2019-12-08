@@ -1,11 +1,12 @@
 use crate::event::Event;
+use crate::kernel::module::KernelModules;
 use enum_unitary::enum_unitary;
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Color, Modifier, Style};
-use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
+use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
 /* Terminal block widgets enumerator */
@@ -99,6 +100,69 @@ impl App {
                     .borders(Borders::ALL)
                     .title("Kernel Version"),
             )
+            .render(frame, layout);
+    }
+
+    pub fn draw_kernel_modules<B>(
+        &self,
+        frame: &mut Frame<B>,
+        layout: Rect,
+        kernel_modules: &mut KernelModules,
+    ) where
+        B: Backend,
+    {
+        /* Filter the module list depending on the search query. */
+        let mut kernel_module_list = kernel_modules.default_list.clone();
+        if self.search_query.len() > 0 {
+            kernel_module_list.retain(|module| {
+                module[0]
+                    .to_lowercase()
+                    .contains(&self.search_query.to_lowercase())
+            });
+        }
+        kernel_modules.list = kernel_module_list.clone();
+        /* Set selected and scroll state of the modules. */
+        let modules_scroll_offset = layout
+            .height
+            .checked_sub(5)
+            .and_then(|height| kernel_modules.index.checked_sub(height as usize))
+            .unwrap_or(0);
+        let modules = kernel_module_list
+            .iter()
+            .skip(modules_scroll_offset)
+            .enumerate()
+            .map(|(i, item)| {
+                if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
+                    Row::StyledData(
+                        item.into_iter(),
+                        self.selected_style.modifier(Modifier::BOLD),
+                    )
+                } else {
+                    Row::StyledData(item.into_iter(), self.selected_style)
+                }
+            });
+        Table::new(self.table_header.iter(), modules.into_iter())
+            .block(
+                Block::default()
+                    .title_style(self.title_style)
+                    .border_style(self.block_style(Blocks::ModuleTable))
+                    .borders(Borders::ALL)
+                    .title(&format!(
+                        "Loaded Kernel Modules ({}/{}) [{}%]",
+                        match kernel_modules.list.len() {
+                            0 => kernel_modules.index,
+                            _ => kernel_modules.index + 1,
+                        },
+                        kernel_modules.list.len(),
+                        ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64
+                            * 100.0) as usize
+                    )),
+            )
+            .widths(&[
+                (f64::from(layout.width - 3) * 0.3) as u16,
+                (f64::from(layout.width - 3) * 0.2) as u16,
+                (f64::from(layout.width - 3) * 0.5) as u16,
+            ])
             .render(frame, layout);
     }
 }

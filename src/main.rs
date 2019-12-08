@@ -14,8 +14,7 @@ use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
 use tui::backend::TermionBackend;
 use tui::layout::{Alignment, Constraint, Direction, Layout};
-use tui::style::Modifier;
-use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
+use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 use util::parse_args;
@@ -77,61 +76,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Kernel version. */
                         app.draw_kernel_version(&mut f, chunks[1], &kernel_logs.version)
                     }
-                    /* Filter the module list depending on the search query. */
-                    let mut kernel_module_list = kernel_modules.default_list.clone();
-                    if app.search_query.len() > 0 {
-                        kernel_module_list.retain(|module| {
-                            module[0]
-                                .to_lowercase()
-                                .contains(&app.search_query.to_lowercase())
-                        });
-                    }
-                    kernel_modules.list = kernel_module_list.clone();
-                    /* Set selected and scroll state of the modules. */
-                    let modules_scroll_offset = chunks[1]
-                        .height
-                        .checked_sub(5)
-                        .and_then(|height| kernel_modules.index.checked_sub(height as usize))
-                        .unwrap_or(0);
-                    let modules = kernel_module_list
-                        .iter()
-                        .skip(modules_scroll_offset)
-                        .enumerate()
-                        .map(|(i, item)| {
-                            if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
-                                Row::StyledData(
-                                    item.into_iter(),
-                                    app.selected_style.modifier(Modifier::BOLD),
-                                )
-                            } else {
-                                Row::StyledData(item.into_iter(), app.selected_style)
-                            }
-                        });
                     /* Kernel modules table. */
-                    Table::new(app.table_header.iter(), modules.into_iter())
-                        .block(
-                            Block::default()
-                                .title_style(app.title_style)
-                                .border_style(app.block_style(Blocks::ModuleTable))
-                                .borders(Borders::ALL)
-                                .title(&format!(
-                                    "Loaded Kernel Modules ({}/{}) [{}%]",
-                                    match kernel_modules.list.len() {
-                                        0 => kernel_modules.index,
-                                        _ => kernel_modules.index + 1,
-                                    },
-                                    kernel_modules.list.len(),
-                                    ((kernel_modules.index + 1) as f64
-                                        / kernel_modules.list.len() as f64
-                                        * 100.0) as usize
-                                )),
-                        )
-                        .widths(&[
-                            (f64::from(chunks[1].width - 3) * 0.3) as u16,
-                            (f64::from(chunks[1].width - 3) * 0.2) as u16,
-                            (f64::from(chunks[1].width - 3) * 0.5) as u16,
-                        ])
-                        .render(&mut f, chunks[1]);
+                    app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
                 }
                 /* Module information. */
                 Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())

@@ -1,2 +1,2 @@
-pub mod krb; /* Kernel ring buffer */
-pub mod lkm; /* Loadable kernel module */
+pub mod log; /* Kernel activity logs */
+pub mod lkm; /* Loadable kernel modules */

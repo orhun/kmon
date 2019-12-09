@@ -1,6 +1,6 @@
 use crate::util::exec_cmd;
 
-/* Kernel ring buffer */
+/* Kernel activity logs */
 pub struct KernelLogs {
     pub output: String,
     last_line: String,

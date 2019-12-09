@@ -5,7 +5,7 @@ mod util;
 use app::{App, Blocks};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
-use kernel::krb::KernelLogs;
+use kernel::log::KernelLogs;
 use kernel::lkm::KernelModules;
 use std::io::stdout;
 use termion::event::Key;

@@ -1,5 +1,5 @@
 use crate::event::Event;
-use crate::kernel::krb::KernelLogs;
+use crate::kernel::log::KernelLogs;
 use crate::kernel::lkm::KernelModules;
 use enum_unitary::enum_unitary;
 use std::sync::mpsc::Sender;

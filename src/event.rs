@@ -6,14 +6,12 @@ use std::time::Duration;
 use termion::event::Key;
 use termion::input::TermRead;
 
-/* Terminal events enumerator */
 pub enum Event<I> {
     Input(I),
     Kernel(String),
     Tick,
 }
 
-/* Terminal events struct */
 #[allow(dead_code)]
 pub struct Events {
     pub tx: mpsc::Sender<Event<Key>>,
@@ -23,7 +21,6 @@ pub struct Events {
     tick_handler: thread::JoinHandle<()>,
 }
 
-/* Terminal events implementation */
 impl Events {
     /**
      * Create a new events instance.
@@ -84,9 +81,6 @@ impl Events {
     }
 }
 
-/**
- * Unit tests.
- */
 #[cfg(test)]
 mod tests {
     use super::*;

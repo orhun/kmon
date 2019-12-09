@@ -6,8 +6,9 @@ use std::process::Command;
 use termion::cursor::Goto;
 
 /**
- * Parse command line arguments using 'clap'.
+ * Parse command line arguments using clap.
  *
+ * @param  version
  * @return ArgMatches
  */
 pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
@@ -80,9 +81,6 @@ where
     Ok(())
 }
 
-/**
- * Unit tests.
- */
 #[cfg(test)]
 mod tests {
     use super::*;

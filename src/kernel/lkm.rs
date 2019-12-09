@@ -1,7 +1,7 @@
 use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
 
-/* Loaded kernel modules */
+/* Loadable kernel modules */
 pub struct KernelModules {
     pub default_list: Vec<Vec<String>>,
     pub list: Vec<Vec<String>>,

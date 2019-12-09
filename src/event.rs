@@ -6,12 +6,14 @@ use std::time::Duration;
 use termion::event::Key;
 use termion::input::TermRead;
 
+/* Terminal event methods */
 pub enum Event<I> {
     Input(I),
     Kernel(String),
     Tick,
 }
 
+/* Terminal events */
 #[allow(dead_code)]
 pub struct Events {
     pub tx: mpsc::Sender<Event<Key>>,

@@ -1,4 +1,4 @@
-use crate::kernel::log::KernelLogs;
+use crate::kernel::krb::KernelLogs;
 use std::io;
 use std::sync::mpsc;
 use std::thread;

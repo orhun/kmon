@@ -1,7 +1,7 @@
 use crate::util::exec_cmd;
 use bytesize::ByteSize;
 
-/* Scrolling directions enumerator */
+/* Supported directions of scrolling */
 pub enum ScrollDirection {
     Up,
     Down,
@@ -9,7 +9,7 @@ pub enum ScrollDirection {
     Bottom,
 }
 
-/* Kernel modules struct */
+/* Loaded kernel modules */
 pub struct KernelModules {
     pub default_list: Vec<Vec<String>>,
     pub list: Vec<Vec<String>>,
@@ -19,7 +19,6 @@ pub struct KernelModules {
     pub info_scroll_offset: u16,
 }
 
-/* Kernel modules implementation */
 impl KernelModules {
     /**
      * Create a new kernel modules instance.
@@ -29,7 +28,7 @@ impl KernelModules {
      */
     pub fn new(args: &clap::ArgMatches) -> Self {
         let mut module_list: Vec<Vec<String>> = Vec::new();
-        /* Set the command for reading kernel modules and execute. */
+        /* Set the command for reading kernel modules and execute it. */
         let mut module_read_cmd = String::from("cat /proc/modules");
         if let Some(matches) = args.subcommand_matches("sort") {
             if matches.is_present("size") {
@@ -134,9 +133,6 @@ impl KernelModules {
     }
 }
 
-/**
- * Unit tests.
- */
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,13 +1,5 @@
-use crate::util::exec_cmd;
+use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
-
-/* Supported directions of scrolling */
-pub enum ScrollDirection {
-    Up,
-    Down,
-    Top,
-    Bottom,
-}
 
 /* Loaded kernel modules */
 pub struct KernelModules {

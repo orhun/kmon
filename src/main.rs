@@ -6,7 +6,7 @@ use app::{App, Blocks};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::krb::KernelLogs;
-use kernel::lkm::{KernelModules, ScrollDirection};
+use kernel::lkm::KernelModules;
 use std::io::stdout;
 use termion::event::Key;
 use termion::input::MouseTerminal;
@@ -16,6 +16,7 @@ use tui::backend::TermionBackend;
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
+use util::ScrollDirection;
 
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */

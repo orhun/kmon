@@ -1,6 +1,5 @@
 use crate::util::exec_cmd;
 
-/* Kernel logs struct */
 pub struct KernelLogs {
     pub output: String,
     last_line: String,
@@ -8,7 +7,6 @@ pub struct KernelLogs {
     pub scroll_offset: u16,
 }
 
-/* Kernel logs implementation */
 impl KernelLogs {
     /**
      * Create a new kernel logs instance.
@@ -38,9 +36,6 @@ impl KernelLogs {
     }
 }
 
-/**
- * Unit tests.
- */
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -10,7 +10,6 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
-/* Terminal block widgets enumerator */
 enum_unitary! {
     #[derive(PartialEq)]
     pub enum Blocks {
@@ -21,7 +20,6 @@ enum_unitary! {
     }
 }
 
-/* Terminal application struct */
 pub struct App {
     pub selected_block: Blocks,
     pub search_mode: bool,
@@ -32,7 +30,6 @@ pub struct App {
     pub unselected_style: Style,
 }
 
-/* Terminal application implementation */
 impl App {
     /**
      * Create a new app instance.
@@ -66,6 +63,13 @@ impl App {
         }
     }
 
+    /**
+     * Draw a paragraph widget for using as search input.
+     *
+     * @param frame
+     * @param area
+     * @param tx
+     */
     pub fn draw_search_input<B>(&self, frame: &mut Frame<B>, area: Rect, tx: &Sender<Event<Key>>)
     where
         B: Backend,
@@ -89,6 +93,13 @@ impl App {
             .render(frame, area);
     }
 
+    /**
+     * Draw a paragraph widget for showing the kernel version.
+     *
+     * @param frame
+     * @param area
+     * @param version
+     */
     pub fn draw_kernel_version<B>(&self, frame: &mut Frame<B>, area: Rect, version: &str)
     where
         B: Backend,
@@ -104,6 +115,13 @@ impl App {
             .render(frame, area);
     }
 
+    /**
+     * Configure and draw kernel modules table.
+     *
+     * @param frame
+     * @param area
+     * @param kernel_modules
+     */
     pub fn draw_kernel_modules<B>(
         &self,
         frame: &mut Frame<B>,
@@ -122,12 +140,13 @@ impl App {
             });
         }
         kernel_modules.list = kernel_module_list;
-        /* Set selected and scroll state of the modules. */
+        /* Set the scroll offset for modules. */
         let modules_scroll_offset = area
             .height
             .checked_sub(5)
             .and_then(|height| kernel_modules.index.checked_sub(height as usize))
             .unwrap_or(0);
+        /* Set selected state of the modules and render the table widget. */
         Table::new(
             self.table_header.iter(),
             kernel_modules
@@ -171,6 +190,13 @@ impl App {
         .render(frame, area);
     }
 
+    /**
+     * Draw a paragraph widget for showing module information.
+     *
+     * @param frame
+     * @param area
+     * @param kernel_modules
+     */
     pub fn draw_module_info<B>(
         &self,
         frame: &mut Frame<B>,
@@ -192,6 +218,13 @@ impl App {
             .render(frame, area);
     }
 
+    /**
+     * Draw a paragraph widget for showing kernel activities.
+     *
+     * @param frame
+     * @param area
+     * @param kernel_logs
+     */
     pub fn draw_kernel_activities<B>(
         &self,
         frame: &mut Frame<B>,
@@ -214,9 +247,6 @@ impl App {
     }
 }
 
-/**
- * Unit tests.
- */
 #[cfg(test)]
 mod tests {
     use super::*;

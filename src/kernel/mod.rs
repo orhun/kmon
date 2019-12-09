@@ -1,2 +1,2 @@
 pub mod log;
-pub mod module;
+pub mod lkm;

@@ -6,7 +6,7 @@ use app::{App, Blocks};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::log::KernelLogs;
-use kernel::module::{KernelModules, ScrollDirection};
+use kernel::lkm::{KernelModules, ScrollDirection};
 use std::io::stdout;
 use termion::event::Key;
 use termion::input::MouseTerminal;

@@ -1,6 +1,6 @@
 use crate::event::Event;
 use crate::kernel::log::KernelLogs;
-use crate::kernel::module::KernelModules;
+use crate::kernel::lkm::KernelModules;
 use enum_unitary::enum_unitary;
 use std::sync::mpsc::Sender;
 use termion::event::Key;

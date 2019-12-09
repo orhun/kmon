@@ -10,6 +10,7 @@ use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
+/* Main blocks of the terminal */
 enum_unitary! {
     #[derive(PartialEq)]
     pub enum Blocks {
@@ -20,6 +21,7 @@ enum_unitary! {
     }
 }
 
+/* Application settings and related methods  */
 pub struct App {
     pub selected_block: Blocks,
     pub search_mode: bool,

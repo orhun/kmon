@@ -77,7 +77,8 @@ impl KernelModules {
                 .next()
                 .unwrap()
                 .to_string();
-            self.current_info = exec_cmd("modinfo", &[&self.current_name]).unwrap_or(String::from("failed to retrieve module information"));
+            self.current_info = exec_cmd("modinfo", &[&self.current_name])
+                .unwrap_or(String::from("failed to retrieve module information"));
         }
     }
 

@@ -62,11 +62,13 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
         .output()
         .expect("failed to execute command");
     if output.status.success() {
-        Ok(String::from_utf8(output.stdout).expect("not UTF-8")
+        Ok(String::from_utf8(output.stdout)
+            .expect("not UTF-8")
             .trim_end()
             .to_string())
     } else {
-        Err(String::from_utf8(output.stderr).expect("not UTF-8")
+        Err(String::from_utf8(output.stderr)
+            .expect("not UTF-8")
             .trim_end()
             .to_string())
     }

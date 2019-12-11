@@ -72,7 +72,7 @@ impl App {
      * @param area
      * @param tx
      */
-    pub fn draw_search_input<B>(&self, frame: &mut Frame<B>, area: Rect, tx: &Sender<Event<Key>>)
+    pub fn draw_user_input<B>(&self, frame: &mut Frame<B>, area: Rect, tx: &Sender<Event<Key>>)
     where
         B: Backend,
     {

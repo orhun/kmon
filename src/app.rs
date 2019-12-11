@@ -25,7 +25,7 @@ enum_unitary! {
 pub struct App {
     pub selected_block: Blocks,
     pub input_mode: bool,
-    pub search_query: String,
+    pub input_query: String,
     pub table_header: [&'static str; 3],
     pub title_style: Style,
     pub selected_style: Style,
@@ -43,7 +43,7 @@ impl App {
         Self {
             selected_block: block,
             input_mode: false,
-            search_query: String::new(),
+            input_query: String::new(),
             table_header: ["Module", "Size", "Used by"],
             title_style: Style::default().modifier(Modifier::BOLD),
             selected_style: Style::default().fg(Color::White),
@@ -76,7 +76,7 @@ impl App {
     where
         B: Backend,
     {
-        Paragraph::new([Text::raw(self.search_query.to_string())].iter())
+        Paragraph::new([Text::raw(self.input_query.to_string())].iter())
             .block(
                 Block::default()
                     .title_style(self.title_style)
@@ -134,11 +134,11 @@ impl App {
     {
         /* Filter the module list depending on the search query. */
         let mut kernel_module_list = kernel_modules.default_list.clone();
-        if self.search_query.len() > 0 {
+        if self.input_query.len() > 0 {
             kernel_module_list.retain(|module| {
                 module[0]
                     .to_lowercase()
-                    .contains(&self.search_query.to_lowercase())
+                    .contains(&self.input_query.to_lowercase())
             });
         }
         kernel_modules.list = kernel_module_list;

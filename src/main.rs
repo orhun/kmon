@@ -79,11 +79,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             }
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
-        /* Set cursor position if the search mode flag is set. */
+        /* Set cursor position if the input mode flag is set. */
         if app.input_mode {
             util::set_cursor_pos(
                 terminal.backend_mut(),
-                2 + app.search_query.width() as u16,
+                2 + app.input_query.width() as u16,
                 2,
             )?;
         }
@@ -211,15 +211,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 kernel_modules.current_cmd = String::new();
                             }
                         }
-                        /* Search in modules. */
+                        /* User input mode. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             app.selected_block = Blocks::SearchInput;
                             if input != Key::Char('\n') {
-                                app.search_query = String::new();
+                                app.input_query = String::new();
                             }
                             util::set_cursor_pos(
                                 terminal.backend_mut(),
-                                2 + app.search_query.width() as u16,
+                                2 + app.input_query.width() as u16,
                                 2,
                             )?;
                             terminal.show_cursor()?;
@@ -228,13 +228,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         _ => {}
                     }
                 } else {
-                    /* Search mode. */
+                    /* User input mode. */
                     match input {
                         /* Quit with ctrl+key combinations. */
                         Key::Ctrl('c') | Key::Ctrl('d') => {
                             break;
                         }
-                        /* Exit search mode. */
+                        /* Exit user input mode. */
                         Key::Char('\n')
                         | Key::Right
                         | Key::Ctrl('l')
@@ -254,18 +254,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             if kernel_modules.index == 0 {
                                 kernel_modules.scroll_list(ScrollDirection::Top);
                             }
-                            /* Hide terminal cursor and set search mode flag. */
+                            /* Hide terminal cursor and set the input mode flag. */
                             terminal.hide_cursor()?;
                             app.input_mode = false;
                         }
-                        /* Append character to search query. */
+                        /* Append character to input query. */
                         Key::Char(c) => {
-                            app.search_query.push(c);
+                            app.input_query.push(c);
                             kernel_modules.index = 0;
                         }
-                        /* Delete last character from search query. */
+                        /* Delete the last character from input query. */
                         Key::Backspace => {
-                            app.search_query.pop();
+                            app.input_query.pop();
                             kernel_modules.index = 0;
                         }
                         _ => {}

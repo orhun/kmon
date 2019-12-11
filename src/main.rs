@@ -176,6 +176,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
                             kernel_modules.current_cmd = format!("modprobe -r {}", kernel_modules.current_name);
+                            kernel_modules.current_info = format!("\nExecute the following command? [y/N]:
+                                ┌─{}─┐
+                                │ {} │
+                                └─{}─┘", "─".repeat(kernel_modules.current_cmd.len()), kernel_modules.current_cmd,
+                                "─".repeat(kernel_modules.current_cmd.len()));
                         }
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {

@@ -175,6 +175,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
+                            kernel_modules.current_cmd = format!("modprobe -r {}", kernel_modules.current_name);
                         }
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {

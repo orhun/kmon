@@ -7,6 +7,7 @@ pub struct KernelModules {
     pub list: Vec<Vec<String>>,
     pub current_name: String,
     pub current_info: String,
+    pub current_cmd: String,
     pub index: usize,
     pub info_scroll_offset: u16,
 }
@@ -51,6 +52,7 @@ impl KernelModules {
             list: module_list,
             current_name: String::new(),
             current_info: String::new(),
+            current_cmd: String::new(),
             index: 0,
             info_scroll_offset: 0,
         }

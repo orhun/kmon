@@ -80,7 +80,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
         /* Set cursor position if the input mode flag is set. */
-        if app.input_mode != InputMode::None {
+        if !app.input_mode.is_none() {
             util::set_cursor_pos(
                 terminal.backend_mut(),
                 2 + app.input_query.width() as u16,
@@ -91,7 +91,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
-                if app.input_mode == InputMode::None {
+                if app.input_mode.is_none() {
                     /* Default input mode. */
                     match input {
                         /* Quit. */

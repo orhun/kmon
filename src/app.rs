@@ -29,6 +29,12 @@ pub enum InputMode {
     Load,
 }
 
+impl InputMode {
+    pub fn is_none(&self) -> bool {
+        self == &Self::None
+    }
+}
+
 /* Application settings and related methods  */
 pub struct App {
     pub selected_block: Blocks,
@@ -90,7 +96,7 @@ impl App {
                     .title_style(self.title_style)
                     .border_style(match self.selected_block {
                         Blocks::UserInput => {
-                            if self.input_mode == InputMode::None {
+                            if self.input_mode.is_none() {
                                 tx.send(Event::Input(Key::Char('\n'))).unwrap();
                             }
                             self.selected_style

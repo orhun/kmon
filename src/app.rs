@@ -36,17 +36,17 @@ impl InputMode {
 }
 
 /* Application settings and related methods  */
-pub struct App {
+pub struct App<'a> {
     pub selected_block: Blocks,
     pub input_mode: InputMode,
     pub input_query: String,
-    pub table_header: [&'static str; 3],
+    pub table_header: [&'a str; 3],
     pub title_style: Style,
     pub selected_style: Style,
     pub unselected_style: Style,
 }
 
-impl App {
+impl App<'_> {
     /**
      * Create a new app instance.
      *

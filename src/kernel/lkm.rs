@@ -95,6 +95,9 @@ impl KernelModules<'_> {
                 .to_string();
             self.current_info = exec_cmd("modinfo", &[&self.current_name])
                 .unwrap_or(String::from("failed to retrieve module information"));
+            if !self.current_cmd.is_empty() {
+                self.current_cmd = String::new();
+            }
         }
     }
 

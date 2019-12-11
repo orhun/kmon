@@ -24,7 +24,7 @@ enum_unitary! {
 /* Application settings and related methods  */
 pub struct App {
     pub selected_block: Blocks,
-    pub search_mode: bool,
+    pub input_mode: bool,
     pub search_query: String,
     pub table_header: [&'static str; 3],
     pub title_style: Style,
@@ -42,7 +42,7 @@ impl App {
     pub fn new(block: Blocks) -> Self {
         Self {
             selected_block: block,
-            search_mode: false,
+            input_mode: false,
             search_query: String::new(),
             table_header: ["Module", "Size", "Used by"],
             title_style: Style::default().modifier(Modifier::BOLD),
@@ -82,7 +82,7 @@ impl App {
                     .title_style(self.title_style)
                     .border_style(match self.selected_block {
                         Blocks::SearchInput => {
-                            if !self.search_mode {
+                            if !self.input_mode {
                                 tx.send(Event::Input(Key::Char('\n'))).unwrap();
                             }
                             self.selected_style

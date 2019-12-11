@@ -80,7 +80,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
         /* Set cursor position if the search mode flag is set. */
-        if app.search_mode {
+        if app.input_mode {
             util::set_cursor_pos(
                 terminal.backend_mut(),
                 2 + app.search_query.width() as u16,
@@ -91,7 +91,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
-                if !app.search_mode {
+                if !app.input_mode {
                     /* Default input mode. */
                     match input {
                         /* Quit. */
@@ -223,7 +223,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 2,
                             )?;
                             terminal.show_cursor()?;
-                            app.search_mode = true;
+                            app.input_mode = true;
                         }
                         _ => {}
                     }
@@ -256,7 +256,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                             /* Hide terminal cursor and set search mode flag. */
                             terminal.hide_cursor()?;
-                            app.search_mode = false;
+                            app.input_mode = false;
                         }
                         /* Append character to search query. */
                         Key::Char(c) => {

@@ -213,7 +213,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* User input mode. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
-                            app.selected_block = Blocks::SearchInput;
+                            app.selected_block = Blocks::UserInput;
                             if input != Key::Char('\n') {
                                 app.input_query = String::new();
                             }

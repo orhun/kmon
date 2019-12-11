@@ -14,7 +14,7 @@ use tui::Frame;
 enum_unitary! {
     #[derive(PartialEq)]
     pub enum Blocks {
-        SearchInput,
+        UserInput,
         ModuleTable,
         ModuleInfo,
         Activities,
@@ -81,7 +81,7 @@ impl App {
                 Block::default()
                     .title_style(self.title_style)
                     .border_style(match self.selected_block {
-                        Blocks::SearchInput => {
+                        Blocks::UserInput => {
                             if !self.input_mode {
                                 tx.send(Event::Input(Key::Char('\n'))).unwrap();
                             }

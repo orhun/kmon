@@ -175,21 +175,32 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
-                            kernel_modules.current_cmd = format!("{} {}", kernel_modules.remove_cmd[0], kernel_modules.current_name);
-                            kernel_modules.current_info = format!("\nExecute the following command? [y/N]:
+                            kernel_modules.current_cmd = format!(
+                                "{} {}",
+                                kernel_modules.remove_cmd[0], kernel_modules.current_name
+                            );
+                            kernel_modules.current_info = format!(
+                                "\nExecute the following command? [y/N]:
                                 ┌─{}─┐
                                 │ {} │
                                 └─{}─┘\n\n{}",
-                                "─".repeat(kernel_modules.current_cmd.len()), kernel_modules.current_cmd,
                                 "─".repeat(kernel_modules.current_cmd.len()),
-                                kernel_modules.remove_cmd[1]);
+                                kernel_modules.current_cmd,
+                                "─".repeat(kernel_modules.current_cmd.len()),
+                                kernel_modules.remove_cmd[1]
+                            );
                         }
                         /* Execute the current command. */
                         Key::Char('y') | Key::Char('Y') => {
                             if !kernel_modules.current_cmd.is_empty() {
                                 match util::exec_cmd("sh", &["-c", &kernel_modules.current_cmd]) {
                                     Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
-                                    Err(e) => kernel_modules.current_info = format!("\nFailed to execute command: {}\n\n{}",kernel_modules.current_cmd, e),
+                                    Err(e) => {
+                                        kernel_modules.current_info = format!(
+                                            "\nFailed to execute command: {}\n\n{}",
+                                            kernel_modules.current_cmd, e
+                                        )
+                                    }
                                 }
                                 kernel_modules.current_cmd = String::new();
                             }

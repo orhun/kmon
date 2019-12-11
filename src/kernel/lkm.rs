@@ -8,7 +8,7 @@ pub struct KernelModules<'a> {
     pub current_name: String,
     pub current_info: String,
     pub current_cmd: String,
-    pub remove_cmd: &'a[&'a str],
+    pub remove_cmd: &'a [&'a str],
     pub index: usize,
     pub info_scroll_offset: u16,
 }
@@ -54,7 +54,9 @@ impl KernelModules<'_> {
             current_name: String::new(),
             current_info: String::new(),
             current_cmd: String::new(),
-            remove_cmd: &["modprobe -r", "modprobe: Add and remove modules from the Linux Kernel
+            remove_cmd: &[
+                "modprobe -r",
+                "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
                                 This option causes modprobe to remove rather than insert a module. \
                                 If the modules it depends on are also unused, modprobe will try to \
@@ -63,7 +65,8 @@ impl KernelModules<'_> {
                                 module parameters when removing modules).\n
                                 There is usually no reason to remove modules, but some buggy \
                                 modules require it. Your distribution kernel may not have been \
-                                built to support removal of modules at all."],
+                                built to support removal of modules at all.",
+            ],
             index: 0,
             info_scroll_offset: 0,
         }

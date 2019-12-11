@@ -181,8 +181,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 │ {} │
                                 └─{}─┘
 
-                                Name:    modprobe - Add and remove modules from the Linux Kernel
-                                Option:  -r, --remove
+                                modprobe: Add and remove modules from the Linux Kernel
+                                option:   -r, --remove
 
                                 This option causes modprobe to remove rather than insert a module. If the modules it depends on are also unused, modprobe will try to remove them too. Unlike insertion, more than one module can be specified on the command line (it does not make sense to specify module parameters when removing modules).
 

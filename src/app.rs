@@ -9,6 +9,7 @@ use tui::layout::Rect;
 use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
+use std::fmt::{Formatter, Debug, Display, Result};
 
 /* Main blocks of the terminal */
 enum_unitary! {
@@ -22,7 +23,7 @@ enum_unitary! {
 }
 
 /* User input mode */
-#[derive(PartialEq)]
+#[derive(Debug,PartialEq)]
 pub enum InputMode {
     None,
     Search,
@@ -32,6 +33,19 @@ pub enum InputMode {
 impl InputMode {
     pub fn is_none(&self) -> bool {
         self == &Self::None
+    }
+    pub fn get_default_text(&self) -> &str {
+        "Search"
+    }
+}
+
+impl Display for InputMode {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        if self.is_none() {
+            write!(f, "{}", self.get_default_text())
+        } else {
+            Debug::fmt(self, f)
+        }
     }
 }
 
@@ -104,7 +118,7 @@ impl App<'_> {
                         _ => self.unselected_style,
                     })
                     .borders(Borders::ALL)
-                    .title("Search"),
+                    .title(&self.input_mode.to_string()),
             )
             .render(frame, area);
     }

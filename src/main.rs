@@ -211,6 +211,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 kernel_modules.current_cmd = String::new();
                             }
                         }
+                        /* Cancel the execution of current command. */
+                        Key::Char('n') | Key::Char('N') => {
+                            if !kernel_modules.current_cmd.is_empty() {
+                                kernel_modules.current_cmd = String::new();
+                                kernel_modules.index -= 1;
+                                kernel_modules.scroll_list(ScrollDirection::Down);
+                            }
+                        }
                         /* User input mode. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             app.selected_block = Blocks::UserInput;

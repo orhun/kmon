@@ -197,8 +197,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                     Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
                                     Err(e) => {
                                         kernel_modules.current_info = format!(
-                                            "\nFailed to execute command: {}\n\n{}",
-                                            kernel_modules.current_cmd, e
+                                            "\nFailed to execute command: '{}'
+                                            ┌─{}─┐
+                                            │ {} │
+                                            └─{}─┘",
+                                            kernel_modules.current_cmd,
+                                            "─".repeat(e.len()),
+                                            e,
+                                            "─".repeat(e.len())
                                         )
                                     }
                                 }

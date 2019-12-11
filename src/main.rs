@@ -2,7 +2,7 @@ mod app;
 mod event;
 mod kernel;
 mod util;
-use app::{App, Blocks};
+use app::{App, Blocks, InputMode};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::lkm::KernelModules;
@@ -80,7 +80,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
             app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
         })?;
         /* Set cursor position if the input mode flag is set. */
-        if app.input_mode {
+        if app.input_mode != InputMode::None {
             util::set_cursor_pos(
                 terminal.backend_mut(),
                 2 + app.input_query.width() as u16,
@@ -91,7 +91,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         match events.rx.recv()? {
             /* Key input events. */
             Event::Input(input) => {
-                if !app.input_mode {
+                if app.input_mode == InputMode::None {
                     /* Default input mode. */
                     match input {
                         /* Quit. */
@@ -223,7 +223,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 2,
                             )?;
                             terminal.show_cursor()?;
-                            app.input_mode = true;
+                            app.input_mode = InputMode::Search;
                         }
                         _ => {}
                     }
@@ -256,7 +256,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                             /* Hide terminal cursor and set the input mode flag. */
                             terminal.hide_cursor()?;
-                            app.input_mode = false;
+                            app.input_mode = InputMode::None;
                         }
                         /* Append character to input query. */
                         Key::Char(c) => {

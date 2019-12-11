@@ -21,10 +21,18 @@ enum_unitary! {
     }
 }
 
+/* User input mode */
+#[derive(PartialEq)]
+pub enum InputMode {
+    None,
+    Search,
+    Load,
+}
+
 /* Application settings and related methods  */
 pub struct App {
     pub selected_block: Blocks,
-    pub input_mode: bool,
+    pub input_mode: InputMode,
     pub input_query: String,
     pub table_header: [&'static str; 3],
     pub title_style: Style,
@@ -42,7 +50,7 @@ impl App {
     pub fn new(block: Blocks) -> Self {
         Self {
             selected_block: block,
-            input_mode: false,
+            input_mode: InputMode::None,
             input_query: String::new(),
             table_header: ["Module", "Size", "Used by"],
             title_style: Style::default().modifier(Modifier::BOLD),
@@ -82,7 +90,7 @@ impl App {
                     .title_style(self.title_style)
                     .border_style(match self.selected_block {
                         Blocks::UserInput => {
-                            if !self.input_mode {
+                            if self.input_mode == InputMode::None {
                                 tx.send(Event::Input(Key::Char('\n'))).unwrap();
                             }
                             self.selected_style

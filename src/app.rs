@@ -2,6 +2,7 @@ use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
 use enum_unitary::enum_unitary;
+use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
@@ -9,7 +10,6 @@ use tui::layout::Rect;
 use tui::style::{Color, Modifier, Style};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
-use std::fmt::{Formatter, Debug, Display, Result};
 
 /* Main blocks of the terminal */
 enum_unitary! {
@@ -23,7 +23,7 @@ enum_unitary! {
 }
 
 /* User input mode */
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum InputMode {
     None,
     Search,

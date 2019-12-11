@@ -66,7 +66,7 @@ impl App {
     }
 
     /**
-     * Draw a paragraph widget for using as search input.
+     * Draw a paragraph widget for using as user input.
      *
      * @param frame
      * @param area
@@ -132,7 +132,7 @@ impl App {
     ) where
         B: Backend,
     {
-        /* Filter the module list depending on the search query. */
+        /* Filter the module list depending on the input query. */
         let mut kernel_module_list = kernel_modules.default_list.clone();
         if self.input_query.len() > 0 {
             kernel_module_list.retain(|module| {

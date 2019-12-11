@@ -182,6 +182,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 └─{}─┘", "─".repeat(kernel_modules.current_cmd.len()), kernel_modules.current_cmd,
                                 "─".repeat(kernel_modules.current_cmd.len()));
                         }
+                        /* Execute the current command. */
+                        Key::Char('y') | Key::Char('Y') => {
+                            if !kernel_modules.current_cmd.is_empty() {
+                                match util::exec_cmd("sh", &["-c", &kernel_modules.current_cmd]) {
+                                    Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
+                                    Err(e) => kernel_modules.current_info = format!("\nFailed to execute command: {}\n\n{}",kernel_modules.current_cmd, e),
+                                }
+                                kernel_modules.current_cmd = String::new();
+                            }
+                        }
                         /* Search in modules. */
                         Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
                             app.selected_block = Blocks::SearchInput;

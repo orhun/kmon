@@ -175,20 +175,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
-                            kernel_modules.current_cmd = format!("modprobe -r {}", kernel_modules.current_name);
+                            kernel_modules.current_cmd = format!("{} {}", kernel_modules.remove_cmd[0], kernel_modules.current_name);
                             kernel_modules.current_info = format!("\nExecute the following command? [y/N]:
                                 ┌─{}─┐
                                 │ {} │
-                                └─{}─┘
-
-                                modprobe: Add and remove modules from the Linux Kernel
-                                option:   -r, --remove
-
-                                This option causes modprobe to remove rather than insert a module. If the modules it depends on are also unused, modprobe will try to remove them too. Unlike insertion, more than one module can be specified on the command line (it does not make sense to specify module parameters when removing modules).
-
-                                There is usually no reason to remove modules, but some buggy modules require it. Your distribution kernel may not have been built to support removal of modules at all.",
+                                └─{}─┘\n\n{}",
                                 "─".repeat(kernel_modules.current_cmd.len()), kernel_modules.current_cmd,
-                                "─".repeat(kernel_modules.current_cmd.len()));
+                                "─".repeat(kernel_modules.current_cmd.len()),
+                                kernel_modules.remove_cmd[1]);
                         }
                         /* Execute the current command. */
                         Key::Char('y') | Key::Char('Y') => {

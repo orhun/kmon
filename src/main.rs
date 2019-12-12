@@ -51,27 +51,44 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
         terminal.draw(|mut f| {
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
-                .constraints([Constraint::Percentage(75), Constraint::Percentage(25)].as_ref())
+                .constraints(
+                    [Constraint::Percentage(75), Constraint::Percentage(25)]
+                        .as_ref(),
+                )
                 .split(f.size());
             {
                 let chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Percentage(60), Constraint::Percentage(40)].as_ref())
+                    .constraints(
+                        [Constraint::Percentage(60), Constraint::Percentage(40)]
+                            .as_ref(),
+                    )
                     .split(chunks[0]);
                 {
                     let chunks = Layout::default()
                         .direction(Direction::Vertical)
-                        .constraints([Constraint::Length(3), Constraint::Percentage(100)].as_ref())
+                        .constraints(
+                            [Constraint::Length(3), Constraint::Percentage(100)]
+                                .as_ref(),
+                        )
                         .split(chunks[0]);
                     {
                         let chunks = Layout::default()
                             .direction(Direction::Horizontal)
                             .constraints(
-                                [Constraint::Percentage(60), Constraint::Percentage(40)].as_ref(),
+                                [
+                                    Constraint::Percentage(60),
+                                    Constraint::Percentage(40),
+                                ]
+                                .as_ref(),
                             )
                             .split(chunks[0]);
                         app.draw_user_input(&mut f, chunks[0], &events.tx);
-                        app.draw_kernel_version(&mut f, chunks[1], &kernel_logs.version)
+                        app.draw_kernel_version(
+                            &mut f,
+                            chunks[1],
+                            &kernel_logs.version,
+                        )
                     }
                     app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
                 }
@@ -95,7 +112,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                     /* Default input mode. */
                     match input {
                         /* Quit. */
-                        Key::Char('q') | Key::Char('Q') | Key::Ctrl('c') | Key::Ctrl('d') => {
+                        Key::Char('q')
+                        | Key::Char('Q')
+                        | Key::Ctrl('c')
+                        | Key::Ctrl('d') => {
                             break;
                         }
                         /* Refresh. */
@@ -106,8 +126,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             kernel_modules.scroll_list(ScrollDirection::Top);
                         }
                         /* Scroll the selected block up. */
-                        Key::Up | Key::Char('k') | Key::Char('K') => match app.selected_block {
-                            Blocks::ModuleTable => kernel_modules.scroll_list(ScrollDirection::Up),
+                        Key::Up | Key::Char('k') | Key::Char('K') => match app
+                            .selected_block
+                        {
+                            Blocks::ModuleTable => {
+                                kernel_modules.scroll_list(ScrollDirection::Up)
+                            }
                             Blocks::ModuleInfo => {
                                 kernel_modules.scroll_mod_info(ScrollDirection::Up)
                             }
@@ -117,7 +141,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             _ => {}
                         },
                         /* Scroll the selected block down. */
-                        Key::Down | Key::Char('j') | Key::Char('J') => match app.selected_block {
+                        Key::Down | Key::Char('j') | Key::Char('J') => match app
+                            .selected_block
+                        {
                             Blocks::ModuleTable => {
                                 kernel_modules.scroll_list(ScrollDirection::Down)
                             }
@@ -130,18 +156,26 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             _ => {}
                         },
                         /* Select the next terminal block. */
-                        Key::Left | Key::Char('h') | Key::Char('H') | Key::Ctrl('h') => {
-                            app.selected_block = match app.selected_block.prev_variant() {
-                                Some(v) => v,
-                                None => Blocks::max_value(),
-                            }
+                        Key::Left
+                        | Key::Char('h')
+                        | Key::Char('H')
+                        | Key::Ctrl('h') => {
+                            app.selected_block =
+                                match app.selected_block.prev_variant() {
+                                    Some(v) => v,
+                                    None => Blocks::max_value(),
+                                }
                         }
                         /* Select the previous terminal block. */
-                        Key::Right | Key::Char('l') | Key::Char('L') | Key::Ctrl('l') => {
-                            app.selected_block = match app.selected_block.next_variant() {
-                                Some(v) => v,
-                                None => Blocks::min_value(),
-                            }
+                        Key::Right
+                        | Key::Char('l')
+                        | Key::Char('L')
+                        | Key::Ctrl('l') => {
+                            app.selected_block =
+                                match app.selected_block.next_variant() {
+                                    Some(v) => v,
+                                    None => Blocks::min_value(),
+                                }
                         }
                         /* Scroll to the top of the module list. */
                         Key::Char('t') | Key::Char('T') => {
@@ -170,9 +204,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         }
                         /* Scroll module information up. */
-                        Key::Backspace => kernel_modules.scroll_mod_info(ScrollDirection::Up),
+                        Key::Backspace => {
+                            kernel_modules.scroll_mod_info(ScrollDirection::Up)
+                        }
                         /* Scroll module information down. */
-                        Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
+                        Key::Char(' ') => {
+                            kernel_modules.scroll_mod_info(ScrollDirection::Down)
+                        }
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
                             kernel_modules.command = ModuleCommand::Unload;
@@ -181,9 +219,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                 ┌─{}─┐
                                 │ {} │
                                 └─{}─┘\n\n{}",
-                                "─".repeat(kernel_modules.get_current_command().cmd.len()),
+                                "─".repeat(
+                                    kernel_modules.get_current_command().cmd.len()
+                                ),
                                 kernel_modules.get_current_command().cmd,
-                                "─".repeat(kernel_modules.get_current_command().cmd.len()),
+                                "─".repeat(
+                                    kernel_modules.get_current_command().cmd.len()
+                                ),
                                 kernel_modules.get_current_command().desc,
                             );
                         }
@@ -192,9 +234,15 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             if !kernel_modules.command.is_none() {
                                 match util::exec_cmd(
                                     "sh",
-                                    &["-c", &kernel_modules.get_current_command().cmd],
+                                    &[
+                                        "-c",
+                                        &kernel_modules.get_current_command().cmd,
+                                    ],
                                 ) {
-                                    Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
+                                    Ok(_) => events
+                                        .tx
+                                        .send(Event::Input(Key::Char('r')))
+                                        .unwrap(),
                                     Err(e) => {
                                         kernel_modules.current_info = format!(
                                             "\nFailed to execute command: '{}'
@@ -220,7 +268,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                             }
                         }
                         /* User input mode. */
-                        Key::Char('\n') | Key::Char('s') | Key::Char('/') | Key::Home => {
+                        Key::Char('\n')
+                        | Key::Char('s')
+                        | Key::Char('/')
+                        | Key::Home => {
                             app.selected_block = Blocks::UserInput;
                             if input != Key::Char('\n') {
                                 app.input_query = String::new();

@@ -100,8 +100,12 @@ impl App<'_> {
      * @param area
      * @param tx
      */
-    pub fn draw_user_input<B>(&self, frame: &mut Frame<B>, area: Rect, tx: &Sender<Event<Key>>)
-    where
+    pub fn draw_user_input<B>(
+        &self,
+        frame: &mut Frame<B>,
+        area: Rect,
+        tx: &Sender<Event<Key>>,
+    ) where
         B: Backend,
     {
         Paragraph::new([Text::raw(self.input_query.to_string())].iter())
@@ -130,8 +134,12 @@ impl App<'_> {
      * @param area
      * @param version
      */
-    pub fn draw_kernel_version<B>(&self, frame: &mut Frame<B>, area: Rect, version: &str)
-    where
+    pub fn draw_kernel_version<B>(
+        &self,
+        frame: &mut Frame<B>,
+        area: Rect,
+        version: &str,
+    ) where
         B: Backend,
     {
         Paragraph::new([Text::raw(version)].iter())
@@ -185,7 +193,9 @@ impl App<'_> {
                 .skip(modules_scroll_offset)
                 .enumerate()
                 .map(|(i, item)| {
-                    if Some(i) == kernel_modules.index.checked_sub(modules_scroll_offset) {
+                    if Some(i)
+                        == kernel_modules.index.checked_sub(modules_scroll_offset)
+                    {
                         Row::StyledData(
                             item.into_iter(),
                             self.selected_style.modifier(Modifier::BOLD),
@@ -208,8 +218,9 @@ impl App<'_> {
                         _ => kernel_modules.index + 1,
                     },
                     kernel_modules.list.len(),
-                    ((kernel_modules.index + 1) as f64 / kernel_modules.list.len() as f64 * 100.0)
-                        as usize
+                    ((kernel_modules.index + 1) as f64
+                        / kernel_modules.list.len() as f64
+                        * 100.0) as usize
                 )),
         )
         .widths(&[

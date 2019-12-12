@@ -9,7 +9,11 @@ pub struct Command<'a> {
 }
 
 impl Command<'_> {
-    fn new(command: String, description: &'static str, command_title: &'static str) -> Self {
+    fn new(
+        command: String,
+        description: &'static str,
+        command_title: &'static str,
+    ) -> Self {
         Self {
             cmd: command,
             desc: description,
@@ -81,8 +85,8 @@ impl KernelModules {
                 module_read_cmd += " | sort -t ' ' -k1";
             }
         }
-        let modules_content =
-            exec_cmd("sh", &["-c", &module_read_cmd]).expect("failed to read /proc/modules");
+        let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
+            .expect("failed to read /proc/modules");
         /* Parse content for module name, size and related information. */
         for line in modules_content.lines() {
             let columns: Vec<&str> = line.split_whitespace().collect();
@@ -94,7 +98,8 @@ impl KernelModules {
             if used_modules.chars().last().unwrap() == ',' {
                 used_modules.pop();
             }
-            let module_size = ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
+            let module_size =
+                ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
             module_list.push(vec![module_name, module_size, used_modules]);
         }
         /* Return kernel modules. */
@@ -178,7 +183,8 @@ impl KernelModules {
             ScrollDirection::Down => {
                 if self.current_info.lines().count() > 0 {
                     self.info_scroll_offset += 2;
-                    self.info_scroll_offset %= (self.current_info.lines().count() as u16) * 2;
+                    self.info_scroll_offset %=
+                        (self.current_info.lines().count() as u16) * 2;
                 }
             }
             _ => {}

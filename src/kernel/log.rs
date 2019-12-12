@@ -29,8 +29,9 @@ impl KernelLogs {
      * @return logs_updated
      */
     pub fn update(&mut self) -> bool {
-        self.output = exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
-            .expect("failed to retrieve dmesg output");
+        self.output =
+            exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
+                .expect("failed to retrieve dmesg output");
         let logs_updated = self.output.lines().next().unwrap() != &self.last_line;
         self.last_line = self.output.lines().next().unwrap().to_string();
         logs_updated

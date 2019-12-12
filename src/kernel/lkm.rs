@@ -2,7 +2,7 @@ use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
 
 /* Kernel module related command */
-struct Command<'a> {
+pub struct Command<'a> {
     cmd: &'a str,
     desc: &'a str,
     title: &'a str,
@@ -20,13 +20,13 @@ impl Command<'_> {
 
 /* Kernel module management commands */
 #[derive(PartialEq)]
-enum Commands {
+pub enum ModCmd {
     None,
     Load,
     Unload,
 }
 
-impl Commands {
+impl ModCmd {
     fn get(&self) -> Command {
         match self {
             Self::None => Command::new("", "", ""),
@@ -58,7 +58,7 @@ pub struct KernelModules {
     pub list: Vec<Vec<String>>,
     pub current_name: String,
     pub current_info: String,
-    pub commands: Commands,
+    pub command: ModCmd,
     pub index: usize,
     pub info_scroll_offset: u16,
 }
@@ -103,7 +103,7 @@ impl KernelModules {
             list: module_list,
             current_name: String::new(),
             current_info: String::new(),
-            commands: Commands::None,
+            command: ModCmd::None,
             index: 0,
             info_scroll_offset: 0,
         }

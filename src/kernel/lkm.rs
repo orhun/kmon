@@ -19,16 +19,21 @@ impl Command<'_> {
 }
 
 /* Kernel module management commands */
-struct Commands<'a> {
-    load: Command<'a>,
-    unload: Command<'a>,
+#[derive(PartialEq)]
+enum Commands {
+    None,
+    Load,
+    Unload,
 }
 
-impl Default for Commands<'_> {
-    fn default() -> Self {
-        Self {
-            load: Command::new("", "", ""),
-            unload: Command::new(
+impl Commands {
+    pub fn is_none(&self) -> bool {
+        self == &Self::None
+    }
+    fn get(&self) -> Vec<Command> {
+        vec![
+            Command::new("", "", ""),
+            Command::new(
                 "modprobe -r",
                 "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
@@ -42,22 +47,22 @@ impl Default for Commands<'_> {
                                 built to support removal of modules at all.",
                 "Remove Module",
             ),
-        }
+        ]
     }
 }
 
 /* Loadable kernel modules */
-pub struct KernelModules<'a> {
+pub struct KernelModules {
     pub default_list: Vec<Vec<String>>,
     pub list: Vec<Vec<String>>,
     pub current_name: String,
     pub current_info: String,
-    pub commands: Commands<'a>,
+    pub commands: Commands,
     pub index: usize,
     pub info_scroll_offset: u16,
 }
 
-impl KernelModules<'_> {
+impl KernelModules {
     /**
      * Create a new kernel modules instance.
      *
@@ -97,7 +102,7 @@ impl KernelModules<'_> {
             list: module_list,
             current_name: String::new(),
             current_info: String::new(),
-            commands: Commands::default(),
+            commands: Commands::None,
             index: 0,
             info_scroll_offset: 0,
         }

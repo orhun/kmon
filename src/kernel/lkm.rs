@@ -1,6 +1,36 @@
 use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
 
+struct Command<'a> {
+    cmd: &'a str,
+    desc: &'a str,
+    title: &'a str,
+}
+
+impl Command<'_> {
+    fn new(command: &'static str, description: &'static str, command_title: &'static str) -> Self {
+        Self {
+            cmd: command,
+            desc: description,
+            title: command_title,
+        }
+    }
+}
+
+struct Commands<'a> {
+    load: Command<'a>,
+    unload: Command<'a>,
+}
+
+impl Commands<'_> {
+    fn new() -> Self {
+        Self {
+            load: Command::new("", "", ""),
+            unload: Command::new("", "", "")
+        }
+    }
+}
+
 /* Loadable kernel modules */
 pub struct KernelModules<'a> {
     pub default_list: Vec<Vec<String>>,

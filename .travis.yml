@@ -14,6 +14,7 @@ script:
     -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
   - cargo build --verbose $CARGO_OPTIONS
   - cargo test --verbose $CARGO_OPTIONS
+  - cargo fmt -- --check
   - |
     zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;
     ./grcov ccov.zip -s . -t lcov --llvm --branch

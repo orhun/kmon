@@ -190,7 +190,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         /* Execute the current command. */
                         Key::Char('y') | Key::Char('Y') => {
                             if !kernel_modules.command.is_none() {
-                                match util::exec_cmd("sh", &["-c", &kernel_modules.get_current_command().cmd]) {
+                                match util::exec_cmd(
+                                    "sh",
+                                    &["-c", &kernel_modules.get_current_command().cmd],
+                                ) {
                                     Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
                                     Err(e) => {
                                         kernel_modules.current_info = format!(

@@ -20,13 +20,13 @@ impl Command<'_> {
 
 /* Kernel module management commands */
 #[derive(PartialEq)]
-pub enum ModCmd {
+pub enum ModuleCommand {
     None,
     Load,
     Unload,
 }
 
-impl ModCmd {
+impl ModuleCommand {
     fn get(&self) -> Command {
         match self {
             Self::None => Command::new("", "", ""),
@@ -58,7 +58,7 @@ pub struct KernelModules {
     pub list: Vec<Vec<String>>,
     pub current_name: String,
     pub current_info: String,
-    pub command: ModCmd,
+    pub command: ModuleCommand,
     pub index: usize,
     pub info_scroll_offset: u16,
 }
@@ -103,7 +103,7 @@ impl KernelModules {
             list: module_list,
             current_name: String::new(),
             current_info: String::new(),
-            command: ModCmd::None,
+            command: ModuleCommand::None,
             index: 0,
             info_scroll_offset: 0,
         }

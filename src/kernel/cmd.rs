@@ -6,6 +6,14 @@ pub struct Command<'a> {
 }
 
 impl Command<'_> {
+	/**
+	 * Create a new command instance.
+	 *
+	 * @param  command
+	 * @param  description
+	 * @param  command_title
+	 * @return Command
+	 */
 	fn new(
 		command: String,
 		description: &'static str,

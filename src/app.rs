@@ -49,6 +49,7 @@ impl InputMode {
 	}
 }
 
+/* Implementation of Display for using InputMode members as string */
 impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter) -> Result {
 		if self.is_none() {

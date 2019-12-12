@@ -27,10 +27,11 @@ enum Commands {
 }
 
 impl Commands {
-    fn get(&self) -> Vec<Command> {
-        vec![
-            Command::new("", "", ""),
-            Command::new(
+    fn get(&self) -> Command {
+        match self {
+            Self::None => Command::new("", "", ""),
+            Self::Load => Command::new("", "", ""),
+            Self::Unload => Command::new(
                 "modprobe -r",
                 "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
@@ -44,7 +45,7 @@ impl Commands {
                                 built to support removal of modules at all.",
                 "Remove Module",
             ),
-        ]
+        }
     }
     pub fn is_none(&self) -> bool {
         self == &Self::None

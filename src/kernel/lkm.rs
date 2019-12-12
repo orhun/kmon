@@ -22,8 +22,8 @@ struct Commands<'a> {
     unload: Command<'a>,
 }
 
-impl Commands<'_> {
-    fn new() -> Self {
+impl Default for Commands<'_> {
+    fn default() -> Self {
         Self {
             load: Command::new("", "", ""),
             unload: Command::new("", "", "")

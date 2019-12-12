@@ -1,6 +1,7 @@
 use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
 
+/* Kernel module related command */
 struct Command<'a> {
     cmd: &'a str,
     desc: &'a str,
@@ -17,6 +18,7 @@ impl Command<'_> {
     }
 }
 
+/* Kernel module management commands */
 struct Commands<'a> {
     load: Command<'a>,
     unload: Command<'a>,

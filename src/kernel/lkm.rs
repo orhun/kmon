@@ -1,5 +1,5 @@
 use crate::kernel::cmd::{Command, ModuleCommand};
-use crate::util::{exec_cmd, ScrollDirection};
+use crate::util::{self, ScrollDirection};
 use bytesize::ByteSize;
 
 /* Loadable kernel modules */
@@ -31,7 +31,7 @@ impl KernelModules {
 				module_read_cmd += " | sort -t ' ' -k1";
 			}
 		}
-		let modules_content = exec_cmd("sh", &["-c", &module_read_cmd])
+		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])
 			.expect("failed to read /proc/modules");
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
@@ -85,7 +85,7 @@ impl KernelModules {
 				.next()
 				.unwrap()
 				.to_string();
-			self.current_info = exec_cmd("modinfo", &[&self.current_name])
+			self.current_info = util::exec_cmd("modinfo", &[&self.current_name])
 				.unwrap_or(String::from("failed to retrieve module information"));
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;

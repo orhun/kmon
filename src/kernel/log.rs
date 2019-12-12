@@ -1,4 +1,4 @@
-use crate::util::exec_cmd;
+use crate::util;
 
 /* Kernel activity logs */
 pub struct KernelLogs {
@@ -18,7 +18,7 @@ impl KernelLogs {
 		Self {
 			output: String::new(),
 			last_line: String::new(),
-			version: exec_cmd("uname", &["-srm"]).unwrap().to_string(),
+			version: util::exec_cmd("uname", &["-srm"]).unwrap().to_string(),
 			scroll_offset: 0,
 		}
 	}
@@ -29,9 +29,11 @@ impl KernelLogs {
 	 * @return logs_updated
 	 */
 	pub fn update(&mut self) -> bool {
-		self.output =
-			exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never | tac"])
-				.expect("failed to retrieve dmesg output");
+		self.output = util::exec_cmd(
+			"sh",
+			&["-c", "dmesg --kernel --human --color=never | tac"],
+		)
+		.expect("failed to retrieve dmesg output");
 		let logs_updated = self.output.lines().next().unwrap() != &self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated

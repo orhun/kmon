@@ -27,9 +27,6 @@ enum Commands {
 }
 
 impl Commands {
-    pub fn is_none(&self) -> bool {
-        self == &Self::None
-    }
     fn get(&self) -> Vec<Command> {
         vec![
             Command::new("", "", ""),
@@ -48,6 +45,9 @@ impl Commands {
                 "Remove Module",
             ),
         ]
+    }
+    pub fn is_none(&self) -> bool {
+        self == &Self::None
     }
 }
 

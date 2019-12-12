@@ -31,11 +31,11 @@ pub enum InputMode {
 }
 
 impl InputMode {
-    pub fn is_none(&self) -> bool {
-        self == &Self::None
-    }
     pub fn get_default_text(&self) -> &str {
         "Search"
+    }
+    pub fn is_none(&self) -> bool {
+        self == &Self::None
     }
 }
 

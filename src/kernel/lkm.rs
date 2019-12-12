@@ -3,13 +3,13 @@ use bytesize::ByteSize;
 
 /* Kernel module related command */
 pub struct Command<'a> {
-    pub cmd: &'a str,
+    pub cmd: String,
     pub desc: &'a str,
     pub title: &'a str,
 }
 
 impl Command<'_> {
-    fn new(command: &'static str, description: &'static str, command_title: &'static str) -> Self {
+    fn new(command: String, description: &'static str, command_title: &'static str) -> Self {
         Self {
             cmd: command,
             desc: description,
@@ -29,10 +29,10 @@ pub enum ModuleCommand {
 impl ModuleCommand {
     pub fn get(&self, module_name: &str) -> Command {
         match self {
-            Self::None => Command::new("", "", ""),
-            Self::Load => Command::new("", "", ""),
+            Self::None => Command::new(String::from(""), "", ""),
+            Self::Load => Command::new(String::from(""), "", ""),
             Self::Unload => Command::new(
-                &format!("modprobe -r {}", &module_name),
+                format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
                                 This option causes modprobe to remove rather than insert a module. \

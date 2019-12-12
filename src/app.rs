@@ -2,7 +2,7 @@ use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
 use enum_unitary::enum_unitary;
-use std::fmt::{Debug, Display, Formatter, Result};
+use std::fmt::{self, Debug, Display, Formatter};
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
@@ -40,7 +40,7 @@ impl InputMode {
 }
 
 impl Display for InputMode {
-	fn fmt(&self, f: &mut Formatter) -> Result {
+	fn fmt(&self, f: &mut Formatter) -> fmt::Result {
 		if self.is_none() {
 			write!(f, "{}", self.get_default_text())
 		} else {

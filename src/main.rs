@@ -189,8 +189,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         }
                         /* Execute the current command. */
                         Key::Char('y') | Key::Char('Y') => {
-                            if !kernel_modules.current_cmd.is_empty() {
-                                match util::exec_cmd("sh", &["-c", &kernel_modules.current_cmd]) {
+                            if !kernel_modules.command.is_none() {
+                                match util::exec_cmd("sh", &["-c", kernel_modules.get_current_command().cmd]) {
                                     Ok(_) => events.tx.send(Event::Input(Key::Char('r'))).unwrap(),
                                     Err(e) => {
                                         kernel_modules.current_info = format!(
@@ -198,20 +198,20 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                                             ┌─{}─┐
                                             │ {} │
                                             └─{}─┘",
-                                            kernel_modules.current_cmd,
+                                            kernel_modules.get_current_command().cmd,
                                             "─".repeat(e.len()),
                                             e,
                                             "─".repeat(e.len())
                                         )
                                     }
                                 }
-                                kernel_modules.current_cmd = String::new();
+                                kernel_modules.command = ModuleCommand::None;
                             }
                         }
                         /* Cancel the execution of current command. */
                         Key::Char('n') | Key::Char('N') => {
-                            if !kernel_modules.current_cmd.is_empty() {
-                                kernel_modules.current_cmd = String::new();
+                            if !kernel_modules.command.is_none() {
+                                kernel_modules.command = ModuleCommand::None;
                                 kernel_modules.index -= 1;
                                 kernel_modules.scroll_list(ScrollDirection::Down);
                             }

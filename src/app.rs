@@ -39,6 +39,11 @@ impl InputMode {
 	pub fn get_default_text(&self) -> &str {
 		"Search"
 	}
+	/**
+	 * Check if input mode is set.
+	 *
+	 * @return bool
+	 */
 	pub fn is_none(&self) -> bool {
 		self == &Self::None
 	}

@@ -8,13 +8,16 @@ matrix:
 before_install:
   - curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
 
+before_script:
+  - rustup component add rustfmt
+
 script:
   - export CARGO_INCREMENTAL=0
   - export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
     -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
   - cargo build --verbose $CARGO_OPTIONS
   - cargo test --verbose $CARGO_OPTIONS
-  - cargo fmt -- --check
+  - cargo fmt --all -- --check
   - |
     zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;
     ./grcov ccov.zip -s . -t lcov --llvm --branch

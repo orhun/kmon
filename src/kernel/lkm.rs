@@ -26,7 +26,9 @@ impl Default for Commands<'_> {
     fn default() -> Self {
         Self {
             load: Command::new("", "", ""),
-            unload: Command::new("modprobe -r", "modprobe: Add and remove modules from the Linux Kernel
+            unload: Command::new(
+                "modprobe -r",
+                "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
                                 This option causes modprobe to remove rather than insert a module. \
                                 If the modules it depends on are also unused, modprobe will try to \
@@ -35,7 +37,9 @@ impl Default for Commands<'_> {
                                 module parameters when removing modules).\n
                                 There is usually no reason to remove modules, but some buggy \
                                 modules require it. Your distribution kernel may not have been \
-                                built to support removal of modules at all.", "Remove Module"),
+                                built to support removal of modules at all.",
+                "Remove Module",
+            ),
         }
     }
 }

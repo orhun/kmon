@@ -27,12 +27,12 @@ pub enum ModuleCommand {
 }
 
 impl ModuleCommand {
-    fn get(&self) -> Command {
+    fn get(&self, module_name: &str) -> Command {
         match self {
             Self::None => Command::new("", "", ""),
             Self::Load => Command::new("", "", ""),
             Self::Unload => Command::new(
-                "modprobe -r",
+                &format!("modprobe -r {}", module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
                                 option:   -r, --remove\n
                                 This option causes modprobe to remove rather than insert a module. \

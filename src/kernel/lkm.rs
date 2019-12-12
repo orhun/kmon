@@ -3,9 +3,9 @@ use bytesize::ByteSize;
 
 /* Kernel module related command */
 pub struct Command<'a> {
-    cmd: &'a str,
-    desc: &'a str,
-    title: &'a str,
+    pub cmd: &'a str,
+    pub desc: &'a str,
+    pub title: &'a str,
 }
 
 impl Command<'_> {
@@ -27,7 +27,7 @@ pub enum ModuleCommand {
 }
 
 impl ModuleCommand {
-    fn get(&self, module_name: &str) -> Command {
+    pub fn get(&self, module_name: String) -> Command {
         match self {
             Self::None => Command::new("", "", ""),
             Self::Load => Command::new("", "", ""),
@@ -107,6 +107,10 @@ impl KernelModules {
             index: 0,
             info_scroll_offset: 0,
         }
+    }
+
+    pub fn get_current_command(&self) -> Command {
+        self.command.get(self.current_name)
     }
 
     /**

@@ -5,7 +5,7 @@ mod util;
 use app::{App, Blocks, InputMode};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
-use kernel::lkm::KernelModules;
+use kernel::lkm::{KernelModules, ModuleCommand};
 use kernel::log::KernelLogs;
 use std::io::stdout;
 use termion::event::Key;
@@ -175,19 +175,16 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
                         Key::Char(' ') => kernel_modules.scroll_mod_info(ScrollDirection::Down),
                         /* Unload kernel module. */
                         Key::Char('u') | Key::Char('U') => {
-                            kernel_modules.current_cmd = format!(
-                                "{} {}",
-                                kernel_modules.remove_cmd[0], kernel_modules.current_name
-                            );
+                            kernel_modules.command = ModuleCommand::Unload;
                             kernel_modules.current_info = format!(
                                 "\nExecute the following command? [y/N]:
                                 ┌─{}─┐
                                 │ {} │
                                 └─{}─┘\n\n{}",
-                                "─".repeat(kernel_modules.current_cmd.len()),
-                                kernel_modules.current_cmd,
-                                "─".repeat(kernel_modules.current_cmd.len()),
-                                kernel_modules.remove_cmd[1]
+                                "─".repeat(kernel_modules.get_current_command().cmd.len()),
+                                kernel_modules.get_current_command().cmd,
+                                "─".repeat(kernel_modules.get_current_command().cmd.len()),
+                                kernel_modules.get_current_command().desc,
                             );
                         }
                         /* Execute the current command. */

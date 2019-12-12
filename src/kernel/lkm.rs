@@ -1,5 +1,5 @@
-use crate::util::{exec_cmd, ScrollDirection};
 use crate::kernel::cmd::{Command, ModuleCommand};
+use crate::util::{exec_cmd, ScrollDirection};
 use bytesize::ByteSize;
 
 /* Loadable kernel modules */

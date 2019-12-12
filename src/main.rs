@@ -244,6 +244,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 										.tx
 										.send(Event::Input(Key::Char('r')))
 										.unwrap(),
+									// TODO: Fix error message length issue
 									Err(e) => {
 										kernel_modules.current_info = format!(
 											"\nFailed to execute command: '{}'
@@ -264,6 +265,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('n') | Key::Char('N') => {
 							if !kernel_modules.command.is_none() {
 								kernel_modules.command = ModuleCommand::None;
+								// TODO: Fix underflow issue
 								kernel_modules.index -= 1;
 								kernel_modules.scroll_list(ScrollDirection::Down);
 							}

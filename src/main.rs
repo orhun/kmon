@@ -259,9 +259,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('n') | Key::Char('N') => {
 							if !kernel_modules.command.is_none() {
 								kernel_modules.command = ModuleCommand::None;
-								// TODO: Fix underflow issue
-								kernel_modules.index -= 1;
-								kernel_modules.scroll_list(ScrollDirection::Down);
+								if kernel_modules.index != 0 {
+									kernel_modules.index -= 1;
+									kernel_modules.scroll_list(ScrollDirection::Down);
+								} else {
+									kernel_modules.index += 1;
+									kernel_modules.scroll_list(ScrollDirection::Up);
+								}
 							}
 						}
 						/* User input mode. */

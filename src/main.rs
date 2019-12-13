@@ -244,17 +244,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 										.tx
 										.send(Event::Input(Key::Char('r')))
 										.unwrap(),
-									// TODO: Fix error message length issue
 									Err(e) => {
 										kernel_modules.current_info = format!(
-											"\nFailed to execute command: '{}'
-                                            ┌─{}─┐
-                                            │ {} │
-                                            └─{}─┘",
+											"\nFailed to execute command: '{}'\n\n{}",
 											kernel_modules.get_current_command().cmd,
-											"─".repeat(e.len()),
-											e,
-											"─".repeat(e.len())
+											e
 										)
 									}
 								}

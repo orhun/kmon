@@ -120,7 +120,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							break;
 						}
 						/* Refresh. */
-						Key::Char('r') | Key::Char('R') => {
+						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app = App::new(Blocks::ModuleTable);
 							kernel_logs.scroll_offset = 0;
 							kernel_modules = KernelModules::new(args);

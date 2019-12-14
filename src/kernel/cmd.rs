@@ -43,7 +43,7 @@ impl ModuleCommand {
 				format!("modprobe {}", &module_name),
 				"modprobe: Add and remove modules from the Linux Kernel\n
                                 This command inserts a module to the kernel.",
-				String::from("Load")),
+				format!("Load: {}", module_name)),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel

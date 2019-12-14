@@ -38,7 +38,7 @@ pub enum ModuleCommand {
 impl ModuleCommand {
 	pub fn get(&self, module_name: &str) -> Command {
 		match self {
-            Self::None => Command::new(String::from(""), "", String::from("")),
+            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name)),
             Self::Load => Command::new(String::from(""), "", String::from("")),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),

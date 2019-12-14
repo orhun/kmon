@@ -39,7 +39,11 @@ impl ModuleCommand {
 	pub fn get(&self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name)),
-            Self::Load => Command::new(String::from(""), "", String::from("")),
+            Self::Load => Command::new(
+				format!("modprobe {}", &module_name),
+				"modprobe: Add and remove modules from the Linux Kernel\n
+                                This command inserts a module to the kernel.",
+				String::from("Load")),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel

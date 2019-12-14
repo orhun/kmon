@@ -9,7 +9,7 @@ pub struct KernelLogs {
 }
 
 impl KernelLogs {
-	/**
+	/*!
 	 * Create a new kernel logs instance.
 	 *
 	 * @return KernelLogs
@@ -23,7 +23,7 @@ impl KernelLogs {
 		}
 	}
 
-	/**
+	/*!
 	 * Update the output variable value if 'dmesg' logs changed.
 	 *
 	 * @return logs_updated

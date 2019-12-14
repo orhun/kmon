@@ -24,7 +24,7 @@ pub struct Events {
 }
 
 impl Events {
-	/**
+	/*!
 	 * Create a new events instance.
 	 *
 	 * @param  refresh_rate

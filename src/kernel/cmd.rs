@@ -6,7 +6,7 @@ pub struct Command<'a> {
 }
 
 impl Command<'_> {
-	/**
+	/*!
 	 * Create a new command instance.
 	 *
 	 * @param  command

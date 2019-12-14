@@ -266,7 +266,7 @@ impl App<'_> {
 					.title_style(self.title_style)
 					.border_style(self.block_style(Blocks::ModuleInfo))
 					.borders(Borders::ALL)
-					.title(&format!("Module: {}", kernel_modules.current_name)),
+					.title(kernel_modules.get_current_command().title),
 			)
 			.wrap(true)
 			.scroll(kernel_modules.info_scroll_offset)

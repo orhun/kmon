@@ -316,12 +316,31 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								Key::Char('\n') => match app.input_mode {
 									InputMode::Load => Blocks::ModuleInfo,
 									_ => Blocks::ModuleTable,
-								}
+								},
 								_ => Blocks::ModuleTable,
 							};
-							/* Show the first modules information. */
-							if kernel_modules.index == 0 {
+							/* Show the first modules information if the search mode is set. */
+							if app.input_mode == InputMode::Search
+								&& kernel_modules.index == 0
+							{
 								kernel_modules.scroll_list(ScrollDirection::Top);
+							/* Load kernel module. */
+							} else if app.input_mode == InputMode::Load {
+								kernel_modules.command = ModuleCommand::Load;
+								kernel_modules.current_info = format!(
+									"\nExecute the following command? [y/N]:
+									┌─{}─┐
+									│ {} │
+									└─{}─┘\n\n{}",
+									"─".repeat(
+										kernel_modules.get_current_command().cmd.len()
+									),
+									kernel_modules.get_current_command().cmd,
+									"─".repeat(
+										kernel_modules.get_current_command().cmd.len()
+									),
+									kernel_modules.get_current_command().desc,
+								);
 							}
 							/* Hide terminal cursor and set the input mode flag. */
 							terminal.hide_cursor()?;

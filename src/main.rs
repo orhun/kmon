@@ -214,21 +214,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Unload kernel module. */
 						Key::Char('u') | Key::Char('U') => {
-							kernel_modules.command = ModuleCommand::Unload;
-							kernel_modules.current_info = format!(
-								"\nExecute the following command? [y/N]:
-                                ┌─{}─┐
-                                │ {} │
-                                └─{}─┘\n\n{}",
-								"─".repeat(
-									kernel_modules.get_current_command().cmd.len()
-								),
-								kernel_modules.get_current_command().cmd,
-								"─".repeat(
-									kernel_modules.get_current_command().cmd.len()
-								),
-								kernel_modules.get_current_command().desc,
-							);
+							kernel_modules
+								.set_current_command(ModuleCommand::Unload);
 						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
@@ -326,21 +313,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								kernel_modules.scroll_list(ScrollDirection::Top);
 							/* Load kernel module. */
 							} else if app.input_mode == InputMode::Load {
-								kernel_modules.command = ModuleCommand::Load;
-								kernel_modules.current_info = format!(
-									"\nExecute the following command? [y/N]:
-									┌─{}─┐
-									│ {} │
-									└─{}─┘\n\n{}",
-									"─".repeat(
-										kernel_modules.get_current_command().cmd.len()
-									),
-									kernel_modules.get_current_command().cmd,
-									"─".repeat(
-										kernel_modules.get_current_command().cmd.len()
-									),
-									kernel_modules.get_current_command().desc,
-								);
+								kernel_modules
+									.set_current_command(ModuleCommand::Load);
 							}
 							/* Hide terminal cursor and set the input mode flag. */
 							terminal.hide_cursor()?;

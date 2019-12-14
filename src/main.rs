@@ -313,6 +313,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								kernel_modules.scroll_list(ScrollDirection::Top);
 							/* Load kernel module. */
 							} else if app.input_mode == InputMode::Load {
+								kernel_modules.current_name = app.input_query;
 								kernel_modules
 									.set_current_command(ModuleCommand::Load);
 								app.input_query = String::new();

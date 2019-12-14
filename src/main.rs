@@ -259,14 +259,20 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* User input mode. */
 						Key::Char('\n')
 						| Key::Char('s')
+						| Key::Char('S')
 						| Key::Char('m')
+						| Key::Char('M')
 						| Key::Char('i')
+						| Key::Char('I')
 						| Key::Char('/')
 						| Key::Home => {
 							app.selected_block = Blocks::UserInput;
-							app.input_mode = InputMode::Search;
-							if input == Key::Char('m') || input == Key::Char('i') {
-								app.input_mode = InputMode::Load;
+							match input {
+								Key::Char('m')
+								| Key::Char('M')
+								| Key::Char('i')
+								| Key::Char('I') => app.input_mode = InputMode::Load,
+								_ => app.input_mode = InputMode::Search,
 							}
 							if input != Key::Char('\n') {
 								app.input_query = String::new();

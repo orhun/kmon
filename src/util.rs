@@ -13,7 +13,7 @@ pub enum ScrollDirection {
 	Bottom,
 }
 
-/*!
+/**
  * Parse command line arguments using clap.
  *
  * @param  version
@@ -49,7 +49,7 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
 		.get_matches()
 }
 
-/*!
+/**
  * Execute a operating system command and return its output.
  *
  * @param  cmd
@@ -74,7 +74,7 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 	}
 }
 
-/*!
+/**
  * Set cursor position in terminal.
  *
  * @param  out

@@ -14,7 +14,7 @@ pub struct KernelModules {
 }
 
 impl KernelModules {
-	/*!
+	/**
 	 * Create a new kernel modules instance.
 	 *
 	 * @param  args
@@ -78,7 +78,7 @@ impl KernelModules {
 		);
 	}
 
-	/*!
+	/**
 	 * Scroll module list and select module.
 	 *
 	 * @param direction
@@ -107,7 +107,7 @@ impl KernelModules {
 		}
 	}
 
-	/*!
+	/**
 	 * Select the next module.
 	 */
 	pub fn next_module(&mut self) {
@@ -117,7 +117,7 @@ impl KernelModules {
 		}
 	}
 
-	/*!
+	/**
 	 * Select the previous module.
 	 */
 	pub fn previous_module(&mut self) {
@@ -128,7 +128,7 @@ impl KernelModules {
 		}
 	}
 
-	/*!
+	/**
 	 * Scroll the module information text.
 	 *
 	 * @param direction

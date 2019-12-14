@@ -31,7 +31,7 @@ pub enum InputMode {
 }
 
 impl InputMode {
-	/*!
+	/**
 	 * Default text of the input mode title.
 	 *
 	 * @return default_text
@@ -39,7 +39,7 @@ impl InputMode {
 	pub fn get_default_text(&self) -> &str {
 		"Search"
 	}
-	/*!
+	/**
 	 * Check if input mode is set.
 	 *
 	 * @return bool
@@ -72,7 +72,7 @@ pub struct App<'a> {
 }
 
 impl App<'_> {
-	/*!
+	/**
 	 * Create a new app instance.
 	 *
 	 * @param  block
@@ -90,7 +90,7 @@ impl App<'_> {
 		}
 	}
 
-	/*!
+	/**
 	 * Get style depending on the selected state of the block.
 	 *
 	 * @param  block
@@ -104,7 +104,7 @@ impl App<'_> {
 		}
 	}
 
-	/*!
+	/**
 	 * Draw a paragraph widget for using as user input.
 	 *
 	 * @param frame
@@ -138,7 +138,7 @@ impl App<'_> {
 			.render(frame, area);
 	}
 
-	/*!
+	/**
 	 * Draw a paragraph widget for showing the kernel version.
 	 *
 	 * @param frame
@@ -164,7 +164,7 @@ impl App<'_> {
 			.render(frame, area);
 	}
 
-	/*!
+	/**
 	 * Configure and draw kernel modules table.
 	 *
 	 * @param frame
@@ -245,7 +245,7 @@ impl App<'_> {
 		.render(frame, area);
 	}
 
-	/*!
+	/**
 	 * Draw a paragraph widget for showing module information.
 	 *
 	 * @param frame
@@ -273,7 +273,7 @@ impl App<'_> {
 			.render(frame, area);
 	}
 
-	/*!
+	/**
 	 * Draw a paragraph widget for showing kernel activities.
 	 *
 	 * @param frame

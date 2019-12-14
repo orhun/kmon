@@ -22,7 +22,7 @@ use util::ScrollDirection;
 const VERSION: &'static str = "0.1.0"; /* Version */
 const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */
 
-/*!
+/**
  * Create a terminal instance with using termion as backend.
  *
  * @param  ArgMatches
@@ -356,7 +356,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	Ok(())
 }
 
-/*!
+/**
  * Entry point.
  */
 fn main() {

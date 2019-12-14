@@ -2,7 +2,7 @@
 pub struct Command<'a> {
 	pub cmd: String,
 	pub desc: &'a str,
-	pub title: &'a str,
+	pub title: String,
 }
 
 impl Command<'_> {
@@ -17,7 +17,7 @@ impl Command<'_> {
 	fn new(
 		command: String,
 		description: &'static str,
-		command_title: &'static str,
+		command_title: String,
 	) -> Self {
 		Self {
 			cmd: command,
@@ -38,8 +38,8 @@ pub enum ModuleCommand {
 impl ModuleCommand {
 	pub fn get(&self, module_name: &str) -> Command {
 		match self {
-            Self::None => Command::new(String::from(""), "", ""),
-            Self::Load => Command::new(String::from(""), "", ""),
+            Self::None => Command::new(String::from(""), "", String::from("")),
+            Self::Load => Command::new(String::from(""), "", String::from("")),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
@@ -52,7 +52,7 @@ impl ModuleCommand {
                                 There is usually no reason to remove modules, but some buggy \
                                 modules require it. Your distribution kernel may not have been \
                                 built to support removal of modules at all.",
-                "Remove Module",
+                String::from("Remove Module"),
             ),
         }
 	}

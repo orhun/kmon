@@ -245,6 +245,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Cancel the execution of current command. */
 						Key::Char('n') | Key::Char('N') => {
 							if !kernel_modules.command.is_none() {
+								app.selected_block = Blocks::ModuleTable;
 								kernel_modules.command = ModuleCommand::None;
 								if kernel_modules.index != 0 {
 									kernel_modules.index -= 1;

@@ -271,11 +271,17 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* User input mode. */
 						Key::Char('\n')
 						| Key::Char('s')
+						| Key::Char('m')
 						| Key::Char('/')
 						| Key::Home => {
 							app.selected_block = Blocks::UserInput;
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
+							}
+							if input != Key::Char('m') {
+								app.input_mode = InputMode::Search;
+							} else {
+								app.input_mode = InputMode::Load;
 							}
 							util::set_cursor_pos(
 								terminal.backend_mut(),
@@ -283,7 +289,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								2,
 							)?;
 							terminal.show_cursor()?;
-							app.input_mode = InputMode::Search;
 						}
 						_ => {}
 					}

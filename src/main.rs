@@ -313,7 +313,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 										None => Blocks::max_value(),
 									}
 								}
-								_ => Blocks::ModuleTable,
+								_ => match app.input_mode {
+									InputMode::Load => Blocks::ModuleInfo,
+									_ => Blocks::ModuleTable
+								},
 							};
 							/* Show the first modules information. */
 							if kernel_modules.index == 0 {

@@ -181,7 +181,10 @@ impl App<'_> {
 	{
 		/* Filter the module list depending on the input query. */
 		let mut kernel_module_list = kernel_modules.default_list.clone();
-		if self.input_mode == InputMode::Search && self.input_query.len() > 0 {
+		if (self.input_mode == InputMode::None
+			|| self.input_mode == InputMode::Search)
+			&& self.input_query.len() > 0
+		{
 			kernel_module_list.retain(|module| {
 				module[0]
 					.to_lowercase()

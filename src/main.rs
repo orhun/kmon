@@ -261,7 +261,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								kernel_modules.command = ModuleCommand::None;
 								if kernel_modules.index != 0 {
 									kernel_modules.index -= 1;
-									kernel_modules.scroll_list(ScrollDirection::Down);
+									kernel_modules
+										.scroll_list(ScrollDirection::Down);
 								} else {
 									kernel_modules.index += 1;
 									kernel_modules.scroll_list(ScrollDirection::Up);
@@ -315,7 +316,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 								_ => match app.input_mode {
 									InputMode::Load => Blocks::ModuleInfo,
-									_ => Blocks::ModuleTable
+									_ => Blocks::ModuleTable,
 								},
 							};
 							/* Show the first modules information. */

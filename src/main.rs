@@ -276,13 +276,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						| Key::Char('/')
 						| Key::Home => {
 							app.selected_block = Blocks::UserInput;
+							app.input_mode = InputMode::Search;
+							if input == Key::Char('m') {
+								app.input_mode = InputMode::Load;
+							}
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
-							}
-							if input != Key::Char('m') {
-								app.input_mode = InputMode::Search;
-							} else {
-								app.input_mode = InputMode::Load;
 							}
 							util::set_cursor_pos(
 								terminal.backend_mut(),

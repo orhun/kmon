@@ -52,7 +52,7 @@ impl ModuleCommand {
                                 There is usually no reason to remove modules, but some buggy \
                                 modules require it. Your distribution kernel may not have been \
                                 built to support removal of modules at all.",
-                String::from("Remove Module"),
+                format!("Remove: {}", module_name),
             ),
         }
 	}

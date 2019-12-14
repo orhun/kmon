@@ -306,7 +306,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						| Key::Ctrl('l')
 						| Key::Left
 						| Key::Ctrl('h') => {
-							/* Select the next or previous block. */
+							/* Select the next eligible block for action. */
 							app.selected_block = match input {
 								Key::Left | Key::Ctrl('h') => {
 									match app.selected_block.prev_variant() {

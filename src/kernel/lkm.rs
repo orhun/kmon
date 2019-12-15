@@ -60,6 +60,11 @@ impl KernelModules {
 		}
 	}
 
+	/**
+	 * Get the current command using current module name.
+	 *
+	 * @return Command
+	 */
 	pub fn get_current_command(&self) -> Command {
 		self.command.get(&self.current_name)
 	}

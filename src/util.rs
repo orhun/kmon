@@ -107,6 +107,10 @@ mod tests {
 			"true",
 			exec_cmd("sh", &["-c", "test 10 -eq 10 && echo 'true'"]).unwrap()
 		);
+		assert_eq!(
+			"err",
+			exec_cmd("cat", &["-x"]).unwrap_or(String::from("err"))
+		);
 	}
 	#[test]
 	fn test_set_cursor_pos() -> Result<(), Error> {

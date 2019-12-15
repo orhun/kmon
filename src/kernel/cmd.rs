@@ -36,6 +36,12 @@ pub enum ModuleCommand {
 }
 
 impl ModuleCommand {
+	/**
+	 * Get Command struct from a enum element.
+	 *
+	 * @param  module_name
+	 * @return Command
+	 */
 	pub fn get(&self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name)),

@@ -60,6 +60,11 @@ impl ModuleCommand {
             ),
         }
 	}
+	/**
+	 * Check if module command is set.
+	 *
+	 * @return bool
+	 */
 	pub fn is_none(&self) -> bool {
 		self == &Self::None
 	}

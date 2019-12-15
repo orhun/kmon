@@ -75,3 +75,14 @@ impl ModuleCommand {
 		self == &Self::None
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	#[test]
+	fn test_module_command() {
+		assert_ne!("", ModuleCommand::None.get("test").title);
+		assert_ne!("", ModuleCommand::Load.get("module").desc);
+		assert_ne!("", ModuleCommand::Load.get("command").cmd);
+	}
+}

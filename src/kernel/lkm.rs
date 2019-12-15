@@ -69,6 +69,11 @@ impl KernelModules {
 		self.command.get(&self.current_name)
 	}
 
+	/**
+	 * Set the current module command and show confirmation message.
+	 *
+	 * @param module_command
+	 */
 	pub fn set_current_command(&mut self, module_command: ModuleCommand) {
 		self.command = module_command;
 		self.current_info = format!(

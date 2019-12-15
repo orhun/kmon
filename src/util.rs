@@ -108,4 +108,10 @@ mod tests {
 			exec_cmd("sh", &["-c", "test 10 -eq 10 && echo 'true'"]).unwrap()
 		);
 	}
+	#[test]
+	fn test_set_cursor_pos() -> Result<(), Error> {
+		let w = Vec::new();
+		set_cursor_pos(w, 1, 1)?;
+		Ok(())
+	}
 }

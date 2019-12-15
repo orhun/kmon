@@ -18,10 +18,8 @@ script:
   - cargo build --verbose $CARGO_OPTIONS
   - cargo test --verbose $CARGO_OPTIONS
   - cargo fmt --all -- --check
-  - |
-    zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;
-    ./grcov ccov.zip -s . -t lcov --llvm --branch
-    --ignore-not-existing --ignore "/*" -o lcov.info;
+  - zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;
+    ./grcov ccov.zip -s . -t lcov --llvm --branch --ignore-not-existing --ignore "/*" -o lcov.info;
     bash <(curl -s https://codecov.io/bash) -f lcov.info;
 
 git:

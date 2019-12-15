@@ -294,6 +294,22 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Ctrl('c') | Key::Ctrl('d') => {
 							break;
 						}
+						/* Switch to the previous input mode. */
+						Key::Up | Key::Char('k') | Key::Char('K') => {
+							app.input_mode = match app.input_mode.prev_variant() {
+								Some(v) => v,
+								None => InputMode::max_value(),
+							};
+							app.input_query = String::new();
+						}
+						/* Switch to the next input mode. */
+						Key::Down | Key::Char('j') | Key::Char('J') => {
+							app.input_mode = match app.input_mode.next_variant() {
+								Some(v) => v,
+								None => InputMode::min_value(),
+							};
+							app.input_query = String::new();
+						}
 						/* Exit user input mode. */
 						Key::Char('\n')
 						| Key::Right

@@ -23,11 +23,13 @@ enum_unitary! {
 }
 
 /* User input mode */
-#[derive(Debug, PartialEq)]
-pub enum InputMode {
-	None,
-	Search,
-	Load,
+enum_unitary! {
+	#[derive(Debug, PartialEq)]
+	pub enum InputMode {
+		None,
+		Search,
+		Load,
+	}
 }
 
 impl InputMode {

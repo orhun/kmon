@@ -48,6 +48,9 @@ impl KernelModules {
 				ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
+		if args.is_present("reverse") {
+			module_list.reverse();
+		}
 		/* Return kernel modules. */
 		Self {
 			default_list: module_list.clone(),

@@ -24,11 +24,17 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
 		.version(version)
 		.arg(
 			Arg::with_name("rate")
-				.short("r")
-				.long("rate")
+				.short("t")
+				.long("tickrate")
 				.value_name("MS")
 				.help("Refresh rate of the terminal")
 				.takes_value(true),
+		)
+		.arg(
+			Arg::with_name("reverse")
+				.short("r")
+				.long("reverse")
+				.help("Reverse the kernel module list"),
 		)
 		.subcommand(
 			SubCommand::with_name("sort")

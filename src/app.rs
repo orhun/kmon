@@ -219,8 +219,7 @@ impl App<'_> {
 					} else {
 						Row::StyledData(item.into_iter(), self.selected_style)
 					}
-				})
-				.into_iter(),
+				}),
 		)
 		.block(
 			Block::default()

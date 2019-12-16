@@ -107,7 +107,7 @@ impl KernelModules {
 	}
 
 	/**
-	 * Scroll module list and select module.
+	 * Scroll module list up/down and select module.
 	 *
 	 * @param direction
 	 */
@@ -159,7 +159,7 @@ impl KernelModules {
 	}
 
 	/**
-	 * Scroll the module information text.
+	 * Scroll the module information text up/down.
 	 *
 	 * @param direction
 	 */

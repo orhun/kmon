@@ -295,7 +295,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							break;
 						}
 						/* Switch to the previous input mode. */
-						Key::Up | Key::Char('k') | Key::Char('K') => {
+						Key::Up => {
 							app.input_mode = match app.input_mode.prev_variant() {
 								Some(v) => v,
 								None => InputMode::max_value(),
@@ -306,7 +306,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							app.input_query = String::new();
 						}
 						/* Switch to the next input mode. */
-						Key::Down | Key::Char('j') | Key::Char('J') => {
+						Key::Down => {
 							app.input_mode = match app.input_mode.next_variant() {
 								Some(v) => v,
 								None => {

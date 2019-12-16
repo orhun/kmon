@@ -88,6 +88,11 @@ impl KernelModules {
 		);
 	}
 
+	/**
+	 * Execute the current module command.
+	 *
+	 * @return executed
+	 */
 	pub fn exec_current_command(&mut self) -> bool {
 		let mut executed = false;
 		if !self.command.is_none() {

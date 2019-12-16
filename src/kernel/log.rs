@@ -1,4 +1,4 @@
-use crate::util;
+use crate::util::{self, ScrollDirection};
 
 /* Kernel activity logs */
 pub struct KernelLogs {
@@ -37,6 +37,23 @@ impl KernelLogs {
 		let logs_updated = self.output.lines().next().unwrap() != self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated
+	}
+
+	pub fn scroll(&mut self, direction: ScrollDirection) {
+		match direction {
+			ScrollDirection::Up => {
+				if self.scroll_offset > 2 {
+					self.scroll_offset -= 3;
+				}
+			}
+			ScrollDirection::Down => {
+				if !self.output.is_empty() {
+					self.scroll_offset += 3;
+					self.scroll_offset %= (self.output.lines().count() as u16) * 2;
+				}
+			}
+			_ => {}
+		}
 	}
 }
 

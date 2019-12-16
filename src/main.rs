@@ -133,35 +133,33 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								String::from("(TODO)\nHelp Message")
 						}
 						/* Scroll the selected block up. */
-						Key::Up | Key::Char('k') | Key::Char('K') => match app
-							.selected_block
-						{
-							Blocks::ModuleTable => {
-								kernel_modules.scroll_list(ScrollDirection::Up)
+						Key::Up | Key::Char('k') | Key::Char('K') => {
+							match app.selected_block {
+								Blocks::ModuleTable => {
+									kernel_modules.scroll_list(ScrollDirection::Up)
+								}
+								Blocks::ModuleInfo => kernel_modules
+									.scroll_mod_info(ScrollDirection::Up),
+								Blocks::Activities => {
+									kernel_logs.scroll(ScrollDirection::Up);
+								}
+								_ => {}
 							}
-							Blocks::ModuleInfo => {
-								kernel_modules.scroll_mod_info(ScrollDirection::Up)
-							}
-							Blocks::Activities => {
-								events.tx.send(Event::Input(Key::PageUp)).unwrap();
-							}
-							_ => {}
-						},
+						}
 						/* Scroll the selected block down. */
-						Key::Down | Key::Char('j') | Key::Char('J') => match app
-							.selected_block
-						{
-							Blocks::ModuleTable => {
-								kernel_modules.scroll_list(ScrollDirection::Down)
+						Key::Down | Key::Char('j') | Key::Char('J') => {
+							match app.selected_block {
+								Blocks::ModuleTable => {
+									kernel_modules.scroll_list(ScrollDirection::Down)
+								}
+								Blocks::ModuleInfo => kernel_modules
+									.scroll_mod_info(ScrollDirection::Down),
+								Blocks::Activities => {
+									kernel_logs.scroll(ScrollDirection::Down);
+								}
+								_ => {}
 							}
-							Blocks::ModuleInfo => {
-								kernel_modules.scroll_mod_info(ScrollDirection::Down)
-							}
-							Blocks::Activities => {
-								events.tx.send(Event::Input(Key::PageDown)).unwrap();
-							}
-							_ => {}
-						},
+						}
 						/* Select the next terminal block. */
 						Key::Left
 						| Key::Char('h')
@@ -197,18 +195,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Scroll kernel activities up. */
 						Key::PageUp => {
 							app.selected_block = Blocks::Activities;
-							if kernel_logs.scroll_offset > 2 {
-								kernel_logs.scroll_offset -= 3;
-							}
+							kernel_logs.scroll(ScrollDirection::Up);
 						}
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
 							app.selected_block = Blocks::Activities;
-							if !kernel_logs.output.is_empty() {
-								kernel_logs.scroll_offset += 3;
-								kernel_logs.scroll_offset %=
-									(kernel_logs.output.lines().count() as u16) * 2;
-							}
+							kernel_logs.scroll(ScrollDirection::Down);
 						}
 						/* Scroll module information up. */
 						Key::Backspace => {

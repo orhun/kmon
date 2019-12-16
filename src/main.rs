@@ -129,8 +129,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Show help message. */
 						Key::Char('?') => {
 							kernel_modules.current_name = String::from("Help");
-							kernel_modules.current_info = String::from("(TODO)\nHelp Message")
-						},
+							kernel_modules.current_info =
+								String::from("(TODO)\nHelp Message")
+						}
 						/* Scroll the selected block up. */
 						Key::Up | Key::Char('k') | Key::Char('K') => match app
 							.selected_block

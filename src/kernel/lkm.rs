@@ -91,13 +91,13 @@ impl KernelModules {
 	/**
 	 * Execute the current module command.
 	 *
-	 * @return executed
+	 * @return command_executed
 	 */
 	pub fn exec_current_command(&mut self) -> bool {
-		let mut executed = false;
+		let mut command_executed = false;
 		if !self.command.is_none() {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
-				Ok(_) => executed = true,
+				Ok(_) => command_executed = true,
 				Err(e) => {
 					self.current_info = format!(
 						"\nFailed to execute command: '{}'\n\n{}",
@@ -108,7 +108,7 @@ impl KernelModules {
 			}
 			self.command = ModuleCommand::None;
 		}
-		executed
+		command_executed
 	}
 
 	/**

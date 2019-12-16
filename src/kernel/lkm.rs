@@ -41,7 +41,7 @@ impl KernelModules {
 				module_name = format!("{} {}", module_name, columns[6]);
 			}
 			let mut used_modules = format!("{} {}", columns[2], columns[3]);
-			if used_modules.chars().last().unwrap() == ',' {
+			if used_modules.ends_with(',') {
 				used_modules.pop();
 			}
 			let module_size =

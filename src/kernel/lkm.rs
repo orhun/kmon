@@ -88,6 +88,24 @@ impl KernelModules {
 		);
 	}
 
+	pub fn exec_current_command(&mut self) -> bool {
+		let mut executed = false;
+		if !self.command.is_none() {
+			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
+				Ok(_) => executed = true,
+				Err(e) => {
+					self.current_info = format!(
+						"\nFailed to execute command: '{}'\n\n{}",
+						self.get_current_command().cmd,
+						e
+					)
+				}
+			}
+			self.command = ModuleCommand::None;
+		}
+		return executed;
+	}
+
 	/**
 	 * Scroll module list and select module.
 	 *

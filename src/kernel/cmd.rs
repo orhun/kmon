@@ -20,9 +20,9 @@ impl Command<'_> {
 		mut command_title: String,
 	) -> Self {
 		/* Parse the command title if '!' is given. */
-		if command_title.contains("!") {
+		if command_title.contains('!) {
 			command_title = command_title
-				.split("!")
+				.split('!')
 				.collect::<Vec<&str>>()
 				.last()
 				.unwrap_or(&"")

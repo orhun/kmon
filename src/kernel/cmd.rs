@@ -21,12 +21,12 @@ impl Command<'_> {
 	) -> Self {
 		/* Parse the command title if '!' is given. */
 		if command_title.contains('!') {
-			command_title = command_title
+			command_title = (*command_title
 				.split('!')
 				.collect::<Vec<&str>>()
 				.last()
-				.unwrap_or(&"")
-				.to_string();
+				.unwrap_or(&""))
+			.to_string();
 		}
 		Self {
 			cmd: command,

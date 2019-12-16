@@ -19,8 +19,8 @@ use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 use util::ScrollDirection;
 
-const VERSION: &'static str = "0.1.0"; /* Version */
-const REFRESH_RATE: &'static str = "250"; /* Default refresh rate of the terminal */
+const VERSION: &str = "0.1.0"; /* Version */
+const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
 
 /**
  * Create a terminal instance with using termion as backend.

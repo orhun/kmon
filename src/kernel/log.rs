@@ -39,6 +39,11 @@ impl KernelLogs {
 		logs_updated
 	}
 
+	/**
+	 * Scroll the kernel logs up/down.
+	 *
+	 * @param direction
+	 */
 	pub fn scroll(&mut self, direction: ScrollDirection) {
 		match direction {
 			ScrollDirection::Up => {

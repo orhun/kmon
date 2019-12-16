@@ -41,11 +41,8 @@ impl Events {
 			thread::spawn(move || {
 				let stdin = io::stdin();
 				for evt in stdin.keys() {
-					match evt {
-						Ok(key) => {
-							tx.send(Event::Input(key)).unwrap();
-						}
-						Err(_) => {}
+					if let Ok(key) = evt {
+						tx.send(Event::Input(key)).unwrap();
 					}
 				}
 			})

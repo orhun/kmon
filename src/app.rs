@@ -213,11 +213,11 @@ impl App<'_> {
 						== kernel_modules.index.checked_sub(modules_scroll_offset)
 					{
 						Row::StyledData(
-							item.into_iter(),
+							item.iter(),
 							self.selected_style.modifier(Modifier::BOLD),
 						)
 					} else {
-						Row::StyledData(item.into_iter(), self.selected_style)
+						Row::StyledData(item.iter(), self.selected_style)
 					}
 				}),
 		)

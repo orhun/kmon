@@ -34,7 +34,7 @@ impl KernelLogs {
 			&["-c", "dmesg --kernel --human --color=never | tac"],
 		)
 		.expect("failed to retrieve dmesg output");
-		let logs_updated = self.output.lines().next().unwrap() != &self.last_line;
+		let logs_updated = self.output.lines().next().unwrap() != self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated
 	}

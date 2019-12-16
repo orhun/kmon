@@ -27,7 +27,7 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
 				.short("t")
 				.long("tickrate")
 				.value_name("MS")
-				.help("Refresh rate of the terminal")
+				.help("Set the refresh rate of the terminal")
 				.takes_value(true),
 		)
 		.arg(

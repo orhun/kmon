@@ -17,8 +17,16 @@ impl Command<'_> {
 	fn new(
 		command: String,
 		description: &'static str,
-		command_title: String,
+		mut command_title: String,
 	) -> Self {
+		if command_title.contains("!") {
+			command_title = command_title
+				.split("!")
+				.collect::<Vec<&str>>()
+				.last()
+				.unwrap_or(&"")
+				.to_string();
+		}
 		Self {
 			cmd: command,
 			desc: description,

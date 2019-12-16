@@ -103,7 +103,7 @@ impl KernelModules {
 			}
 			self.command = ModuleCommand::None;
 		}
-		return executed;
+		executed
 	}
 
 	/**

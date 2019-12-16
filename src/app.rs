@@ -185,7 +185,7 @@ impl App<'_> {
 		let mut kernel_module_list = kernel_modules.default_list.clone();
 		if (self.input_mode == InputMode::None
 			|| self.input_mode == InputMode::Search)
-			&& self.input_query.len() > 0
+			&& !self.input_query.is_empty()
 		{
 			kernel_module_list.retain(|module| {
 				module[0]

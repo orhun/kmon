@@ -204,7 +204,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
 							app.selected_block = Blocks::Activities;
-							if kernel_logs.output.len() > 0 {
+							if !kernel_logs.output.is_empty() {
 								kernel_logs.scroll_offset += 3;
 								kernel_logs.scroll_offset %=
 									(kernel_logs.output.lines().count() as u16) * 2;

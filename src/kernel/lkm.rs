@@ -95,7 +95,7 @@ impl KernelModules {
 	 */
 	pub fn scroll_list(&mut self, direction: ScrollDirection) {
 		self.info_scroll_offset = 0;
-		if self.list.len() == 0 {
+		if self.list.is_empty() {
 			self.index = 0;
 		} else {
 			match direction {

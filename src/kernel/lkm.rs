@@ -110,7 +110,9 @@ impl KernelModules {
 				.unwrap()
 				.to_string();
 			self.current_info = util::exec_cmd("modinfo", &[&self.current_name])
-				.unwrap_or(String::from("failed to retrieve module information"));
+				.unwrap_or_else(|_| {
+					String::from("failed to retrieve module information")
+				});
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}

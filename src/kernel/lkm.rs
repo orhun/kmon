@@ -48,6 +48,7 @@ impl KernelModules {
 				ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
+		/* Reverse the kernel modules if the argument is provided. */
 		if args.is_present("reverse") {
 			module_list.reverse();
 		}

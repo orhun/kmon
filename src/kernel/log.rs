@@ -18,7 +18,7 @@ impl KernelLogs {
 		Self {
 			output: String::new(),
 			last_line: String::new(),
-			version: util::exec_cmd("uname", &["-srm"]).unwrap().to_string(),
+			version: util::exec_cmd("uname", &["-srm"]).unwrap(),
 			scroll_offset: 0,
 		}
 	}

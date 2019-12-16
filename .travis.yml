@@ -18,7 +18,7 @@ script:
   - export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
     -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
   - cargo build --verbose $CARGO_OPTIONS
-  - cargo clippy -- -D warnings -D clippy::tabs-in-doc-comments
+  - cargo clippy -- -D warnings -A clippy::tabs-in-doc-comments
   - cargo test --verbose $CARGO_OPTIONS
   - cargo fmt --all -- --check
   - zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;

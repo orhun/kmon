@@ -9,6 +9,8 @@ before_install:
   - curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
 
 before_script:
+  - rustup component add clippy --toolchain=nightly ||
+    cargo install --git https://github.com/rust-lang/rust-clippy/ --force clippy
   - rustup component add rustfmt
 
 script:
@@ -16,6 +18,7 @@ script:
   - export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
     -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
   - cargo build --verbose $CARGO_OPTIONS
+  - cargo clippy --all-targets --all-features -- -D warnings
   - cargo test --verbose $CARGO_OPTIONS
   - cargo fmt --all -- --check
   - zip -0 ccov.zip `find . \( -name "kmon*.gc*" \) -print`;

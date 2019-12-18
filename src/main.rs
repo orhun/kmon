@@ -277,7 +277,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 				} else {
 					/* User input mode. */
 					match input {
-						/* Quit with ctrl+key combinations. */
+						/* Quit with ctrl+key combinations and ESC. */
 						Key::Ctrl('c') | Key::Ctrl('d') | Key::Esc => {
 							break;
 						}

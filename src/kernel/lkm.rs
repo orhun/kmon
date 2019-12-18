@@ -81,9 +81,7 @@ impl KernelModules {
 	pub fn set_current_command(&mut self, module_command: ModuleCommand) {
 		self.command = module_command;
 		self.current_info = format!(
-			"\nExecute the following command? [y/N]:\n
-									{}
-									\n{}",
+			"\nExecute the following command? [y/N]:\n\n{}\n\n{}",
 			self.get_current_command().cmd,
 			self.get_current_command().desc,
 		);

@@ -75,7 +75,7 @@ impl ModuleCommand {
                 format!("Remove: {}", module_name),
             ),
 			Self::Blacklist => Command::new(
-				format!("{}", &module_name),
+				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
 				"",
 				format!("Blacklist: {}", module_name)),
         }

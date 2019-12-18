@@ -116,7 +116,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('q')
 						| Key::Char('Q')
 						| Key::Ctrl('c')
-						| Key::Ctrl('d') => {
+						| Key::Ctrl('d')
+						| Key::Esc => {
 							break;
 						}
 						/* Refresh. */

@@ -78,9 +78,11 @@ impl ModuleCommand {
 				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
 				"Blacklisting is a mechanism to prevent the kernel module from loading. \
 				This could be useful if, for example, the associated hardware is not needed, \
-				or if loading that module causes problems: for instance there may be two \
+				or if loading that module causes problems. For instance, there may be two \
 				kernel modules that try to control the same piece of hardware, and loading \
-				them together would result in a conflict.",
+				them together would result in a conflict.\n
+				You might want to regenerate the initial ramdisk image and reboot after \
+				blacklisting the modules depending on your configuration.",
 				format!("Blacklist: {}", module_name)),
         }
 	}

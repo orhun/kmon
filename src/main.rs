@@ -215,6 +215,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}
+						Key::Char('x') | Key::Char('X') => {
+							kernel_modules
+								.set_current_command(ModuleCommand::Blacklist);
+						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
 							if kernel_modules.exec_current_command() {

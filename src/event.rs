@@ -88,8 +88,8 @@ mod tests {
 		let events = Events::new(100);
 		for _i in 0..10 {
 			match events.rx.recv()? {
-				Event::Input(_) => {},
-				Event::Tick => {},
+				Event::Input(_) => {}
+				Event::Tick => {}
 				Event::Kernel(_) => {}
 			}
 		}

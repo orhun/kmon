@@ -42,6 +42,7 @@ pub enum ModuleCommand {
 	None,
 	Load,
 	Unload,
+	Blacklist,
 }
 
 impl ModuleCommand {
@@ -73,6 +74,10 @@ impl ModuleCommand {
                                 built to support removal of modules at all.",
                 format!("Remove: {}", module_name),
             ),
+			Self::Blacklist => Command::new(
+				format!("{}", &module_name),
+				"",
+				format!("Blacklist: {}", module_name)),
         }
 	}
 	/**

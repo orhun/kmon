@@ -278,7 +278,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 					/* User input mode. */
 					match input {
 						/* Quit with ctrl+key combinations. */
-						Key::Ctrl('c') | Key::Ctrl('d') => {
+						Key::Ctrl('c') | Key::Ctrl('d') | Key::Esc => {
 							break;
 						}
 						/* Switch to the previous input mode. */

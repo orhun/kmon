@@ -32,8 +32,11 @@ impl<'a> StyledText<'a> {
 		self.raw_text = text;
 		self.styled_text = Vec::new();
 	}
-	pub fn set_styled_text(&mut self, text: Vec<Text<'static>>) {
+	pub fn set_styled_text(&mut self, text: Vec<Text<'static>>, escape_count: usize) {
 		self.styled_text = text;
+		for _i in 0..escape_count*2 {
+			self.styled_text.push(Text::raw(""));
+		}
 		self.raw_text = String::new();
 	}
 	pub fn lines(&mut self) -> usize {

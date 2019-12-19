@@ -204,11 +204,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_logs.scroll(ScrollDirection::Down);
 						}
 						/* Scroll module information up. */
-						Key::Alt(' ') => {
+						Key::Char('<') | Key::Alt(' ') => {
 							kernel_modules.scroll_mod_info(ScrollDirection::Up)
 						}
 						/* Scroll module information down. */
-						Key::Char(' ') => {
+						Key::Char('>') | Key::Char(' ') => {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						/* Unload kernel module. */

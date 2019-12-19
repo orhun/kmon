@@ -4,6 +4,31 @@ use clap::SubCommand;
 use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;
+use tui::widgets::Text;
+
+pub struct StyledText<'a> {
+	raw_text: String,
+	text: Vec<Text<'a>>,
+}
+
+impl Default for StyledText<'_> {
+	fn default() -> Self {
+		Self {
+			raw_text: String::new(),
+			text: Vec::new(),
+		}
+	}
+}
+
+impl <'a>StyledText<'a> {
+	pub fn get(&'a self) -> Vec<Text<'a>> {
+		if !self.raw_text.is_empty() {
+			vec![Text::raw(&self.raw_text)]
+		} else {
+			self.text.to_vec()
+		}
+	}
+}
 
 /* Supported directions of scrolling */
 pub enum ScrollDirection {

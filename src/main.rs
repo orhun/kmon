@@ -346,7 +346,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.index = 0;
 						}
 						/* Delete the last character from input query. */
-						Key::Backspace => {
+						Key::Backspace | Key::Delete => {
 							app.input_query.pop();
 							kernel_modules.index = 0;
 						}

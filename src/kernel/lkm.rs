@@ -97,13 +97,11 @@ impl KernelModules<'_> {
 		if !self.command.is_none() {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
 				Ok(_) => command_executed = true,
-				Err(e) => {
-					self.current_info.set_raw_text(format!(
-						"\nFailed to execute command: '{}'\n\n{}",
-						self.get_current_command().cmd,
-						e
-					))
-				}
+				Err(e) => self.current_info.set_raw_text(format!(
+					"\nFailed to execute command: '{}'\n\n{}",
+					self.get_current_command().cmd,
+					e
+				)),
 			}
 			self.command = ModuleCommand::None;
 		}
@@ -131,10 +129,11 @@ impl KernelModules<'_> {
 				.next()
 				.unwrap()
 				.to_string();
-			self.current_info.set_raw_text(util::exec_cmd("modinfo", &[&self.current_name])
-				.unwrap_or_else(|_| {
-					String::from("failed to retrieve module information")
-				}));
+			self.current_info.set_raw_text(
+				util::exec_cmd("modinfo", &[&self.current_name]).unwrap_or_else(
+					|_| String::from("failed to retrieve module information"),
+				),
+			);
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}

@@ -20,7 +20,7 @@ impl Default for StyledText<'_> {
 	}
 }
 
-impl <'a>StyledText<'a> {
+impl<'a> StyledText<'a> {
 	pub fn get(&'a self) -> Vec<Text<'a>> {
 		if self.styled_text.is_empty() {
 			vec![Text::raw(&self.raw_text)]

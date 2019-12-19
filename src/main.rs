@@ -212,7 +212,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						/* Unload kernel module. */
-						Key::Char('u') | Key::Char('U') => {
+						Key::Char('u') | Key::Char('U') | Key::Delete => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}

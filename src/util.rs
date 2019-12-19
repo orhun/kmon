@@ -22,7 +22,7 @@ impl Default for StyledText<'_> {
 
 impl <'a>StyledText<'a> {
 	pub fn get(&'a self) -> Vec<Text<'a>> {
-		if !self.raw_text.is_empty() {
+		if self.text.is_empty() {
 			vec![Text::raw(&self.raw_text)]
 		} else {
 			self.text.to_vec()

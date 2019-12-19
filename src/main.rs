@@ -184,12 +184,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 						}
 						/* Scroll to the top of the module list. */
-						Key::Char('t') | Key::Char('T') => {
+						Key::Char('t') | Key::Char('T') | Key::Home => {
 							app.selected_block = Blocks::ModuleTable;
 							kernel_modules.scroll_list(ScrollDirection::Top)
 						}
 						/* Scroll to the bottom of the module list. */
-						Key::Char('b') | Key::Char('B') => {
+						Key::Char('b') | Key::Char('B') | Key::End => {
 							app.selected_block = Blocks::ModuleTable;
 							kernel_modules.scroll_list(ScrollDirection::Bottom)
 						}

@@ -86,8 +86,7 @@ impl KernelModules<'_> {
 			vec![
 				Text::raw("\nExecute the following command? [y/N]:\n\n"),
 				Text::styled(self.get_current_command().cmd, Style::default().fg(Color::Red).modifier(Modifier::BOLD)),
-				Text::raw("\n\n"),
-				Text::raw(self.get_current_command().desc),
+				Text::raw(format!("\n\n{}", self.get_current_command().desc)),
 			], 5);
 	}
 

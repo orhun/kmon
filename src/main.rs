@@ -253,7 +253,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						| Key::Char('i')
 						| Key::Char('I')
 						| Key::Char('/')
-						| Key::Home => {
+						| Key::Insert => {
 							app.selected_block = Blocks::UserInput;
 							match input {
 								Key::Char('m')

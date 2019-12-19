@@ -28,15 +28,15 @@ impl <'a>StyledText<'a> {
 			self.styled_text.to_vec()
 		}
 	}
-	pub fn set_raw_text(&'a mut self, text: &'a str) {
-		self.raw_text = text.to_string();
+	pub fn set_raw_text(&mut self, text: String) {
+		self.raw_text = text;
 		self.styled_text = Vec::new();
 	}
 	pub fn set_styled_text(&'a mut self, text: Vec<Text<'a>>) {
 		self.styled_text = text;
 		self.raw_text = String::new();
 	}
-	pub fn lines(&'a self) -> usize {
+	pub fn lines(&mut self) -> usize {
 		if !self.raw_text.is_empty() {
 			self.raw_text.lines().count()
 		} else {

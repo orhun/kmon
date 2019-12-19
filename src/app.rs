@@ -261,7 +261,7 @@ impl App<'_> {
 	) where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(kernel_modules.current_info.to_string())].iter())
+		Paragraph::new(kernel_modules.current_info.get().iter())
 			.block(
 				Block::default()
 					.title_style(self.title_style)

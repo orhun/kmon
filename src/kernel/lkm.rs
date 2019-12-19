@@ -1,19 +1,19 @@
 use crate::kernel::cmd::{Command, ModuleCommand};
-use crate::util::{self, ScrollDirection};
+use crate::util::{self, ScrollDirection, StyledText};
 use bytesize::ByteSize;
 
 /* Loadable kernel modules */
-pub struct KernelModules {
+pub struct KernelModules<'a> {
 	pub default_list: Vec<Vec<String>>,
 	pub list: Vec<Vec<String>>,
 	pub current_name: String,
-	pub current_info: String,
+	pub current_info: StyledText<'a>,
 	pub command: ModuleCommand,
 	pub index: usize,
 	pub info_scroll_offset: u16,
 }
 
-impl KernelModules {
+impl KernelModules<'_> {
 	/**
 	 * Create a new kernel modules instance.
 	 *
@@ -57,7 +57,7 @@ impl KernelModules {
 			default_list: module_list.clone(),
 			list: module_list,
 			current_name: String::new(),
-			current_info: String::new(),
+			current_info: StyledText::default(),
 			command: ModuleCommand::None,
 			index: 0,
 			info_scroll_offset: 0,
@@ -80,11 +80,11 @@ impl KernelModules {
 	 */
 	pub fn set_current_command(&mut self, module_command: ModuleCommand) {
 		self.command = module_command;
-		self.current_info = format!(
+		self.current_info.set_raw_text(format!(
 			"\nExecute the following command? [y/N]:\n\n{}\n\n{}",
 			self.get_current_command().cmd,
 			self.get_current_command().desc,
-		);
+		))
 	}
 
 	/**
@@ -98,11 +98,11 @@ impl KernelModules {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
 				Ok(_) => command_executed = true,
 				Err(e) => {
-					self.current_info = format!(
+					self.current_info.set_raw_text(format!(
 						"\nFailed to execute command: '{}'\n\n{}",
 						self.get_current_command().cmd,
 						e
-					)
+					))
 				}
 			}
 			self.command = ModuleCommand::None;
@@ -131,10 +131,10 @@ impl KernelModules {
 				.next()
 				.unwrap()
 				.to_string();
-			self.current_info = util::exec_cmd("modinfo", &[&self.current_name])
+			self.current_info.set_raw_text(util::exec_cmd("modinfo", &[&self.current_name])
 				.unwrap_or_else(|_| {
 					String::from("failed to retrieve module information")
-				});
+				}));
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}
@@ -175,10 +175,10 @@ impl KernelModules {
 				}
 			}
 			ScrollDirection::Down => {
-				if self.current_info.lines().count() > 0 {
+				if self.current_info.lines() > 0 {
 					self.info_scroll_offset += 2;
 					self.info_scroll_offset %=
-						(self.current_info.lines().count() as u16) * 2;
+						(self.current_info.lines() as u16) * 2;
 				}
 			}
 			_ => {}

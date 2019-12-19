@@ -36,6 +36,13 @@ impl <'a>StyledText<'a> {
 		self.styled_text = text;
 		self.raw_text = String::new();
 	}
+	pub fn lines(&'a self) -> usize {
+		if !self.raw_text.is_empty() {
+			self.raw_text.lines().count()
+		} else {
+			self.styled_text.len()
+		}
+	}
 }
 
 /* Supported directions of scrolling */

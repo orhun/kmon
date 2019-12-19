@@ -8,24 +8,24 @@ use tui::widgets::Text;
 
 pub struct StyledText<'a> {
 	raw_text: String,
-	text: Vec<Text<'a>>,
+	styled_text: Vec<Text<'a>>,
 }
 
 impl Default for StyledText<'_> {
 	fn default() -> Self {
 		Self {
 			raw_text: String::new(),
-			text: Vec::new(),
+			styled_text: Vec::new(),
 		}
 	}
 }
 
 impl <'a>StyledText<'a> {
 	pub fn get(&'a self) -> Vec<Text<'a>> {
-		if self.text.is_empty() {
+		if self.styled_text.is_empty() {
 			vec![Text::raw(&self.raw_text)]
 		} else {
-			self.text.to_vec()
+			self.styled_text.to_vec()
 		}
 	}
 }

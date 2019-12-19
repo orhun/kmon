@@ -32,7 +32,7 @@ impl<'a> StyledText<'a> {
 		self.raw_text = text;
 		self.styled_text = Vec::new();
 	}
-	pub fn set_styled_text(&'a mut self, text: Vec<Text<'a>>) {
+	pub fn set_styled_text(&mut self, text: Vec<Text<'static>>) {
 		self.styled_text = text;
 		self.raw_text = String::new();
 	}

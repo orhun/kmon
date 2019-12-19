@@ -1,5 +1,7 @@
 use crate::kernel::cmd::{Command, ModuleCommand};
 use crate::util::{self, ScrollDirection, StyledText};
+use tui::style::{Color, Modifier, Style};
+use tui::widgets::Text;
 use bytesize::ByteSize;
 
 /* Loadable kernel modules */
@@ -80,11 +82,13 @@ impl KernelModules<'_> {
 	 */
 	pub fn set_current_command(&mut self, module_command: ModuleCommand) {
 		self.command = module_command;
-		self.current_info.set_raw_text(format!(
-			"\nExecute the following command? [y/N]:\n\n{}\n\n{}",
-			self.get_current_command().cmd,
-			self.get_current_command().desc,
-		))
+		self.current_info.set_styled_text(
+			vec![
+				Text::raw("\nExecute the following command? [y/N]:\n\n"),
+				Text::styled(self.get_current_command().cmd, Style::default().fg(Color::Red).modifier(Modifier::BOLD)),
+				Text::raw("\n\n"),
+				Text::raw(self.get_current_command().desc),
+			]);
 	}
 
 	/**

@@ -1,11 +1,11 @@
 /* Kernel module related command */
-pub struct Command<'a> {
+pub struct Command {
 	pub cmd: String,
-	pub desc: &'a str,
+	pub desc: &'static str,
 	pub title: String,
 }
 
-impl Command<'_> {
+impl Command {
 	/**
 	 * Create a new command instance.
 	 *

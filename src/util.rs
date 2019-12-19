@@ -28,6 +28,14 @@ impl <'a>StyledText<'a> {
 			self.styled_text.to_vec()
 		}
 	}
+	pub fn set_raw_text(&'a mut self, text: &'a str) {
+		self.raw_text = text.to_string();
+		self.styled_text = Vec::new();
+	}
+	pub fn set_styled_text(&'a mut self, text: Vec<Text<'a>>) {
+		self.styled_text = text;
+		self.raw_text = String::new();
+	}
 }
 
 /* Supported directions of scrolling */

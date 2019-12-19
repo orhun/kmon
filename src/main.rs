@@ -204,7 +204,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_logs.scroll(ScrollDirection::Down);
 						}
 						/* Scroll module information up. */
-						Key::Backspace => {
+						Key::Alt(' ') => {
 							kernel_modules.scroll_mod_info(ScrollDirection::Up)
 						}
 						/* Scroll module information down. */
@@ -212,11 +212,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						/* Unload kernel module. */
-						Key::Char('u') | Key::Char('U') | Key::Delete => {
+						Key::Char('u') | Key::Char('U') | Key::Backspace => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}
-						Key::Char('x') | Key::Char('X') => {
+						Key::Char('x') | Key::Char('X') | Key::Delete => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Blacklist);
 						}

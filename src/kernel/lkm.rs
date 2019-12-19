@@ -205,6 +205,6 @@ mod tests {
 		assert_eq!(0, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
-		assert_ne!(0, kernel_modules.current_info.len());
+		assert_ne!(0, kernel_modules.current_info.lines());
 	}
 }

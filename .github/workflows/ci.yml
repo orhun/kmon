@@ -36,12 +36,22 @@ jobs:
 
   cov:
     name: Codecov
-    uses: codecov/codecov-action@v1
-    with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: lcov.info
-        flags: unittests
-        fail_ci_if_error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clean
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: lcov.info
+          flags: unittests
+          fail_ci_if_error: true
 
   fmt:
     name: Rustfmt

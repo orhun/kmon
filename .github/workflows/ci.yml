@@ -33,6 +33,7 @@ jobs:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
             -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
+      - uses: actions-rs/grcov@v0.1
 
   cov:
     name: Codecov

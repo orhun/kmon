@@ -34,6 +34,15 @@ jobs:
           RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
             -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
 
+  cov:
+    name: Codecov
+    uses: codecov/codecov-action@v1
+    with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: lcov.info
+        flags: unittests
+        fail_ci_if_error: true
+
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest

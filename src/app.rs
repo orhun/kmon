@@ -1,7 +1,7 @@
 use crate::event::Event;
+use crate::style::Style;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
-use crate::util::Style;
 use enum_unitary::enum_unitary;
 use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;

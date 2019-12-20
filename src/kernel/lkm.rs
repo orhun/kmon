@@ -1,5 +1,6 @@
 use crate::kernel::cmd::{Command, ModuleCommand};
-use crate::util::{self, ScrollDirection, Style, StyledText};
+use crate::util::{self, ScrollDirection};
+use crate::style::{Style, StyledText};
 use bytesize::ByteSize;
 use tui::widgets::Text;
 

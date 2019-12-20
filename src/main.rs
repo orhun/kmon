@@ -1,5 +1,6 @@
 mod app;
 mod event;
+mod style;
 mod kernel;
 mod util;
 use app::{App, Blocks, InputMode};

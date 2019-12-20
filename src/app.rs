@@ -7,7 +7,7 @@ use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::Rect;
-use tui::style::{Modifier, Style as TuiStyle};
+use tui::style::Style as TuiStyle;
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 use crate::util::Style;

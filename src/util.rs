@@ -8,12 +8,18 @@ use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
 
 pub struct Style {
+	pub title_style: TuiStyle,
+	pub selected_style: TuiStyle,
+	pub unselected_style: TuiStyle,
 	pub highlight_style: TuiStyle,
 }
 
 impl Default for Style {
 	fn default() -> Self {
 		Self {
+			title_style: TuiStyle::default().modifier(Modifier::BOLD),
+			selected_style: TuiStyle::default().fg(Color::White),
+			unselected_style: TuiStyle::default().fg(Color::DarkGray),
 			highlight_style: TuiStyle::default()
 				.fg(Color::Red)
 				.modifier(Modifier::BOLD),

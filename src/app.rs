@@ -7,9 +7,10 @@ use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::Rect;
-use tui::style::{Color, Modifier, Style};
+use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
+use crate::util::{self, Style};
 
 /* Main blocks of the terminal */
 enum_unitary! {
@@ -68,9 +69,7 @@ pub struct App<'a> {
 	pub input_mode: InputMode,
 	pub input_query: String,
 	pub table_header: &'a [&'a str],
-	pub title_style: Style,
-	pub selected_style: Style,
-	pub unselected_style: Style,
+	style: Style,
 }
 
 impl App<'_> {
@@ -86,9 +85,7 @@ impl App<'_> {
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			table_header: &["Module", "Size", "Used by"],
-			title_style: Style::default().modifier(Modifier::BOLD),
-			selected_style: Style::default().fg(Color::White),
-			unselected_style: Style::default().fg(Color::DarkGray),
+			style: Style::default(),
 		}
 	}
 
@@ -98,11 +95,11 @@ impl App<'_> {
 	 * @param  block
 	 * @return Style
 	 */
-	pub fn block_style(&self, block: Blocks) -> Style {
+	pub fn block_style(&self, block: Blocks) -> TuiStyle {
 		if block == self.selected_block {
-			self.selected_style
+			self.style.selected_style
 		} else {
-			self.unselected_style
+			self.style.unselected_style
 		}
 	}
 
@@ -124,15 +121,15 @@ impl App<'_> {
 		Paragraph::new([Text::raw(self.input_query.to_string())].iter())
 			.block(
 				Block::default()
-					.title_style(self.title_style)
+					.title_style(self.style.title_style)
 					.border_style(match self.selected_block {
 						Blocks::UserInput => {
 							if self.input_mode.is_none() {
 								tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							}
-							self.selected_style
+							self.style.selected_style
 						}
-						_ => self.unselected_style,
+						_ => self.style.unselected_style,
 					})
 					.borders(Borders::ALL)
 					.title(&self.input_mode.to_string()),
@@ -158,8 +155,8 @@ impl App<'_> {
 		Paragraph::new([Text::raw(version)].iter())
 			.block(
 				Block::default()
-					.title_style(self.title_style)
-					.border_style(self.unselected_style)
+					.title_style(self.style.title_style)
+					.border_style(self.style.unselected_style)
 					.borders(Borders::ALL)
 					.title("Kernel Version"),
 			)
@@ -214,16 +211,16 @@ impl App<'_> {
 					{
 						Row::StyledData(
 							item.iter(),
-							self.selected_style.modifier(Modifier::BOLD),
+							self.style.selected_style.modifier(Modifier::BOLD),
 						)
 					} else {
-						Row::StyledData(item.iter(), self.selected_style)
+						Row::StyledData(item.iter(), self.style.selected_style)
 					}
 				}),
 		)
 		.block(
 			Block::default()
-				.title_style(self.title_style)
+				.title_style(self.style.title_style)
 				.border_style(self.block_style(Blocks::ModuleTable))
 				.borders(Borders::ALL)
 				.title(&format!(
@@ -264,7 +261,7 @@ impl App<'_> {
 		Paragraph::new(kernel_modules.current_info.get().iter())
 			.block(
 				Block::default()
-					.title_style(self.title_style)
+					.title_style(self.style.title_style)
 					.border_style(self.block_style(Blocks::ModuleInfo))
 					.borders(Borders::ALL)
 					.title(&kernel_modules.get_current_command().title),
@@ -292,7 +289,7 @@ impl App<'_> {
 		Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
 			.block(
 				Block::default()
-					.title_style(self.title_style)
+					.title_style(self.style.title_style)
 					.border_style(self.block_style(Blocks::Activities))
 					.borders(Borders::ALL)
 					.title("Kernel Activities"),

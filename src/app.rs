@@ -93,7 +93,7 @@ impl App<'_> {
 	 * Get style depending on the selected state of the block.
 	 *
 	 * @param  block
-	 * @return Style
+	 * @return TuiStyle
 	 */
 	pub fn block_style(&self, block: Blocks) -> TuiStyle {
 		if block == self.selected_block {

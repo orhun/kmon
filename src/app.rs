@@ -211,10 +211,10 @@ impl App<'_> {
 					{
 						Row::StyledData(
 							item.iter(),
-							self.style.selected_style.modifier(Modifier::BOLD),
+							self.style.selected_style,
 						)
 					} else {
-						Row::StyledData(item.iter(), self.style.selected_style)
+						Row::StyledData(item.iter(), self.style.unselected_style)
 					}
 				}),
 		)

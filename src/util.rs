@@ -4,13 +4,26 @@ use clap::SubCommand;
 use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;
-use tui::style::{Color, Modifier, Style};
+use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
+
+pub struct Style {
+	pub highlight_style: TuiStyle,
+}
+
+impl Default for Style {
+	fn default() -> Self {
+		Self {
+			highlight_style: TuiStyle::default()
+				.fg(Color::Red)
+				.modifier(Modifier::BOLD),
+		}
+	}
+}
 
 pub struct StyledText<'a> {
 	raw_text: String,
 	styled_text: Vec<Text<'a>>,
-	pub highlight_style: Style,
 }
 
 impl Default for StyledText<'_> {
@@ -18,9 +31,6 @@ impl Default for StyledText<'_> {
 		Self {
 			raw_text: String::new(),
 			styled_text: Vec::new(),
-			highlight_style: Style::default()
-				.fg(Color::Red)
-				.modifier(Modifier::BOLD),
 		}
 	}
 }

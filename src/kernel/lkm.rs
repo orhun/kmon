@@ -1,5 +1,5 @@
 use crate::kernel::cmd::{Command, ModuleCommand};
-use crate::util::{self, ScrollDirection, StyledText};
+use crate::util::{self, ScrollDirection, Style, StyledText};
 use bytesize::ByteSize;
 use tui::widgets::Text;
 
@@ -86,7 +86,7 @@ impl KernelModules<'_> {
 				Text::raw("\nExecute the following command? [y/N]:\n\n"),
 				Text::styled(
 					self.get_current_command().cmd,
-					StyledText::default().highlight_style,
+					Style::default().highlight_style,
 				),
 				Text::raw(format!("\n\n{}", self.get_current_command().desc)),
 			],

@@ -1,6 +1,7 @@
 use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
+use crate::util::Style;
 use enum_unitary::enum_unitary;
 use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;
@@ -10,7 +11,6 @@ use tui::layout::Rect;
 use tui::style::Style as TuiStyle;
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
-use crate::util::Style;
 
 /* Main blocks of the terminal */
 enum_unitary! {
@@ -209,10 +209,7 @@ impl App<'_> {
 					if Some(i)
 						== kernel_modules.index.checked_sub(modules_scroll_offset)
 					{
-						Row::StyledData(
-							item.iter(),
-							self.style.selected_style,
-						)
+						Row::StyledData(item.iter(), self.style.selected_style)
 					} else {
 						Row::StyledData(item.iter(), self.style.unselected_style)
 					}

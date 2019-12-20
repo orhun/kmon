@@ -1,7 +1,7 @@
 mod app;
 mod event;
-mod style;
 mod kernel;
+mod style;
 mod util;
 use app::{App, Blocks, InputMode};
 use enum_unitary::{Bounded, EnumUnitary};

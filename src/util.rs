@@ -43,7 +43,7 @@ impl<'a> StyledText<'a> {
 		}
 		self.raw_text = String::new();
 	}
-	pub fn lines(&mut self) -> usize {
+	pub fn lines(&self) -> usize {
 		if !self.raw_text.is_empty() {
 			self.raw_text.lines().count()
 		} else {

@@ -87,7 +87,7 @@ impl KernelModules<'_> {
 				Text::raw("\nExecute the following command? [y/N]:\n\n"),
 				Text::styled(
 					self.get_current_command().cmd,
-					Style::default().fg(Color::Red).modifier(Modifier::BOLD),
+					StyledText::default().highlight_style,
 				),
 				Text::raw(format!("\n\n{}", self.get_current_command().desc)),
 			],

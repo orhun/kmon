@@ -156,7 +156,7 @@ impl App<'_> {
 		&self,
 		frame: &mut Frame<B>,
 		area: Rect,
-		info: &Vec<String>,
+		info: &[String],
 	) where
 		B: Backend,
 	{

@@ -1,8 +1,9 @@
 use crate::util;
+use std::vec::IntoIter;
 
 pub struct KernelInfo {
 	pub current_info: Vec<String>,
-	uname_output: std::vec::IntoIter<Vec<String>>,
+	uname_output: IntoIter<Vec<String>>,
 }
 
 impl KernelInfo {
@@ -25,7 +26,7 @@ impl KernelInfo {
 		}
 	}
 
-	fn get_infos() -> std::vec::IntoIter<Vec<String>> {
+	fn get_infos() -> IntoIter<Vec<String>> {
 		vec![
 			vec![
 				String::from("Kernel Release"),

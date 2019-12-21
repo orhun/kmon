@@ -152,8 +152,12 @@ impl App<'_> {
 	 * @param area
 	 * @param info
 	 */
-	pub fn draw_kernel_info<B>(&self, frame: &mut Frame<B>, area: Rect, info: &Vec<String>)
-	where
+	pub fn draw_kernel_info<B>(
+		&self,
+		frame: &mut Frame<B>,
+		area: Rect,
+		info: &Vec<String>,
+	) where
 		B: Backend,
 	{
 		Paragraph::new([Text::raw(&info[1])].iter())

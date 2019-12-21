@@ -27,9 +27,18 @@ impl KernelInfo {
 
 	fn get_infos() -> std::vec::IntoIter<Vec<String>> {
 		vec![
-			vec![String::from("Kernel Release"), util::exec_cmd("uname", &["-srm"]).unwrap()],
-			vec![String::from("Kernel Version"), util::exec_cmd("uname", &["-v"]).unwrap()],
-			vec![String::from("Kernel Platform"), util::exec_cmd("uname", &["-opi"]).unwrap()],
+			vec![
+				String::from("Kernel Release"),
+				util::exec_cmd("uname", &["-srm"]).unwrap(),
+			],
+			vec![
+				String::from("Kernel Version"),
+				util::exec_cmd("uname", &["-v"]).unwrap(),
+			],
+			vec![
+				String::from("Kernel Platform"),
+				util::exec_cmd("uname", &["-opi"]).unwrap(),
+			],
 		]
 		.into_iter()
 	}

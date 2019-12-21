@@ -9,6 +9,7 @@ use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
 use kernel::lkm::KernelModules;
 use kernel::log::KernelLogs;
+use kernel::info::KernelInfo;
 use std::io::stdout;
 use termion::event::Key;
 use termion::input::MouseTerminal;
@@ -45,6 +46,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	/* Set required items for the terminal widgets. */
 	let mut app = App::new(Blocks::ModuleTable);
 	let mut kernel_logs = KernelLogs::new();
+	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
 	kernel_modules.scroll_list(ScrollDirection::Top);
 	/* Draw terminal and render the widgets. */
@@ -88,7 +90,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						app.draw_kernel_version(
 							&mut f,
 							chunks[1],
-							&kernel_logs.version,
+							&kernel_info.current_info,
 						)
 					}
 					app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
@@ -124,6 +126,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app = App::new(Blocks::ModuleTable);
 							kernel_logs.scroll_offset = 0;
+							kernel_info = KernelInfo::new();
 							kernel_modules = KernelModules::new(args);
 							kernel_modules.scroll_list(ScrollDirection::Top);
 						}
@@ -213,10 +216,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						Key::Char('\t') => {
-							kernel_logs.version = match kernel_logs.uname.next() {
-								Some(v) => v,
-								None => String::from(""),
-							}
+							kernel_info.next();
 						}
 						/* Unload kernel module. */
 						Key::Char('u') | Key::Char('U') | Key::Backspace => {

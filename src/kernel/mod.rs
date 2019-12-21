@@ -4,3 +4,4 @@ pub mod lkm;
 pub mod log;
 /* Kernel module commands */
 pub mod cmd;
+pub mod info;

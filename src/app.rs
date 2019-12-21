@@ -146,11 +146,11 @@ impl App<'_> {
 	}
 
 	/**
-	 * Draw a paragraph widget for showing the kernel version.
+	 * Draw a paragraph widget for showing the kernel information.
 	 *
 	 * @param frame
 	 * @param area
-	 * @param version
+	 * @param info
 	 */
 	pub fn draw_kernel_info<B>(
 		&self,

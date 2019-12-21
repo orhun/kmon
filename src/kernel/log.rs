@@ -17,16 +17,17 @@ impl KernelLogs {
 	 * @return KernelLogs
 	 */
 	pub fn new() -> Self {
-		let vec = vec![util::exec_cmd("uname", &["-srm"]).unwrap(),
-				util::exec_cmd("uname", &["-v"]).unwrap(),
-				util::exec_cmd("uname", &["-opi"]).unwrap()];
-		Self {
+		let mut kernel_logs = Self {
 			output: String::new(),
 			last_line: String::new(),
-			uname: vec.into_iter(),
+			uname: vec![util::exec_cmd("uname", &["-srm"]).unwrap(),
+				util::exec_cmd("uname", &["-v"]).unwrap(),
+				util::exec_cmd("uname", &["-opi"]).unwrap()].into_iter(),
 			version: String::new(),
 			scroll_offset: 0,
-		}
+		};
+		kernel_logs.version = kernel_logs.uname.next().unwrap();
+		kernel_logs
 	}
 
 	/**

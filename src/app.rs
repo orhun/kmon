@@ -152,17 +152,17 @@ impl App<'_> {
 	 * @param area
 	 * @param info
 	 */
-	pub fn draw_kernel_info<B>(&self, frame: &mut Frame<B>, area: Rect, info: &str)
+	pub fn draw_kernel_info<B>(&self, frame: &mut Frame<B>, area: Rect, info: &Vec<String>)
 	where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(info)].iter())
+		Paragraph::new([Text::raw(&info[1])].iter())
 			.block(
 				Block::default()
 					.title_style(self.style.title_style)
 					.border_style(self.style.unselected_style)
 					.borders(Borders::ALL)
-					.title("Kernel Info"),
+					.title(&info[0]),
 			)
 			.render(frame, area);
 	}

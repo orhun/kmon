@@ -1,14 +1,14 @@
 use crate::util;
 
 pub struct KernelInfo {
-	pub current_info: String,
-	uname_output: std::vec::IntoIter<String>,
+	pub current_info: Vec<String>,
+	uname_output: std::vec::IntoIter<Vec<String>>,
 }
 
 impl KernelInfo {
 	pub fn new() -> Self {
 		let mut kernel_info = Self {
-			current_info: String::new(),
+			current_info: Vec::new(),
 			uname_output: KernelInfo::get_infos(),
 		};
 		kernel_info.next();
@@ -25,11 +25,11 @@ impl KernelInfo {
 		}
 	}
 
-	fn get_infos() -> std::vec::IntoIter<String> {
+	fn get_infos() -> std::vec::IntoIter<Vec<String>> {
 		vec![
-			util::exec_cmd("uname", &["-srm"]).unwrap(),
-			util::exec_cmd("uname", &["-v"]).unwrap(),
-			util::exec_cmd("uname", &["-opi"]).unwrap(),
+			vec![String::from("Kernel Release"), util::exec_cmd("uname", &["-srm"]).unwrap()],
+			vec![String::from("Kernel Version"), util::exec_cmd("uname", &["-v"]).unwrap()],
+			vec![String::from("Kernel Platform"), util::exec_cmd("uname", &["-opi"]).unwrap()],
 		]
 		.into_iter()
 	}

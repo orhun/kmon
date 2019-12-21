@@ -87,7 +87,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							)
 							.split(chunks[0]);
 						app.draw_user_input(&mut f, chunks[0], &events.tx);
-						app.draw_kernel_version(
+						app.draw_kernel_info(
 							&mut f,
 							chunks[1],
 							&kernel_info.current_info,

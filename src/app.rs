@@ -152,15 +152,15 @@ impl App<'_> {
 	 * @param area
 	 * @param version
 	 */
-	pub fn draw_kernel_version<B>(
+	pub fn draw_kernel_info<B>(
 		&self,
 		frame: &mut Frame<B>,
 		area: Rect,
-		version: &str,
+		info: &str,
 	) where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(version)].iter())
+		Paragraph::new([Text::raw(info)].iter())
 			.block(
 				Block::default()
 					.title_style(self.style.title_style)

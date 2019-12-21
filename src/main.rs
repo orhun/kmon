@@ -212,6 +212,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('>') | Key::Char(' ') => {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
+						Key::Char('\t') => {
+							kernel_logs.version = match kernel_logs.uname.next() {
+								Some(v) => v,
+								None => String::from(""),
+							}
+						}
 						/* Unload kernel module. */
 						Key::Char('u') | Key::Char('U') | Key::Backspace => {
 							kernel_modules

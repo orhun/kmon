@@ -166,7 +166,7 @@ impl App<'_> {
 					.title_style(self.style.title_style)
 					.border_style(self.style.unselected_style)
 					.borders(Borders::ALL)
-					.title("Kernel Information"),
+					.title("Kernel Info"),
 			)
 			.render(frame, area);
 	}

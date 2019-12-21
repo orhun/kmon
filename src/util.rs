@@ -5,14 +5,6 @@ use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;
 
-/* Supported directions of scrolling */
-pub enum ScrollDirection {
-	Up,
-	Down,
-	Top,
-	Bottom,
-}
-
 /**
  * Parse command line arguments using clap.
  *

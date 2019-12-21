@@ -1,4 +1,5 @@
-use crate::util::{self, ScrollDirection};
+use crate::util;
+use crate::app::ScrollDirection;
 
 /* Kernel activity logs */
 pub struct KernelLogs {

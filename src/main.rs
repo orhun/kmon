@@ -3,7 +3,7 @@ mod event;
 mod kernel;
 mod style;
 mod util;
-use app::{App, Blocks, InputMode};
+use app::{App, Blocks, ScrollDirection, InputMode};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
@@ -18,7 +18,6 @@ use tui::backend::TermionBackend;
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
-use util::ScrollDirection;
 
 const VERSION: &str = "0.1.0"; /* Version */
 const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */

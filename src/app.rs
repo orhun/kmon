@@ -12,6 +12,14 @@ use tui::style::Style as TuiStyle;
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
+/* Supported directions of scrolling */
+pub enum ScrollDirection {
+	Up,
+	Down,
+	Top,
+	Bottom,
+}
+
 /* Main blocks of the terminal */
 enum_unitary! {
 	#[derive(PartialEq)]

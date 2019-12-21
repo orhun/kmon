@@ -5,8 +5,6 @@ use crate::util;
 pub struct KernelLogs {
 	pub output: String,
 	last_line: String,
-	pub uname: std::vec::IntoIter<String>,
-	pub version: String,
 	pub scroll_offset: u16,
 }
 
@@ -17,17 +15,11 @@ impl KernelLogs {
 	 * @return KernelLogs
 	 */
 	pub fn new() -> Self {
-		let mut kernel_logs = Self {
+		Self {
 			output: String::new(),
 			last_line: String::new(),
-			uname: vec![util::exec_cmd("uname", &["-srm"]).unwrap(),
-				util::exec_cmd("uname", &["-v"]).unwrap(),
-				util::exec_cmd("uname", &["-opi"]).unwrap()].into_iter(),
-			version: String::new(),
 			scroll_offset: 0,
-		};
-		kernel_logs.version = kernel_logs.uname.next().unwrap();
-		kernel_logs
+		}
 	}
 
 	/**

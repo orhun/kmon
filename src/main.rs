@@ -217,6 +217,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}
+						/* Blacklist kernel module. */
 						Key::Char('x') | Key::Char('X') | Key::Delete => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Blacklist);

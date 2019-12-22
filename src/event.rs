@@ -86,7 +86,8 @@ mod tests {
 	use super::*;
 	#[test]
 	fn test_events() -> Result<(), failure::Error> {
-		let events = Events::new(100);
+		let kernel_logs = KernelLogs::default();
+		let events = Events::new(100, &kernel_logs);
 		for _i in 0..10 {
 			match events.rx.recv()? {
 				Event::Input(_) => {}

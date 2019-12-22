@@ -52,14 +52,12 @@ impl Events {
 		let kernel_handler = {
 			let tx = tx.clone();
 			let mut kernel_logs = kernel_logs.clone();
-			thread::spawn(move || {
-				loop {
-					if kernel_logs.update() {
-						tx.send(Event::Kernel(kernel_logs.output.to_string()))
-							.unwrap();
-					}
-					thread::sleep(refresh_rate * 10);
+			thread::spawn(move || loop {
+				if kernel_logs.update() {
+					tx.send(Event::Kernel(kernel_logs.output.to_string()))
+						.unwrap();
 				}
+				thread::sleep(refresh_rate * 10);
 			})
 		};
 		/* Create a loop for handling events. */

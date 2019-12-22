@@ -49,7 +49,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 			.unwrap_or(REFRESH_RATE)
 			.parse::<u64>()
 			.unwrap(),
-		&kernel_logs
+		&kernel_logs,
 	);
 	/* Draw terminal and render the widgets. */
 	loop {

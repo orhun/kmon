@@ -5,7 +5,6 @@ use crate::util;
 pub struct KernelLogs {
 	pub output: String,
 	last_line: String,
-	pub scroll_offset: u16,
 	pub index: usize,
 }
 
@@ -19,7 +18,6 @@ impl KernelLogs {
 		Self {
 			output: String::new(),
 			last_line: String::new(),
-			scroll_offset: 0,
 			index: 0,
 		}
 	}
@@ -46,15 +44,15 @@ impl KernelLogs {
 	pub fn scroll(&mut self, direction: ScrollDirection) {
 		match direction {
 			ScrollDirection::Up => {
-				if self.scroll_offset > 2 {
+				/*if self.scroll_offset > 2 {
 					self.scroll_offset -= 3;
-				}
+				}*/
 			}
 			ScrollDirection::Down => {
-				if !self.output.is_empty() {
+				/*if !self.output.is_empty() {
 					self.scroll_offset += 3;
 					self.scroll_offset %= (self.output.lines().count() as u16) * 2;
-				}
+				}*/
 			}
 			_ => {}
 		}

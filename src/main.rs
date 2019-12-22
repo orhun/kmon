@@ -125,7 +125,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app = App::new(Blocks::ModuleTable);
-							kernel_logs.scroll_offset = 0;
+							//kernel_logs.scroll_offset = 0;
 							kernel_info = KernelInfo::new();
 							kernel_modules = KernelModules::new(args);
 							kernel_modules.scroll_list(ScrollDirection::Top);

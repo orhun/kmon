@@ -318,7 +318,6 @@ impl App<'_> {
 				.borders(Borders::ALL)
 				.title("Kernel Activities"),
 		)
-		.scroll(kernel_logs.scroll_offset)
 		.render(frame, area);
 	}
 }

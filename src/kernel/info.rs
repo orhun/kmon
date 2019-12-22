@@ -7,13 +7,13 @@ pub struct KernelInfo {
 	uname_output: IntoIter<Vec<String>>,
 }
 
-impl Default for KernelInfo {
-	/**
-	 * Create a default kernel info instance.
+impl KernelInfo {
+    /**
+	 * Create a new kernel info instance.
 	 *
 	 * @return KernelInfo
 	 */
-	fn default() -> Self {
+	pub fn new() -> Self {
 		let mut kernel_info = Self {
 			current_info: Vec::new(),
 			uname_output: KernelInfo::get_infos(),
@@ -21,9 +21,6 @@ impl Default for KernelInfo {
 		kernel_info.next();
 		kernel_info
 	}
-}
-
-impl KernelInfo {
 	/**
 	 * Select the next 'uname' output as kernel information.
 	 */

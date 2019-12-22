@@ -40,7 +40,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	/* Set required items for the terminal widgets. */
 	let mut app = App::new(Blocks::ModuleTable);
 	let mut kernel_logs = KernelLogs::default();
-	let mut kernel_info = KernelInfo::default();
+	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
 	kernel_modules.scroll_list(ScrollDirection::Top);
 	/* Create terminal events. */
@@ -128,7 +128,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app = App::new(Blocks::ModuleTable);
 							kernel_logs.index = 0;
-							kernel_info = KernelInfo::default();
+							kernel_info = KernelInfo::new();
 							kernel_modules = KernelModules::new(args);
 							kernel_modules.scroll_list(ScrollDirection::Top);
 						}

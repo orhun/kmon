@@ -43,7 +43,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
 	kernel_modules.scroll_list(ScrollDirection::Top);
-
+	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
 			.unwrap_or(REFRESH_RATE)

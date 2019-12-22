@@ -312,6 +312,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Exit user input mode. */
 						Key::Char('\n')
+						| Key::Char('\t')
 						| Key::Right
 						| Key::Ctrl('l')
 						| Key::Left

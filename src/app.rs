@@ -291,17 +291,35 @@ impl App<'_> {
 	) where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(kernel_logs.output.to_string())].iter())
-			.block(
-				Block::default()
-					.title_style(self.style.title_style)
-					.border_style(self.block_style(Blocks::Activities))
-					.borders(Borders::ALL)
-					.title("Kernel Activities"),
-			)
-			.wrap(true)
-			.scroll(kernel_logs.scroll_offset)
-			.render(frame, area);
+		kernel_logs.index = kernel_logs.output.lines().count();
+
+		Paragraph::new(
+			[Text::raw(
+				kernel_logs
+					.output
+					.lines()
+					.skip(
+						area.height
+							.checked_sub(2)
+							.and_then(|height| {
+								kernel_logs.index.checked_sub(height as usize)
+							})
+							.unwrap_or(0),
+					)
+					.map(|i| format!("{}\n", i))
+					.collect::<String>(),
+			)]
+			.iter(),
+		)
+		.block(
+			Block::default()
+				.title_style(self.style.title_style)
+				.border_style(self.block_style(Blocks::Activities))
+				.borders(Borders::ALL)
+				.title("Kernel Activities"),
+		)
+		.scroll(kernel_logs.scroll_offset)
+		.render(frame, area);
 	}
 }
 

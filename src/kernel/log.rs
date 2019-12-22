@@ -6,6 +6,7 @@ pub struct KernelLogs {
 	pub output: String,
 	last_line: String,
 	pub scroll_offset: u16,
+	pub index: usize,
 }
 
 impl KernelLogs {
@@ -19,6 +20,7 @@ impl KernelLogs {
 			output: String::new(),
 			last_line: String::new(),
 			scroll_offset: 0,
+			index: 0,
 		}
 	}
 
@@ -28,11 +30,9 @@ impl KernelLogs {
 	 * @return logs_updated
 	 */
 	pub fn update(&mut self) -> bool {
-		self.output = util::exec_cmd(
-			"sh",
-			&["-c", "dmesg --kernel --human --color=never | tac"],
-		)
-		.expect("failed to retrieve dmesg output");
+		self.output =
+			util::exec_cmd("sh", &["-c", "dmesg --kernel --human --color=never"])
+				.expect("failed to retrieve dmesg output");
 		let logs_updated = self.output.lines().next().unwrap() != self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated

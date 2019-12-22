@@ -30,7 +30,7 @@ impl KernelInfo {
 		vec![
 			vec![
 				String::from("Kernel Release"),
-				util::exec_cmd("uname", &["-srm"]).unwrap(),
+				util::exec_cmd("uname", &["-srn"]).unwrap(),
 			],
 			vec![
 				String::from("Kernel Version"),
@@ -38,7 +38,7 @@ impl KernelInfo {
 			],
 			vec![
 				String::from("Kernel Platform"),
-				util::exec_cmd("uname", &["-opi"]).unwrap(),
+				util::exec_cmd("uname", &["-om"]).unwrap(),
 			],
 		]
 		.into_iter()

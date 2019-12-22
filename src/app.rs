@@ -291,8 +291,6 @@ impl App<'_> {
 	) where
 		B: Backend,
 	{
-		kernel_logs.index = kernel_logs.output.lines().count();
-
 		Paragraph::new(
 			[Text::raw(
 				kernel_logs
@@ -302,7 +300,9 @@ impl App<'_> {
 						area.height
 							.checked_sub(2)
 							.and_then(|height| {
-								kernel_logs.index.checked_sub(height as usize)
+								(kernel_logs.output.lines().count()
+									- kernel_logs.index)
+									.checked_sub(height as usize)
 							})
 							.unwrap_or(0),
 					)

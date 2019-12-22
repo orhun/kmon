@@ -44,15 +44,16 @@ impl KernelLogs {
 	pub fn scroll(&mut self, direction: ScrollDirection) {
 		match direction {
 			ScrollDirection::Up => {
-				/*if self.scroll_offset > 2 {
-					self.scroll_offset -= 3;
-				}*/
+				if self.index + 3 <= self.output.lines().count() {
+					self.index += 3;
+				} else {
+					self.index = self.output.lines().count();
+				}
 			}
 			ScrollDirection::Down => {
-				/*if !self.output.is_empty() {
-					self.scroll_offset += 3;
-					self.scroll_offset %= (self.output.lines().count() as u16) * 2;
-				}*/
+				if self.index > 2 {
+					self.index -= 3;
+				}
 			}
 			_ => {}
 		}

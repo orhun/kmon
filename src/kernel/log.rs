@@ -9,20 +9,22 @@ pub struct KernelLogs {
 	pub index: usize,
 }
 
-impl KernelLogs {
+impl Default for KernelLogs {
 	/**
-	 * Create a new kernel logs instance.
+	 * Create a default kernel logs instance.
 	 *
 	 * @return KernelLogs
 	 */
-	pub fn new() -> Self {
+	fn default() -> Self {
 		Self {
 			output: String::new(),
 			last_line: String::new(),
 			index: 0,
 		}
 	}
+}
 
+impl KernelLogs {
 	/**
 	 * Update the output variable value if 'dmesg' logs changed.
 	 *

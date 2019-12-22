@@ -39,7 +39,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
 	let mut app = App::new(Blocks::ModuleTable);
-	let mut kernel_logs = KernelLogs::new();
+	let mut kernel_logs = KernelLogs::default();
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
 	kernel_modules.scroll_list(ScrollDirection::Top);

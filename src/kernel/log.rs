@@ -2,26 +2,11 @@ use crate::app::ScrollDirection;
 use crate::util;
 
 /* Kernel activity logs */
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct KernelLogs {
 	pub output: String,
 	last_line: String,
 	pub index: usize,
-}
-
-impl Default for KernelLogs {
-	/**
-	 * Create a default kernel logs instance.
-	 *
-	 * @return KernelLogs
-	 */
-	fn default() -> Self {
-		Self {
-			output: String::new(),
-			last_line: String::new(),
-			index: 0,
-		}
-	}
 }
 
 impl KernelLogs {

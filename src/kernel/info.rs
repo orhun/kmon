@@ -8,7 +8,7 @@ pub struct KernelInfo {
 }
 
 impl KernelInfo {
-    /**
+	/**
 	 * Create a new kernel info instance.
 	 *
 	 * @return KernelInfo

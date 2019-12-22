@@ -215,6 +215,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('>') | Key::Char(' ') => {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
+						/* Show the next kernel information. */
 						Key::Char('\t') => {
 							kernel_info.next();
 						}

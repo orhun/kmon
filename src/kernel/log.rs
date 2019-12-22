@@ -68,7 +68,7 @@ mod tests {
 	use super::*;
 	#[test]
 	fn test_kernel_logs() {
-		let mut kernel_logs = KernelLogs::new();
+		let mut kernel_logs = KernelLogs::default();
 		assert_eq!(true, kernel_logs.update());
 		assert_ne!(0, kernel_logs.output.lines().count());
 	}

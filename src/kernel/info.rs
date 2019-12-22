@@ -9,7 +9,7 @@ pub struct KernelInfo {
 
 impl Default for KernelInfo {
 	/**
-	 * Create a new kernel info instance.
+	 * Create a default kernel info instance.
 	 *
 	 * @return KernelInfo
 	 */

@@ -53,6 +53,8 @@ impl KernelLogs {
 			ScrollDirection::Down => {
 				if self.index > 2 {
 					self.index -= 3;
+				} else {
+					self.index = 0;
 				}
 			}
 			_ => {}

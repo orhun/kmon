@@ -46,8 +46,6 @@ impl KernelLogs {
 			ScrollDirection::Up => {
 				if self.index + 3 <= self.output.lines().count() {
 					self.index += 3;
-				} else {
-					self.index = self.output.lines().count();
 				}
 			}
 			ScrollDirection::Down => {

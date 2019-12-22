@@ -36,12 +36,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let stdout = AlternateScreen::from(stdout);
 	let backend = TermionBackend::new(stdout);
 	let mut terminal = Terminal::new(backend)?;
-	let events = Events::new(
-		args.value_of("rate")
-			.unwrap_or(REFRESH_RATE)
-			.parse::<u64>()
-			.unwrap(),
-	);
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
 	let mut app = App::new(Blocks::ModuleTable);
@@ -49,6 +43,14 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
 	kernel_modules.scroll_list(ScrollDirection::Top);
+
+	let events = Events::new(
+		args.value_of("rate")
+			.unwrap_or(REFRESH_RATE)
+			.parse::<u64>()
+			.unwrap(),
+		&mut kernel_logs
+	);
 	/* Draw terminal and render the widgets. */
 	loop {
 		terminal.draw(|mut f| {

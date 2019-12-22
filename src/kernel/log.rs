@@ -2,6 +2,7 @@ use crate::app::ScrollDirection;
 use crate::util;
 
 /* Kernel activity logs */
+#[derive(Clone)]
 pub struct KernelLogs {
 	pub output: String,
 	last_line: String,

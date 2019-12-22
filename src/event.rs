@@ -30,7 +30,7 @@ impl Events {
 	 * @param  refresh_rate
 	 * @return Events
 	 */
-	pub fn new(refresh_rate: u64) -> Self {
+	pub fn new(refresh_rate: u64, kernel_logs: &mut KernelLogs) -> Self {
 		/* Convert refresh rate to Duration from milliseconds. */
 		let refresh_rate = Duration::from_millis(refresh_rate);
 		/* Create a new asynchronous channel. */
@@ -50,8 +50,8 @@ impl Events {
 		/* Handle kernel logs using 'dmesg' output. */
 		let kernel_handler = {
 			let tx = tx.clone();
+			let mut kernel_logs = kernel_logs.clone();
 			thread::spawn(move || {
-				let mut kernel_logs = KernelLogs::new();
 				loop {
 					if kernel_logs.update() {
 						tx.send(Event::Kernel(kernel_logs.output.to_string()))

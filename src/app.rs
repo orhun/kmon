@@ -1,7 +1,7 @@
 use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
-use crate::style::Style;
+use crate::style::{Style, StyledText};
 use enum_unitary::enum_unitary;
 use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;
@@ -292,24 +292,26 @@ impl App<'_> {
 		B: Backend,
 	{
 		Paragraph::new(
-			[Text::raw(
-				kernel_logs
-					.output
-					.lines()
-					.skip(
-						area.height
-							.checked_sub(2)
-							.and_then(|height| {
-								(kernel_logs.output.lines().count()
-									- kernel_logs.index)
-									.checked_sub(height as usize)
-							})
-							.unwrap_or(0),
-					)
-					.map(|i| format!("{}\n", i))
-					.collect::<String>(),
-			)]
-			.iter(),
+			StyledText::default()
+				.stylize_data(
+					&kernel_logs
+						.output
+						.lines()
+						.skip(
+							area.height
+								.checked_sub(2)
+								.and_then(|height| {
+									(kernel_logs.output.lines().count()
+										- kernel_logs.index)
+										.checked_sub(height as usize)
+								})
+								.unwrap_or(0),
+						)
+						.map(|i| format!("{}\n", i))
+						.collect::<String>(),
+					']',
+				)
+				.iter(),
 		)
 		.block(
 			Block::default()

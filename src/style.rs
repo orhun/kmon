@@ -77,7 +77,7 @@ impl<'a> StyledText<'a> {
 		self.raw_text = String::new();
 	}
 
-	pub fn stylize_data(&mut self, text: &str, delimiter: char) {
+	pub fn stylize_data(&mut self, text: &str, delimiter: char) -> Vec<Text<'a>> {
 		self.styled_text = Vec::new();
 		self.raw_text = String::new();
 		for line in text.lines() {
@@ -103,6 +103,7 @@ impl<'a> StyledText<'a> {
 				));
 			}
 		}
+		self.styled_text.clone()
 	}
 
 	/**

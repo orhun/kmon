@@ -28,23 +28,10 @@ impl Default for Style {
 }
 
 /* Styled text that has raw and style parts */
+#[derive(Default)]
 pub struct StyledText<'a> {
 	raw_text: String,
 	styled_text: Vec<Text<'a>>,
-}
-
-impl Default for StyledText<'_> {
-	/**
-	 * Create a default styled text instance.
-	 *
-	 * @return StyledText
-	 */
-	fn default() -> Self {
-		Self {
-			raw_text: String::new(),
-			styled_text: Vec::new(),
-		}
-	}
 }
 
 impl<'a> StyledText<'a> {

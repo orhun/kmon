@@ -203,8 +203,7 @@ mod tests {
 	#[test]
 	fn test_kernel_modules() {
 		let matches = App::new("test").get_matches();
-		let mut kernel_modules = KernelModules::new(&matches);
-		kernel_modules.scroll_list(ScrollDirection::Top);
+		let kernel_modules = KernelModules::new(&matches);
 		assert_eq!(0, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());

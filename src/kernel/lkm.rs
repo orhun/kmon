@@ -55,7 +55,7 @@ impl KernelModules<'_> {
 		if args.is_present("reverse") {
 			module_list.reverse();
 		}
-		/* Return kernel modules. */
+		/* Scroll modules to top and return. */
 		let mut kernel_modules = Self {
 			default_list: module_list.clone(),
 			list: module_list,

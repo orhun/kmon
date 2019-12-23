@@ -143,7 +143,7 @@ impl KernelModules<'_> {
 				.unwrap()
 				.to_string();
 			/* Execute 'modinfo' and colorize its output. */
-			self.current_info = StyledText::colorize_data(
+			self.current_info.stylize_data(
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
 						.unwrap_or_else(|_| {

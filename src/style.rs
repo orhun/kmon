@@ -48,34 +48,6 @@ impl<'a> StyledText<'a> {
 		}
 	}
 
-	pub fn colorize_data(raw_text: &str, delimiter: char) -> Self {
-		let mut text = StyledText::default();
-		for line in raw_text.lines() {
-			let data = line.split(delimiter).collect::<Vec<&str>>();
-			if data.len() > 1 && data[0].trim().len() > 2 {
-				text.styled_text.extend_from_slice(&[
-					Text::styled(
-						format!("{}{}", data[0], delimiter),
-						Style::default().unselected_style,
-					),
-					Text::styled(
-						format!(
-							"{}\n",
-							data[1..data.len()].join(&delimiter.to_string())
-						),
-						Style::default().selected_style,
-					),
-				]);
-			} else {
-				text.styled_text.push(Text::styled(
-					format!("{}\n", line),
-					Style::default().selected_style,
-				));
-			}
-		}
-		text
-	}
-
 	/**
 	 * Set a raw text.
 	 *
@@ -103,6 +75,34 @@ impl<'a> StyledText<'a> {
 			self.styled_text.push(Text::raw(""));
 		}
 		self.raw_text = String::new();
+	}
+
+	pub fn stylize_data(&mut self, text: &str, delimiter: char) {
+		self.styled_text = Vec::new();
+		self.raw_text = String::new();
+		for line in text.lines() {
+			let data = line.split(delimiter).collect::<Vec<&str>>();
+			if data.len() > 1 && data[0].trim().len() > 2 {
+				self.styled_text.extend_from_slice(&[
+					Text::styled(
+						format!("{}{}", data[0], delimiter),
+						Style::default().unselected_style,
+					),
+					Text::styled(
+						format!(
+							"{}\n",
+							data[1..data.len()].join(&delimiter.to_string())
+						),
+						Style::default().selected_style,
+					),
+				]);
+			} else {
+				self.styled_text.push(Text::styled(
+					format!("{}\n", line),
+					Style::default().selected_style,
+				));
+			}
+		}
 	}
 
 	/**

@@ -86,6 +86,7 @@ impl ModuleCommand {
 				format!("Blacklist: {}", module_name)),
         }
 	}
+
 	/**
 	 * Check if module command is set.
 	 *

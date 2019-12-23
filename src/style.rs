@@ -47,6 +47,7 @@ impl<'a> StyledText<'a> {
 			self.styled_text.to_vec()
 		}
 	}
+
 	/**
 	 * Set a raw text.
 	 *
@@ -56,6 +57,7 @@ impl<'a> StyledText<'a> {
 		self.raw_text = text;
 		self.styled_text = Vec::new();
 	}
+
 	/**
 	 * Set a styled text.
 	 *
@@ -74,6 +76,7 @@ impl<'a> StyledText<'a> {
 		}
 		self.raw_text = String::new();
 	}
+
 	/**
 	 * Return the line count of styled text.
 	 *

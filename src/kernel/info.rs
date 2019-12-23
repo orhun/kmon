@@ -21,6 +21,7 @@ impl KernelInfo {
 		kernel_info.next();
 		kernel_info
 	}
+
 	/**
 	 * Select the next 'uname' output as kernel information.
 	 */

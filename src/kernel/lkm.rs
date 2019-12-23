@@ -56,7 +56,7 @@ impl KernelModules<'_> {
 			module_list.reverse();
 		}
 		/* Return kernel modules. */
-		Self {
+		let mut kernel_modules = Self {
 			default_list: module_list.clone(),
 			list: module_list,
 			current_name: String::new(),
@@ -64,7 +64,9 @@ impl KernelModules<'_> {
 			command: ModuleCommand::None,
 			index: 0,
 			info_scroll_offset: 0,
-		}
+		};
+		kernel_modules.scroll_list(ScrollDirection::Top);
+		kernel_modules
 	}
 
 	/**

@@ -42,7 +42,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut kernel_logs = KernelLogs::default();
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
-	kernel_modules.scroll_list(ScrollDirection::Top);
 	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
@@ -130,7 +129,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_logs.index = 0;
 							kernel_info = KernelInfo::new();
 							kernel_modules = KernelModules::new(args);
-							kernel_modules.scroll_list(ScrollDirection::Top);
 						}
 						/* Show help message. */
 						Key::Char('?') => {

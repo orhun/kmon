@@ -140,11 +140,36 @@ impl KernelModules<'_> {
 				.next()
 				.unwrap()
 				.to_string();
-			self.current_info.set_raw_text(
-				util::exec_cmd("modinfo", &[&self.current_name]).unwrap_or_else(
-					|_| String::from("failed to retrieve module information"),
-				),
-			);
+			self.current_info.styled_text = Vec::new();
+			self.current_info.raw_text = String::new();
+			for line in Box::leak(
+				util::exec_cmd("modinfo", &[&self.current_name])
+					.unwrap_or_else(|_| {
+						String::from("failed to retrieve module information")
+					})
+					.into_boxed_str(),
+			)
+			.lines()
+			{
+				let info = line.split(':').collect::<Vec<&str>>();
+				if info.len() > 1 && info[0].trim().len() > 2 {
+					self.current_info.styled_text.extend_from_slice(&[
+						Text::styled(
+							format!("{}:", info[0]),
+							Style::default().unselected_style,
+						),
+						Text::styled(
+							format!("{}\n", info[1..info.len()].join(":")),
+							Style::default().selected_style,
+						),
+					]);
+				} else {
+					self.current_info.styled_text.push(Text::styled(
+						format!("{}\n", line),
+						Style::default().selected_style,
+					));
+				}
+			}
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}

@@ -30,8 +30,8 @@ impl Default for Style {
 /* Styled text that has raw and style parts */
 #[derive(Default)]
 pub struct StyledText<'a> {
-	raw_text: String,
-	styled_text: Vec<Text<'a>>,
+	pub raw_text: String,
+	pub styled_text: Vec<Text<'a>>,
 }
 
 impl<'a> StyledText<'a> {

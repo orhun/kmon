@@ -7,7 +7,7 @@ use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
-use tui::layout::Rect;
+use tui::layout::{Constraint, Rect};
 use tui::style::Style as TuiStyle;
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
@@ -241,9 +241,9 @@ impl App<'_> {
 				)),
 		)
 		.widths(&[
-			(f64::from(area.width - 3) * 0.3) as u16,
-			(f64::from(area.width - 3) * 0.2) as u16,
-			(f64::from(area.width - 3) * 0.5) as u16,
+			Constraint::Percentage(30),
+			Constraint::Percentage(20),
+			Constraint::Percentage(50),
 		])
 		.render(frame, area);
 	}

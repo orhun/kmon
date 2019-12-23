@@ -129,19 +129,21 @@ impl KernelModules<'_> {
 		if self.list.is_empty() {
 			self.index = 0;
 		} else {
+			/* Scroll module list. */
 			match direction {
 				ScrollDirection::Up => self.previous_module(),
 				ScrollDirection::Down => self.next_module(),
 				ScrollDirection::Top => self.index = 0,
 				ScrollDirection::Bottom => self.index = self.list.len() - 1,
 			}
+			/* Set current module name. */
 			self.current_name = self.list[self.index][0]
 				.split_whitespace()
 				.next()
 				.unwrap()
 				.to_string();
-			self.current_info.styled_text = Vec::new();
-			self.current_info.raw_text = String::new();
+			/* Execute 'modinfo' and colorize its output. */
+			self.current_info = StyledText::default();
 			for line in Box::leak(
 				util::exec_cmd("modinfo", &[&self.current_name])
 					.unwrap_or_else(|_| {
@@ -170,6 +172,7 @@ impl KernelModules<'_> {
 					));
 				}
 			}
+			/* Clear the current command. */
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}

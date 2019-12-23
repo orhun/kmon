@@ -142,7 +142,7 @@ impl KernelModules<'_> {
 				.next()
 				.unwrap()
 				.to_string();
-			/* Execute 'modinfo' and colorize its output. */
+			/* Execute 'modinfo' and add style to its output. */
 			self.current_info.stylize_data(
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])

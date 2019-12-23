@@ -143,35 +143,16 @@ impl KernelModules<'_> {
 				.unwrap()
 				.to_string();
 			/* Execute 'modinfo' and colorize its output. */
-			self.current_info = StyledText::default();
-			for line in Box::leak(
-				util::exec_cmd("modinfo", &[&self.current_name])
-					.unwrap_or_else(|_| {
-						String::from("failed to retrieve module information")
-					})
-					.into_boxed_str(),
-			)
-			.lines()
-			{
-				let info = line.split(':').collect::<Vec<&str>>();
-				if info.len() > 1 && info[0].trim().len() > 2 {
-					self.current_info.styled_text.extend_from_slice(&[
-						Text::styled(
-							format!("{}:", info[0]),
-							Style::default().unselected_style,
-						),
-						Text::styled(
-							format!("{}\n", info[1..info.len()].join(":")),
-							Style::default().selected_style,
-						),
-					]);
-				} else {
-					self.current_info.styled_text.push(Text::styled(
-						format!("{}\n", line),
-						Style::default().selected_style,
-					));
-				}
-			}
+			self.current_info = StyledText::colorize_data(
+				Box::leak(
+					util::exec_cmd("modinfo", &[&self.current_name])
+						.unwrap_or_else(|_| {
+							String::from("failed to retrieve module information")
+						})
+						.into_boxed_str(),
+				),
+				':',
+			);
 			/* Clear the current command. */
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;

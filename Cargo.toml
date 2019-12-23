@@ -8,8 +8,8 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33.0"
-tui = "0.6.2"
-termion = "1.5.3"
+tui = "0.8.0"
+termion = "1.5.4"
 failure = "0.1.6"
 bytesize = "1.0.0"
 unicode-width = "0.1.6"

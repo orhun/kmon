@@ -107,5 +107,6 @@ mod tests {
 		assert_ne!("", ModuleCommand::None.get("test").title);
 		assert_ne!("", ModuleCommand::Load.get("module").desc);
 		assert_ne!("", ModuleCommand::Unload.get("!command").cmd);
+		assert_ne!("", ModuleCommand::Blacklist.get("~").cmd);
 	}
 }

@@ -76,7 +76,7 @@ pub struct App<'a> {
 	pub selected_block: Blocks,
 	pub input_mode: InputMode,
 	pub input_query: String,
-	pub table_header: &'a [&'a str],
+	table_header: &'a [&'a str],
 	style: Style,
 }
 

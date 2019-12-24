@@ -381,6 +381,5 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
  * Entry point.
  */
 fn main() {
-	let matches = util::parse_args(VERSION);
-	create_term(&matches).expect("failed to create terminal");
+	create_term(&util::parse_args(VERSION)).expect("failed to create terminal");
 }

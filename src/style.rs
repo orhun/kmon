@@ -77,6 +77,13 @@ impl<'a> StyledText<'a> {
 		self.raw_text = String::new();
 	}
 
+	/**
+	 * Add style to given text depending on a delimiter.
+	 *
+	 * @param  text
+	 * @param  delimiter
+	 * @return vector
+	 */
 	pub fn stylize_data(&mut self, text: &str, delimiter: char) -> Vec<Text<'a>> {
 		self.styled_text = Vec::new();
 		self.raw_text = String::new();

@@ -148,7 +148,8 @@ impl KernelModules<'_> {
 					util::exec_cmd("modinfo", &[&self.current_name])
 						.unwrap_or_else(|_| {
 							String::from("failed to retrieve module information")
-						}).replace("signature: ", "signature: \n")
+						})
+						.replace("signature: ", "signature: \n")
 						.into_boxed_str(),
 				),
 				':',

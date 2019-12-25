@@ -132,6 +132,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Show help message. */
 						Key::Char('?') => {
+							app.selected_block = Blocks::ModuleInfo;
 							kernel_modules.current_name = String::from("!Help");
 							kernel_modules
 								.current_info

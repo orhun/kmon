@@ -241,14 +241,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								.split(',')
 								.collect::<Vec<&str>>()[0];
 							if used_module != "-" {
-								app.input_query = used_module.to_string();
 								kernel_modules.index = kernel_modules
 									.list
 									.iter()
 									.position(|module| module[0] == used_module)
 									.unwrap_or(kernel_modules.index) - 1;
 								kernel_modules.scroll_list(ScrollDirection::Down);
-								kernel_modules.index = 0;
 							}
 						}
 						/* Execute the current command. */

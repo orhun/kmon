@@ -285,8 +285,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							)?;
 							terminal.show_cursor()?;
 						}
+						/* Other character input. */
 						Key::Char(v) => {
+							/* Check if input is a number except zero. */
 							let index = v.to_digit(10).unwrap_or(0);
+							/* Show the used module info at given index. */
 							if index != 0 {
 								kernel_modules
 									.show_used_module_info(index as usize - 1);

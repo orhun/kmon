@@ -124,7 +124,10 @@ impl KernelModules<'_> {
 		let used_module = self.list[self.index][2].split(' ').collect::<Vec<&str>>()
 			[1]
 		.split(',')
-		.collect::<Vec<&str>>()[index];
+		.collect::<Vec<&str>>()
+		.get(index)
+		.unwrap_or(&"-")
+		.to_string();
 		if used_module != "-" {
 			self.index = self
 				.list

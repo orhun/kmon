@@ -210,10 +210,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
+							app.selected_block = Blocks::ModuleInfo;
 							kernel_modules.scroll_mod_info(ScrollDirection::Up)
 						}
 						/* Scroll module information down. */
 						Key::Char('>') | Key::Char(' ') => {
+							app.selected_block = Blocks::ModuleInfo;
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						/* Show the next kernel information. */

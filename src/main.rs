@@ -223,7 +223,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_info.next();
 						}
 						/* Unload kernel module. */
-						Key::Char('u') | Key::Char('U') | Key::Char('-') | Key::Backspace => {
+						Key::Char('u')
+						| Key::Char('U')
+						| Key::Char('-')
+						| Key::Backspace => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}

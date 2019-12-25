@@ -120,6 +120,11 @@ impl KernelModules<'_> {
 		command_executed
 	}
 
+	/**
+	 * Scroll to the position of used module at given index.
+	 *
+	 * @param index
+	 */
 	pub fn show_used_module_info(&mut self, index: usize) {
 		let used_module = self.list[self.index][2].split(' ').collect::<Vec<&str>>()
 			[1]

@@ -232,6 +232,24 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules
 								.set_current_command(ModuleCommand::Blacklist);
 						}
+						Key::Char('1') => {
+							let used_module = kernel_modules.list
+								[kernel_modules.index][2]
+								.split(' ')
+								.collect::<Vec<&str>>()[1]
+								.split(',')
+								.collect::<Vec<&str>>()[0];
+							if used_module != "-" {
+								app.input_query = used_module.to_string();
+								kernel_modules.index = kernel_modules
+									.list
+									.iter()
+									.position(|module| module[0] == used_module)
+									.unwrap_or(1) - 1;
+								kernel_modules.scroll_list(ScrollDirection::Down);
+								kernel_modules.index = 0;
+							}
+						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
 							if kernel_modules.exec_current_command() {

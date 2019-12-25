@@ -223,7 +223,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_info.next();
 						}
 						/* Unload kernel module. */
-						Key::Char('u') | Key::Char('U') | Key::Backspace => {
+						Key::Char('u') | Key::Char('U') | Key::Char('-') | Key::Backspace => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}
@@ -267,6 +267,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						| Key::Char('M')
 						| Key::Char('i')
 						| Key::Char('I')
+						| Key::Char('+')
 						| Key::Char('/')
 						| Key::Insert => {
 							app.selected_block = Blocks::UserInput;
@@ -274,7 +275,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								Key::Char('m')
 								| Key::Char('M')
 								| Key::Char('i')
-								| Key::Char('I') => app.input_mode = InputMode::Load,
+								| Key::Char('I')
+								| Key::Char('+') => app.input_mode = InputMode::Load,
 								_ => app.input_mode = InputMode::Search,
 							}
 							if input != Key::Char('\n') {

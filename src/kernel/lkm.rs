@@ -96,6 +96,7 @@ impl KernelModules<'_> {
 			],
 			5,
 		);
+		self.info_scroll_offset = 0;
 	}
 
 	/**

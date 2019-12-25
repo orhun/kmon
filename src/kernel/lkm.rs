@@ -120,6 +120,22 @@ impl KernelModules<'_> {
 		command_executed
 	}
 
+	pub fn show_used_module_info(&mut self, index: usize) {
+		let used_module = self.list[self.index][2].split(' ').collect::<Vec<&str>>()
+			[1]
+		.split(',')
+		.collect::<Vec<&str>>()[index];
+		if used_module != "-" {
+			self.index = self
+				.list
+				.iter()
+				.position(|module| module[0] == used_module)
+				.unwrap_or(self.index)
+				- 1;
+			self.scroll_list(ScrollDirection::Down);
+		}
+	}
+
 	/**
 	 * Scroll module list up/down and select module.
 	 *

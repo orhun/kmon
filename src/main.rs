@@ -234,20 +234,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								.set_current_command(ModuleCommand::Blacklist);
 						}
 						Key::Char('1') => {
-							let used_module = kernel_modules.list
-								[kernel_modules.index][2]
-								.split(' ')
-								.collect::<Vec<&str>>()[1]
-								.split(',')
-								.collect::<Vec<&str>>()[0];
-							if used_module != "-" {
-								kernel_modules.index = kernel_modules
-									.list
-									.iter()
-									.position(|module| module[0] == used_module)
-									.unwrap_or(kernel_modules.index) - 1;
-								kernel_modules.scroll_list(ScrollDirection::Down);
-							}
+							kernel_modules.show_used_module_info(0);
+						}
+						Key::Char('2') => {
+							kernel_modules.show_used_module_info(1);
+						}
+						Key::Char('3') => {
+							kernel_modules.show_used_module_info(2);
 						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {

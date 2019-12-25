@@ -245,7 +245,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 									.list
 									.iter()
 									.position(|module| module[0] == used_module)
-									.unwrap_or(1) - 1;
+									.unwrap_or(kernel_modules.index) - 1;
 								kernel_modules.scroll_list(ScrollDirection::Down);
 								kernel_modules.index = 0;
 							}

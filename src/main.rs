@@ -338,7 +338,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							app.input_query = app
 								.clipboard
 								.get_contents()
-								.unwrap_or(String::new());
+								.unwrap_or(app.input_query);
 						}
 						/* Exit user input mode. */
 						Key::Char('\n')

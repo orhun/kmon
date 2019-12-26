@@ -87,12 +87,18 @@ impl KernelModules<'_> {
 		self.command = module_command;
 		self.current_info.set_styled_text(
 			vec![
-				Text::raw("\nExecute the following command? [y/N]:\n\n"),
+				Text::styled(
+					"\nExecute the following command? [y/N]:\n\n",
+					Style::default().unselected_style,
+				),
 				Text::styled(
 					self.get_current_command().cmd,
-					Style::default().highlight_style,
+					Style::default().selected_style,
 				),
-				Text::raw(format!("\n\n{}", self.get_current_command().desc)),
+				Text::styled(
+					format!("\n\n{}", self.get_current_command().desc),
+					Style::default().unselected_style,
+				),
 			],
 			5,
 		);

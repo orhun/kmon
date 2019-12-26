@@ -4,6 +4,7 @@ mod kernel;
 mod style;
 mod util;
 use app::{App, Blocks, InputMode, ScrollDirection};
+use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;

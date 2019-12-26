@@ -94,7 +94,8 @@ impl App<'_> {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
-			clipboard: ClipboardProvider::new().expect("failed to create the clipboard provider"),
+			clipboard: ClipboardProvider::new()
+				.expect("failed to create the clipboard provider"),
 			table_header: &["Module", "Size", "Used by"],
 			style: Style::default(),
 		}

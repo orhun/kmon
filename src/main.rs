@@ -335,7 +335,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {
-							app.input_query = app.clipboard
+							app.input_query = app
+								.clipboard
 								.get_contents()
 								.unwrap_or(String::new());
 						}

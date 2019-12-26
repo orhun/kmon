@@ -263,6 +263,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 							}
 						}
+						/* Paste the clipboard contents and switch to search mode. */
 						Key::Ctrl('v') => {
 							app.input_query = app
 								.clipboard

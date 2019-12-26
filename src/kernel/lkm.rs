@@ -115,11 +115,19 @@ impl KernelModules<'_> {
 		if !self.command.is_none() {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
 				Ok(_) => command_executed = true,
-				Err(e) => self.current_info.set_raw_text(format!(
-					"\nFailed to execute command: '{}'\n\n{}",
-					self.get_current_command().cmd,
-					e
-				)),
+				Err(e) => self.current_info.set_styled_text(
+					vec![
+						Text::styled(
+							"\nFailed to execute command: ",
+							Style::default().unselected_style,
+						),
+						Text::styled(
+							format!("'{}'\n\n{}", self.get_current_command().cmd, e),
+							Style::default().selected_style,
+						),
+					],
+					3,
+				),
 			}
 			self.command = ModuleCommand::None;
 		}

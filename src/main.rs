@@ -333,6 +333,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							};
 							app.input_query = String::new();
 						}
+						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {
 							let mut clipboard_context: ClipboardContext =
 								ClipboardProvider::new().unwrap();

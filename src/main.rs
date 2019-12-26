@@ -43,6 +43,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut kernel_logs = KernelLogs::default();
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
+	let mut clipboard_context: ClipboardContext =
+		ClipboardProvider::new().expect("failed to create clipboard provider");
 	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
@@ -335,8 +337,6 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {
-							let mut clipboard_context: ClipboardContext =
-								ClipboardProvider::new().unwrap();
 							app.input_query = clipboard_context
 								.get_contents()
 								.unwrap_or(String::new());

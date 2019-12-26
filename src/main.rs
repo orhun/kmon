@@ -334,8 +334,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							app.input_query = String::new();
 						}
 						Key::Ctrl('v') => {
-							let mut clipboard_context: ClipboardContext = ClipboardProvider::new().unwrap();
-							app.input_query = clipboard_context.get_contents().unwrap_or(String::new());
+							let mut clipboard_context: ClipboardContext =
+								ClipboardProvider::new().unwrap();
+							app.input_query = clipboard_context
+								.get_contents()
+								.unwrap_or(String::new());
 						}
 						/* Exit user input mode. */
 						Key::Char('\n')

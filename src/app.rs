@@ -2,6 +2,7 @@ use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
 use crate::style::{Style, StyledText};
+use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::enum_unitary;
 use std::fmt::{Debug, Display, Formatter, Result};
 use std::sync::mpsc::Sender;
@@ -76,6 +77,7 @@ pub struct App<'a> {
 	pub selected_block: Blocks,
 	pub input_mode: InputMode,
 	pub input_query: String,
+	pub clipboard: ClipboardContext,
 	table_header: &'a [&'a str],
 	style: Style,
 }
@@ -92,6 +94,7 @@ impl App<'_> {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
+			clipboard: ClipboardProvider::new().expect("failed to create the clipboard provider"),
 			table_header: &["Module", "Size", "Used by"],
 			style: Style::default(),
 		}

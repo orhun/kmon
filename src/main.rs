@@ -263,6 +263,13 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 							}
 						}
+						Key::Ctrl('v') => {
+							app.input_query = app
+								.clipboard
+								.get_contents()
+								.unwrap_or(app.input_query);
+							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
+						}
 						/* User input mode. */
 						Key::Char('\n')
 						| Key::Char('s')

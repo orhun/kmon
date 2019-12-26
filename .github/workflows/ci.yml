@@ -25,6 +25,9 @@ jobs:
         with:
           toolchain: nightly
           override: true
+      - name: Install X11 dependencies
+        run: apt-get install libxcb1-dev libxcb-render0-dev
+          libxcb-shape0-dev libxcb-xfixes0-dev
       - uses: actions-rs/cargo@v1
         with:
           command: test

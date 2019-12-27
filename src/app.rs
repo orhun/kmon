@@ -4,8 +4,9 @@ use crate::kernel::log::KernelLogs;
 use crate::style::{Style, StyledText};
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::enum_unitary;
-use std::fmt::{Debug, Display, Formatter, Result};
+use std::fmt::{Debug, Display, Formatter};
 use std::sync::mpsc::Sender;
+use std::error::Error;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Constraint, Rect};
@@ -63,7 +64,7 @@ impl InputMode {
 
 /* Implementation of Display for using InputMode members as string */
 impl Display for InputMode {
-	fn fmt(&self, f: &mut Formatter) -> Result {
+	fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
 		if self.is_none() {
 			write!(f, "{}", self.get_default_text())
 		} else {
@@ -77,7 +78,6 @@ pub struct App<'a> {
 	pub selected_block: Blocks,
 	pub input_mode: InputMode,
 	pub input_query: String,
-	pub clipboard: ClipboardContext,
 	table_header: &'a [&'a str],
 	style: Style,
 }
@@ -94,8 +94,6 @@ impl App<'_> {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
-			clipboard: ClipboardProvider::new()
-				.expect("failed to create the clipboard provider"),
 			table_header: &["Module", "Size", "Used by"],
 			style: Style::default(),
 		}
@@ -112,6 +110,14 @@ impl App<'_> {
 			self.style.selected_style
 		} else {
 			self.style.unselected_style
+		}
+	}
+
+	pub fn get_clipboard_contents(&self) -> String {
+		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> = ClipboardProvider::new();
+		match clipboard_context {
+			Ok(mut v) => v.get_contents().unwrap_or(String::new()),
+			Err(_) => String::new(),
 		}
 	}
 

@@ -265,10 +265,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Paste the clipboard contents and switch to search mode. */
 						Key::Ctrl('v') => {
-							app.input_query = app
-								.clipboard
-								.get_contents()
-								.unwrap_or(app.input_query);
+							app.input_query = app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 						}
 						/* User input mode. */
@@ -343,10 +340,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {
-							app.input_query = app
-								.clipboard
-								.get_contents()
-								.unwrap_or(app.input_query);
+							app.input_query = app.get_clipboard_contents();
 						}
 						/* Exit user input mode. */
 						Key::Char('\n')

@@ -4,9 +4,9 @@ use crate::kernel::log::KernelLogs;
 use crate::style::{Style, StyledText};
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::enum_unitary;
+use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::sync::mpsc::Sender;
-use std::error::Error;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Constraint, Rect};
@@ -114,7 +114,8 @@ impl App<'_> {
 	}
 
 	pub fn get_clipboard_contents(&self) -> String {
-		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> = ClipboardProvider::new();
+		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
+			ClipboardProvider::new();
 		match clipboard_context {
 			Ok(mut v) => v.get_contents().unwrap_or(String::new()),
 			Err(_) => String::new(),

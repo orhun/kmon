@@ -113,6 +113,11 @@ impl App<'_> {
 		}
 	}
 
+	/**
+	 * Get clipboard contents as String.
+	 *
+	 * @return contents
+	 */
 	pub fn get_clipboard_contents(&self) -> String {
 		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
 			ClipboardProvider::new();

@@ -267,6 +267,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							app.input_query = app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 						}
+						Key::Ctrl('c') => {
+
+						}
 						/* User input mode. */
 						Key::Char('\n')
 						| Key::Char('s')

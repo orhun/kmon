@@ -5,6 +5,7 @@ use crate::util;
 #[derive(Clone, Default)]
 pub struct KernelLogs {
 	pub output: String,
+	pub skipped_output: String,
 	last_line: String,
 	pub index: usize,
 }
@@ -22,6 +23,24 @@ impl KernelLogs {
 		let logs_updated = self.output.lines().next().unwrap() != self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated
+	}
+
+	pub fn skip(&mut self, area_height: u16, area_sub: u16) -> &str {
+		self.skipped_output = self
+			.output
+			.lines()
+			.skip(
+				area_height
+					.checked_sub(area_sub)
+					.and_then(|height| {
+						(self.output.lines().count() - self.index)
+							.checked_sub(height as usize)
+					})
+					.unwrap_or(0),
+			)
+			.map(|i| format!("{}\n", i))
+			.collect::<String>();
+		&self.skipped_output
 	}
 
 	/**

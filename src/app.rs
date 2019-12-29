@@ -322,24 +322,7 @@ impl App<'_> {
 	{
 		Paragraph::new(
 			StyledText::default()
-				.stylize_data(
-					&kernel_logs
-						.output
-						.lines()
-						.skip(
-							area.height
-								.checked_sub(2)
-								.and_then(|height| {
-									(kernel_logs.output.lines().count()
-										- kernel_logs.index)
-										.checked_sub(height as usize)
-								})
-								.unwrap_or(0),
-						)
-						.map(|i| format!("{}\n", i))
-						.collect::<String>(),
-					']',
-				)
+				.stylize_data(&kernel_logs.skip(area.height, 2), ']')
 				.iter(),
 		)
 		.block(

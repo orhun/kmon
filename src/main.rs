@@ -219,7 +219,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.scroll_mod_info(ScrollDirection::Down)
 						}
 						/* Show the next kernel information. */
-						Key::Char('v') | Key::Char('\t') | Key::BackTab => {
+						Key::Char('\t') | Key::BackTab => {
 							kernel_info.next();
 						}
 						/* Unload kernel module. */
@@ -263,7 +263,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							}
 						}
 						/* Paste the clipboard contents and switch to search mode. */
-						Key::Ctrl('v') => {
+						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
 							app.input_query = app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 						}

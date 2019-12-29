@@ -135,9 +135,8 @@ impl App<'_> {
 	pub fn set_clipboard_contents(&self, contents: &str) {
 		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
 			ClipboardProvider::new();
-		match clipboard_context {
-			Ok(mut v) => v.set_contents(contents.to_string()).unwrap(),
-			Err(_) => {},
+		if let Ok(mut v) = clipboard_context {
+			v.set_contents(contents.to_string()).unwrap()
 		}
 	}
 

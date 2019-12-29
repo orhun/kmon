@@ -268,7 +268,18 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 						}
 						Key::Char('c') | Key::Char('C') => {
-
+							app.set_clipboard_contents(match app.selected_block {
+								Blocks::ModuleTable => {
+									String::new()
+								}
+								Blocks::ModuleInfo => {
+									String::new()
+								}
+								Blocks::Activities => {
+									String::new()
+								}
+								_ => String::new()
+							});
 						}
 						/* User input mode. */
 						Key::Char('\n')

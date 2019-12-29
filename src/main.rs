@@ -266,6 +266,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
 							app.input_query = app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
+							kernel_modules.index = 0;
 						}
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {

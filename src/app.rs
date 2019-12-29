@@ -322,7 +322,7 @@ impl App<'_> {
 	{
 		Paragraph::new(
 			StyledText::default()
-				.stylize_data(&kernel_logs.skip(area.height, 2), ']')
+				.stylize_data(&kernel_logs.select(area.height, 2), ']')
 				.iter(),
 		)
 		.block(

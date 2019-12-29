@@ -274,7 +274,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								Blocks::ModuleInfo => {
 									&kernel_modules.current_info.raw_text
 								}
-								Blocks::Activities => &kernel_logs.skipped_output,
+								Blocks::Activities => &kernel_logs.selected_output,
 								_ => "",
 							});
 						}

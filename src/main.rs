@@ -270,16 +270,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
-								Blocks::ModuleTable => {
-									&kernel_modules.current_name
-								}
-								Blocks::ModuleInfo => {
-									""
-								}
-								Blocks::Activities => {
-									""
-								}
-								_ => ""
+								Blocks::ModuleTable => &kernel_modules.current_name,
+								Blocks::ModuleInfo => "",
+								Blocks::Activities => "",
+								_ => "",
 							});
 						}
 						/* User input mode. */

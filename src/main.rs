@@ -271,7 +271,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
 								Blocks::ModuleTable => &kernel_modules.current_name,
-								Blocks::ModuleInfo => "",
+								Blocks::ModuleInfo => &kernel_modules.current_info.raw_text,
 								Blocks::Activities => "",
 								_ => "",
 							});

@@ -115,7 +115,7 @@ impl<'a> StyledText<'a> {
 	 * @return usize
 	 */
 	pub fn lines(&self) -> usize {
-		if !self.raw_text.is_empty() {
+		if self.styled_text.is_empty() {
 			self.raw_text.lines().count()
 		} else {
 			self.styled_text.len()

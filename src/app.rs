@@ -127,6 +127,16 @@ impl App<'_> {
 		}
 	}
 
+
+	pub fn set_clipboard_contents(&self, contents: String) {
+		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
+			ClipboardProvider::new();
+		match clipboard_context {
+			Ok(mut v) => v.set_contents(contents).unwrap(),
+			Err(_) => {},
+		}
+	}
+
 	/**
 	 * Draw a paragraph widget for using as user input.
 	 *

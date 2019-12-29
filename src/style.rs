@@ -82,7 +82,7 @@ impl<'a> StyledText<'a> {
 	 */
 	pub fn stylize_data(&mut self, text: &str, delimiter: char) -> Vec<Text<'a>> {
 		self.styled_text = Vec::new();
-		self.raw_text = String::new();
+		self.raw_text = text.to_string();
 		for line in text.lines() {
 			let data = line.split(delimiter).collect::<Vec<&str>>();
 			if data.len() > 1 && data[0].trim().len() > 2 {

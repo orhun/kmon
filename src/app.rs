@@ -127,7 +127,11 @@ impl App<'_> {
 		}
 	}
 
-
+	/**
+	 * Set clipboard contents.
+	 *
+	 * @return contents
+	 */
 	pub fn set_clipboard_contents(&self, contents: String) {
 		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
 			ClipboardProvider::new();

@@ -25,6 +25,13 @@ impl KernelLogs {
 		logs_updated
 	}
 
+	/**
+	 * Select a part of the output depending on the area properties.
+	 *
+	 * @param  area_height
+	 * @param  area_sub
+	 * @return selected_output
+	 */
 	pub fn select(&mut self, area_height: u16, area_sub: u16) -> &str {
 		self.selected_output = self
 			.output

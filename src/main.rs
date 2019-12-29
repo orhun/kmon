@@ -268,6 +268,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							kernel_modules.index = 0;
 						}
+						/* Copy the data in selected block to clipboard. */
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
 								Blocks::ModuleTable => &kernel_modules.current_name,

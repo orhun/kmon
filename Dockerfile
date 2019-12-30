@@ -26,9 +26,10 @@ RUN cp target/release/kmon build-out/
 
 FROM debian:stretch-slim as runtime-image
 
-RUN apt-get update
-
-RUN apt-get install -y libxcb-shape0-dev libxcb-xfixes0-dev
+RUN apt-get update && apt-get install -y \
+ libxcb-shape0-dev libxcb-xfixes0-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY --from=cargo-build /app/build-out/kmon .
 

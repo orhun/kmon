@@ -408,6 +408,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							app.input_query.pop();
 							kernel_modules.index = 0;
 						}
+						/* Clear the input query. */
 						Key::Delete => {
 							app.input_query = String::new();
 							kernel_modules.index = 0;

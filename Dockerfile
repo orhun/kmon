@@ -1,8 +1,9 @@
 FROM rust:1.40.0-stretch as cargo-build
 
-RUN apt-get update && \
-  apt-get install -y --no-install-recommends \
-  libxcb-shape0-dev libxcb-xfixes0-dev
+RUN apt-get update && apt-get install -y --no-install-recommends \
+ libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/
 
@@ -27,7 +28,7 @@ RUN cp target/release/kmon build-out/
 FROM debian:stretch-slim as runtime-image
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
- libxcb-shape0-dev libxcb-xfixes0-dev \
+ libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 

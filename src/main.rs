@@ -327,7 +327,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 					/* User input mode. */
 					match input {
 						/* Quit with ctrl+key combinations and ESC. */
-						Key::Ctrl('c') | Key::Ctrl('d') | Key::Esc => {
+						Key::Ctrl('d') | Key::Esc => {
 							break;
 						}
 						/* Switch to the previous input mode. */
@@ -350,6 +350,9 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 							};
 							app.input_query = String::new();
+						}
+						Key::Ctrl('c') => {
+							app.set_clipboard_contents(&app.input_query);
 						}
 						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {

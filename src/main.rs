@@ -277,7 +277,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Paste the clipboard contents and switch to search mode. */
 						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
-							app.input_query = app.get_clipboard_contents();
+							app.input_query += &app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							kernel_modules.index = 0;
 						}

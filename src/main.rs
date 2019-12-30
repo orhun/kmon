@@ -326,7 +326,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 				} else {
 					/* User input mode. */
 					match input {
-						/* Quit with ctrl+key combinations and ESC. */
+						/* Quit with ctrl-d or ESC. */
 						Key::Ctrl('d') | Key::Esc => {
 							break;
 						}

@@ -351,6 +351,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							};
 							app.input_query = String::new();
 						}
+						/* Copy input query to the clipboard. */
 						Key::Ctrl('c') => {
 							app.set_clipboard_contents(&app.input_query);
 						}

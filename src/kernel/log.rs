@@ -19,7 +19,7 @@ impl KernelLogs {
 	pub fn update(&mut self) -> bool {
 		self.output =
 			util::exec_cmd("dmesg", &["--kernel", "--human", "--color=never"])
-				.expect("failed to retrieve dmesg output");
+				.unwrap_or_else(|_| String::from("failed to retrieve dmesg output"));
 		let logs_updated = self.output.lines().next().unwrap() != self.last_line;
 		self.last_line = self.output.lines().next().unwrap().to_string();
 		logs_updated

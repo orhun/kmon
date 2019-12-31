@@ -9,9 +9,7 @@ WORKDIR /app/
 
 COPY Cargo.toml Cargo.toml
 
-RUN mkdir src/
-
-RUN echo "fn main() {println!(\"failed to build\")}" > src/main.rs
+RUN mkdir src/ && echo "fn main() {println!(\"failed to build\")}" > src/main.rs
 
 RUN cargo build --release
 
@@ -21,9 +19,7 @@ COPY . .
 
 RUN cargo build --release
 
-RUN mkdir -p build-out
-
-RUN cp target/release/kmon build-out/
+RUN mkdir -p build-out && cp target/release/kmon build-out/
 
 FROM debian:stretch-slim as runtime-image
 

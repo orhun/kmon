@@ -1,0 +1,8 @@
+# Compiled files and executables (Rust)
+/target/
+
+# Examples directory
+/example/
+
+# Docker
+Dockerfile

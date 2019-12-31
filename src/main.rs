@@ -47,7 +47,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 		args.value_of("rate")
 			.unwrap_or(REFRESH_RATE)
 			.parse::<u64>()
-			.unwrap(),
+			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
 		&kernel_logs,
 	);
 	/* Draw terminal and render the widgets. */

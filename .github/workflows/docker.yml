@@ -13,10 +13,6 @@ jobs:
     - name: Build
       run: docker build -t kmon .
     - name: Tags
-      run: |
-        docker tag kmon ${{ secrets.DOCKER_USERNAME }}/kmon:${{ github.sha }}
-        docker tag kmon ${{ secrets.DOCKER_USERNAME }}/kmon:latest
+      run: docker tag kmon ${{ secrets.DOCKER_USERNAME }}/kmon:latest
     - name: Push
-      run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/kmon:${{ github.sha }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/kmon:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/kmon:latest

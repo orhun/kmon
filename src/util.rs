@@ -56,10 +56,19 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
  */
 pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 	match Command::new(cmd).args(cmd_args).output() {
-		Ok(output) => Ok(String::from_utf8(output.stdout)
-			.expect("not UTF-8")
-			.trim_end()
-			.to_string()),
+		Ok(output) => {
+			if output.status.success() {
+				Ok(String::from_utf8(output.stdout)
+					.expect("not UTF-8")
+					.trim_end()
+					.to_string())
+			} else {
+				Err(String::from_utf8(output.stderr)
+					.expect("not UTF-8")
+					.trim_end()
+					.to_string())
+			}
+		}
 		Err(e) => Err(e.to_string()),
 	}
 }

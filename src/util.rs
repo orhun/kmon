@@ -55,20 +55,12 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
  * @return Result
  */
 pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
-	let output = Command::new(cmd)
-		.args(cmd_args)
-		.output()
-		.expect("failed to execute command");
-	if output.status.success() {
-		Ok(String::from_utf8(output.stdout)
+	match Command::new(cmd).args(cmd_args).output() {
+		Ok(output) => Ok(String::from_utf8(output.stdout)
 			.expect("not UTF-8")
 			.trim_end()
-			.to_string())
-	} else {
-		Err(String::from_utf8(output.stderr)
-			.expect("not UTF-8")
-			.trim_end()
-			.to_string())
+			.to_string()),
+		Err(e) => Err(e.to_string()),
 	}
 }
 

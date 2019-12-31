@@ -15,7 +15,7 @@ RUN echo "fn main() {println!(\"failed to build\")}" > src/main.rs
 
 RUN cargo build --release
 
-RUN rm -f target/release/deps/myapp*
+RUN rm -f target/release/deps/kmon*
 
 COPY . .
 

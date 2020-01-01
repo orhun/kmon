@@ -91,6 +91,6 @@ jobs:
       - name: Push (Docker Hub)
         run: docker push ${{ secrets.DOCKER_USERNAME }}/kmon:latest
       - name: Login (Package Registry)
-        run: docker login -u ${{ secrets.GITHUB_USERNAME }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ secrets.GITHUB_USERNAME }} docker.pkg.github.com --password-stdin
       - name: Push (Package Registry)
         run: docker push docker.pkg.github.com/${{ secrets.GITHUB_USERNAME }}/${{ secrets.REPOSITORY }}/kmon:latest

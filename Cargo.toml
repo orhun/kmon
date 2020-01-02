@@ -2,6 +2,13 @@
 name = "kmon"
 version = "0.1.0"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
+license = "GPL-3.0"
+description = "TODO"
+readme = "README.md"
+homepage = "https://github.com/orhun/kmon"
+repository = "https://github.com/orhun/kmon"
+keywords = ["todo"]
+categories = ["command-line-utilities"]
 edition = "2018"
 
 [dependencies]

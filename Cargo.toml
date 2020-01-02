@@ -4,8 +4,6 @@ version = "0.1.0"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 clap = "2.33.0"
 tui = "0.8.0"
@@ -16,3 +14,19 @@ unicode-width = "0.1.7"
 enum-unitary = "0.4.1"
 enum-iterator = "0.5.0"
 clipboard = "0.5.0"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.test]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+debug = false
+
+[profile.bench]
+opt-level = 3
+debug = false

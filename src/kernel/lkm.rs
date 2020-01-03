@@ -227,7 +227,11 @@ impl KernelModules<'_> {
 	 * @param direction
 	 * @param smooth_scroll
 	 */
-	pub fn scroll_mod_info(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
+	pub fn scroll_mod_info(
+		&mut self,
+		direction: ScrollDirection,
+		smooth_scroll: bool,
+	) {
 		let scroll_amount = if smooth_scroll { 1 } else { 2 };
 		match direction {
 			ScrollDirection::Up => {

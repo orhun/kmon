@@ -55,6 +55,7 @@ impl KernelLogs {
 	 * Scroll the kernel logs up/down.
 	 *
 	 * @param direction
+	 * @param amount
 	 */
 	pub fn scroll(&mut self, direction: ScrollDirection, amount: usize) {
 		match direction {

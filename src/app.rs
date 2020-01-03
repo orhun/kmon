@@ -300,11 +300,15 @@ impl App<'_> {
 					.borders(Borders::ALL)
 					.title(&kernel_modules.get_current_command().title),
 			)
-			.alignment(if kernel_modules.command.is_none() {
-				Alignment::Left
-			} else {
-				Alignment::Center
-			})
+			.alignment(
+				if kernel_modules.command.is_none()
+					&& kernel_modules.current_info.raw_text != "failed"
+				{
+					Alignment::Left
+				} else {
+					Alignment::Center
+				},
+			)
 			.wrap(true)
 			.scroll(kernel_modules.info_scroll_offset as u16)
 			.render(frame, area);

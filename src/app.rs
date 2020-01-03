@@ -341,6 +341,8 @@ impl App<'_> {
 				.borders(Borders::ALL)
 				.title("Kernel Activities"),
 		)
+		.alignment(Alignment::Left)
+		.wrap(false)
 		.render(frame, area);
 	}
 }

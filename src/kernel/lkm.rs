@@ -88,7 +88,7 @@ impl KernelModules<'_> {
 		self.current_info.set_styled_text(
 			vec![
 				Text::styled(
-					"\nExecute the following command? [y/N]:\n\n",
+					"Execute the following command? [y/N]:\n",
 					Style::default().colored,
 				),
 				Text::styled(
@@ -100,7 +100,7 @@ impl KernelModules<'_> {
 					Style::default().colored,
 				),
 			],
-			5,
+			3,
 		);
 		self.info_scroll_offset = 0;
 	}
@@ -118,7 +118,7 @@ impl KernelModules<'_> {
 				Err(e) => self.current_info.set_styled_text(
 					vec![
 						Text::styled(
-							"\nFailed to execute command: ",
+							"Failed to execute command: ",
 							Style::default().colored,
 						),
 						Text::styled(
@@ -126,7 +126,7 @@ impl KernelModules<'_> {
 							Style::default().default,
 						),
 					],
-					3,
+					2,
 				),
 			}
 			self.command = ModuleCommand::None;

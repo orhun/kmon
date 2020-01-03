@@ -243,7 +243,7 @@ impl KernelModules<'_> {
 				if self.current_info.lines() > 0 {
 					self.info_scroll_offset += scroll_amount;
 					self.info_scroll_offset %=
-						((self.current_info.lines() as u16) * 2) as usize;
+						self.current_info.lines() * 2;
 				}
 			}
 			_ => {}

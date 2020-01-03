@@ -89,7 +89,7 @@ impl KernelModules<'_> {
 			vec![
 				Text::styled(
 					"\nExecute the following command? [y/N]:\n\n",
-					Style::default().unselected_style,
+					Style::default().colored,
 				),
 				Text::styled(
 					self.get_current_command().cmd,
@@ -97,7 +97,7 @@ impl KernelModules<'_> {
 				),
 				Text::styled(
 					format!("\n\n{}", self.get_current_command().desc),
-					Style::default().unselected_style,
+					Style::default().colored,
 				),
 			],
 			5,
@@ -119,7 +119,7 @@ impl KernelModules<'_> {
 					vec![
 						Text::styled(
 							"\nFailed to execute command: ",
-							Style::default().unselected_style,
+							Style::default().colored,
 						),
 						Text::styled(
 							format!("'{}'\n\n{}", self.get_current_command().cmd, e),

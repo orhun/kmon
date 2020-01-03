@@ -5,7 +5,7 @@ use tui::widgets::Text;
 pub struct Style {
 	pub default: TuiStyle,
 	pub bold: TuiStyle,
-	pub unselected_style: TuiStyle,
+	pub colored: TuiStyle,
 }
 
 impl Default for Style {
@@ -18,7 +18,7 @@ impl Default for Style {
 		Self {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
-			unselected_style: TuiStyle::default().fg(Color::DarkGray),
+			colored: TuiStyle::default().fg(Color::DarkGray),
 		}
 	}
 }
@@ -89,7 +89,7 @@ impl<'a> StyledText<'a> {
 				self.styled_text.extend_from_slice(&[
 					Text::styled(
 						format!("{}{}", data[0], delimiter),
-						Style::default().unselected_style,
+						Style::default().colored,
 					),
 					Text::styled(
 						format!(

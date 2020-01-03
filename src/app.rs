@@ -109,7 +109,7 @@ impl App<'_> {
 		if block == self.selected_block {
 			self.style.default
 		} else {
-			self.style.unselected_style
+			self.style.colored
 		}
 	}
 
@@ -166,7 +166,7 @@ impl App<'_> {
 							}
 							self.style.default
 						}
-						_ => self.style.unselected_style,
+						_ => self.style.colored,
 					})
 					.borders(Borders::ALL)
 					.title(&self.input_mode.to_string()),
@@ -193,7 +193,7 @@ impl App<'_> {
 			.block(
 				Block::default()
 					.title_style(self.style.bold)
-					.border_style(self.style.unselected_style)
+					.border_style(self.style.colored)
 					.borders(Borders::ALL)
 					.title(&info[0]),
 			)
@@ -248,7 +248,7 @@ impl App<'_> {
 					{
 						Row::StyledData(item.iter(), self.style.default)
 					} else {
-						Row::StyledData(item.iter(), self.style.unselected_style)
+						Row::StyledData(item.iter(), self.style.colored)
 					}
 				}),
 		)

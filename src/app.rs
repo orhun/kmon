@@ -273,6 +273,7 @@ impl App<'_> {
 						* 100.0) as usize
 				)),
 		)
+		.header_style(Style::default().bold)
 		.widths(&[
 			Constraint::Percentage(30),
 			Constraint::Percentage(20),

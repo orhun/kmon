@@ -13,7 +13,7 @@ pub struct KernelModules<'a> {
 	pub current_info: StyledText<'a>,
 	pub command: ModuleCommand,
 	pub index: usize,
-	pub info_scroll_offset: u16,
+	pub info_scroll_offset: usize,
 }
 
 impl KernelModules<'_> {
@@ -236,8 +236,7 @@ impl KernelModules<'_> {
 			ScrollDirection::Down => {
 				if self.current_info.lines() > 0 {
 					self.info_scroll_offset += 2;
-					self.info_scroll_offset %=
-						(self.current_info.lines() as u16) * 2;
+					self.info_scroll_offset %= ((self.current_info.lines() as u16) * 2) as usize;
 				}
 			}
 			_ => {}

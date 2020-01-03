@@ -301,7 +301,7 @@ impl App<'_> {
 					.title(&kernel_modules.get_current_command().title),
 			)
 			.wrap(true)
-			.scroll(kernel_modules.info_scroll_offset)
+			.scroll(kernel_modules.info_scroll_offset as u16)
 			.render(frame, area);
 	}
 

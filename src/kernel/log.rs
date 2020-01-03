@@ -55,7 +55,7 @@ impl KernelLogs {
 	 * Scroll the kernel logs up/down.
 	 *
 	 * @param direction
-	 * @param amount
+	 * @param smooth_scroll
 	 */
 	pub fn scroll(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
 		let scroll_amount = if smooth_scroll { 1 } else { 3 };

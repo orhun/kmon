@@ -242,8 +242,7 @@ impl KernelModules<'_> {
 			ScrollDirection::Down => {
 				if self.current_info.lines() > 0 {
 					self.info_scroll_offset += scroll_amount;
-					self.info_scroll_offset %=
-						self.current_info.lines() * 2;
+					self.info_scroll_offset %= self.current_info.lines() * 2;
 				}
 			}
 			_ => {}

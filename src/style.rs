@@ -4,7 +4,7 @@ use tui::widgets::Text;
 /* Style properties */
 pub struct Style {
 	pub default: TuiStyle,
-	pub title_style: TuiStyle,
+	pub bold: TuiStyle,
 	pub unselected_style: TuiStyle,
 }
 
@@ -17,7 +17,7 @@ impl Default for Style {
 	fn default() -> Self {
 		Self {
 			default: TuiStyle::default(),
-			title_style: TuiStyle::default().modifier(Modifier::BOLD),
+			bold: TuiStyle::default().modifier(Modifier::BOLD),
 			unselected_style: TuiStyle::default().fg(Color::DarkGray),
 		}
 	}

@@ -158,7 +158,7 @@ impl App<'_> {
 		Paragraph::new([Text::raw(self.input_query.to_string())].iter())
 			.block(
 				Block::default()
-					.title_style(self.style.title_style)
+					.title_style(self.style.bold)
 					.border_style(match self.selected_block {
 						Blocks::UserInput => {
 							if self.input_mode.is_none() {
@@ -192,7 +192,7 @@ impl App<'_> {
 		Paragraph::new([Text::raw(&info[1])].iter())
 			.block(
 				Block::default()
-					.title_style(self.style.title_style)
+					.title_style(self.style.bold)
 					.border_style(self.style.unselected_style)
 					.borders(Borders::ALL)
 					.title(&info[0]),
@@ -254,7 +254,7 @@ impl App<'_> {
 		)
 		.block(
 			Block::default()
-				.title_style(self.style.title_style)
+				.title_style(self.style.bold)
 				.border_style(self.block_style(Blocks::ModuleTable))
 				.borders(Borders::ALL)
 				.title(&format!(
@@ -295,7 +295,7 @@ impl App<'_> {
 		Paragraph::new(kernel_modules.current_info.get().iter())
 			.block(
 				Block::default()
-					.title_style(self.style.title_style)
+					.title_style(self.style.bold)
 					.border_style(self.block_style(Blocks::ModuleInfo))
 					.borders(Borders::ALL)
 					.title(&kernel_modules.get_current_command().title),
@@ -327,7 +327,7 @@ impl App<'_> {
 		)
 		.block(
 			Block::default()
-				.title_style(self.style.title_style)
+				.title_style(self.style.bold)
 				.border_style(self.block_style(Blocks::Activities))
 				.borders(Borders::ALL)
 				.title("Kernel Activities"),

@@ -358,13 +358,7 @@ mod tests {
 	#[test]
 	fn test_app() {
 		let app = App::new(Blocks::ModuleTable);
-		assert_eq!(
-			app.style.default,
-			app.block_style(Blocks::ModuleTable)
-		);
-		assert_eq!(
-			app.style.colored,
-			app.block_style(Blocks::Activities)
-		);
+		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
+		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 	}
 }

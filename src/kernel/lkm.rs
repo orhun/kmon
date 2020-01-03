@@ -93,7 +93,7 @@ impl KernelModules<'_> {
 				),
 				Text::styled(
 					self.get_current_command().cmd,
-					Style::default().selected_style,
+					Style::default().default,
 				),
 				Text::styled(
 					format!("\n\n{}", self.get_current_command().desc),
@@ -123,7 +123,7 @@ impl KernelModules<'_> {
 						),
 						Text::styled(
 							format!("'{}'\n\n{}", self.get_current_command().cmd, e),
-							Style::default().selected_style,
+							Style::default().default,
 						),
 					],
 					3,

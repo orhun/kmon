@@ -107,7 +107,7 @@ impl App<'_> {
 	 */
 	pub fn block_style(&self, block: Blocks) -> TuiStyle {
 		if block == self.selected_block {
-			self.style.selected_style
+			self.style.default
 		} else {
 			self.style.unselected_style
 		}
@@ -164,7 +164,7 @@ impl App<'_> {
 							if self.input_mode.is_none() {
 								tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							}
-							self.style.selected_style
+							self.style.default
 						}
 						_ => self.style.unselected_style,
 					})
@@ -246,7 +246,7 @@ impl App<'_> {
 					if Some(i)
 						== kernel_modules.index.checked_sub(modules_scroll_offset)
 					{
-						Row::StyledData(item.iter(), self.style.selected_style)
+						Row::StyledData(item.iter(), self.style.default)
 					} else {
 						Row::StyledData(item.iter(), self.style.unselected_style)
 					}

@@ -3,8 +3,8 @@ use tui::widgets::Text;
 
 /* Style properties */
 pub struct Style {
+	pub default: TuiStyle,
 	pub title_style: TuiStyle,
-	pub selected_style: TuiStyle,
 	pub unselected_style: TuiStyle,
 }
 
@@ -16,8 +16,8 @@ impl Default for Style {
 	 */
 	fn default() -> Self {
 		Self {
+			default: TuiStyle::default(),
 			title_style: TuiStyle::default().modifier(Modifier::BOLD),
-			selected_style: TuiStyle::default().fg(Color::White),
 			unselected_style: TuiStyle::default().fg(Color::DarkGray),
 		}
 	}
@@ -96,13 +96,13 @@ impl<'a> StyledText<'a> {
 							"{}\n",
 							data[1..data.len()].join(&delimiter.to_string())
 						),
-						Style::default().selected_style,
+						Style::default().default,
 					),
 				]);
 			} else {
 				self.styled_text.push(Text::styled(
 					format!("{}\n", line),
-					Style::default().selected_style,
+					Style::default().default,
 				));
 			}
 		}

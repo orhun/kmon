@@ -152,10 +152,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							Blocks::Activities => {
 								kernel_logs.scroll(
 									ScrollDirection::Up,
-									match input {
-										Key::Alt('k') => 1,
-										_ => 3,
-									},
+									input == Key::Alt('k'),
 								);
 							}
 							_ => {}
@@ -174,10 +171,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							Blocks::Activities => {
 								kernel_logs.scroll(
 									ScrollDirection::Down,
-									match input {
-										Key::Alt('j') => 1,
-										_ => 3,
-									},
+									input == Key::Alt('j'),
 								);
 							}
 							_ => {}
@@ -217,12 +211,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Scroll kernel activities up. */
 						Key::PageUp => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Up, 3);
+							kernel_logs.scroll(ScrollDirection::Up, false);
 						}
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Down, 3);
+							kernel_logs.scroll(ScrollDirection::Down, false);
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {

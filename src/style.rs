@@ -58,6 +58,7 @@ impl<'a> StyledText<'a> {
 	 * Set a styled text.
 	 *
 	 * @param text
+	 * @param placeholder
 	 * @param newline_count
 	 */
 	pub fn set_styled_text(

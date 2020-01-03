@@ -139,33 +139,49 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								.set_raw_text(String::from("(TODO)\nHelp Message"));
 						}
 						/* Scroll the selected block up. */
-						Key::Up | Key::Char('k') | Key::Char('K') => {
-							match app.selected_block {
-								Blocks::ModuleTable => {
-									kernel_modules.scroll_list(ScrollDirection::Up)
-								}
-								Blocks::ModuleInfo => kernel_modules
-									.scroll_mod_info(ScrollDirection::Up),
-								Blocks::Activities => {
-									kernel_logs.scroll(ScrollDirection::Up);
-								}
-								_ => {}
+						Key::Up
+						| Key::Char('k')
+						| Key::Char('K')
+						| Key::Alt('k') => match app.selected_block {
+							Blocks::ModuleTable => {
+								kernel_modules.scroll_list(ScrollDirection::Up)
 							}
-						}
+							Blocks::ModuleInfo => {
+								kernel_modules.scroll_mod_info(ScrollDirection::Up)
+							}
+							Blocks::Activities => {
+								kernel_logs.scroll(
+									ScrollDirection::Up,
+									match input {
+										Key::Alt('k') => 1,
+										_ => 3,
+									},
+								);
+							}
+							_ => {}
+						},
 						/* Scroll the selected block down. */
-						Key::Down | Key::Char('j') | Key::Char('J') => {
-							match app.selected_block {
-								Blocks::ModuleTable => {
-									kernel_modules.scroll_list(ScrollDirection::Down)
-								}
-								Blocks::ModuleInfo => kernel_modules
-									.scroll_mod_info(ScrollDirection::Down),
-								Blocks::Activities => {
-									kernel_logs.scroll(ScrollDirection::Down);
-								}
-								_ => {}
+						Key::Down
+						| Key::Char('j')
+						| Key::Char('J')
+						| Key::Alt('j') => match app.selected_block {
+							Blocks::ModuleTable => {
+								kernel_modules.scroll_list(ScrollDirection::Down)
 							}
-						}
+							Blocks::ModuleInfo => {
+								kernel_modules.scroll_mod_info(ScrollDirection::Down)
+							}
+							Blocks::Activities => {
+								kernel_logs.scroll(
+									ScrollDirection::Down,
+									match input {
+										Key::Alt('j') => 1,
+										_ => 3,
+									},
+								);
+							}
+							_ => {}
+						},
 						/* Select the next terminal block. */
 						Key::Left
 						| Key::Char('h')
@@ -201,12 +217,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Scroll kernel activities up. */
 						Key::PageUp => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Up);
+							kernel_logs.scroll(ScrollDirection::Up, 3);
 						}
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Down);
+							kernel_logs.scroll(ScrollDirection::Down, 3);
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {

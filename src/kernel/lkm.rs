@@ -131,7 +131,7 @@ impl KernelModules<'_> {
 							Style::default().default,
 						),
 					],
-					String::from("failed"),
+					String::from("centered_text"),
 					3,
 				),
 			}

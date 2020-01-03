@@ -307,7 +307,7 @@ impl App<'_> {
 			)
 			.alignment(
 				if kernel_modules.command.is_none()
-					&& kernel_modules.current_info.raw_text != "failed"
+					&& kernel_modules.current_info.raw_text != "centered_text"
 				{
 					Alignment::Left
 				} else {

@@ -199,6 +199,8 @@ impl App<'_> {
 					.borders(Borders::ALL)
 					.title(&info[0]),
 			)
+			.alignment(Alignment::Center)
+			.wrap(true)
 			.render(frame, area);
 	}
 

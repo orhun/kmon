@@ -179,9 +179,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							_ => {}
 						},
 						/* Select the next terminal block. */
-						Key::Left
-						| Key::Char('h')
-						| Key::Char('H') => {
+						Key::Left | Key::Char('h') | Key::Char('H') => {
 							app.selected_block =
 								match app.selected_block.prev_variant() {
 									Some(v) => v,
@@ -189,9 +187,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								}
 						}
 						/* Select the previous terminal block. */
-						Key::Right
-						| Key::Char('l')
-						| Key::Char('L') => {
+						Key::Right | Key::Char('l') | Key::Char('L') => {
 							app.selected_block =
 								match app.selected_block.next_variant() {
 									Some(v) => v,

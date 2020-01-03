@@ -225,6 +225,7 @@ impl KernelModules<'_> {
 	 * Scroll the module information text up/down.
 	 *
 	 * @param direction
+	 * @param smooth_scroll
 	 */
 	pub fn scroll_mod_info(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
 		let scroll_amount = if smooth_scroll { 1 } else { 2 };

@@ -226,16 +226,17 @@ impl KernelModules<'_> {
 	 *
 	 * @param direction
 	 */
-	pub fn scroll_mod_info(&mut self, direction: ScrollDirection) {
+	pub fn scroll_mod_info(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
+		let scroll_amount = if smooth_scroll { 1 } else { 2 };
 		match direction {
 			ScrollDirection::Up => {
-				if self.info_scroll_offset > 1 {
-					self.info_scroll_offset -= 2;
+				if self.info_scroll_offset > scroll_amount - 1 {
+					self.info_scroll_offset -= scroll_amount;
 				}
 			}
 			ScrollDirection::Down => {
 				if self.current_info.lines() > 0 {
-					self.info_scroll_offset += 2;
+					self.info_scroll_offset += scroll_amount;
 					self.info_scroll_offset %=
 						((self.current_info.lines() as u16) * 2) as usize;
 				}

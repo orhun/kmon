@@ -123,7 +123,11 @@ impl KernelModules<'_> {
 							Style::default().colored,
 						),
 						Text::styled(
-							format!("\n'{}'\n\n{}", self.get_current_command().cmd, e),
+							format!(
+								"\n'{}'\n\n{}",
+								self.get_current_command().cmd,
+								e
+							),
 							Style::default().default,
 						),
 					],

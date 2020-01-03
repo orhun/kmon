@@ -171,6 +171,8 @@ impl App<'_> {
 					.borders(Borders::ALL)
 					.title(&self.input_mode.to_string()),
 			)
+			.alignment(Alignment::Left)
+			.wrap(false)
 			.render(frame, area);
 	}
 

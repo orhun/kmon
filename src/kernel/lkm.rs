@@ -39,7 +39,7 @@ impl KernelModules<'_> {
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();
-			let mut module_name = columns[0].to_string();
+			let mut module_name = format!(" {}", columns[0].to_string());
 			if columns.len() >= 7 {
 				module_name = format!("{} {}", module_name, columns[6]);
 			}
@@ -186,6 +186,7 @@ impl KernelModules<'_> {
 				.split_whitespace()
 				.next()
 				.unwrap()
+				.trim()
 				.to_string();
 			/* Execute 'modinfo' and add style to its output. */
 			self.current_info.stylize_data(

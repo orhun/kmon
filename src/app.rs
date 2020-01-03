@@ -94,7 +94,7 @@ impl App<'_> {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
-			table_header: &["Module", "Size", "Used by"],
+			table_header: &[" Module", "Size", "Used by"],
 			style: Style::default(),
 		}
 	}

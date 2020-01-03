@@ -147,7 +147,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								kernel_modules.scroll_list(ScrollDirection::Up)
 							}
 							Blocks::ModuleInfo => {
-								kernel_modules.scroll_mod_info(ScrollDirection::Up)
+								kernel_modules.scroll_mod_info(ScrollDirection::Up, input == Key::Alt('k'))
 							}
 							Blocks::Activities => {
 								kernel_logs.scroll(
@@ -166,7 +166,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 								kernel_modules.scroll_list(ScrollDirection::Down)
 							}
 							Blocks::ModuleInfo => {
-								kernel_modules.scroll_mod_info(ScrollDirection::Down)
+								kernel_modules.scroll_mod_info(ScrollDirection::Down, input == Key::Alt('j'))
 							}
 							Blocks::Activities => {
 								kernel_logs.scroll(
@@ -221,12 +221,12 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel_modules.scroll_mod_info(ScrollDirection::Up)
+							kernel_modules.scroll_mod_info(ScrollDirection::Up, false)
 						}
 						/* Scroll module information down. */
 						Key::Char('>') | Key::Char(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel_modules.scroll_mod_info(ScrollDirection::Down)
+							kernel_modules.scroll_mod_info(ScrollDirection::Down, false)
 						}
 						/* Show the next kernel information. */
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {

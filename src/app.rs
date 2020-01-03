@@ -9,7 +9,7 @@ use std::fmt::{Debug, Display, Formatter};
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
-use tui::layout::{Constraint, Rect};
+use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::Style as TuiStyle;
 use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
@@ -300,6 +300,11 @@ impl App<'_> {
 					.borders(Borders::ALL)
 					.title(&kernel_modules.get_current_command().title),
 			)
+			.alignment(if kernel_modules.command.is_none() {
+				Alignment::Left
+			} else {
+				Alignment::Center
+			})
 			.wrap(true)
 			.scroll(kernel_modules.info_scroll_offset as u16)
 			.render(frame, area);

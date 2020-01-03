@@ -119,16 +119,16 @@ impl KernelModules<'_> {
 				Err(e) => self.current_info.set_styled_text(
 					vec![
 						Text::styled(
-							"Failed to execute command: ",
+							"Failed to execute command:",
 							Style::default().colored,
 						),
 						Text::styled(
-							format!("'{}'\n\n{}", self.get_current_command().cmd, e),
+							format!("\n'{}'\n\n{}", self.get_current_command().cmd, e),
 							Style::default().default,
 						),
 					],
 					String::from("failed"),
-					2,
+					3,
 				),
 			}
 			self.command = ModuleCommand::None;

@@ -181,8 +181,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Select the next terminal block. */
 						Key::Left
 						| Key::Char('h')
-						| Key::Char('H')
-						| Key::Ctrl('h') => {
+						| Key::Char('H') => {
 							app.selected_block =
 								match app.selected_block.prev_variant() {
 									Some(v) => v,
@@ -192,8 +191,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						/* Select the previous terminal block. */
 						Key::Right
 						| Key::Char('l')
-						| Key::Char('L')
-						| Key::Ctrl('l') => {
+						| Key::Char('L') => {
 							app.selected_block =
 								match app.selected_block.next_variant() {
 									Some(v) => v,
@@ -240,7 +238,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('u')
 						| Key::Char('U')
 						| Key::Char('-')
-						| Key::Backspace => {
+						| Key::Backspace
+						| Key::Ctrl('h') => {
 							kernel_modules
 								.set_current_command(ModuleCommand::Unload);
 						}
@@ -377,12 +376,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						Key::Char('\n')
 						| Key::Char('\t')
 						| Key::Right
-						| Key::Ctrl('l')
-						| Key::Left
-						| Key::Ctrl('h') => {
+						| Key::Left => {
 							/* Select the next eligible block for action. */
 							app.selected_block = match input {
-								Key::Left | Key::Ctrl('h') => {
+								Key::Left => {
 									match app.selected_block.prev_variant() {
 										Some(v) => v,
 										None => Blocks::max_value(),
@@ -418,7 +415,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							kernel_modules.index = 0;
 						}
 						/* Delete the last character from input query. */
-						Key::Backspace => {
+						Key::Backspace | Key::Ctrl('h') => {
 							app.input_query.pop();
 							kernel_modules.index = 0;
 						}

@@ -100,7 +100,6 @@ impl KernelModules<'_> {
 					Style::default().colored,
 				),
 			],
-			String::new(),
 			3,
 		);
 		self.info_scroll_offset = 0;
@@ -131,7 +130,6 @@ impl KernelModules<'_> {
 							Style::default().default,
 						),
 					],
-					String::from("centered_text"),
 					3,
 				),
 			}

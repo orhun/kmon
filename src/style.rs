@@ -64,7 +64,6 @@ impl<'a> StyledText<'a> {
 	pub fn set_styled_text(
 		&mut self,
 		text: Vec<Text<'static>>,
-		placeholder: String,
 		newline_count: usize,
 	) {
 		self.styled_text = text;
@@ -72,7 +71,7 @@ impl<'a> StyledText<'a> {
 		for _i in 0..newline_count * 2 {
 			self.styled_text.push(Text::raw(""));
 		}
-		self.raw_text = placeholder;
+		self.raw_text = String::new();
 	}
 
 	/**

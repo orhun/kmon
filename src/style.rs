@@ -1,3 +1,4 @@
+use clap::ArgMatches;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
 
@@ -15,11 +16,15 @@ impl Style {
 	 *
 	 * @return Style
 	 */
-	pub fn new() -> Self {
+	pub fn new(args: &ArgMatches) -> Self {
+		let main_color = match args.value_of("color") {
+			Some(_v) => Color::DarkGray,
+			None => Color::DarkGray,
+		};
 		Self {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
-			colored: TuiStyle::default().fg(Color::DarkGray),
+			colored: TuiStyle::default().fg(main_color),
 		}
 	}
 }

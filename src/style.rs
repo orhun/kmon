@@ -78,6 +78,7 @@ impl<'a> StyledText<'a> {
 	 *
 	 * @param  text
 	 * @param  delimiter
+	 * @param  style
 	 * @return vector
 	 */
 	pub fn stylize_data(&mut self, text: &str, delimiter: char, style: Style) -> Vec<Text<'a>> {

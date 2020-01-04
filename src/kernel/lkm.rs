@@ -93,10 +93,7 @@ impl KernelModules<'_> {
 					"Execute the following command? [y/N]:\n",
 					self.style.colored,
 				),
-				Text::styled(
-					self.get_current_command().cmd,
-					self.style.default,
-				),
+				Text::styled(self.get_current_command().cmd, self.style.default),
 				Text::styled(
 					format!("\n\n{}", self.get_current_command().desc),
 					self.style.colored,
@@ -199,7 +196,7 @@ impl KernelModules<'_> {
 						.into_boxed_str(),
 				),
 				':',
-				self.style
+				self.style,
 			);
 			/* Clear the current command. */
 			if !self.command.is_none() {

@@ -1,6 +1,4 @@
-use clap::App;
-use clap::Arg;
-use clap::SubCommand;
+use clap::{App, Arg, SubCommand};
 use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;

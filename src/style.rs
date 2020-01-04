@@ -82,17 +82,19 @@ impl<'a> StyledText<'a> {
 	 * @param  style
 	 * @return vector
 	 */
-	pub fn stylize_data(&mut self, text: &str, delimiter: char, style: Style) -> Vec<Text<'a>> {
+	pub fn stylize_data(
+		&mut self,
+		text: &str,
+		delimiter: char,
+		style: Style,
+	) -> Vec<Text<'a>> {
 		self.styled_text = Vec::new();
 		self.raw_text = text.to_string();
 		for line in text.lines() {
 			let data = line.split(delimiter).collect::<Vec<&str>>();
 			if data.len() > 1 && data[0].trim().len() > 2 {
 				self.styled_text.extend_from_slice(&[
-					Text::styled(
-						format!("{}{}", data[0], delimiter),
-						style.colored,
-					),
+					Text::styled(format!("{}{}", data[0], delimiter), style.colored),
 					Text::styled(
 						format!(
 							"{}\n",
@@ -102,10 +104,8 @@ impl<'a> StyledText<'a> {
 					),
 				]);
 			} else {
-				self.styled_text.push(Text::styled(
-					format!("{}\n", line),
-					style.default,
-				));
+				self.styled_text
+					.push(Text::styled(format!("{}\n", line), style.default));
 			}
 		}
 		self.styled_text.clone()

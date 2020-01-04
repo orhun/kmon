@@ -87,6 +87,7 @@ impl App<'_> {
 	 * Create a new app instance.
 	 *
 	 * @param  block
+	 * @param  app_style
 	 * @return App
 	 */
 	pub fn new(block: Blocks, app_style: Style) -> Self {

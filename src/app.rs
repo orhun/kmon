@@ -89,13 +89,13 @@ impl App<'_> {
 	 * @param  block
 	 * @return App
 	 */
-	pub fn new(block: Blocks) -> Self {
+	pub fn new(block: Blocks, app_style: Style) -> Self {
 		Self {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			table_header: &[" Module", "Size", "Used by"],
-			style: Style::default(),
+			style: app_style,
 		}
 	}
 
@@ -273,7 +273,7 @@ impl App<'_> {
 						* 100.0) as usize
 				)),
 		)
-		.header_style(Style::default().bold)
+		.header_style(self.style.bold)
 		.widths(&[
 			Constraint::Percentage(30),
 			Constraint::Percentage(20),
@@ -336,7 +336,7 @@ impl App<'_> {
 	{
 		Paragraph::new(
 			StyledText::default()
-				.stylize_data(&kernel_logs.select(area.height, 2), ']')
+				.stylize_data(&kernel_logs.select(area.height, 2), ']', self.style)
 				.iter(),
 		)
 		.block(

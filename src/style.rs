@@ -8,13 +8,8 @@ pub struct Style {
 	pub colored: TuiStyle,
 }
 
-impl Default for Style {
-	/**
-	 * Create a default style instance.
-	 *
-	 * @return Style
-	 */
-	fn default() -> Self {
+impl Style {
+	fn new() -> Self {
 		Self {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),

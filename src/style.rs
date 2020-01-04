@@ -14,7 +14,7 @@ impl Style {
 	 *
 	 * @return Style
 	 */
-	fn new() -> Self {
+	pub fn new() -> Self {
 		Self {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),

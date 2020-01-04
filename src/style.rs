@@ -9,6 +9,11 @@ pub struct Style {
 }
 
 impl Style {
+	/**
+	 * Create a new style instance.
+	 *
+	 * @return Style
+	 */
 	fn new() -> Self {
 		Self {
 			default: TuiStyle::default(),

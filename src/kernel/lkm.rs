@@ -14,6 +14,7 @@ pub struct KernelModules<'a> {
 	pub command: ModuleCommand,
 	pub index: usize,
 	pub info_scroll_offset: usize,
+	style: Style,
 }
 
 impl KernelModules<'_> {
@@ -23,7 +24,7 @@ impl KernelModules<'_> {
 	 * @param  args
 	 * @return KernelModules
 	 */
-	pub fn new(args: &clap::ArgMatches) -> Self {
+	pub fn new(args: &clap::ArgMatches, text_style: Style) -> Self {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");
@@ -64,6 +65,7 @@ impl KernelModules<'_> {
 			command: ModuleCommand::None,
 			index: 0,
 			info_scroll_offset: 0,
+			style: text_style,
 		};
 		kernel_modules.scroll_list(ScrollDirection::Top);
 		kernel_modules
@@ -89,15 +91,15 @@ impl KernelModules<'_> {
 			vec![
 				Text::styled(
 					"Execute the following command? [y/N]:\n",
-					Style::default().colored,
+					self.style.colored,
 				),
 				Text::styled(
 					self.get_current_command().cmd,
-					Style::default().default,
+					self.style.default,
 				),
 				Text::styled(
 					format!("\n\n{}", self.get_current_command().desc),
-					Style::default().colored,
+					self.style.colored,
 				),
 			],
 			3,
@@ -119,7 +121,7 @@ impl KernelModules<'_> {
 					vec![
 						Text::styled(
 							"Failed to execute command:",
-							Style::default().colored,
+							self.style.colored,
 						),
 						Text::styled(
 							format!(
@@ -127,7 +129,7 @@ impl KernelModules<'_> {
 								self.get_current_command().cmd,
 								e
 							),
-							Style::default().default,
+							self.style.default,
 						),
 					],
 					3,
@@ -197,6 +199,7 @@ impl KernelModules<'_> {
 						.into_boxed_str(),
 				),
 				':',
+				self.style
 			);
 			/* Clear the current command. */
 			if !self.command.is_none() {

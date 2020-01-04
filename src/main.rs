@@ -11,6 +11,7 @@ use kernel::info::KernelInfo;
 use kernel::lkm::KernelModules;
 use kernel::log::KernelLogs;
 use std::io::stdout;
+use style::Style;
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
@@ -38,10 +39,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut terminal = Terminal::new(backend)?;
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
-	let mut app = App::new(Blocks::ModuleTable);
+	let style = Style::new();
+	let mut app = App::new(Blocks::ModuleTable, style);
 	let mut kernel_logs = KernelLogs::default();
 	let mut kernel_info = KernelInfo::new();
-	let mut kernel_modules = KernelModules::new(args);
+	let mut kernel_modules = KernelModules::new(args, style);
 	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
@@ -125,10 +127,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
-							app = App::new(Blocks::ModuleTable);
+							app = App::new(Blocks::ModuleTable, style);
 							kernel_logs.index = 0;
 							kernel_info = KernelInfo::new();
-							kernel_modules = KernelModules::new(args);
+							kernel_modules = KernelModules::new(args, style);
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {

@@ -3,6 +3,7 @@ use crate::kernel::cmd::{Command, ModuleCommand};
 use crate::style::{Style, StyledText};
 use crate::util;
 use bytesize::ByteSize;
+use clap::ArgMatches;
 use tui::widgets::Text;
 
 /* Loadable kernel modules */
@@ -24,7 +25,7 @@ impl KernelModules<'_> {
 	 * @param  args
 	 * @return KernelModules
 	 */
-	pub fn new(args: &clap::ArgMatches, text_style: Style) -> Self {
+	pub fn new(args: &ArgMatches, text_style: Style) -> Self {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");

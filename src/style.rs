@@ -2,6 +2,7 @@ use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
 
 /* Style properties */
+#[derive(Debug, Clone, Copy)]
 pub struct Style {
 	pub default: TuiStyle,
 	pub bold: TuiStyle,

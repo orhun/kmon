@@ -15,6 +15,14 @@ pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
 	App::new("kmon")
 		.version(version)
 		.arg(
+			Arg::with_name("color")
+				.short("c")
+				.long("color")
+				.value_name("COLOR")
+				.help("Set the main color using hex or color name")
+				.takes_value(true),
+		)
+		.arg(
 			Arg::with_name("rate")
 				.short("t")
 				.long("tickrate")

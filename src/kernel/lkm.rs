@@ -23,6 +23,7 @@ impl KernelModules<'_> {
 	 * Create a new kernel modules instance.
 	 *
 	 * @param  args
+	 * @param  text_style
 	 * @return KernelModules
 	 */
 	pub fn new(args: &ArgMatches, text_style: Style) -> Self {

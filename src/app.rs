@@ -356,9 +356,10 @@ impl App<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use crate::util;
 	#[test]
 	fn test_app() {
-		let app = App::new(Blocks::ModuleTable);
+		let app = App::new(Blocks::ModuleTable, Style::new(&util::parse_args("0")));
 		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
 		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 	}

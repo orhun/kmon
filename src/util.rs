@@ -21,6 +21,8 @@ macro_rules! map {
 pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
 	App::new("kmon")
 		.version(version)
+		.author("orhun <orhunparmaksiz@gmail.com>")
+		.about("<TODO>")
 		.arg(
 			Arg::with_name("color")
 				.short("c")

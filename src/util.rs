@@ -3,6 +3,7 @@ use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;
 
+/* Macro for concise initialization of hashmap */
 macro_rules! map {
     ($( $key: expr => $val: expr ),*) => {{
          let mut map = ::std::collections::HashMap::new();

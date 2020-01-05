@@ -1,6 +1,7 @@
 use clap::ArgMatches;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
+use colorsys::{Rgb};
 
 /* Style properties */
 #[derive(Debug, Clone, Copy)]
@@ -37,7 +38,10 @@ impl Style {
 			"white" => Color::White
 		];
 		let main_color = match args.value_of("color") {
-			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap(),
+			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or_else(|| {
+				let rgb = Rgb::from_hex_str(&format!("#{}",v)).unwrap();
+				Box::leak(Box::new(Color::Rgb(rgb.get_red() as u8, rgb.get_green() as u8, rgb.get_blue() as u8)))
+			}),
 			None => Color::DarkGray,
 		};
 		Self {

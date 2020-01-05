@@ -38,7 +38,7 @@ impl Style {
 			"white" => Color::White
 		];
 		let main_color = match args.value_of("color") {
-			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or_else(|| {
+			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
 				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
 					Box::leak(Box::new(Color::Rgb(
 						rgb.get_red() as u8,

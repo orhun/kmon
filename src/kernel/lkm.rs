@@ -26,7 +26,7 @@ impl KernelModules<'_> {
 	 * @param  text_style
 	 * @return KernelModules
 	 */
-	pub fn new(args: &ArgMatches, text_style: Style) -> Self {
+	pub fn new(args: &ArgMatches) -> Self {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");
@@ -67,7 +67,7 @@ impl KernelModules<'_> {
 			command: ModuleCommand::None,
 			index: 0,
 			info_scroll_offset: 0,
-			style: text_style,
+			style: Style::new(args),
 		};
 		kernel_modules.scroll_list(ScrollDirection::Top);
 		kernel_modules

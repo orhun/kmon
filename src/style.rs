@@ -13,7 +13,7 @@ pub struct Style {
 
 impl Style {
 	/**
-	 * Create a new style instance.
+	 * Create a new style instance from given arguments.
 	 *
 	 * @param  args
 	 * @return Style

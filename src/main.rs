@@ -40,8 +40,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 	let mut terminal = Terminal::new(backend)?;
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
-	let style = Style::new(args);
-	let mut app = App::new(Blocks::ModuleTable, style);
+	let app_style = Style::new(args);
+	let mut app = App::new(Blocks::ModuleTable, app_style);
 	let mut kernel_logs = KernelLogs::default();
 	let mut kernel_info = KernelInfo::new();
 	let mut kernel_modules = KernelModules::new(args);
@@ -128,7 +128,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
-							app = App::new(Blocks::ModuleTable, style);
+							app = App::new(Blocks::ModuleTable, app_style);
 							kernel_logs.index = 0;
 							kernel_info = KernelInfo::new();
 							kernel_modules = KernelModules::new(args);

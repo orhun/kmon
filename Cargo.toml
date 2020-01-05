@@ -21,6 +21,7 @@ unicode-width = "0.1.7"
 enum-unitary = "0.4.1"
 enum-iterator = "0.5.0"
 clipboard = "0.5.0"
+colorsys = "0.5.3"
 
 [profile.dev]
 opt-level = 0

@@ -14,6 +14,7 @@ impl Style {
 	/**
 	 * Create a new style instance.
 	 *
+	 * @param  args
 	 * @return Style
 	 */
 	pub fn new(args: &ArgMatches) -> Self {

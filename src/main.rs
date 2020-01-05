@@ -1,8 +1,9 @@
 mod app;
 mod event;
 mod kernel;
-mod style;
+#[macro_use]
 mod util;
+mod style;
 use app::{App, Blocks, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};

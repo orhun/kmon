@@ -3,6 +3,14 @@ use std::io::{stdout, Error, Write};
 use std::process::Command;
 use termion::cursor::Goto;
 
+macro_rules! map {
+    ($( $key: expr => $val: expr ),*) => {{
+         let mut map = ::std::collections::HashMap::new();
+         $( map.insert($key, $val); )*
+         map
+    }}
+}
+
 /**
  * Parse command line arguments using clap.
  *

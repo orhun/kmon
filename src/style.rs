@@ -17,8 +17,26 @@ impl Style {
 	 * @return Style
 	 */
 	pub fn new(args: &ArgMatches) -> Self {
+		let colors = map![
+			"black" => Color::Black,
+			"red" => Color::Red,
+			"green" => Color::Green,
+			"yellow" => Color::Yellow,
+			"blue" => Color::Blue,
+			"magenta" => Color::Magenta,
+			"cyan" => Color::Cyan,
+			"gray" => Color::Gray,
+			"darkgray" => Color::DarkGray,
+			"lightred" => Color::LightRed,
+			"lightgreen" => Color::LightGreen,
+			"lightyellow" => Color::LightYellow,
+			"lightblue" => Color::LightBlue,
+			"lightmagenta" => Color::LightMagenta,
+			"lightcyan" => Color::LightCyan,
+			"white" => Color::White
+		];
 		let main_color = match args.value_of("color") {
-			Some(_v) => Color::DarkGray,
+			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap(),
 			None => Color::DarkGray,
 		};
 		Self {

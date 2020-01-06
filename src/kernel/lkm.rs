@@ -85,6 +85,7 @@ impl KernelModules<'_> {
 	 * Set the current module command and show confirmation message.
 	 *
 	 * @param module_command
+	 * @param command_name
 	 */
 	pub fn set_current_command(
 		&mut self,

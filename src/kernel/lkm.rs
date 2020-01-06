@@ -111,7 +111,7 @@ impl KernelModules<'_> {
 	 *
 	 * @return command_executed
 	 */
-	pub fn exec_current_command(&mut self) -> bool {
+	pub fn execute_command(&mut self) -> bool {
 		let mut command_executed = false;
 		if !self.command.is_none() {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {

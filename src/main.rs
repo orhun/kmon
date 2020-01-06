@@ -252,7 +252,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
-							if kernel_modules.exec_current_command() {
+							if kernel_modules.execute_command() {
 								events
 									.tx
 									.send(Event::Input(Key::Char('r')))

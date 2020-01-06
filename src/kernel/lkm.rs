@@ -143,7 +143,11 @@ impl KernelModules<'_> {
 							),
 						],
 						3,
-						format!("Execution Error\n{}", e),
+						format!(
+							"Execution Error\n'{}'\n{}",
+							self.get_current_command().cmd,
+							e
+						),
 					);
 					self.current_name = String::from("!Error");
 				}

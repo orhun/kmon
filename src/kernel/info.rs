@@ -44,15 +44,18 @@ impl KernelInfo {
 		vec![
 			vec![
 				String::from("Kernel Release"),
-				util::exec_cmd("uname", &["-srn"]).unwrap_or(String::from("?")),
+				util::exec_cmd("uname", &["-srn"])
+					.unwrap_or_else(|_| String::from("?")),
 			],
 			vec![
 				String::from("Kernel Version"),
-				util::exec_cmd("uname", &["-v"]).unwrap_or(String::from("?")),
+				util::exec_cmd("uname", &["-v"])
+					.unwrap_or_else(|_| String::from("?")),
 			],
 			vec![
 				String::from("Kernel Platform"),
-				util::exec_cmd("uname", &["-om"]).unwrap_or(String::from("?")),
+				util::exec_cmd("uname", &["-om"])
+					.unwrap_or_else(|_| String::from("?")),
 			],
 		]
 		.into_iter()

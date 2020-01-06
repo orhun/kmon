@@ -308,7 +308,10 @@ impl App<'_> {
 			)
 			.alignment(
 				if kernel_modules.command.is_none()
-					&& !kernel_modules.current_info.raw_text.contains("Execution Error\n")
+					&& !kernel_modules
+						.current_info
+						.raw_text
+						.contains("Execution Error\n")
 				{
 					Alignment::Left
 				} else {

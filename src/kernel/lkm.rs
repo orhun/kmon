@@ -132,7 +132,7 @@ impl KernelModules<'_> {
 						),
 					],
 					3,
-					format!("Execution Error\n{}", e)
+					format!("Execution Error\n{}", e),
 				),
 			}
 			self.command = ModuleCommand::None;

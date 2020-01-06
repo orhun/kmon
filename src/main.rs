@@ -95,7 +95,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							&mut f,
 							chunks[1],
 							&kernel_info.current_info,
-						)
+						);
 					}
 					app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
 				}

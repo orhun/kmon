@@ -427,12 +427,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 			Event::Kernel(logs) => {
 				kernel_logs.output = logs;
 			}
-			/* Terminal tick event. */
-			Event::Tick => {
-				if cfg!(test) {
-					break;
-				}
-			}
+			_ => {}
 		}
 	}
 	Ok(())
@@ -443,13 +438,4 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
  */
 fn main() {
 	create_term(&util::parse_args(VERSION)).expect("failed to create terminal");
-}
-
-#[cfg(test)]
-mod tests {
-	use super::*;
-	#[test]
-	fn test_terminal() -> Result<(), failure::Error> {
-		create_term(&util::parse_args("0"))
-	}
 }

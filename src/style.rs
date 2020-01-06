@@ -95,6 +95,7 @@ impl<'a> StyledText<'a> {
 	 *
 	 * @param text
 	 * @param newline_count
+	 * @param placeholder
 	 */
 	pub fn set_styled_text(
 		&mut self,

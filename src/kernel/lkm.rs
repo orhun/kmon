@@ -101,6 +101,7 @@ impl KernelModules<'_> {
 				),
 			],
 			3,
+			self.get_current_command().cmd,
 		);
 		self.info_scroll_offset = 0;
 	}
@@ -131,6 +132,7 @@ impl KernelModules<'_> {
 						),
 					],
 					3,
+					format!("Execution Error\n{}", e)
 				),
 			}
 			self.command = ModuleCommand::None;

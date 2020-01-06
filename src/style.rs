@@ -100,13 +100,14 @@ impl<'a> StyledText<'a> {
 		&mut self,
 		text: Vec<Text<'static>>,
 		newline_count: usize,
+		placeholder: String,
 	) {
 		self.styled_text = text;
+		self.raw_text = placeholder;
 		/* Append empty strings as much as newlines. */
 		for _i in 0..newline_count * 2 {
 			self.styled_text.push(Text::raw(""));
 		}
-		self.raw_text = String::new();
 	}
 
 	/**

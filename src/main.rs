@@ -431,7 +431,11 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 			Event::Kernel(logs) => {
 				kernel_logs.output = logs;
 			}
-			_ => {}
+			Event::Tick => {
+				if cfg!(test) {
+					break;
+				}
+			}
 		}
 	}
 	Ok(())

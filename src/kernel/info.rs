@@ -70,7 +70,9 @@ mod tests {
 		let mut kernel_info = KernelInfo::new();
 		kernel_info.next();
 		assert_eq!("Kernel Version", kernel_info.current_info[0]);
-		assert_eq!(util::exec_cmd("uname", &["-v"])
-					.unwrap(), kernel_info.current_info[1]);
+		assert_eq!(
+			util::exec_cmd("uname", &["-v"]).unwrap(),
+			kernel_info.current_info[1]
+		);
 	}
 }

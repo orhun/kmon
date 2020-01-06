@@ -86,24 +86,33 @@ impl KernelModules<'_> {
 	 *
 	 * @param module_command
 	 */
-	pub fn set_current_command(&mut self, module_command: ModuleCommand) {
-		self.command = module_command;
-		self.current_info.set_styled_text(
-			vec![
-				Text::styled(
-					"Execute the following command? [y/N]:\n",
-					self.style.colored,
-				),
-				Text::styled(self.get_current_command().cmd, self.style.default),
-				Text::styled(
-					format!("\n\n{}", self.get_current_command().desc),
-					self.style.colored,
-				),
-			],
-			3,
-			self.get_current_command().cmd,
-		);
-		self.info_scroll_offset = 0;
+	pub fn set_current_command(
+		&mut self,
+		module_command: ModuleCommand,
+		command_name: String,
+	) {
+		if !command_name.contains(' ') {
+			if !command_name.is_empty() {
+				self.current_name = command_name;
+			}
+			self.command = module_command;
+			self.current_info.set_styled_text(
+				vec![
+					Text::styled(
+						"Execute the following command? [y/N]:\n",
+						self.style.colored,
+					),
+					Text::styled(self.get_current_command().cmd, self.style.default),
+					Text::styled(
+						format!("\n\n{}", self.get_current_command().desc),
+						self.style.colored,
+					),
+				],
+				3,
+				self.get_current_command().cmd,
+			);
+			self.info_scroll_offset = 0;
+		}
 	}
 
 	/**

@@ -239,16 +239,20 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						| Key::Char('-')
 						| Key::Backspace
 						| Key::Ctrl('h') => {
-							kernel_modules
-								.set_current_command(ModuleCommand::Unload);
+							kernel_modules.set_current_command(
+								ModuleCommand::Unload,
+								String::new(),
+							);
 						}
 						/* Blacklist kernel module. */
 						Key::Char('x')
 						| Key::Char('X')
 						| Key::Ctrl('b')
 						| Key::Delete => {
-							kernel_modules
-								.set_current_command(ModuleCommand::Blacklist);
+							kernel_modules.set_current_command(
+								ModuleCommand::Blacklist,
+								String::new(),
+							);
 						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
@@ -390,9 +394,10 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							} else if app.input_mode == InputMode::Load
 								&& !app.input_query.is_empty()
 							{
-								kernel_modules.current_name = app.input_query;
-								kernel_modules
-									.set_current_command(ModuleCommand::Load);
+								kernel_modules.set_current_command(
+									ModuleCommand::Load,
+									app.input_query,
+								);
 								app.input_query = String::new();
 							}
 							/* Hide terminal cursor and set the input mode flag. */

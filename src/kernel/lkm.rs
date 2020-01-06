@@ -141,7 +141,6 @@ impl KernelModules<'_> {
 	}
 
 	pub fn cancel_execution(&mut self) -> bool {
-		let mut cancelled = false;
 		if !self.command.is_none() {
 			self.command = ModuleCommand::None;
 			if self.index != 0 {
@@ -150,10 +149,11 @@ impl KernelModules<'_> {
 			} else {
 				self.index += 1;
 				self.scroll_list(ScrollDirection::Up);
-			}
-			cancelled = true;
+			};
+			true
+		} else {
+			false
 		}
-		cancelled
 	}
 
 	/**

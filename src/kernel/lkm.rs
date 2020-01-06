@@ -140,6 +140,11 @@ impl KernelModules<'_> {
 		command_executed
 	}
 
+	/**
+	 * Cancel the execution of the current command.
+	 *
+	 * @return cancelled
+	 */
 	pub fn cancel_execution(&mut self) -> bool {
 		if !self.command.is_none() {
 			self.command = ModuleCommand::None;

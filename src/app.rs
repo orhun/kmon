@@ -24,7 +24,7 @@ pub enum ScrollDirection {
 
 /* Main blocks of the terminal */
 enum_unitary! {
-	#[derive(PartialEq)]
+	#[derive(Debug, PartialEq)]
 	pub enum Blocks {
 		UserInput,
 		ModuleTable,

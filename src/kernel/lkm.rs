@@ -140,6 +140,22 @@ impl KernelModules<'_> {
 		command_executed
 	}
 
+	pub fn cancel_execution(&mut self) -> bool {
+		let mut cancelled = false;
+		if !self.command.is_none() {
+			self.command = ModuleCommand::None;
+			if self.index != 0 {
+				self.index -= 1;
+				self.scroll_list(ScrollDirection::Down);
+			} else {
+				self.index += 1;
+				self.scroll_list(ScrollDirection::Up);
+			}
+			cancelled = true;
+		}
+		cancelled
+	}
+
 	/**
 	 * Scroll to the position of used module at given index.
 	 *

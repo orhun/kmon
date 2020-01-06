@@ -261,17 +261,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 						}
 						/* Cancel the execution of current command. */
 						Key::Char('n') | Key::Char('N') => {
-							if !kernel_modules.command.is_none() {
+							if kernel_modules.cancel_execution() {
 								app.selected_block = Blocks::ModuleTable;
-								kernel_modules.command = ModuleCommand::None;
-								if kernel_modules.index != 0 {
-									kernel_modules.index -= 1;
-									kernel_modules
-										.scroll_list(ScrollDirection::Down);
-								} else {
-									kernel_modules.index += 1;
-									kernel_modules.scroll_list(ScrollDirection::Up);
-								}
 							}
 						}
 						/* Copy the data in selected block to clipboard. */

@@ -316,10 +316,12 @@ mod tests {
 		assert_ne!(0, kernel_modules.current_name.len());
 		assert_ne!(0, kernel_modules.current_info.lines());
 		kernel_modules
-			.set_current_command(ModuleCommand::Unload, String::from("test"));
+			.set_current_command(ModuleCommand::Load, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(false, kernel_modules.execute_command());
-		assert_ne!(true, kernel_modules.cancel_execution());
+		kernel_modules
+			.set_current_command(ModuleCommand::Unload, String::new());
+		assert_eq!(true, kernel_modules.cancel_execution());
 		kernel_modules.show_used_module(0);
 	}
 }

@@ -195,7 +195,7 @@ impl KernelModules<'_> {
 			self.index = self
 				.list
 				.iter()
-				.position(|module| module[0] == used_module)
+				.position(|module| module[0] == format!(" {}", used_module))
 				.unwrap_or(self.index)
 				- 1;
 			self.scroll_list(ScrollDirection::Down);

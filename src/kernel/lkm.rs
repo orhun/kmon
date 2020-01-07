@@ -307,7 +307,7 @@ mod tests {
 		for direction in ScrollDirection::iter() {
 			kernel_modules.scroll_list(*direction);
 			kernel_modules.scroll_mod_info(
-				ScrollDirection::Down,
+				*direction,
 				*direction == ScrollDirection::Up,
 			);
 		}

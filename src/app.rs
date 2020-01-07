@@ -405,7 +405,7 @@ mod tests {
 					size,
 					&info::KernelInfo::new().current_info,
 				);
-				app.input_query = String::from("test");
+				app.input_query = String::from("a");
 				app.draw_kernel_modules(&mut f, size, &mut kernel_modules);
 				app.draw_module_info(&mut f, size, &mut kernel_modules);
 				app.draw_kernel_activities(&mut f, size, &mut kernel_logs);

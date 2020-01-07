@@ -6,6 +6,7 @@ use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::enum_unitary;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
+use std::slice::Iter;
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
@@ -15,11 +16,25 @@ use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
 /* Supported directions of scrolling */
+#[derive(Clone, Copy, PartialEq)]
 pub enum ScrollDirection {
 	Up,
 	Down,
 	Top,
 	Bottom,
+}
+
+impl ScrollDirection {
+	#[allow(dead_code)]
+	pub fn iter() -> Iter<'static, ScrollDirection> {
+		[
+			ScrollDirection::Up,
+			ScrollDirection::Down,
+			ScrollDirection::Top,
+			ScrollDirection::Bottom,
+		]
+		.iter()
+	}
 }
 
 /* Main blocks of the terminal */

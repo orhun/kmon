@@ -314,6 +314,6 @@ mod tests {
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(true, kernel_modules.cancel_execution());
 		assert_ne!(true, kernel_modules.execute_command());
-		kernel_modules.show_used_module_info(0);
+		kernel_modules.show_used_module(0);
 	}
 }

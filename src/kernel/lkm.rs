@@ -303,7 +303,7 @@ mod tests {
 	#[test]
 	fn test_kernel_modules() {
 		let matches = App::new("test").get_matches();
-		let kernel_modules = KernelModules::new(&matches);
+		let mut kernel_modules = KernelModules::new(&matches);
 		assert_eq!(0, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
@@ -313,5 +313,7 @@ mod tests {
 				String::from("test"),
 		);
 		assert_eq!("test", kernel_modules.current_name);
+		assert_eq!(true, kernel_modules.cancel_execution());
+		assert_ne!(true, kernel_modules.execute_command());
 	}
 }

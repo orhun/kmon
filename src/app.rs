@@ -383,4 +383,10 @@ mod tests {
 		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
 		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 	}
+	#[test]
+	fn test_input_mode() {
+		let input_mode = InputMode::Search;
+		assert_eq!(false, input_mode.is_none());
+		assert_eq!(input_mode.get_default_text(), input_mode.to_string());
+	}
 }

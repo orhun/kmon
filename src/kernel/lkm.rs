@@ -304,7 +304,13 @@ mod tests {
 	fn test_kernel_modules() {
 		let matches = App::new("test").get_matches();
 		let mut kernel_modules = KernelModules::new(&matches);
-		kernel_modules.scroll_list(ScrollDirection::Bottom);
+		for direction in ScrollDirection::iter() {
+			kernel_modules.scroll_list(*direction);
+			kernel_modules.scroll_mod_info(
+				ScrollDirection::Down,
+				*direction == ScrollDirection::Up,
+			);
+		}
 		assert_eq!(kernel_modules.default_list.len() - 1, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
@@ -315,7 +321,5 @@ mod tests {
 		assert_eq!(false, kernel_modules.execute_command());
 		assert_ne!(true, kernel_modules.cancel_execution());
 		kernel_modules.show_used_module(0);
-		kernel_modules.scroll_mod_info(ScrollDirection::Down, false);
-		kernel_modules.scroll_mod_info(ScrollDirection::Up, true);
 	}
 }

@@ -312,8 +312,10 @@ mod tests {
 		kernel_modules
 			.set_current_command(ModuleCommand::Unload, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
-		assert_eq!(true, kernel_modules.cancel_execution());
-		assert_ne!(true, kernel_modules.execute_command());
+		assert_eq!(false, kernel_modules.execute_command());
+		assert_ne!(true, kernel_modules.cancel_execution());
 		kernel_modules.show_used_module(0);
+		kernel_modules.scroll_mod_info(ScrollDirection::Down, false);
+		kernel_modules.scroll_mod_info(ScrollDirection::Up, true);
 	}
 }

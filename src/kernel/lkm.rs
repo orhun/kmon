@@ -304,7 +304,8 @@ mod tests {
 	fn test_kernel_modules() {
 		let matches = App::new("test").get_matches();
 		let mut kernel_modules = KernelModules::new(&matches);
-		assert_eq!(0, kernel_modules.index);
+		kernel_modules.scroll_list(ScrollDirection::Bottom);
+		assert_eq!(kernel_modules.default_list.len()-1, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
 		assert_ne!(0, kernel_modules.current_info.lines());
@@ -315,5 +316,6 @@ mod tests {
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(true, kernel_modules.cancel_execution());
 		assert_ne!(true, kernel_modules.execute_command());
+		kernel_modules.show_used_module_info(0);
 	}
 }

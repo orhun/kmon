@@ -374,10 +374,37 @@ impl App<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use crate::event::Events;
+	use crate::kernel::info;
 	use crate::util;
+	use tui::backend::TestBackend;
+	use tui::Terminal;
 	#[test]
 	fn test_app() {
-		let app = App::new(Blocks::ModuleTable, Style::new(&util::parse_args("0")));
+		let args = util::parse_args("0");
+		let app = App::new(Blocks::ModuleTable, Style::new(&args));
+		let mut kernel_logs = KernelLogs::default();
+		let mut kernel_modules = KernelModules::new(&args);
+		let backend = TestBackend::new(20, 10);
+		let mut terminal = Terminal::new(backend).unwrap();
+		terminal
+			.draw(|mut f| {
+				let size = f.size();
+				app.draw_user_input(
+					&mut f,
+					size,
+					&Events::new(100, &kernel_logs).tx,
+				);
+				app.draw_kernel_info(
+					&mut f,
+					size,
+					&info::KernelInfo::new().current_info,
+				);
+				app.draw_kernel_modules(&mut f, size, &mut kernel_modules);
+				app.draw_module_info(&mut f, size, &mut kernel_modules);
+				app.draw_kernel_activities(&mut f, size, &mut kernel_logs);
+			})
+			.unwrap();
 		app.set_clipboard_contents("test");
 		assert_ne!("x", app.get_clipboard_contents());
 		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));

@@ -183,7 +183,7 @@ impl KernelModules<'_> {
 	 *
 	 * @param mod_index
 	 */
-	pub fn show_used_module_info(&mut self, mod_index: usize) {
+	pub fn show_used_module(&mut self, mod_index: usize) {
 		let used_module =
 			(*self.list[self.index][2].split(' ').collect::<Vec<&str>>()[1]
 				.split(',')

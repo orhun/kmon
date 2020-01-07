@@ -325,7 +325,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							/* Show the used module info at given index. */
 							if index != 0 {
 								kernel_modules
-									.show_used_module_info(index as usize - 1);
+									.show_used_module(index as usize - 1);
 							}
 						}
 						_ => {}

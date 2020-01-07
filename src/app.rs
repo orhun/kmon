@@ -382,7 +382,11 @@ mod tests {
 	#[test]
 	fn test_app() {
 		let args = util::parse_args("0");
-		let app = App::new(Blocks::ModuleTable, Style::new(&args));
+		let mut app = App::new(Blocks::ModuleTable, Style::new(&args));
+		app.set_clipboard_contents("test");
+		assert_ne!("x", app.get_clipboard_contents());
+		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
+		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 		let mut kernel_logs = KernelLogs::default();
 		let mut kernel_modules = KernelModules::new(&args);
 		let backend = TestBackend::new(20, 10);
@@ -390,6 +394,7 @@ mod tests {
 		terminal
 			.draw(|mut f| {
 				let size = f.size();
+				app.selected_block = Blocks::UserInput;
 				app.draw_user_input(
 					&mut f,
 					size,
@@ -400,15 +405,12 @@ mod tests {
 					size,
 					&info::KernelInfo::new().current_info,
 				);
+				app.input_query = String::from("test");
 				app.draw_kernel_modules(&mut f, size, &mut kernel_modules);
 				app.draw_module_info(&mut f, size, &mut kernel_modules);
 				app.draw_kernel_activities(&mut f, size, &mut kernel_logs);
 			})
 			.unwrap();
-		app.set_clipboard_contents("test");
-		assert_ne!("x", app.get_clipboard_contents());
-		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
-		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 	}
 	#[test]
 	fn test_input_mode() {

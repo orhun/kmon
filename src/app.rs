@@ -414,8 +414,9 @@ mod tests {
 	}
 	#[test]
 	fn test_input_mode() {
-		let input_mode = InputMode::Search;
+		let input_mode = InputMode::Load;
 		assert_eq!(false, input_mode.is_none());
-		assert_eq!(input_mode.get_default_text(), input_mode.to_string());
+		assert_eq!("Load", input_mode.to_string());
+		assert_eq!("Search", input_mode.get_default_text());
 	}
 }

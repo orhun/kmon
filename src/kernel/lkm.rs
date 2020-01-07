@@ -181,7 +181,7 @@ impl KernelModules<'_> {
 	/**
 	 * Scroll to the position of used module at given index.
 	 *
-	 * @param index
+	 * @param mod_index
 	 */
 	pub fn show_used_module_info(&mut self, mod_index: usize) {
 		let used_module =

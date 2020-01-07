@@ -302,8 +302,7 @@ mod tests {
 	use clap::App;
 	#[test]
 	fn test_kernel_modules() {
-		let matches = App::new("test").get_matches();
-		let mut kernel_modules = KernelModules::new(&matches);
+		let mut kernel_modules = KernelModules::new(&App::new("test").get_matches());
 		for direction in ScrollDirection::iter() {
 			kernel_modules.scroll_list(*direction);
 			kernel_modules

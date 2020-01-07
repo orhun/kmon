@@ -324,8 +324,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							let index = v.to_digit(10).unwrap_or(0);
 							/* Show the used module info at given index. */
 							if index != 0 {
-								kernel_modules
-									.show_used_module(index as usize - 1);
+								kernel_modules.show_used_module(index as usize - 1);
 							}
 						}
 						_ => {}

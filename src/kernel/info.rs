@@ -68,7 +68,7 @@ mod tests {
 	#[test]
 	fn test_info() {
 		let mut kernel_info = KernelInfo::new();
-		while kernel_info.uname_output.next() == None {
+		for _x in 0..kernel_info.uname_output.len() + 1 {
 			kernel_info.next();
 		}
 		assert_eq!("Kernel Release", kernel_info.current_info[0]);

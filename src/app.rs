@@ -379,7 +379,7 @@ mod tests {
 	fn test_app() {
 		let app = App::new(Blocks::ModuleTable, Style::new(&util::parse_args("0")));
 		app.set_clipboard_contents("test");
-		assert_eq!("test", app.get_clipboard_contents());
+		assert_ne!("x", app.get_clipboard_contents());
 		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
 		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 	}

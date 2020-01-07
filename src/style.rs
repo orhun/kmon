@@ -161,3 +161,26 @@ impl<'a> StyledText<'a> {
 		}
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	use clap::App;
+	use tui::widgets::Text;
+	#[test]
+	fn test_style() {
+		let style = Style::new(&App::new("test").get_matches());
+		let mut styled_text = StyledText::default();
+		styled_text.set_raw_text(String::from("raw"));
+		assert_eq!(vec![Text::raw("raw")], styled_text.get());
+		styled_text.set_styled_text(
+			vec![Text::styled("styled", style.colored)],
+			0,
+			String::new(),
+		);
+		assert_eq!(
+			vec![Text::styled("styled", style.colored)],
+			styled_text.get()
+		);
+	}
+}

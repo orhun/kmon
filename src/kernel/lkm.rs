@@ -305,14 +305,12 @@ mod tests {
 		let matches = App::new("test").get_matches();
 		let mut kernel_modules = KernelModules::new(&matches);
 		kernel_modules.scroll_list(ScrollDirection::Bottom);
-		assert_eq!(kernel_modules.default_list.len()-1, kernel_modules.index);
+		assert_eq!(kernel_modules.default_list.len() - 1, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
 		assert_ne!(0, kernel_modules.current_info.lines());
-		kernel_modules.set_current_command(
-				ModuleCommand::Unload,
-				String::from("test"),
-		);
+		kernel_modules
+			.set_current_command(ModuleCommand::Unload, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(true, kernel_modules.cancel_execution());
 		assert_ne!(true, kernel_modules.execute_command());

@@ -306,10 +306,8 @@ mod tests {
 		let mut kernel_modules = KernelModules::new(&matches);
 		for direction in ScrollDirection::iter() {
 			kernel_modules.scroll_list(*direction);
-			kernel_modules.scroll_mod_info(
-				*direction,
-				*direction == ScrollDirection::Up,
-			);
+			kernel_modules
+				.scroll_mod_info(*direction, *direction == ScrollDirection::Up);
 		}
 		assert_eq!(kernel_modules.default_list.len() - 1, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
@@ -319,8 +317,7 @@ mod tests {
 			.set_current_command(ModuleCommand::Load, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(false, kernel_modules.execute_command());
-		kernel_modules
-			.set_current_command(ModuleCommand::Unload, String::new());
+		kernel_modules.set_current_command(ModuleCommand::Unload, String::new());
 		assert_eq!(true, kernel_modules.cancel_execution());
 		kernel_modules.show_used_module(0);
 	}

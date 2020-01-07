@@ -308,5 +308,10 @@ mod tests {
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());
 		assert_ne!(0, kernel_modules.current_info.lines());
+		kernel_modules.set_current_command(
+				ModuleCommand::Unload,
+				String::from("test"),
+		);
+		assert_eq!("test", kernel_modules.current_name);
 	}
 }

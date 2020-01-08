@@ -105,11 +105,7 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 		})?;
 		/* Set cursor position if the input mode flag is set. */
 		if !app.input_mode.is_none() {
-			util::set_cursor_pos(
-				terminal.backend_mut(),
-				2 + app.input_query.width() as u16,
-				2,
-			)?;
+			terminal.set_cursor(1 + app.input_query.width() as u16, 1)?;
 		}
 		/* Handle terminal events. */
 		match events.rx.recv()? {
@@ -311,11 +307,8 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
 							}
-							util::set_cursor_pos(
-								terminal.backend_mut(),
-								2 + app.input_query.width() as u16,
-								2,
-							)?;
+							terminal
+								.set_cursor(1 + app.input_query.width() as u16, 1)?;
 							terminal.show_cursor()?;
 						}
 						/* Other character input. */

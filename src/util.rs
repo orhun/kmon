@@ -109,10 +109,4 @@ mod tests {
 			exec_cmd("cat", &["-x"]).unwrap_or(String::from("err"))
 		);
 	}
-	#[test]
-	fn test_set_cursor_pos() -> Result<(), Error> {
-		let w = Vec::new();
-		set_cursor_pos(w, 1, 1)?;
-		Ok(())
-	}
 }

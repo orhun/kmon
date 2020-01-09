@@ -82,16 +82,18 @@ impl Events {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use std::char;
 	#[test]
 	fn test_events() -> Result<(), failure::Error> {
 		let kernel_logs = KernelLogs::default();
 		let events = Events::new(100, &kernel_logs);
-		for _i in 0..10 {
+		for i in 0..10 {
 			match events.rx.recv()? {
 				Event::Input(_) => {}
 				Event::Tick => {}
 				Event::Kernel(_) => {}
 			}
+			events.tx.send(Event::Input(Key::Char(char::from_digit(i, 10).unwrap_or('x')))).unwrap();
 		}
 		Ok(())
 	}

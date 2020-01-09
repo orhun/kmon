@@ -424,6 +424,8 @@ where
 
 /**
  * Entry point.
+ *
+ * @return Result
  */
 fn main() -> Result<(), failure::Error> {
 	let args = util::parse_args(VERSION);

@@ -39,8 +39,6 @@ fn start_tui<B>(
 where
 	B: Backend,
 {
-	/* Configure the terminal. */
-	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
 	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, app_style);
@@ -56,6 +54,7 @@ where
 		&kernel_logs,
 	);
 	/* Draw terminal and render the widgets. */
+	terminal.hide_cursor()?;
 	loop {
 		terminal.draw(|mut f| {
 			let chunks = Layout::default()

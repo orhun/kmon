@@ -169,14 +169,14 @@ mod tests {
 	use tui::widgets::Text;
 	#[test]
 	fn test_style() {
-		let mut matches = App::new("test").get_matches();
+		let mut args = App::new("test").get_matches();
 		for color in vec!["black", "000000", "lightblue", "3c70a4"] {
-			matches = App::new("test")
+			args = App::new("test")
 				.arg(Arg::with_name("color").short("color").default_value(color))
 				.get_matches();
-			let _s = Style::new(&matches);
+			let _s = Style::new(&args);
 		}
-		let style = Style::new(&matches);
+		let style = Style::new(&args);
 		let mut styled_text = StyledText::default();
 		styled_text.set_raw_text(String::from("raw"));
 		assert_eq!(vec![Text::raw("raw")], styled_text.get());

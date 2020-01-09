@@ -18,7 +18,7 @@ use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
-use tui::backend::{Backend, TermionBackend, TestBackend};
+use tui::backend::{Backend, TermionBackend};
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
@@ -427,27 +427,25 @@ where
  * Entry point.
  */
 fn main() -> Result<(), failure::Error> {
-	if !cfg!(test) {
-		let stdout = stdout().into_raw_mode()?;
-		let stdout = MouseTerminal::from(stdout);
-		let stdout = AlternateScreen::from(stdout);
-		let backend = TermionBackend::new(stdout);
-		start_tui(Terminal::new(backend)?, &util::parse_args(VERSION))
-			.expect("failed to create terminal");
-	} else {
-		start_tui(
-			Terminal::new(TestBackend::new(20, 10))?,
-			&util::parse_args("0"),
-		)?;
-	}
+	let stdout = stdout().into_raw_mode()?;
+	let stdout = MouseTerminal::from(stdout);
+	let stdout = AlternateScreen::from(stdout);
+	let backend = TermionBackend::new(stdout);
+	start_tui(Terminal::new(backend)?, &util::parse_args(VERSION))
+		.expect("failed to create terminal");
 	Ok(())
 }
 
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use tui::backend::TestBackend;
 	#[test]
-	fn test_main() -> Result<(), failure::Error> {
-		main()
+	fn test_tui() -> Result<(), failure::Error> {
+		start_tui(
+			Terminal::new(TestBackend::new(20, 10))?,
+			&util::parse_args("0"),
+		)?;
+		Ok(())
 	}
 }

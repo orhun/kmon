@@ -7,11 +7,11 @@ mod style;
 use app::{App, Blocks, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
-use kernel::Kernel;
 use kernel::cmd::ModuleCommand;
 use kernel::info::KernelInfo;
 use kernel::lkm::KernelModules;
 use kernel::log::KernelLogs;
+use kernel::Kernel;
 use std::io::stdout;
 use style::Style;
 use termion::event::Key;
@@ -128,7 +128,8 @@ where
 						Key::Char('?') | Key::F(1) => {
 							app.selected_block = Blocks::ModuleInfo;
 							kernel.modules.current_name = String::from("!Help");
-							kernel.modules
+							kernel
+								.modules
 								.current_info
 								.set_raw_text(String::from("(TODO)\nHelp Message"));
 						}
@@ -211,13 +212,15 @@ where
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel.modules
+							kernel
+								.modules
 								.scroll_mod_info(ScrollDirection::Up, false)
 						}
 						/* Scroll module information down. */
 						Key::Char('>') | Key::Char(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel.modules
+							kernel
+								.modules
 								.scroll_mod_info(ScrollDirection::Down, false)
 						}
 						/* Show the next kernel information. */
@@ -443,9 +446,9 @@ fn main() -> Result<(), failure::Error> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use tui::backend::TestBackend;
 	use std::thread;
 	use std::time::Duration;
+	use tui::backend::TestBackend;
 	#[test]
 	fn test_tui() -> Result<(), failure::Error> {
 		let args = util::parse_args("0");
@@ -466,7 +469,7 @@ mod tests {
 			Terminal::new(TestBackend::new(20, 10))?,
 			kernel,
 			&events,
-			&args
+			&args,
 		)
 	}
 }

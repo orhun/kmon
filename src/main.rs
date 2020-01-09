@@ -32,7 +32,7 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
  * @param  ArgMatches
  * @return Result
  */
-fn create_term<B>(
+fn start_tui<B>(
 	mut terminal: Terminal<B>,
 	args: &clap::ArgMatches,
 ) -> Result<(), failure::Error>
@@ -436,10 +436,10 @@ fn main() -> Result<(), failure::Error> {
 		let stdout = MouseTerminal::from(stdout);
 		let stdout = AlternateScreen::from(stdout);
 		let backend = TermionBackend::new(stdout);
-		create_term(Terminal::new(backend)?, &util::parse_args(VERSION))
+		start_tui(Terminal::new(backend)?, &util::parse_args(VERSION))
 			.expect("failed to create terminal");
 	} else {
-		create_term(
+		start_tui(
 			Terminal::new(TestBackend::new(20, 10))?,
 			&util::parse_args("0"),
 		)?;

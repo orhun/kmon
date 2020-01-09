@@ -442,12 +442,29 @@ fn main() -> Result<(), failure::Error> {
 mod tests {
 	use super::*;
 	use tui::backend::TestBackend;
+	use std::thread;
+	use std::time::Duration;
 	#[test]
 	fn test_tui() -> Result<(), failure::Error> {
+		let args = util::parse_args("0");
+		let kernel = Kernel::new(&args);
+		let events = Events::new(100, &kernel.logs);
+		let tx = events.tx.clone();
+		thread::spawn(move || {
+			let keys = vec![Key::Char('?'), Key::Char('q')];
+			for key in keys {
+				let mut x = true;
+				while x {
+					x = tx.send(Event::Input(key)).is_err();
+					thread::sleep(Duration::from_millis(100));
+				}
+			}
+		});
 		start_tui(
 			Terminal::new(TestBackend::new(20, 10))?,
-			&util::parse_args("0"),
-		)?;
-		Ok(())
+			kernel,
+			&events,
+			&args
+		)
 	}
 }

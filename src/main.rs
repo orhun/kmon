@@ -7,6 +7,7 @@ mod style;
 use app::{App, Blocks, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
+use kernel::Kernel;
 use kernel::cmd::ModuleCommand;
 use kernel::info::KernelInfo;
 use kernel::lkm::KernelModules;
@@ -42,16 +43,14 @@ where
 	/* Set required items for the terminal widgets. */
 	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, app_style);
-	let mut kernel_logs = KernelLogs::default();
-	let mut kernel_info = KernelInfo::new();
-	let mut kernel_modules = KernelModules::new(args);
+	let mut kernel = Kernel::new(args);
 	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
 			.unwrap_or(REFRESH_RATE)
 			.parse::<u64>()
 			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
-		&kernel_logs,
+		&kernel.logs,
 	);
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;
@@ -95,14 +94,14 @@ where
 						app.draw_kernel_info(
 							&mut f,
 							chunks[1],
-							&kernel_info.current_info,
+							&kernel.info.current_info,
 						);
 					}
-					app.draw_kernel_modules(&mut f, chunks[1], &mut kernel_modules);
+					app.draw_kernel_modules(&mut f, chunks[1], &mut kernel.modules);
 				}
-				app.draw_module_info(&mut f, chunks[1], &mut kernel_modules);
+				app.draw_module_info(&mut f, chunks[1], &mut kernel.modules);
 			}
-			app.draw_kernel_activities(&mut f, chunks[1], &mut kernel_logs);
+			app.draw_kernel_activities(&mut f, chunks[1], &mut kernel.logs);
 		})?;
 		/* Set cursor position if the input mode flag is set. */
 		if !app.input_mode.is_none() {
@@ -126,15 +125,15 @@ where
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app = App::new(Blocks::ModuleTable, app_style);
-							kernel_logs.index = 0;
-							kernel_info = KernelInfo::new();
-							kernel_modules = KernelModules::new(args);
+							kernel.logs.index = 0;
+							kernel.info = KernelInfo::new();
+							kernel.modules = KernelModules::new(args);
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel_modules.current_name = String::from("!Help");
-							kernel_modules
+							kernel.modules.current_name = String::from("!Help");
+							kernel.modules
 								.current_info
 								.set_raw_text(String::from("(TODO)\nHelp Message"));
 						}
@@ -144,14 +143,14 @@ where
 						| Key::Char('K')
 						| Key::Alt('k') => match app.selected_block {
 							Blocks::ModuleTable => {
-								kernel_modules.scroll_list(ScrollDirection::Up)
+								kernel.modules.scroll_list(ScrollDirection::Up)
 							}
-							Blocks::ModuleInfo => kernel_modules.scroll_mod_info(
+							Blocks::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Up,
 								input == Key::Alt('k'),
 							),
 							Blocks::Activities => {
-								kernel_logs.scroll(
+								kernel.logs.scroll(
 									ScrollDirection::Up,
 									input == Key::Alt('k'),
 								);
@@ -164,14 +163,14 @@ where
 						| Key::Char('J')
 						| Key::Alt('j') => match app.selected_block {
 							Blocks::ModuleTable => {
-								kernel_modules.scroll_list(ScrollDirection::Down)
+								kernel.modules.scroll_list(ScrollDirection::Down)
 							}
-							Blocks::ModuleInfo => kernel_modules.scroll_mod_info(
+							Blocks::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Down,
 								input == Key::Alt('j'),
 							),
 							Blocks::Activities => {
-								kernel_logs.scroll(
+								kernel.logs.scroll(
 									ScrollDirection::Down,
 									input == Key::Alt('j'),
 								);
@@ -197,38 +196,38 @@ where
 						/* Scroll to the top of the module list. */
 						Key::Char('t') | Key::Char('T') | Key::Home => {
 							app.selected_block = Blocks::ModuleTable;
-							kernel_modules.scroll_list(ScrollDirection::Top)
+							kernel.modules.scroll_list(ScrollDirection::Top)
 						}
 						/* Scroll to the bottom of the module list. */
 						Key::Char('b') | Key::Char('B') | Key::End => {
 							app.selected_block = Blocks::ModuleTable;
-							kernel_modules.scroll_list(ScrollDirection::Bottom)
+							kernel.modules.scroll_list(ScrollDirection::Bottom)
 						}
 						/* Scroll kernel activities up. */
 						Key::PageUp => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Up, false);
+							kernel.logs.scroll(ScrollDirection::Up, false);
 						}
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
 							app.selected_block = Blocks::Activities;
-							kernel_logs.scroll(ScrollDirection::Down, false);
+							kernel.logs.scroll(ScrollDirection::Down, false);
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel_modules
+							kernel.modules
 								.scroll_mod_info(ScrollDirection::Up, false)
 						}
 						/* Scroll module information down. */
 						Key::Char('>') | Key::Char(' ') => {
 							app.selected_block = Blocks::ModuleInfo;
-							kernel_modules
+							kernel.modules
 								.scroll_mod_info(ScrollDirection::Down, false)
 						}
 						/* Show the next kernel information. */
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
-							kernel_info.next();
+							kernel.info.next();
 						}
 						/* Unload kernel module. */
 						Key::Char('u')
@@ -236,7 +235,7 @@ where
 						| Key::Char('-')
 						| Key::Backspace
 						| Key::Ctrl('h') => {
-							kernel_modules.set_current_command(
+							kernel.modules.set_current_command(
 								ModuleCommand::Unload,
 								String::new(),
 							);
@@ -246,14 +245,14 @@ where
 						| Key::Char('X')
 						| Key::Ctrl('b')
 						| Key::Delete => {
-							kernel_modules.set_current_command(
+							kernel.modules.set_current_command(
 								ModuleCommand::Blacklist,
 								String::new(),
 							);
 						}
 						/* Execute the current command. */
 						Key::Char('y') | Key::Char('Y') => {
-							if kernel_modules.execute_command() {
+							if kernel.modules.execute_command() {
 								events
 									.tx
 									.send(Event::Input(Key::Char('r')))
@@ -262,19 +261,19 @@ where
 						}
 						/* Cancel the execution of current command. */
 						Key::Char('n') | Key::Char('N') => {
-							if kernel_modules.cancel_execution() {
+							if kernel.modules.cancel_execution() {
 								app.selected_block = Blocks::ModuleTable;
 							}
 						}
 						/* Copy the data in selected block to clipboard. */
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
-								Blocks::ModuleTable => &kernel_modules.current_name,
+								Blocks::ModuleTable => &kernel.modules.current_name,
 								Blocks::ModuleInfo => {
-									&kernel_modules.current_info.raw_text
+									&kernel.modules.current_info.raw_text
 								}
 								Blocks::Activities => {
-									&kernel_logs.selected_output.trim()
+									&kernel.logs.selected_output.trim()
 								}
 								_ => "",
 							});
@@ -283,7 +282,7 @@ where
 						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
 							app.input_query += &app.get_clipboard_contents();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
-							kernel_modules.index = 0;
+							kernel.modules.index = 0;
 						}
 						/* User input mode. */
 						Key::Char('\n')
@@ -318,7 +317,7 @@ where
 							let index = v.to_digit(10).unwrap_or(0);
 							/* Show the used module info at given index. */
 							if index != 0 {
-								kernel_modules.show_used_module(index as usize - 1);
+								kernel.modules.show_used_module(index as usize - 1);
 							}
 						}
 						_ => {}
@@ -380,14 +379,14 @@ where
 							};
 							/* Show the first modules information if the search mode is set. */
 							if app.input_mode == InputMode::Search
-								&& kernel_modules.index == 0
+								&& kernel.modules.index == 0
 							{
-								kernel_modules.scroll_list(ScrollDirection::Top);
+								kernel.modules.scroll_list(ScrollDirection::Top);
 							/* Load kernel module. */
 							} else if app.input_mode == InputMode::Load
 								&& !app.input_query.is_empty()
 							{
-								kernel_modules.set_current_command(
+								kernel.modules.set_current_command(
 									ModuleCommand::Load,
 									app.input_query,
 								);
@@ -400,17 +399,17 @@ where
 						/* Append character to input query. */
 						Key::Char(c) => {
 							app.input_query.push(c);
-							kernel_modules.index = 0;
+							kernel.modules.index = 0;
 						}
 						/* Delete the last character from input query. */
 						Key::Backspace | Key::Ctrl('h') => {
 							app.input_query.pop();
-							kernel_modules.index = 0;
+							kernel.modules.index = 0;
 						}
 						/* Clear the input query. */
 						Key::Delete | Key::Ctrl('l') => {
 							app.input_query = String::new();
-							kernel_modules.index = 0;
+							kernel.modules.index = 0;
 						}
 						_ => {}
 					}
@@ -418,7 +417,7 @@ where
 			}
 			/* Kernel events. */
 			Event::Kernel(logs) => {
-				kernel_logs.output = logs;
+				kernel.logs.output = logs;
 			}
 			_ => {}
 		}

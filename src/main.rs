@@ -436,8 +436,6 @@ fn main() -> Result<(), failure::Error> {
 		&kernel.logs,
 	);
 	start_tui(Terminal::new(backend)?, kernel, events, &args)
-		.expect("failed to create terminal");
-	Ok(())
 }
 
 #[cfg(test)]

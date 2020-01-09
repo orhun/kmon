@@ -165,11 +165,18 @@ impl<'a> StyledText<'a> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::App;
+	use clap::{App, Arg};
 	use tui::widgets::Text;
 	#[test]
 	fn test_style() {
-		let style = Style::new(&App::new("test").get_matches());
+		let matches = App::new("test")
+			.arg(
+				Arg::with_name("color")
+					.short("color")
+					.default_value("black"),
+			)
+			.get_matches();
+		let style = Style::new(&matches);
 		let mut styled_text = StyledText::default();
 		styled_text.set_raw_text(String::from("raw"));
 		assert_eq!(vec![Text::raw("raw")], styled_text.get());

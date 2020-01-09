@@ -93,7 +93,12 @@ mod tests {
 				Event::Tick => {}
 				Event::Kernel(_) => {}
 			}
-			events.tx.send(Event::Input(Key::Char(char::from_digit(i, 10).unwrap_or('x')))).unwrap();
+			events
+				.tx
+				.send(Event::Input(Key::Char(
+					char::from_digit(i, 10).unwrap_or('x'),
+				)))
+				.unwrap();
 		}
 		Ok(())
 	}

@@ -22,7 +22,7 @@ impl KernelModules<'_> {
 	/**
 	 * Create a new kernel modules instance.
 	 *
-	 * @param  args
+	 * @param  ArgMatches
 	 * @return KernelModules
 	 */
 	pub fn new(args: &ArgMatches) -> Self {

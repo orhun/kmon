@@ -35,6 +35,8 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
  */
 fn start_tui<B>(
 	mut terminal: Terminal<B>,
+	mut kernel: Kernel,
+	events: Events,
 	args: &clap::ArgMatches,
 ) -> Result<(), failure::Error>
 where
@@ -42,14 +44,6 @@ where
 {
 	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, app_style);
-	let mut kernel = Kernel::new(args);
-	let events = Events::new(
-		args.value_of("rate")
-			.unwrap_or(REFRESH_RATE)
-			.parse::<u64>()
-			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
-		&kernel.logs,
-	);
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;
 	loop {
@@ -427,11 +421,20 @@ where
  * Entry point.
  */
 fn main() -> Result<(), failure::Error> {
+	let args = util::parse_args(VERSION);
 	let stdout = stdout().into_raw_mode()?;
 	let stdout = MouseTerminal::from(stdout);
 	let stdout = AlternateScreen::from(stdout);
 	let backend = TermionBackend::new(stdout);
-	start_tui(Terminal::new(backend)?, &util::parse_args(VERSION))
+	let kernel = Kernel::new(&args);
+	let events = Events::new(
+		args.value_of("rate")
+			.unwrap_or(REFRESH_RATE)
+			.parse::<u64>()
+			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
+		&kernel.logs,
+	);
+	start_tui(Terminal::new(backend)?, kernel, events, &args)
 		.expect("failed to create terminal");
 	Ok(())
 }

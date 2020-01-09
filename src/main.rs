@@ -17,7 +17,7 @@ use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
 use termion::screen::AlternateScreen;
-use tui::backend::TermionBackend;
+use tui::backend::{Backend, TermionBackend, TestBackend};
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
@@ -31,13 +31,15 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
  * @param  ArgMatches
  * @return Result
  */
-fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
+fn create_term<B>(
+	mut terminal: Terminal<B>,
+	args: &clap::ArgMatches,
+) -> Result<(), failure::Error>
+where
+	B: Backend,
+{
 	/* Configure the terminal. */
-	let stdout = stdout().into_raw_mode()?;
-	let stdout = MouseTerminal::from(stdout);
-	let stdout = AlternateScreen::from(stdout);
-	let backend = TermionBackend::new(stdout);
-	let mut terminal = Terminal::new(backend)?;
+
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
 	let app_style = Style::new(args);
@@ -428,6 +430,28 @@ fn create_term(args: &clap::ArgMatches) -> Result<(), failure::Error> {
 /**
  * Entry point.
  */
-fn main() {
-	create_term(&util::parse_args(VERSION)).expect("failed to create terminal");
+fn main() -> Result<(), failure::Error> {
+	if !cfg!(test) {
+		let stdout = stdout().into_raw_mode()?;
+		let stdout = MouseTerminal::from(stdout);
+		let stdout = AlternateScreen::from(stdout);
+		let backend = TermionBackend::new(stdout);
+		create_term(Terminal::new(backend)?, &util::parse_args(VERSION))
+			.expect("failed to create terminal");
+	} else {
+		create_term(
+			Terminal::new(TestBackend::new(20, 10))?,
+			&util::parse_args("0"),
+		)?;
+	}
+	Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	#[test]
+	fn test_main() -> Result<(), failure::Error> {
+		main()
+	}
 }

@@ -30,6 +30,8 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
  * Configure the terminal and draw its widgets.
  *
  * @param  Terminal
+ * @param  Kernel
+ * @param  Events
  * @param  ArgMatches
  * @return Result
  */

@@ -36,7 +36,7 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
 fn start_tui<B>(
 	mut terminal: Terminal<B>,
 	mut kernel: Kernel,
-	events: Events,
+	events: &Events,
 	args: &clap::ArgMatches,
 ) -> Result<(), failure::Error>
 where
@@ -435,7 +435,7 @@ fn main() -> Result<(), failure::Error> {
 			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
 		&kernel.logs,
 	);
-	start_tui(Terminal::new(backend)?, kernel, events, &args)
+	start_tui(Terminal::new(backend)?, kernel, &events, &args)
 }
 
 #[cfg(test)]

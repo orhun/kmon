@@ -15,6 +15,12 @@ pub struct Kernel {
 }
 
 impl Kernel {
+	/**
+	 * Create a new kernel instance.
+	 *
+	 * @param  ArgMatches
+	 * @return Kernel
+	 */
 	pub fn new(args: &ArgMatches) -> Self {
 		Self {
 			logs: KernelLogs::default(),

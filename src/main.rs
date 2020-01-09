@@ -26,8 +26,9 @@ const VERSION: &str = "0.1.0"; /* Version */
 const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
 
 /**
- * Create a terminal instance with using termion as backend.
+ * Configure the terminal and draw its widgets.
  *
+ * @param  Terminal
  * @param  ArgMatches
  * @return Result
  */
@@ -39,7 +40,6 @@ where
 	B: Backend,
 {
 	/* Configure the terminal. */
-
 	terminal.hide_cursor()?;
 	/* Set required items for the terminal widgets. */
 	let app_style = Style::new(args);

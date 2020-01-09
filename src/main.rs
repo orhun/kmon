@@ -40,11 +40,9 @@ fn start_tui<B>(
 where
 	B: Backend,
 {
-	/* Set required items for the terminal widgets. */
 	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, app_style);
 	let mut kernel = Kernel::new(args);
-	/* Create terminal events. */
 	let events = Events::new(
 		args.value_of("rate")
 			.unwrap_or(REFRESH_RATE)

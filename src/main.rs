@@ -42,6 +42,7 @@ fn start_tui<B>(
 where
 	B: Backend,
 {
+	/* Configure application and styles. */
 	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, app_style);
 	/* Draw terminal and render the widgets. */

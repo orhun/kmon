@@ -174,7 +174,7 @@ mod tests {
 			args = App::new("test")
 				.arg(Arg::with_name("color").short("color").default_value(color))
 				.get_matches();
-			let _s = Style::new(&args);
+			Style::new(&args);
 		}
 		let style = Style::new(&args);
 		let mut styled_text = StyledText::default();

@@ -42,7 +42,7 @@ fn start_tui<B>(
 where
 	B: Backend,
 {
-	/* Configure the application and styles. */
+	/* Configure the application. */
 	let mut app = App::new(Blocks::ModuleTable, kernel.modules.style);
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;

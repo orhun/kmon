@@ -105,13 +105,13 @@ impl App<'_> {
 	 * @param  app_style
 	 * @return App
 	 */
-	pub fn new(block: Blocks, app_style: Style) -> Self {
+	pub fn new(block: Blocks, style: Style) -> Self {
 		Self {
 			selected_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			table_header: &[" Module", "Size", "Used by"],
-			style: app_style,
+			style,
 		}
 	}
 

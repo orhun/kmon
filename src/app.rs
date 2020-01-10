@@ -115,6 +115,12 @@ impl App<'_> {
 		}
 	}
 
+	pub fn refresh(&mut self, block: Blocks) {
+		self.selected_block = block;
+		self.input_mode = InputMode::None;
+		self.input_query = String::new();
+	}
+
 	/**
 	 * Get style depending on the selected state of the block.
 	 *

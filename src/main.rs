@@ -29,7 +29,6 @@ const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
  * @param  Terminal
  * @param  Kernel
  * @param  Events
- * @param  ArgMatches
  * @return Result
  */
 fn start_tui<B>(

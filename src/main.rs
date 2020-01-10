@@ -37,7 +37,6 @@ fn start_tui<B>(
 	mut terminal: Terminal<B>,
 	mut kernel: Kernel,
 	events: &Events,
-	args: &clap::ArgMatches,
 ) -> Result<(), failure::Error>
 where
 	B: Backend,
@@ -439,7 +438,7 @@ fn main() -> Result<(), failure::Error> {
 			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
 		&kernel.logs,
 	);
-	start_tui(Terminal::new(backend)?, kernel, &events, &args)
+	start_tui(Terminal::new(backend)?, kernel, &events)
 }
 
 #[cfg(test)]

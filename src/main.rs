@@ -11,7 +11,6 @@ use kernel::cmd::ModuleCommand;
 use kernel::info::KernelInfo;
 use kernel::Kernel;
 use std::io::stdout;
-use style::Style;
 use termion::event::Key;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;

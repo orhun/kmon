@@ -58,7 +58,7 @@ impl KernelModules<'_> {
 	 * @param  ArgMatches
 	 * @return KernelModules
 	 */
-	pub fn new(args: Args) -> Self {
+	pub fn new(args: Args, style: Style) -> Self {
 		let mut kernel_modules = Self {
 			default_list: Vec::new(),
 			list: Vec::new(),
@@ -68,7 +68,7 @@ impl KernelModules<'_> {
 			index: 0,
 			info_scroll_offset: 0,
 			args: args,
-			style: Style::new(args),
+			style: style,
 		};
 		kernel_modules.refresh();
 		kernel_modules

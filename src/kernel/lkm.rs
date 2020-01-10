@@ -223,7 +223,7 @@ impl KernelModules<'_> {
 			self.current_name = self.list[self.index][0]
 				.split_whitespace()
 				.next()
-				.unwrap()
+				.unwrap_or("?")
 				.trim()
 				.to_string();
 			/* Execute 'modinfo' and add style to its output. */

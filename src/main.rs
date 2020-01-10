@@ -43,7 +43,6 @@ where
 	B: Backend,
 {
 	/* Configure the application and styles. */
-	let app_style = Style::new(args);
 	let mut app = App::new(Blocks::ModuleTable, kernel.modules.style);
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;
@@ -117,7 +116,7 @@ where
 						}
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
-							app = App::new(Blocks::ModuleTable, app_style);
+							app.refresh(Blocks::ModuleTable);
 							kernel.logs.index = 0;
 							kernel.info = KernelInfo::new();
 							kernel.modules.refresh();

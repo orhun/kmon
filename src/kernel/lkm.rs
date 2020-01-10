@@ -55,7 +55,8 @@ impl KernelModules<'_> {
 	/**
 	 * Create a new kernel modules instance.
 	 *
-	 * @param  ArgMatches
+	 * @param  ListArgs
+	 * @param  Style
 	 * @return KernelModules
 	 */
 	pub fn new(args: ListArgs, style: Style) -> Self {

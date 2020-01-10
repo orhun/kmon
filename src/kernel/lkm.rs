@@ -47,8 +47,8 @@ pub struct KernelModules<'a> {
 	pub command: ModuleCommand,
 	pub index: usize,
 	pub info_scroll_offset: usize,
+	pub style: Style,
 	args: ListArgs,
-	style: Style,
 }
 
 impl KernelModules<'_> {

@@ -6,6 +6,38 @@ use bytesize::ByteSize;
 use clap::ArgMatches;
 use tui::widgets::Text;
 
+enum SortType {
+	None,
+	Size,
+	Name,
+}
+
+pub struct Args {
+	sort: SortType,
+	reverse: bool,
+}
+
+impl Args {
+	pub fn new(args: &ArgMatches) -> Self {
+		let mut sort_type = SortType::None;
+		let mut reverse_list = false;
+		if let Some(matches) = args.subcommand_matches("sort") {
+			if matches.is_present("size") {
+				sort_type = SortType::Size;
+			} else {
+				sort_type = SortType::Name;
+			}
+		}
+		if args.is_present("reverse") {
+			reverse_list = true;
+		}
+		Self {
+			sort: sort_type,
+			reverse: reverse_list,
+		}
+	}
+}
+
 /* Loadable kernel modules */
 pub struct KernelModules<'a> {
 	pub default_list: Vec<Vec<String>>,

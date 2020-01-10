@@ -12,12 +12,12 @@ enum SortType {
 	Name,
 }
 
-pub struct Args {
+pub struct ListArgs {
 	sort: SortType,
 	reverse: bool,
 }
 
-impl Args {
+impl ListArgs {
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
 		let mut reverse_list = false;
@@ -47,7 +47,7 @@ pub struct KernelModules<'a> {
 	pub command: ModuleCommand,
 	pub index: usize,
 	pub info_scroll_offset: usize,
-	args: Args,
+	args: ListArgs,
 	style: Style,
 }
 
@@ -58,7 +58,7 @@ impl KernelModules<'_> {
 	 * @param  ArgMatches
 	 * @return KernelModules
 	 */
-	pub fn new(args: Args, style: Style) -> Self {
+	pub fn new(args: ListArgs, style: Style) -> Self {
 		let mut kernel_modules = Self {
 			default_list: Vec::new(),
 			list: Vec::new(),

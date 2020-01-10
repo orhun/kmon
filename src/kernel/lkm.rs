@@ -50,7 +50,7 @@ impl KernelModules<'_> {
 				used_modules.pop();
 			}
 			let module_size =
-				ByteSize::b(columns[1].to_string().parse().unwrap()).to_string();
+				ByteSize::b(columns[1].to_string().parse().unwrap_or(0)).to_string();
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
 		/* Reverse the kernel modules if the argument is provided. */

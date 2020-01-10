@@ -461,10 +461,6 @@ mod tests {
 				}
 			}
 		});
-		start_tui(
-			Terminal::new(TestBackend::new(20, 10))?,
-			kernel,
-			&events,
-		)
+		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
 	}
 }

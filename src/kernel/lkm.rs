@@ -68,8 +68,8 @@ impl KernelModules<'_> {
 			command: ModuleCommand::None,
 			index: 0,
 			info_scroll_offset: 0,
-			args: args,
-			style: style,
+			args,
+			style,
 		};
 		kernel_modules.refresh();
 		kernel_modules
@@ -341,7 +341,8 @@ mod tests {
 	#[test]
 	fn test_kernel_modules() {
 		let args = App::new("test").get_matches();
-		let mut kernel_modules = KernelModules::new(ListArgs::new(&args), Style::new(&args));
+		let mut kernel_modules =
+			KernelModules::new(ListArgs::new(&args), Style::new(&args));
 		for direction in ScrollDirection::iter() {
 			kernel_modules.scroll_list(*direction);
 			kernel_modules

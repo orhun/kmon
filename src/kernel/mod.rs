@@ -2,11 +2,11 @@ pub mod cmd;
 pub mod info;
 pub mod lkm;
 pub mod log;
+use crate::style::Style;
 use clap::ArgMatches;
 use info::KernelInfo;
 use lkm::{KernelModules, ListArgs};
 use log::KernelLogs;
-use crate::style::Style;
 
 /* Kernel struct for logs, information and modules */
 pub struct Kernel {

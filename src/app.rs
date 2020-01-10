@@ -101,8 +101,8 @@ impl App<'_> {
 	/**
 	 * Create a new app instance.
 	 *
-	 * @param  block
-	 * @param  app_style
+	 * @param  Blocks
+	 * @param  Style
 	 * @return App
 	 */
 	pub fn new(block: Blocks, style: Style) -> Self {

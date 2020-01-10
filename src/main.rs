@@ -9,7 +9,6 @@ use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
 use kernel::info::KernelInfo;
-use kernel::lkm::KernelModules;
 use kernel::Kernel;
 use std::io::stdout;
 use style::Style;

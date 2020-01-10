@@ -4,8 +4,9 @@ pub mod lkm;
 pub mod log;
 use clap::ArgMatches;
 use info::KernelInfo;
-use lkm::KernelModules;
+use lkm::{Args, KernelModules};
 use log::KernelLogs;
+use crate::style::Style;
 
 /* Kernel struct for logs, information and modules */
 pub struct Kernel {
@@ -25,7 +26,7 @@ impl Kernel {
 		Self {
 			logs: KernelLogs::default(),
 			info: KernelInfo::new(),
-			modules: KernelModules::new(args),
+			modules: KernelModules::new(Args::new(args), Style::new(args)),
 		}
 	}
 }

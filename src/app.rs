@@ -382,19 +382,20 @@ mod tests {
 	use super::*;
 	use crate::event::Events;
 	use crate::kernel::info;
+	use crate::kernel::lkm::ListArgs;
 	use crate::util;
 	use tui::backend::TestBackend;
 	use tui::Terminal;
 	#[test]
 	fn test_app() {
 		let args = util::parse_args("0");
-		let mut app = App::new(Blocks::ModuleTable, Style::new(&args));
+		let mut kernel_modules = KernelModules::new(ListArgs::new(&args), Style::new(&args));
+		let mut app = App::new(Blocks::ModuleTable, kernel_modules.style);
 		app.set_clipboard_contents("test");
 		assert_ne!("x", app.get_clipboard_contents());
 		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
 		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
 		let mut kernel_logs = KernelLogs::default();
-		let mut kernel_modules = KernelModules::new(&args);
 		let backend = TestBackend::new(20, 10);
 		let mut terminal = Terminal::new(backend).unwrap();
 		terminal

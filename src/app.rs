@@ -152,7 +152,7 @@ impl App<'_> {
 		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
 			ClipboardProvider::new();
 		if let Ok(mut v) = clipboard_context {
-			v.set_contents(contents.to_string()).unwrap()
+			v.set_contents(contents.to_string()).unwrap();
 		}
 	}
 

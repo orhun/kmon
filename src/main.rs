@@ -465,7 +465,6 @@ mod tests {
 			Terminal::new(TestBackend::new(20, 10))?,
 			kernel,
 			&events,
-			&args,
 		)
 	}
 }

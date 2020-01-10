@@ -74,7 +74,7 @@ impl KernelModules<'_> {
 		kernel_modules
 	}
 
-	pub fn refresh(&self) {
+	pub fn refresh(&mut self) {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");

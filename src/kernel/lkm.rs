@@ -47,6 +47,7 @@ pub struct KernelModules<'a> {
 	pub command: ModuleCommand,
 	pub index: usize,
 	pub info_scroll_offset: usize,
+	args: Args,
 	style: Style,
 }
 
@@ -58,10 +59,26 @@ impl KernelModules<'_> {
 	 * @return KernelModules
 	 */
 	pub fn new(args: Args) -> Self {
+		let mut kernel_modules = Self {
+			default_list: Vec::new(),
+			list: Vec::new(),
+			current_name: String::new(),
+			current_info: StyledText::default(),
+			command: ModuleCommand::None,
+			index: 0,
+			info_scroll_offset: 0,
+			args: args,
+			style: Style::new(args),
+		};
+		kernel_modules.refresh();
+		kernel_modules
+	}
+
+	pub fn refresh(&self) {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");
-		match args.sort {
+		match self.args.sort {
 			SortType::Size => module_read_cmd += " | sort -n -r -t ' ' -k2",
 			SortType::Name => module_read_cmd += " | sort -t ' ' -k1",
 			_ => {}
@@ -84,22 +101,12 @@ impl KernelModules<'_> {
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
 		/* Reverse the kernel modules if the argument is provided. */
-		if args.reverse {
+		if self.args.reverse {
 			module_list.reverse();
 		}
-		/* Scroll modules to top and return. */
-		let mut kernel_modules = Self {
-			default_list: module_list.clone(),
-			list: module_list,
-			current_name: String::new(),
-			current_info: StyledText::default(),
-			command: ModuleCommand::None,
-			index: 0,
-			info_scroll_offset: 0,
-			style: Style::new(args),
-		};
-		kernel_modules.scroll_list(ScrollDirection::Top);
-		kernel_modules
+		self.default_list = module_list.clone();
+		self.list = module_list;
+		self.scroll_list(ScrollDirection::Top);
 	}
 
 	/**

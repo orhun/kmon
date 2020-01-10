@@ -54,8 +54,9 @@ impl Events {
 			let mut kernel_logs = kernel_logs.clone();
 			thread::spawn(move || loop {
 				if kernel_logs.update() {
-					tx.send(Event::Kernel(kernel_logs.output.to_string()))
-						.unwrap();
+					match tx.send(Event::Kernel(kernel_logs.output.to_string())) {
+						_ => {}
+					}
 				}
 				thread::sleep(refresh_rate * 10);
 			})

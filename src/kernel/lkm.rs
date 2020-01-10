@@ -6,18 +6,26 @@ use bytesize::ByteSize;
 use clap::ArgMatches;
 use tui::widgets::Text;
 
+/* Type of the sorting of module list */
 enum SortType {
 	None,
 	Size,
 	Name,
 }
 
+/* Listing properties of module list */
 pub struct ListArgs {
 	sort: SortType,
 	reverse: bool,
 }
 
 impl ListArgs {
+	/**
+	 * Create a new list arguments instance.
+	 *
+	 * @param  ArgMatches
+	 * @return ListArgs
+	 */
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
 		let mut reverse_list = false;

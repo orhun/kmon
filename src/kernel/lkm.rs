@@ -57,16 +57,14 @@ impl KernelModules<'_> {
 	 * @param  ArgMatches
 	 * @return KernelModules
 	 */
-	pub fn new(args: &ArgMatches) -> Self {
+	pub fn new(args: Args) -> Self {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");
-		if let Some(matches) = args.subcommand_matches("sort") {
-			if matches.is_present("size") {
-				module_read_cmd += " | sort -n -r -t ' ' -k2";
-			} else {
-				module_read_cmd += " | sort -t ' ' -k1";
-			}
+		match args.sort {
+			SortType::Size => module_read_cmd += " | sort -n -r -t ' ' -k2",
+			SortType::Name => module_read_cmd += " | sort -t ' ' -k1",
+			_ => {}
 		}
 		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])
 			.expect("failed to read /proc/modules");
@@ -86,7 +84,7 @@ impl KernelModules<'_> {
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
 		/* Reverse the kernel modules if the argument is provided. */
-		if args.is_present("reverse") {
+		if args.reverse {
 			module_list.reverse();
 		}
 		/* Scroll modules to top and return. */

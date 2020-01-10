@@ -121,7 +121,7 @@ where
 							app = App::new(Blocks::ModuleTable, app_style);
 							kernel.logs.index = 0;
 							kernel.info = KernelInfo::new();
-							kernel.modules = KernelModules::new(args);
+							kernel.modules.refresh();
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {

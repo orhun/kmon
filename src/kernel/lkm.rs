@@ -357,7 +357,8 @@ mod tests {
 		let mut kernel_modules = KernelModules::new(list_args, Style::new(&args));
 		kernel_modules.args.sort = SortType::Name;
 		kernel_modules.refresh();
-		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter()) {
+		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter())
+		{
 			kernel_modules.scroll_list(*direction);
 			kernel_modules
 				.scroll_mod_info(*direction, *direction == ScrollDirection::Up);

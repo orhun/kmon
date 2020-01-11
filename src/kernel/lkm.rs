@@ -350,7 +350,7 @@ mod tests {
 	#[test]
 	fn test_kernel_modules() {
 		let args = App::new("test")
-			.arg(Arg::with_name("reverse"))
+			.arg(Arg::with_name("reverse").default_value("x"))
 			.get_matches();
 		let mut list_args = ListArgs::new(&args);
 		list_args.sort = SortType::Size;

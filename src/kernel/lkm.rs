@@ -351,12 +351,18 @@ mod tests {
 	fn test_kernel_modules() {
 		let args = App::new("test")
 			.arg(Arg::with_name("reverse").default_value("x"))
+			.arg(Arg::with_name("size").default_value("x"))
 			.get_matches();
-		let mut list_args = ListArgs::new(&args);
-		list_args.sort = SortType::Size;
-		let mut kernel_modules = KernelModules::new(list_args, Style::new(&args));
-		kernel_modules.args.sort = SortType::Name;
-		kernel_modules.refresh();
+		let style = Style::new(&args);
+		KernelModules::new(ListArgs::new(&args), style);
+		let mut kernel_modules = KernelModules::new(
+			ListArgs::new(
+				&App::new("test")
+					.arg(Arg::with_name("name").default_value("x"))
+					.get_matches(),
+			),
+			style,
+		);
 		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter())
 		{
 			kernel_modules.scroll_list(*direction);

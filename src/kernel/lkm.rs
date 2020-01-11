@@ -354,29 +354,16 @@ impl KernelModules<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::{App, Arg, SubCommand};
+	use clap::App;
 	#[test]
 	fn test_kernel_modules() {
-		let args = App::new("test")
-			.arg(Arg::with_name("reverse").default_value("x"))
-			.subcommand(
-				SubCommand::with_name("sort")
-					.arg(Arg::with_name("size").default_value("x")),
-			)
-			.get_matches();
-		let style = Style::new(&args);
-		KernelModules::new(ListArgs::new(&args), style);
-		let mut kernel_modules = KernelModules::new(
-			ListArgs::new(
-				&App::new("test")
-					.subcommand(
-						SubCommand::with_name("sort")
-							.arg(Arg::with_name("name").default_value("x")),
-					)
-					.get_matches(),
-			),
-			style,
-		);
+		let args = App::new("test").get_matches();
+		let mut list_args = ListArgs::new(&args);
+		list_args.sort = SortType::Size;
+		list_args.reverse = true;
+		let mut kernel_modules = KernelModules::new(list_args, Style::new(&args));
+		kernel_modules.args.sort = SortType::Name;
+		kernel_modules.refresh();
 		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter())
 		{
 			kernel_modules.show_used_module(0);

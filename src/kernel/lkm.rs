@@ -346,19 +346,25 @@ impl KernelModules<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::{App, Arg};
+	use clap::{App, Arg, SubCommand};
 	#[test]
 	fn test_kernel_modules() {
 		let args = App::new("test")
 			.arg(Arg::with_name("reverse").default_value("x"))
-			.arg(Arg::with_name("size").default_value("x"))
+			.subcommand(
+				SubCommand::with_name("sort")
+					.arg(Arg::with_name("size").default_value("x")),
+			)
 			.get_matches();
 		let style = Style::new(&args);
 		KernelModules::new(ListArgs::new(&args), style);
 		let mut kernel_modules = KernelModules::new(
 			ListArgs::new(
 				&App::new("test")
-					.arg(Arg::with_name("name").default_value("x"))
+					.subcommand(
+						SubCommand::with_name("sort")
+							.arg(Arg::with_name("name").default_value("x")),
+					)
 					.get_matches(),
 			),
 			style,

@@ -33,10 +33,7 @@ impl KernelInfo {
 	pub fn next(&mut self) {
 		match self.uname_output.next() {
 			Some(v) => self.current_info = v,
-			None => {
-				self.uname_output = KernelInfo::get_infos();
-				self.next();
-			}
+			None => self.refresh()
 		}
 	}
 

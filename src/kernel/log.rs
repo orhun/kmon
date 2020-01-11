@@ -83,7 +83,7 @@ mod tests {
 	#[test]
 	fn test_kernel_logs() {
 		let mut kernel_logs = KernelLogs::default();
-		for direction in ScrollDirection::iter() {
+		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter()) {
 			kernel_logs.scroll(*direction, *direction == ScrollDirection::Top);
 		}
 		assert_eq!(true, kernel_logs.update());

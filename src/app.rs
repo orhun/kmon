@@ -156,7 +156,7 @@ impl App<'_> {
 	/**
 	 * Set clipboard contents.
 	 *
-	 * @return contents
+	 * @param contents
 	 */
 	pub fn set_clipboard_contents(&self, contents: &str) {
 		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =

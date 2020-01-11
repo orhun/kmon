@@ -34,7 +34,7 @@ impl KernelInfo {
 	pub fn next(&mut self) {
 		match self.uname_output.next() {
 			Some(v) => self.current_info = v,
-			None => self.refresh()
+			None => self.refresh(),
 		}
 	}
 

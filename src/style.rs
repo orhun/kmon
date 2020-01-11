@@ -172,7 +172,7 @@ mod tests {
 		let mut args = App::new("test").get_matches();
 		for color in vec!["black", "000000", "lightblue", "3c70a4"] {
 			args = App::new("test")
-				.arg(Arg::with_name("color").short("color").default_value(color))
+				.arg(Arg::with_name("color").default_value(color))
 				.get_matches();
 			Style::new(&args);
 		}

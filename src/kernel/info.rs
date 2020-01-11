@@ -16,10 +16,15 @@ impl KernelInfo {
 	pub fn new() -> Self {
 		let mut kernel_info = Self {
 			current_info: Vec::new(),
-			uname_output: KernelInfo::get_infos(),
+			uname_output: Vec::new().into_iter(),
 		};
-		kernel_info.next();
+		kernel_info.refresh();
 		kernel_info
+	}
+
+	pub fn refresh(&mut self) {
+		self.uname_output = KernelInfo::get_infos();
+		self.next();
 	}
 
 	/**

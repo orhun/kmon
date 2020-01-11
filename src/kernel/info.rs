@@ -22,6 +22,7 @@ impl KernelInfo {
 		kernel_info
 	}
 
+	/* Refresh the kernel information fields. */
 	pub fn refresh(&mut self) {
 		self.uname_output = KernelInfo::get_infos();
 		self.next();

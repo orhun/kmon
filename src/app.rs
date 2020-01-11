@@ -115,6 +115,10 @@ impl App<'_> {
 		}
 	}
 
+	/* Reset app properties to default.
+	 *
+	 * @param Blocks
+	 */
 	pub fn refresh(&mut self, block: Blocks) {
 		self.selected_block = block;
 		self.input_mode = InputMode::None;

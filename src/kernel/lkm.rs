@@ -56,7 +56,7 @@ pub struct KernelModules<'a> {
 	pub index: usize,
 	pub info_scroll_offset: usize,
 	pub style: Style,
-	args: ListArgs,
+	pub args: ListArgs,
 }
 
 impl KernelModules<'_> {
@@ -346,12 +346,19 @@ impl KernelModules<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::App;
+	use clap::{App, Arg};
 	#[test]
 	fn test_kernel_modules() {
-		let args = App::new("test").get_matches();
+		let args = App::new("test")
+		.arg(
+			Arg::with_name("reverse"),
+		).get_matches();
+		let mut list_args = ListArgs::new(&args);
+		list_args.sort = SortType::Size;
 		let mut kernel_modules =
-			KernelModules::new(ListArgs::new(&args), Style::new(&args));
+			KernelModules::new(list_args, Style::new(&args));
+		kernel_modules.args.sort = SortType::Name;
+		kernel_modules.refresh();
 		for direction in ScrollDirection::iter() {
 			kernel_modules.scroll_list(*direction);
 			kernel_modules

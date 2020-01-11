@@ -231,21 +231,29 @@ impl KernelModules<'_> {
 	 * @param mod_index
 	 */
 	pub fn show_used_module(&mut self, mod_index: usize) {
-		let used_module =
-			(*self.list[self.index][2].split(' ').collect::<Vec<&str>>()[1]
+		if let Some(used_module) =
+			self.list[self.index][2].split(' ').collect::<Vec<&str>>()[1]
 				.split(',')
 				.collect::<Vec<&str>>()
 				.get(mod_index)
-				.unwrap_or(&"-"))
-			.to_string();
-		if used_module != "-" {
-			self.index = self
+		{
+			if let Some(v) = self
 				.list
 				.iter()
 				.position(|module| module[0] == format!(" {}", used_module))
-				.unwrap_or(self.index)
-				- 1;
-			self.scroll_list(ScrollDirection::Down);
+			{
+				match v {
+					0 => {
+						self.index = v + 1;
+						self.scroll_list(ScrollDirection::Up);
+					}
+					v if v > 0 => {
+						self.index = v - 1;
+						self.scroll_list(ScrollDirection::Down);
+					}
+					_ => {}
+				}
+			}
 		}
 	}
 

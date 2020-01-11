@@ -115,7 +115,7 @@ where
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app.refresh(Blocks::ModuleTable);
 							kernel.logs.index = 0;
-							kernel.info = KernelInfo::new();
+							kernel.info.refresh();
 							kernel.modules.refresh();
 						}
 						/* Show help message. */

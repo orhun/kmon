@@ -8,7 +8,6 @@ use app::{App, Blocks, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
-use kernel::info::KernelInfo;
 use kernel::Kernel;
 use std::io::stdout;
 use termion::event::Key;

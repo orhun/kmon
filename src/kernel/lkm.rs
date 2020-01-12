@@ -381,5 +381,8 @@ mod tests {
 		assert_eq!(false, kernel_modules.execute_command());
 		kernel_modules.set_current_command(ModuleCommand::Unload, String::new());
 		assert_eq!(true, kernel_modules.cancel_execution());
+		kernel_modules.scroll_list(ScrollDirection::Top);
+		kernel_modules.set_current_command(ModuleCommand::Blacklist, String::new());
+		assert_eq!(true, kernel_modules.cancel_execution());
 	}
 }

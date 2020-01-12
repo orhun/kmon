@@ -379,8 +379,7 @@ mod tests {
 			.set_current_command(ModuleCommand::Load, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(false, kernel_modules.execute_command());
-		kernel_modules
-			.set_current_command(ModuleCommand::Load, String::new());
+		kernel_modules.set_current_command(ModuleCommand::Load, String::new());
 		kernel_modules.scroll_list(ScrollDirection::Top);
 		for command in vec![
 			ModuleCommand::Unload,

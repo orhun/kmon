@@ -491,6 +491,21 @@ mod tests {
 					}
 				}
 			}
+			for key in vec![
+				Key::Char('v'),
+				Key::Delete,
+				Key::Char('~'),
+				Key::Backspace,
+				Key::Ctrl('c'),
+				Key::Ctrl('v'),
+				Key::Char('a'),
+				Key::Char('\n'),
+				Key::Char('m'),
+				Key::Char('x'),
+				Key::Char('\n'),
+			] {
+				send_key(&tx, key);
+			}
 			send_key(&tx, Key::Esc)
 		});
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)

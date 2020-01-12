@@ -307,7 +307,7 @@ where
 							/* Check if input is a number except zero. */
 							let index = v.to_digit(10).unwrap_or(0);
 							/* Show the used module info at given index. */
-							if index != 0 && kernel.modules.list.len() != 0 {
+							if index != 0 && !kernel.modules.list.is_empty() {
 								kernel.modules.show_used_module(index as usize - 1);
 							}
 						}

@@ -84,7 +84,6 @@ impl Events {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use std::char;
 	#[test]
 	fn test_events() -> Result<(), failure::Error> {
 		let kernel_logs = KernelLogs::default();
@@ -94,7 +93,7 @@ mod tests {
 			let tx = events.tx.clone();
 			thread::spawn(move || {
 				match tx.send(Event::Input(Key::Char(
-					char::from_digit(i, 10).unwrap_or('x'),
+					std::char::from_digit(i, 10).unwrap_or('x'),
 				))) {
 					_ => {}
 				};

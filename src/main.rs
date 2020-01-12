@@ -461,6 +461,7 @@ mod tests {
 						Key::Down,
 						Key::Up,
 						Key::Char('c'),
+						Key::Char('~'),
 						Key::Char('1'),
 					] {
 						send_key(&tx, key);

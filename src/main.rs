@@ -467,22 +467,6 @@ mod tests {
 					}
 				}
 			}
-			for input_key in vec![
-				Key::Char('r'),
-				Key::Char('v'),
-				Key::Delete,
-				Key::Char('\n'),
-				Key::Char('\n'),
-				Key::Ctrl('c'),
-				Key::Ctrl('v'),
-				Key::Char('a'),
-				Key::Backspace,
-				Key::Up,
-				Key::Char('b'),
-				Key::Char('\n'),
-			] {
-				send_key(&tx, input_key);
-			}
 			for key in vec![
 				Key::Char('?'),
 				Key::Char('t'),

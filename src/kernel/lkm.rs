@@ -379,10 +379,14 @@ mod tests {
 			.set_current_command(ModuleCommand::Load, String::from("test"));
 		assert_eq!("test", kernel_modules.current_name);
 		assert_eq!(false, kernel_modules.execute_command());
-		kernel_modules.set_current_command(ModuleCommand::Unload, String::new());
-		assert_eq!(true, kernel_modules.cancel_execution());
 		kernel_modules.scroll_list(ScrollDirection::Top);
-		kernel_modules.set_current_command(ModuleCommand::Blacklist, String::new());
-		assert_eq!(true, kernel_modules.cancel_execution());
+		for command in vec![
+			ModuleCommand::Unload,
+			ModuleCommand::Blacklist,
+			ModuleCommand::None,
+		] {
+			kernel_modules.set_current_command(command.clone(), String::new());
+			assert_eq!(!command.is_none(), kernel_modules.cancel_execution());
+		}
 	}
 }

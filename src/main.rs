@@ -458,7 +458,6 @@ mod tests {
 		let tx = events.tx.clone();
 		thread::spawn(move || {
 			for key in vec![
-				Key::Char('r'),
 				Key::Char('?'),
 				Key::Char('t'),
 				Key::Char('b'),
@@ -474,6 +473,7 @@ mod tests {
 			] {
 				send_key(&tx, key);
 			}
+			send_key(&tx, Key::Char('r'));
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Blocks::count()] {
 					send_key(&tx, selected_key);

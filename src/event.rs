@@ -89,18 +89,26 @@ mod tests {
 	fn test_events() -> Result<(), failure::Error> {
 		let kernel_logs = KernelLogs::default();
 		let events = Events::new(100, &kernel_logs);
-		for i in 0..10 {
-			match events.rx.recv()? {
-				Event::Input(_) => {}
-				Event::Tick => {}
-				Event::Kernel(_) => {}
-			}
-			events
-				.tx
-				.send(Event::Input(Key::Char(
+		let mut i = 0;
+		loop {
+			let tx = events.tx.clone();
+			thread::spawn(move || {
+				match tx.send(Event::Input(Key::Char(
 					char::from_digit(i, 10).unwrap_or('x'),
-				)))
-				.unwrap();
+				))) {
+					_ => {}
+				};
+			});
+			i += 1;
+			match events.rx.recv()? {
+				Event::Input(v) => {
+					if v == Key::Char('9') {
+						break;
+					}
+				}
+				Event::Tick => thread::sleep(Duration::from_millis(100)),
+				Event::Kernel(log) => assert_ne!(true, log.is_empty()),
+			}
 		}
 		Ok(())
 	}

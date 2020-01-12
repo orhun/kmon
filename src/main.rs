@@ -441,6 +441,7 @@ fn main() -> Result<(), failure::Error> {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use std::sync::mpsc::Sender;
 	use std::thread;
 	use std::time::Duration;
 	use tui::backend::TestBackend;
@@ -451,14 +452,38 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
-			for key in vec![Key::Char('?'), Key::Char('r'), Key::Char('q')] {
-				let mut x = true;
-				while x {
-					x = tx.send(Event::Input(key)).is_err();
-					thread::sleep(Duration::from_millis(100));
+			for arrow_key in vec![Key::Right, Key::Left] {
+				for selected_key in vec![arrow_key; Blocks::count()] {
+					send_key(&tx, selected_key);
+					for key in
+						vec![Key::Up, Key::Down, Key::Down, Key::Up, Key::Char('c')]
+					{
+						send_key(&tx, key);
+					}
 				}
+			}
+			for key in vec![
+				Key::Char('?'),
+				Key::Char('t'),
+				Key::Char('b'),
+				Key::PageUp,
+				Key::PageDown,
+				Key::Char('<'),
+				Key::Char('>'),
+				Key::Char('\t'),
+				Key::Char('r'),
+				Key::Char('q'),
+			] {
+				send_key(&tx, key);
 			}
 		});
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
+	}
+	fn send_key(tx: &Sender<Event<Key>>, key: Key) {
+		let mut x = true;
+		while x {
+			x = tx.send(Event::Input(key)).is_err();
+			thread::sleep(Duration::from_millis(100));
+		}
 	}
 }

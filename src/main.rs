@@ -451,8 +451,7 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
-			let keys = vec![Key::Char('?'), Key::Char('r'), Key::Char('q')];
-			for key in keys {
+			for key in vec![Key::Char('?'), Key::Char('r'), Key::Char('q')] {
 				let mut x = true;
 				while x {
 					x = tx.send(Event::Input(key)).is_err();

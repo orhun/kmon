@@ -423,10 +423,6 @@ where
  */
 fn main() -> Result<(), failure::Error> {
 	let args = util::parse_args(VERSION);
-	let stdout = stdout().into_raw_mode()?;
-	let stdout = MouseTerminal::from(stdout);
-	let stdout = AlternateScreen::from(stdout);
-	let backend = TermionBackend::new(stdout);
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
 		args.value_of("rate")
@@ -435,7 +431,15 @@ fn main() -> Result<(), failure::Error> {
 			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
 		&kernel.logs,
 	);
-	start_tui(Terminal::new(backend)?, kernel, &events)
+	if !cfg!(test) {
+		let stdout = stdout().into_raw_mode()?;
+		let stdout = MouseTerminal::from(stdout);
+		let stdout = AlternateScreen::from(stdout);
+		let backend = TermionBackend::new(stdout);
+		start_tui(Terminal::new(backend)?, kernel, &events)
+	} else {
+		Ok(())
+	}
 }
 
 #[cfg(test)]
@@ -447,6 +451,7 @@ mod tests {
 	use tui::backend::TestBackend;
 	#[test]
 	fn test_tui() -> Result<(), failure::Error> {
+		main()?;
 		let args = util::parse_args("0");
 		let kernel = Kernel::new(&args);
 		let events = Events::new(100, &kernel.logs);

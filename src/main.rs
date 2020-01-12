@@ -469,9 +469,14 @@ mod tests {
 				}
 			}
 			for key in vec![
+				Key::Char('r'),
 				Key::Char('?'),
 				Key::Char('t'),
 				Key::Char('b'),
+				Key::Char('x'),
+				Key::Char('n'),
+				Key::Char('u'),
+				Key::Char('y'),
 				Key::PageUp,
 				Key::PageDown,
 				Key::Char('<'),

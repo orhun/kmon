@@ -178,8 +178,9 @@ mod tests {
 		}
 		let style = Style::new(&args);
 		let mut styled_text = StyledText::default();
-		styled_text.set_raw_text(String::from("raw"));
-		assert_eq!(vec![Text::raw("raw")], styled_text.get());
+		styled_text.set_raw_text(String::from("raw\ntext"));
+		assert_eq!(vec![Text::raw("raw\ntext")], styled_text.get());
+		assert_eq!(2, styled_text.lines());
 		styled_text.set_styled_text(
 			vec![Text::styled("styled", style.colored)],
 			0,

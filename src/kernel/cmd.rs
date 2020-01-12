@@ -52,7 +52,7 @@ impl ModuleCommand {
 	 * @param  module_name
 	 * @return Command
 	 */
-	pub fn get(&self, module_name: &str) -> Command {
+	pub fn get(self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name)),
             Self::Load => Command::new(
@@ -92,8 +92,8 @@ impl ModuleCommand {
 	 *
 	 * @return bool
 	 */
-	pub fn is_none(&self) -> bool {
-		self == &Self::None
+	pub fn is_none(self) -> bool {
+		self == Self::None
 	}
 }
 

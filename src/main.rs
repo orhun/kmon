@@ -458,6 +458,7 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
+			/* Test the general keys. */
 			for key in vec![
 				Key::Char('?'),
 				Key::Char('t'),
@@ -475,6 +476,7 @@ mod tests {
 				send_key(&tx, key);
 			}
 			send_key(&tx, Key::Char('r'));
+			/* Test the switch keys. */
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Blocks::count()] {
 					send_key(&tx, selected_key);
@@ -491,6 +493,7 @@ mod tests {
 					}
 				}
 			}
+			/* Test the input mode keys. */
 			for key in vec![
 				Key::Char('v'),
 				Key::Delete,
@@ -506,10 +509,17 @@ mod tests {
 			] {
 				send_key(&tx, key);
 			}
+			/* Exit. */
 			send_key(&tx, Key::Esc)
 		});
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
 	}
+	/**
+	 * Try to send a key until Sender succeeds.
+	 *
+	 * @param Sender
+	 * @param Key
+	 */
 	fn send_key(tx: &Sender<Event<Key>>, key: Key) {
 		let mut x = true;
 		while x {

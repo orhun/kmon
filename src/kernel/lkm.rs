@@ -371,6 +371,9 @@ mod tests {
 			kernel_modules
 				.scroll_mod_info(*direction, *direction == ScrollDirection::Up);
 		}
+		kernel_modules.scroll_list(ScrollDirection::Down);
+		assert_eq!(0, kernel_modules.index);
+		kernel_modules.scroll_list(ScrollDirection::Up);
 		assert_eq!(kernel_modules.default_list.len() - 1, kernel_modules.index);
 		assert_ne!(0, kernel_modules.default_list.len());
 		assert_ne!(0, kernel_modules.current_name.len());

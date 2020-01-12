@@ -455,12 +455,33 @@ mod tests {
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Blocks::count()] {
 					send_key(&tx, selected_key);
-					for key in
-						vec![Key::Up, Key::Down, Key::Down, Key::Up, Key::Char('c')]
-					{
+					for key in vec![
+						Key::Up,
+						Key::Down,
+						Key::Down,
+						Key::Up,
+						Key::Char('c'),
+						Key::Char('1'),
+					] {
 						send_key(&tx, key);
 					}
 				}
+			}
+			for input_key in vec![
+				Key::Char('r'),
+				Key::Char('v'),
+				Key::Delete,
+				Key::Char('\n'),
+				Key::Char('\n'),
+				Key::Ctrl('c'),
+				Key::Ctrl('v'),
+				Key::Char('a'),
+				Key::Backspace,
+				Key::Up,
+				Key::Char('b'),
+				Key::Char('\n'),
+			] {
+				send_key(&tx, input_key);
 			}
 			for key in vec![
 				Key::Char('?'),
@@ -471,7 +492,6 @@ mod tests {
 				Key::Char('<'),
 				Key::Char('>'),
 				Key::Char('\t'),
-				Key::Char('r'),
 				Key::Char('q'),
 			] {
 				send_key(&tx, key);

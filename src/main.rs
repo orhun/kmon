@@ -469,6 +469,8 @@ mod tests {
 				}
 			}
 			for key in vec![
+				Key::Char('v'),
+				Key::Char(' '),
 				Key::Char('r'),
 				Key::Char('?'),
 				Key::Char('t'),

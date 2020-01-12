@@ -452,6 +452,23 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
+			for key in vec![
+				Key::Char('r'),
+				Key::Char('?'),
+				Key::Char('t'),
+				Key::Char('b'),
+				Key::Char('x'),
+				Key::Char('n'),
+				Key::Char('u'),
+				Key::Char('y'),
+				Key::PageUp,
+				Key::PageDown,
+				Key::Char('<'),
+				Key::Char('>'),
+				Key::Char('\t'),
+			] {
+				send_key(&tx, key);
+			}
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Blocks::count()] {
 					send_key(&tx, selected_key);
@@ -468,26 +485,7 @@ mod tests {
 					}
 				}
 			}
-			for key in vec![
-				Key::Char('v'),
-				Key::Char(' '),
-				Key::Char('r'),
-				Key::Char('?'),
-				Key::Char('t'),
-				Key::Char('b'),
-				Key::Char('x'),
-				Key::Char('n'),
-				Key::Char('u'),
-				Key::Char('y'),
-				Key::PageUp,
-				Key::PageDown,
-				Key::Char('<'),
-				Key::Char('>'),
-				Key::Char('\t'),
-				Key::Char('q'),
-			] {
-				send_key(&tx, key);
-			}
+			send_key(&tx, Key::Esc)
 		});
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
 	}

@@ -524,7 +524,7 @@ mod tests {
 		let mut x = true;
 		while x {
 			x = tx.send(Event::Input(key)).is_err();
-			thread::sleep(Duration::from_millis(100));
+			thread::sleep(Duration::from_millis(10));
 		}
 	}
 }

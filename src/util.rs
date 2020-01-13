@@ -94,7 +94,7 @@ mod tests {
 	#[test]
 	fn test_parse_args() {
 		let matches = parse_args();
-		assert_eq!(0, matches.args.len());
+		assert_ne!(0, matches.args.len());
 		assert_eq!(true, matches.usage.unwrap().lines().count() > 1);
 	}
 	#[test]

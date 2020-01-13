@@ -4,7 +4,7 @@ mod kernel;
 #[macro_use]
 mod util;
 mod style;
-use app::{App, Blocks, InputMode, ScrollDirection};
+use app::{App, Block, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
@@ -39,7 +39,7 @@ where
 	B: Backend,
 {
 	/* Configure the application. */
-	let mut app = App::new(Blocks::ModuleTable, kernel.modules.style);
+	let mut app = App::new(Block::ModuleTable, kernel.modules.style);
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;
 	loop {
@@ -112,14 +112,14 @@ where
 						}
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
-							app.refresh(Blocks::ModuleTable);
+							app.refresh(Block::ModuleTable);
 							kernel.logs.index = 0;
 							kernel.info.refresh();
 							kernel.modules.refresh();
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {
-							app.selected_block = Blocks::ModuleInfo;
+							app.selected_block = Block::ModuleInfo;
 							kernel.modules.current_name = String::from("!Help");
 							kernel
 								.modules
@@ -131,14 +131,14 @@ where
 						| Key::Char('k')
 						| Key::Char('K')
 						| Key::Alt('k') => match app.selected_block {
-							Blocks::ModuleTable => {
+							Block::ModuleTable => {
 								kernel.modules.scroll_list(ScrollDirection::Up)
 							}
-							Blocks::ModuleInfo => kernel.modules.scroll_mod_info(
+							Block::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Up,
 								input == Key::Alt('k'),
 							),
-							Blocks::Activities => {
+							Block::Activities => {
 								kernel.logs.scroll(
 									ScrollDirection::Up,
 									input == Key::Alt('k'),
@@ -151,14 +151,14 @@ where
 						| Key::Char('j')
 						| Key::Char('J')
 						| Key::Alt('j') => match app.selected_block {
-							Blocks::ModuleTable => {
+							Block::ModuleTable => {
 								kernel.modules.scroll_list(ScrollDirection::Down)
 							}
-							Blocks::ModuleInfo => kernel.modules.scroll_mod_info(
+							Block::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Down,
 								input == Key::Alt('j'),
 							),
-							Blocks::Activities => {
+							Block::Activities => {
 								kernel.logs.scroll(
 									ScrollDirection::Down,
 									input == Key::Alt('j'),
@@ -171,7 +171,7 @@ where
 							app.selected_block =
 								match app.selected_block.prev_variant() {
 									Some(v) => v,
-									None => Blocks::max_value(),
+									None => Block::max_value(),
 								}
 						}
 						/* Select the previous terminal block. */
@@ -179,39 +179,39 @@ where
 							app.selected_block =
 								match app.selected_block.next_variant() {
 									Some(v) => v,
-									None => Blocks::min_value(),
+									None => Block::min_value(),
 								}
 						}
 						/* Scroll to the top of the module list. */
 						Key::Char('t') | Key::Char('T') | Key::Home => {
-							app.selected_block = Blocks::ModuleTable;
+							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Top)
 						}
 						/* Scroll to the bottom of the module list. */
 						Key::Char('b') | Key::Char('B') | Key::End => {
-							app.selected_block = Blocks::ModuleTable;
+							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Bottom)
 						}
 						/* Scroll kernel activities up. */
 						Key::PageUp => {
-							app.selected_block = Blocks::Activities;
+							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Up, false);
 						}
 						/* Scroll kernel activities down. */
 						Key::PageDown => {
-							app.selected_block = Blocks::Activities;
+							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Down, false);
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
-							app.selected_block = Blocks::ModuleInfo;
+							app.selected_block = Block::ModuleInfo;
 							kernel
 								.modules
 								.scroll_mod_info(ScrollDirection::Up, false)
 						}
 						/* Scroll module information down. */
 						Key::Char('>') | Key::Char(' ') => {
-							app.selected_block = Blocks::ModuleInfo;
+							app.selected_block = Block::ModuleInfo;
 							kernel
 								.modules
 								.scroll_mod_info(ScrollDirection::Down, false)
@@ -253,17 +253,17 @@ where
 						/* Cancel the execution of current command. */
 						Key::Char('n') | Key::Char('N') => {
 							if kernel.modules.cancel_execution() {
-								app.selected_block = Blocks::ModuleTable;
+								app.selected_block = Block::ModuleTable;
 							}
 						}
 						/* Copy the data in selected block to clipboard. */
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
-								Blocks::ModuleTable => &kernel.modules.current_name,
-								Blocks::ModuleInfo => {
+								Block::ModuleTable => &kernel.modules.current_name,
+								Block::ModuleInfo => {
 									&kernel.modules.current_info.raw_text
 								}
-								Blocks::Activities => {
+								Block::Activities => {
 									&kernel.logs.selected_output.trim()
 								}
 								_ => "",
@@ -286,7 +286,7 @@ where
 						| Key::Char('+')
 						| Key::Char('/')
 						| Key::Insert => {
-							app.selected_block = Blocks::UserInput;
+							app.selected_block = Block::UserInput;
 							match input {
 								Key::Char('m')
 								| Key::Char('M')
@@ -308,7 +308,7 @@ where
 							let index = v.to_digit(10).unwrap_or(0);
 							/* Show the used module info at given index. */
 							if index != 0 && !kernel.modules.list.is_empty() {
-								app.selected_block = Blocks::ModuleTable;
+								app.selected_block = Block::ModuleTable;
 								kernel.modules.show_used_module(index as usize - 1);
 							}
 						}
@@ -360,14 +360,14 @@ where
 								Key::Left => {
 									match app.selected_block.prev_variant() {
 										Some(v) => v,
-										None => Blocks::max_value(),
+										None => Block::max_value(),
 									}
 								}
 								Key::Char('\n') => match app.input_mode {
-									InputMode::Load => Blocks::ModuleInfo,
-									_ => Blocks::ModuleTable,
+									InputMode::Load => Block::ModuleInfo,
+									_ => Block::ModuleTable,
 								},
-								_ => Blocks::ModuleTable,
+								_ => Block::ModuleTable,
 							};
 							/* Show the first modules information if the search mode is set. */
 							if app.input_mode == InputMode::Search
@@ -478,7 +478,7 @@ mod tests {
 			send_key(&tx, Key::Char('r'));
 			/* Test the switch keys. */
 			for arrow_key in vec![Key::Right, Key::Left] {
-				for selected_key in vec![arrow_key; Blocks::count()] {
+				for selected_key in vec![arrow_key; Block::count()] {
 					send_key(&tx, selected_key);
 					for key in vec![
 						Key::Up,

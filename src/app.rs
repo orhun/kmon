@@ -12,7 +12,7 @@ use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::Style as TuiStyle;
-use tui::widgets::{Block, Borders, Paragraph, Row, Table, Text, Widget};
+use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Text, Widget};
 use tui::Frame;
 
 /* Supported directions of scrolling */
@@ -183,7 +183,7 @@ impl App<'_> {
 	{
 		Paragraph::new([Text::raw(self.input_query.to_string())].iter())
 			.block(
-				Block::default()
+				TuiBlock::default()
 					.title_style(self.style.bold)
 					.border_style(match self.selected_block {
 						Blocks::UserInput => {
@@ -219,7 +219,7 @@ impl App<'_> {
 	{
 		Paragraph::new([Text::raw(&info[1])].iter())
 			.block(
-				Block::default()
+				TuiBlock::default()
 					.title_style(self.style.bold)
 					.border_style(self.style.colored)
 					.borders(Borders::ALL)
@@ -283,7 +283,7 @@ impl App<'_> {
 				}),
 		)
 		.block(
-			Block::default()
+			TuiBlock::default()
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Blocks::ModuleTable))
 				.borders(Borders::ALL)
@@ -325,7 +325,7 @@ impl App<'_> {
 	{
 		Paragraph::new(kernel_modules.current_info.get().iter())
 			.block(
-				Block::default()
+				TuiBlock::default()
 					.title_style(self.style.bold)
 					.border_style(self.block_style(Blocks::ModuleInfo))
 					.borders(Borders::ALL)
@@ -369,7 +369,7 @@ impl App<'_> {
 				.iter(),
 		)
 		.block(
-			Block::default()
+			TuiBlock::default()
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Blocks::Activities))
 				.borders(Borders::ALL)

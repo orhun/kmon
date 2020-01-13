@@ -19,7 +19,6 @@ use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 
-const VERSION: &str = "0.1.0"; /* Version */
 const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
 
 /**
@@ -423,7 +422,7 @@ where
  * @return Result
  */
 fn main() -> Result<(), failure::Error> {
-	let args = util::parse_args(VERSION);
+	let args = util::parse_args();
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
 		args.value_of("rate")

@@ -121,8 +121,8 @@ impl App<'_> {
 	 *
 	 * @param Block
 	 */
-	pub fn refresh(&mut self, block: Block) {
-		self.selected_block = block;
+	pub fn refresh(&mut self) {
+		self.selected_block = self.default_block;
 		self.input_mode = InputMode::None;
 		self.input_query = String::new();
 	}

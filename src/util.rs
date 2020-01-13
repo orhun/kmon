@@ -16,7 +16,7 @@ macro_rules! map {
  * @param  version
  * @return ArgMatches
  */
-pub fn parse_args(version: &str) -> clap::ArgMatches<'static> {
+pub fn parse_args() -> clap::ArgMatches<'static> {
 	App::new(env!("CARGO_PKG_NAME"))
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))

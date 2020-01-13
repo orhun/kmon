@@ -393,7 +393,7 @@ mod tests {
 	use tui::Terminal;
 	#[test]
 	fn test_app() {
-		let args = util::parse_args("0");
+		let args = util::parse_args();
 		let mut kernel_modules =
 			KernelModules::new(ListArgs::new(&args), Style::new(&args));
 		let mut app = App::new(Block::ModuleTable, kernel_modules.style);

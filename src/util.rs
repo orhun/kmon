@@ -13,7 +13,6 @@ macro_rules! map {
 /**
  * Parse command line arguments using clap.
  *
- * @param  version
  * @return ArgMatches
  */
 pub fn parse_args() -> clap::ArgMatches<'static> {

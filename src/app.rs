@@ -91,6 +91,7 @@ impl Display for InputMode {
 /* Application settings and related methods  */
 pub struct App<'a> {
 	pub selected_block: Block,
+	pub default_block: Block,
 	pub input_mode: InputMode,
 	pub input_query: String,
 	table_header: &'a [&'a str],
@@ -107,7 +108,8 @@ impl App<'_> {
 	 */
 	pub fn new(block: Block, style: Style) -> Self {
 		Self {
-			selected_block: block,
+			selected_block: block.clone(),
+			default_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			table_header: &[" Module", "Size", "Used by"],

@@ -33,6 +33,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 				.short("t")
 				.long("tickrate")
 				.value_name("MS")
+				.default_value("250")
 				.help("Set the refresh rate of the terminal")
 				.takes_value(true),
 		)

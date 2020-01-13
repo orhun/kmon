@@ -19,8 +19,6 @@ use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
 
-const REFRESH_RATE: &str = "250"; /* Default refresh rate of the terminal */
-
 /**
  * Configure the terminal and draw its widgets.
  *
@@ -425,10 +423,7 @@ fn main() -> Result<(), failure::Error> {
 	let args = util::parse_args();
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
-		args.value_of("rate")
-			.unwrap_or(REFRESH_RATE)
-			.parse::<u64>()
-			.unwrap_or_else(|_| REFRESH_RATE.parse::<u64>().unwrap()),
+		args.value_of("rate").unwrap().parse::<u64>().unwrap_or(250),
 		&kernel.logs,
 	);
 	if !cfg!(test) {

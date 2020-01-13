@@ -12,7 +12,9 @@ use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::Style as TuiStyle;
-use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Text, Widget};
+use tui::widgets::{
+	Block as TuiBlock, Borders, Paragraph, Row, Table, Text, Widget,
+};
 use tui::Frame;
 
 /* Supported directions of scrolling */

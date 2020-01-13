@@ -39,7 +39,7 @@ impl ScrollDirection {
 
 /* Main blocks of the terminal */
 enum_unitary! {
-	#[derive(Debug, PartialEq)]
+	#[derive(Copy, Debug, PartialEq)]
 	pub enum Block {
 		UserInput,
 		ModuleTable,
@@ -108,7 +108,7 @@ impl App<'_> {
 	 */
 	pub fn new(block: Block, style: Style) -> Self {
 		Self {
-			selected_block: block.clone(),
+			selected_block: block,
 			default_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),

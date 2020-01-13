@@ -112,7 +112,7 @@ where
 						}
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
-							app.refresh(Block::ModuleTable);
+							app.refresh();
 							kernel.logs.index = 0;
 							kernel.info.refresh();
 							kernel.modules.refresh();

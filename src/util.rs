@@ -25,6 +25,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 				.short("c")
 				.long("color")
 				.value_name("COLOR")
+				.default_value("darkgray")
 				.help("Set the main color using hex or color name")
 				.takes_value(true),
 		)

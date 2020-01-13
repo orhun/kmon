@@ -40,7 +40,7 @@ impl ScrollDirection {
 /* Main blocks of the terminal */
 enum_unitary! {
 	#[derive(Debug, PartialEq)]
-	pub enum Blocks {
+	pub enum Block {
 		UserInput,
 		ModuleTable,
 		ModuleInfo,
@@ -90,7 +90,7 @@ impl Display for InputMode {
 
 /* Application settings and related methods  */
 pub struct App<'a> {
-	pub selected_block: Blocks,
+	pub selected_block: Block,
 	pub input_mode: InputMode,
 	pub input_query: String,
 	table_header: &'a [&'a str],
@@ -105,7 +105,7 @@ impl App<'_> {
 	 * @param  Style
 	 * @return App
 	 */
-	pub fn new(block: Blocks, style: Style) -> Self {
+	pub fn new(block: Block, style: Style) -> Self {
 		Self {
 			selected_block: block,
 			input_mode: InputMode::None,
@@ -119,7 +119,7 @@ impl App<'_> {
 	 *
 	 * @param Blocks
 	 */
-	pub fn refresh(&mut self, block: Blocks) {
+	pub fn refresh(&mut self, block: Block) {
 		self.selected_block = block;
 		self.input_mode = InputMode::None;
 		self.input_query = String::new();
@@ -131,7 +131,7 @@ impl App<'_> {
 	 * @param  block
 	 * @return TuiStyle
 	 */
-	pub fn block_style(&self, block: Blocks) -> TuiStyle {
+	pub fn block_style(&self, block: Block) -> TuiStyle {
 		if block == self.selected_block {
 			self.style.default
 		} else {
@@ -186,7 +186,7 @@ impl App<'_> {
 				TuiBlock::default()
 					.title_style(self.style.bold)
 					.border_style(match self.selected_block {
-						Blocks::UserInput => {
+						Block::UserInput => {
 							if self.input_mode.is_none() {
 								tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							}
@@ -285,7 +285,7 @@ impl App<'_> {
 		.block(
 			TuiBlock::default()
 				.title_style(self.style.bold)
-				.border_style(self.block_style(Blocks::ModuleTable))
+				.border_style(self.block_style(Block::ModuleTable))
 				.borders(Borders::ALL)
 				.title(&format!(
 					"Loaded Kernel Modules ({}/{}) [{}%]",
@@ -327,7 +327,7 @@ impl App<'_> {
 			.block(
 				TuiBlock::default()
 					.title_style(self.style.bold)
-					.border_style(self.block_style(Blocks::ModuleInfo))
+					.border_style(self.block_style(Block::ModuleInfo))
 					.borders(Borders::ALL)
 					.title(&kernel_modules.get_current_command().title),
 			)
@@ -371,7 +371,7 @@ impl App<'_> {
 		.block(
 			TuiBlock::default()
 				.title_style(self.style.bold)
-				.border_style(self.block_style(Blocks::Activities))
+				.border_style(self.block_style(Block::Activities))
 				.borders(Borders::ALL)
 				.title("Kernel Activities"),
 		)
@@ -395,18 +395,18 @@ mod tests {
 		let args = util::parse_args("0");
 		let mut kernel_modules =
 			KernelModules::new(ListArgs::new(&args), Style::new(&args));
-		let mut app = App::new(Blocks::ModuleTable, kernel_modules.style);
+		let mut app = App::new(Block::ModuleTable, kernel_modules.style);
 		app.set_clipboard_contents("test");
 		assert_ne!("x", app.get_clipboard_contents());
-		assert_eq!(app.style.default, app.block_style(Blocks::ModuleTable));
-		assert_eq!(app.style.colored, app.block_style(Blocks::Activities));
+		assert_eq!(app.style.default, app.block_style(Block::ModuleTable));
+		assert_eq!(app.style.colored, app.block_style(Block::Activities));
 		let mut kernel_logs = KernelLogs::default();
 		let backend = TestBackend::new(20, 10);
 		let mut terminal = Terminal::new(backend).unwrap();
 		terminal
 			.draw(|mut f| {
 				let size = f.size();
-				app.selected_block = Blocks::UserInput;
+				app.selected_block = Block::UserInput;
 				app.draw_user_input(
 					&mut f,
 					size,

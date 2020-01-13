@@ -452,7 +452,7 @@ mod tests {
 	#[test]
 	fn test_tui() -> Result<(), failure::Error> {
 		main()?;
-		let args = util::parse_args("0");
+		let args = util::parse_args();
 		let kernel = Kernel::new(&args);
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();

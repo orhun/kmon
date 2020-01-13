@@ -101,7 +101,7 @@ impl App<'_> {
 	/**
 	 * Create a new app instance.
 	 *
-	 * @param  Blocks
+	 * @param  Block
 	 * @param  Style
 	 * @return App
 	 */
@@ -117,7 +117,7 @@ impl App<'_> {
 
 	/* Reset app properties to default.
 	 *
-	 * @param Blocks
+	 * @param Block
 	 */
 	pub fn refresh(&mut self, block: Block) {
 		self.selected_block = block;

@@ -16,7 +16,7 @@ use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Text, Widg
 use tui::Frame;
 
 /* Supported directions of scrolling */
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ScrollDirection {
 	Up,
 	Down,

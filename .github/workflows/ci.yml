@@ -42,7 +42,7 @@ jobs:
       - name: Upload report to codecov.io
         run: |
             cargo tarpaulin -v --out Xml
-            bash <(curl -s https://codecov.io/bash) -t secrets.CODECOV_TOKEN
+            bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
 
   fmt:
     name: Rustfmt

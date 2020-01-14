@@ -47,6 +47,8 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Install X11 dependencies
+        run: sudo apt-get install libxcb-shape0-dev libxcb-xfixes0-dev
       - name: Run cargo-tarpaulin
         uses: actions-rs/tarpaulin@v0.1
         with:

@@ -37,12 +37,30 @@ jobs:
         with:
           command: test
           args: --all
-      - name: Install tarpaulin
-        run: cargo install cargo-tarpaulin -f
-      - name: Upload report to codecov.io
-        run: |
-            cargo tarpaulin -v --out Xml
-            bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+
+  tarpaulin:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Run cargo-tarpaulin
+        uses: actions-rs/tarpaulin@v0.1
+        with:
+          version: '0.10.0'
+          args: '-- --test-threads 1'
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v1.0.5
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: cobertura.xml
 
   fmt:
     name: Rustfmt

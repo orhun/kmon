@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: stable
           override: true
       - name: Install X11 dependencies
         run: sudo apt-get install libxcb-shape0-dev libxcb-xfixes0-dev
@@ -37,16 +37,12 @@ jobs:
         with:
           command: test
           args: --all
-        env:
-          CARGO_INCREMENTAL: 0
-          RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Cinline-threshold=0
-            -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
-      - id: coverage
-        uses: actions-rs/grcov@v0.1
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ${{ steps.coverage.outputs.report }}
+      - name: Install tarpaulin
+        run: cargo install cargo-tarpaulin -f
+      - name: Upload report to codecov.io
+        run: |
+            cargo tarpaulin -v --out Xml
+            bash <(curl -s https://codecov.io/bash) -t secrets.CODECOV_TOKEN
 
   fmt:
     name: Rustfmt

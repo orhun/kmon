@@ -39,7 +39,7 @@ jobs:
           args: --all
 
   tarpaulin:
-    name: Code Coverage
+    name: Tarpaulin
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master

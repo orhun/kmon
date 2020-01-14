@@ -37,23 +37,11 @@ jobs:
         with:
           command: test
           args: --all
-
-  tarpaulin:
-    name: Tarpaulin
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Install X11 dependencies
-        run: sudo apt-get install libxcb-shape0-dev libxcb-xfixes0-dev
       - name: Run cargo-tarpaulin
         uses: actions-rs/tarpaulin@v0.1
         with:
           args: '-v'
-      - name: Upload to codecov.io
+      - name: Upload reports to codecov.io
         uses: codecov/codecov-action@v1.0.5
         with:
           token: ${{secrets.CODECOV_TOKEN}}

@@ -20,6 +20,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))
 		.about(env!("CARGO_PKG_DESCRIPTION"))
+		.usage("Press '?' while running the app to see keybindings")
 		.arg(
 			Arg::with_name("color")
 				.short("c")

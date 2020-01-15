@@ -1,4 +1,5 @@
 /* Kernel module related command */
+#[derive(Debug)]
 pub struct Command {
 	pub cmd: String,
 	pub desc: &'static str,
@@ -37,7 +38,7 @@ impl Command {
 }
 
 /* Kernel module management commands */
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ModuleCommand {
 	None,
 	Load,

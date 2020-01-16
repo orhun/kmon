@@ -3,7 +3,7 @@ use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
 use crate::style::{Style, StyledText};
 use clipboard::{ClipboardContext, ClipboardProvider};
-use enum_unitary::enum_unitary;
+use enum_unitary::{enum_unitary, EnumUnitary, Bounded};
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
@@ -83,7 +83,7 @@ impl InputMode {
 impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
 		if self.is_none() {
-			write!(f, "{}", self.get_default_text())
+			write!(f, "{:?}", InputMode::min_value().next_variant())
 		} else {
 			Debug::fmt(self, f)
 		}

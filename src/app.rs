@@ -430,8 +430,7 @@ mod tests {
 		let mut input_mode = InputMode::Load;
 		assert_eq!(false, input_mode.is_none());
 		assert_eq!("Load", input_mode.to_string());
-		assert_eq!("Search", input_mode.get_default_text());
 		input_mode = InputMode::None;
-		assert_eq!(input_mode.get_default_text(), input_mode.to_string());
+		assert_eq!("Search", input_mode.to_string());
 	}
 }

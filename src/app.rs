@@ -62,14 +62,6 @@ enum_unitary! {
 
 impl InputMode {
 	/**
-	 * Default text of the input mode title.
-	 *
-	 * @return default_text
-	 */
-	pub fn get_default_text(&self) -> &str {
-		"Search"
-	}
-	/**
 	 * Check if input mode is set.
 	 *
 	 * @return bool

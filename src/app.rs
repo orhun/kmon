@@ -52,7 +52,7 @@ enum_unitary! {
 
 /* User input mode */
 enum_unitary! {
-	#[derive(Debug, PartialEq)]
+	#[derive(Copy, Debug, PartialEq)]
 	pub enum InputMode {
 		None,
 		Search,

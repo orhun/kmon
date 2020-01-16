@@ -21,6 +21,17 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.author(env!("CARGO_PKG_AUTHORS"))
 		.about(env!("CARGO_PKG_DESCRIPTION"))
 		.usage("Press '?' while running the app to see keybindings")
+		.before_help(
+			"
+:hhh-   .hhhhhhh:
++MMMN: .mMMMMMMM+
++MMMMNomMMMmdddd:
++MMMMMMMMMM.
++MMMMMMMMMMd:
++MMMMN/--ohNmddd:
++MMMMm     mMMMM+
+:hhhhy     yhhhh:",
+		)
 		.arg(
 			Arg::with_name("color")
 				.short("c")

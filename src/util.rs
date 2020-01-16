@@ -10,6 +10,15 @@ macro_rules! map {
     }}
 }
 
+const ASCII_LOGO: &str = "
+ ``    ````````````    ````   ```````````    ```````````
+:NNs `hNNNNNNNNNNNNh` sNNNy   yNNNNNNNNNN+   dNNNNNNNNNN:
+/MMMydMMyyyyyyydMMMMdhMMMMy   yMMMyyyhMMMo   dMMMyyydMMM/
+/MMMMMMM`      oMMMMMMMMMMy   yMMM`  -MMMo   dMMN   /MMM/
+/MMMs:::hhhs   oMMM+:::MMMNhhhNMMMdhhdMMMmhhhNMMN   /MMM/
+:mmm/   dmmh   +mmm-  `mmmmmmmmmmmmmmmmmmmmmmmmmd   /mmm:
+ ```    ```     ```    ``````````````````````````    ```";
+
 /**
  * Parse command line arguments using clap.
  *
@@ -21,16 +30,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.author(env!("CARGO_PKG_AUTHORS"))
 		.about(env!("CARGO_PKG_DESCRIPTION"))
 		.usage("Press '?' while running the app to see keybindings")
-		.before_help(
-			"
- ``    ````````````    ````   ```````````    ```````````
-:NNs `hNNNNNNNNNNNNh` sNNNy   yNNNNNNNNNN+   dNNNNNNNNNN:
-/MMMydMMyyyyyyydMMMMdhMMMMy   yMMMyyyhMMMo   dMMMyyydMMM/
-/MMMMMMM`      oMMMMMMMMMMy   yMMM`  -MMMo   dMMN   /MMM/
-/MMMs:::hhhs   oMMM+:::MMMNhhhNMMMdhhdMMMmhhhNMMN   /MMM/
-:mmm/   dmmh   +mmm-  `mmmmmmmmmmmmmmmmmmmmmmmmmd   /mmm:
- ```    ```     ```    ``````````````````````````    ```",
-		)
+		.before_help(ASCII_LOGO)
 		.arg(
 			Arg::with_name("color")
 				.short("c")

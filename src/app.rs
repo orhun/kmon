@@ -27,6 +27,11 @@ pub enum ScrollDirection {
 }
 
 impl ScrollDirection {
+	/**
+	 * Return iterator of the available scroll directions.
+	 *
+	 * @return Iter
+	 */
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, ScrollDirection> {
 		[

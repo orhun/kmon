@@ -71,8 +71,8 @@ impl InputMode {
 	 *
 	 * @return bool
 	 */
-	pub fn is_none(&self) -> bool {
-		self == &Self::None
+	pub fn is_none(self) -> bool {
+		self == Self::None
 	}
 }
 

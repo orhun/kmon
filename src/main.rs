@@ -509,7 +509,7 @@ mod tests {
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
 	}
 	/**
-	 * Try to send a key until Sender succeeds.
+	 * Try to send a key event until Sender succeeds.
 	 *
 	 * @param Sender
 	 * @param Key

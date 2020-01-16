@@ -10,6 +10,7 @@ macro_rules! map {
     }}
 }
 
+/* ASCII format of the project logo */
 const ASCII_LOGO: &str = "
  ``    ````````````    ````   ```````````    ```````````
 :NNs `hNNNNNNNNNNNNh` sNNNy   yNNNNNNNNNN+   dNNNNNNNNNN:

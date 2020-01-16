@@ -23,14 +23,13 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.usage("Press '?' while running the app to see keybindings")
 		.before_help(
 			"
-:hhh-   .hhhhhhh:
-+MMMN: .mMMMMMMM+
-+MMMMNomMMMmdddd:
-+MMMMMMMMMM.
-+MMMMMMMMMMd:
-+MMMMN/--ohNmddd:
-+MMMMm     mMMMM+
-:hhhhy     yhhhh:",
+ ``    ````````````    ````   ```````````    ```````````
+:NNs `hNNNNNNNNNNNNh` sNNNy   yNNNNNNNNNN+   dNNNNNNNNNN:
+/MMMydMMyyyyyyydMMMMdhMMMMy   yMMMyyyhMMMo   dMMMyyydMMM/
+/MMMMMMM`      oMMMMMMMMMMy   yMMM`  -MMMo   dMMN   /MMM/
+/MMMs:::hhhs   oMMM+:::MMMNhhhNMMMdhhdMMMmhhhNMMN   /MMM/
+:mmm/   dmmh   +mmm-  `mmmmmmmmmmmmmmmmmmmmmmmmmd   /mmm:
+ ```    ```     ```    ``````````````````````````    ```",
 		)
 		.arg(
 			Arg::with_name("color")

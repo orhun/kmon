@@ -83,7 +83,10 @@ impl InputMode {
 impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
 		if self.is_none() {
-			write!(f, "{:?}", InputMode::min_value().next_variant())
+			write!(f, "{:?}", match InputMode::min_value().next_variant() {
+				Some(v) => v,
+				None => *self,
+			})
 		} else {
 			Debug::fmt(self, f)
 		}

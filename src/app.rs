@@ -173,7 +173,7 @@ impl App<'_> {
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
 		let key_bindings = map![
-			"q, ctrl-c, ctrl-d, esc" => "quit",
+			"q, ctrl-c/d, esc" => "quit",
 			"r, f5" => "refresh"
 		];
 		let mut help_text: Vec<Text<'static>> = Vec::new();

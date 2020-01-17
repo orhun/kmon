@@ -172,7 +172,6 @@ impl App<'_> {
 	}
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
-		self.selected_block = Block::ModuleInfo;
 		kernel_modules.current_name = String::from("!Help");
 		kernel_modules.current_info.set_styled_text(
 			vec![

@@ -184,7 +184,7 @@ impl App<'_> {
 					"{}: {}",
 					key,
 					iter::repeat(" ")
-						.take(20_usize.checked_sub(key.len()).unwrap_or(0))
+						.take(20_usize.saturating_sub(key.len()))
 						.collect::<String>()
 				),
 				self.style.colored,

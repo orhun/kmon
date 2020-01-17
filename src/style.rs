@@ -66,6 +66,7 @@ pub struct StyledText<'a> {
 	pub styled_text: Vec<Text<'a>>,
 }
 
+#[allow(dead_code)]
 impl<'a> StyledText<'a> {
 	/**
 	 * Get a vector of Text widget from styled text.

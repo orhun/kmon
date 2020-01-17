@@ -172,13 +172,19 @@ impl App<'_> {
 	}
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
+		let key_bindings = map![
+			"q, ctrl-c, ctrl-d, esc" => "quit",
+			"r, f5" => "refresh"
+		];
+		let mut help_text: Vec<Text<'static>> = Vec::new();
+		for (key, desc) in key_bindings.clone() {
+			help_text.push(Text::styled(format!("{}: ", key), self.style.colored));
+			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
+		}
 		kernel_modules.current_name = String::from("!Help");
 		kernel_modules.current_info.set_styled_text(
-			vec![
-				Text::styled("Key: ", self.style.colored),
-				Text::styled("a", self.style.default),
-			],
-			0,
+			help_text,
+			key_bindings.len(),
 			kernel_modules.current_name.clone(),
 		);
 	}

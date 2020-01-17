@@ -116,12 +116,7 @@ where
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {
-							app.selected_block = Block::ModuleInfo;
-							kernel.modules.current_name = String::from("!Help");
-							kernel
-								.modules
-								.current_info
-								.set_raw_text(String::from("(TODO)\nHelp Message"));
+							app.show_help_message(&mut kernel.modules);
 						}
 						/* Scroll the selected block up. */
 						Key::Up

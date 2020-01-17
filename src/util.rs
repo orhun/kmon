@@ -10,6 +10,15 @@ macro_rules! map {
     }}
 }
 
+macro_rules! keys {
+    ($( $key: expr => $desc: expr ),*) => {{
+         let mut keys: Vec<(&str, &str)> = ::std::vec::Vec::new();
+         $( keys.push(($key, $desc)); )*
+         keys
+    }}
+}
+
+
 /* ASCII format of the project logo */
 const ASCII_LOGO: &str = "
  ``    ````````````    ````   ```````````    ```````````

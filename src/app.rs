@@ -183,7 +183,9 @@ impl App<'_> {
 				format!(
 					"{}: {}",
 					key,
-					iter::repeat(" ").take(20_usize.checked_sub(key.len()).unwrap_or(0)).collect::<String>()
+					iter::repeat(" ")
+						.take(20_usize.checked_sub(key.len()).unwrap_or(0))
+						.collect::<String>()
 				),
 				self.style.colored,
 			));

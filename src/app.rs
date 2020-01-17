@@ -8,6 +8,7 @@ use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
 use std::sync::mpsc::Sender;
+use std::iter;
 use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Rect};
@@ -178,7 +179,7 @@ impl App<'_> {
 		];
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
-			help_text.push(Text::styled(format!("{}: ", key), self.style.colored));
+			help_text.push(Text::styled(format!("{}:{}", key, iter::repeat(" ").take(20 - key.len()).collect::<String>()), self.style.colored));
 			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
 		}
 		kernel_modules.current_name = String::from("!Help");

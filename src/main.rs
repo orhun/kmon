@@ -354,7 +354,7 @@ where
 									}
 								}
 								Key::Char('\n') => match app.input_mode {
-									InputMode::Load => Block::ModuleInfo,
+									InputMode::Load if !app.input_query.is_empty() => Block::ModuleInfo,
 									_ => Block::ModuleTable,
 								},
 								_ => Block::ModuleTable,

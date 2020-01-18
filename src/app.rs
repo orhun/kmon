@@ -192,6 +192,7 @@ impl App<'_> {
 			));
 			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
 		}
+		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.current_name = String::from("!Help");
 		kernel_modules.current_info.set_styled_text(
 			help_text,

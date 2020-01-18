@@ -283,7 +283,7 @@ where
 								| Key::Char('i')
 								| Key::Char('I')
 								| Key::Insert => InputMode::Load,
-								_ =>  InputMode::Search,
+								_ => InputMode::Search,
 							};
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
@@ -354,7 +354,11 @@ where
 									}
 								}
 								Key::Char('\n') => match app.input_mode {
-									InputMode::Load if !app.input_query.is_empty() => Block::ModuleInfo,
+									InputMode::Load
+										if !app.input_query.is_empty() =>
+									{
+										Block::ModuleInfo
+									}
 									_ => Block::ModuleTable,
 								},
 								_ => Block::ModuleTable,

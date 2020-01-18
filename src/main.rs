@@ -272,8 +272,6 @@ where
 						Key::Char('\n')
 						| Key::Char('s')
 						| Key::Char('S')
-						| Key::Char('m')
-						| Key::Char('M')
 						| Key::Char('i')
 						| Key::Char('I')
 						| Key::Char('+')
@@ -281,11 +279,10 @@ where
 						| Key::Insert => {
 							app.selected_block = Block::UserInput;
 							match input {
-								Key::Char('m')
-								| Key::Char('M')
+								Key::Char('+')
 								| Key::Char('i')
 								| Key::Char('I')
-								| Key::Char('+') => app.input_mode = InputMode::Load,
+								| Key::Insert => app.input_mode = InputMode::Load,
 								_ => app.input_mode = InputMode::Search,
 							}
 							if input != Key::Char('\n') {

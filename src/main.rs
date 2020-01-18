@@ -278,13 +278,13 @@ where
 						| Key::Char('/')
 						| Key::Insert => {
 							app.selected_block = Block::UserInput;
-							match input {
+							app.input_mode = match input {
 								Key::Char('+')
 								| Key::Char('i')
 								| Key::Char('I')
-								| Key::Insert => app.input_mode = InputMode::Load,
-								_ => app.input_mode = InputMode::Search,
-							}
+								| Key::Insert => InputMode::Load,
+								_ =>  InputMode::Search,
+							};
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
 							}

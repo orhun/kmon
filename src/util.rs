@@ -10,6 +10,7 @@ macro_rules! map {
     }}
 }
 
+/* Macro for creating a vector for key bindings */
 macro_rules! keys {
     ($( $key: expr => $desc: expr ),*) => {{
          let mut keys: Vec<(&str, &str)> = ::std::vec::Vec::new();
@@ -17,7 +18,6 @@ macro_rules! keys {
          keys
     }}
 }
-
 
 /* ASCII format of the project logo */
 const ASCII_LOGO: &str = "

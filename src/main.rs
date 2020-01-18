@@ -175,12 +175,12 @@ where
 								}
 						}
 						/* Scroll to the top of the module list. */
-						Key::Char('t') | Key::Char('T') | Key::Home => {
+						Key::Ctrl('t') | Key::Home => {
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Top)
 						}
 						/* Scroll to the bottom of the module list. */
-						Key::Char('b') | Key::Char('B') | Key::End => {
+						Key::Ctrl('b') | Key::End => {
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Bottom)
 						}
@@ -226,7 +226,8 @@ where
 						/* Blacklist kernel module. */
 						Key::Char('x')
 						| Key::Char('X')
-						| Key::Ctrl('b')
+						| Key::Char('b')
+						| Key::Char('B')
 						| Key::Delete => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Blacklist,

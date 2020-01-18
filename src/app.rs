@@ -174,8 +174,9 @@ impl App<'_> {
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
 		let key_bindings = keys![
-			"q, ctrl-c/d, esc" => "quit",
-			"r, f5" => "refresh"
+			"?, f1" => "help",
+			"r, f5" => "refresh",
+			"q, ctrl-c/d, esc" => "quit"
 		];
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {

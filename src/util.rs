@@ -10,15 +10,6 @@ macro_rules! map {
     }}
 }
 
-/* Macro for creating a vector for key bindings */
-macro_rules! keys {
-    ($( $key: expr => $desc: expr ),*) => {{
-         let mut keys: Vec<(&str, &str)> = ::std::vec::Vec::new();
-         $( keys.push(($key, $desc)); )*
-         keys
-    }}
-}
-
 pub const KEY_BINDINGS: &'static [(&str, &str)] = &[
 	("'?', f1", "help"),
 	("right/left, h/l", "switch between blocks"),

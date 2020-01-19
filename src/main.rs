@@ -343,6 +343,7 @@ where
 						/* Exit user input mode. */
 						Key::Char('\n')
 						| Key::Char('\t')
+						| Key::Char('?')
 						| Key::Right
 						| Key::Left => {
 							/* Select the next eligible block for action. */
@@ -377,6 +378,9 @@ where
 									app.input_query,
 								);
 								app.input_query = String::new();
+							}
+							if input == Key::Char('?') {
+								app.show_help_message(&mut kernel.modules);
 							}
 							/* Hide terminal cursor and set the input mode flag. */
 							terminal.hide_cursor()?;

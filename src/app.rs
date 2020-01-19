@@ -19,6 +19,8 @@ use tui::widgets::{
 };
 use tui::Frame;
 
+pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
+
 /* Supported directions of scrolling */
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ScrollDirection {
@@ -97,16 +99,15 @@ impl Display for InputMode {
 }
 
 /* Application settings and related methods  */
-pub struct App<'a> {
+pub struct App {
 	pub selected_block: Block,
 	pub default_block: Block,
 	pub input_mode: InputMode,
 	pub input_query: String,
-	table_header: &'a [&'a str],
 	style: Style,
 }
 
-impl App<'_> {
+impl App {
 	/**
 	 * Create a new app instance.
 	 *
@@ -120,7 +121,6 @@ impl App<'_> {
 			default_block: block,
 			input_mode: InputMode::None,
 			input_query: String::new(),
-			table_header: &[" Module", "Size", "Used by"],
 			style,
 		}
 	}
@@ -299,7 +299,7 @@ impl App<'_> {
 			.unwrap_or(0);
 		/* Set selected state of the modules and render the table widget. */
 		Table::new(
-			self.table_header.iter(),
+			TABLE_HEADER.iter(),
 			kernel_modules
 				.list
 				.iter()

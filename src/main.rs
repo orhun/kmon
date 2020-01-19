@@ -379,6 +379,7 @@ where
 								);
 								app.input_query = String::new();
 							}
+							/* Show help message. */
 							if input == Key::Char('?') {
 								app.show_help_message(&mut kernel.modules);
 							}

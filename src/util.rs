@@ -10,6 +10,7 @@ macro_rules! map {
     }}
 }
 
+/* Array of the key bindings */
 pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("'?', f1", "help"),
 	("right/left, h/l", "switch between blocks"),

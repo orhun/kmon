@@ -2,6 +2,7 @@ use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
 use crate::style::{Style, StyledText};
+use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
 use std::error::Error;
@@ -173,23 +174,8 @@ impl App<'_> {
 	}
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
-		let key_bindings = keys![
-			"'?', f1" => "help",
-			"right/left, h/l" => "switch between blocks",
-			"up/down, k/j" => "scroll up/down [selected block]",
-			"pgup/pgdown" => "scroll up/down [kernel activities]",
-			"</>" => "scroll up/down [module information]",
-			"ctrl-t/b, home/end" => "scroll to top/bottom [module list]",
-			"\\, tab, backtab" => "show the next kernel information",
-			"/, s, enter" => "search a kernel module",
-			"+, i, insert" => "load a kernel module",
-			"-, u, backspace" => "unload the kernel module",
-			"x, b, delete" => "blacklist the kernel module",
-			"y/n" => "execute/cancel the command",
-			"c/v" => "copy/paste",
-			"r, f5" => "refresh",
-			"q, ctrl-c/d, esc" => "quit"
-		];
+		let key_bindings: Vec<(&str, &str)> =
+			util::KEY_BINDINGS.iter().cloned().collect();
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
 			help_text.push(Text::styled(
@@ -434,7 +420,6 @@ mod tests {
 	use crate::event::Events;
 	use crate::kernel::info;
 	use crate::kernel::lkm::ListArgs;
-	use crate::util;
 	use tui::backend::TestBackend;
 	use tui::Terminal;
 	#[test]

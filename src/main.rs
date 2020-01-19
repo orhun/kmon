@@ -452,8 +452,8 @@ mod tests {
 			/* Test the general keys. */
 			for key in vec![
 				Key::Char('?'),
-				Key::Char('t'),
-				Key::Char('b'),
+				Key::Ctrl('t'),
+				Key::Ctrl('b'),
 				Key::Char('x'),
 				Key::Char('n'),
 				Key::Char('u'),
@@ -494,7 +494,7 @@ mod tests {
 				Key::Ctrl('v'),
 				Key::Char('a'),
 				Key::Char('\n'),
-				Key::Char('m'),
+				Key::Char('i'),
 				Key::Char('x'),
 				Key::Char('\n'),
 			] {

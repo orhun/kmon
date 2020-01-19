@@ -19,6 +19,7 @@ use tui::widgets::{
 };
 use tui::Frame;
 
+/* Table header of the module table */
 pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
 
 /* Supported directions of scrolling */

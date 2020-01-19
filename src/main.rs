@@ -362,6 +362,11 @@ where
 									}
 									_ => Block::ModuleTable,
 								},
+								Key::Char('?') => {
+									app.show_help_message(&mut kernel.modules);
+									app.input_mode = InputMode::None;
+									Block::ModuleTable
+								}
 								_ => Block::ModuleTable,
 							};
 							/* Show the first modules information if the search mode is set. */
@@ -378,10 +383,6 @@ where
 									app.input_query,
 								);
 								app.input_query = String::new();
-							}
-							/* Show help message. */
-							if input == Key::Char('?') {
-								app.show_help_message(&mut kernel.modules);
 							}
 							/* Hide terminal cursor and set the input mode flag. */
 							terminal.hide_cursor()?;

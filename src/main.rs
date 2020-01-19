@@ -308,7 +308,7 @@ where
 					/* User input mode. */
 					match input {
 						/* Quit with ctrl-d or ESC. */
-						Key::Ctrl('d') | Key::Esc => {
+						Key::Ctrl('d') => {
 							break;
 						}
 						/* Switch to the previous input mode. */
@@ -401,6 +401,10 @@ where
 						Key::Delete | Key::Ctrl('l') => {
 							app.input_query = String::new();
 							kernel.modules.index = 0;
+						}
+						Key::Esc => {
+							events.tx.send(Event::Input(Key::Delete)).unwrap();
+							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 						}
 						_ => {}
 					}

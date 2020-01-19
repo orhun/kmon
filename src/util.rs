@@ -10,7 +10,7 @@ macro_rules! map {
     }}
 }
 
-pub const KEY_BINDINGS: &'static [(&str, &str)] = &[
+pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("'?', f1", "help"),
 	("right/left, h/l", "switch between blocks"),
 	("up/down, k/j", "scroll up/down [selected block]"),

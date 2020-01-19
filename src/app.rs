@@ -176,7 +176,7 @@ impl App {
 
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
 		let key_bindings: Vec<(&str, &str)> =
-			util::KEY_BINDINGS.iter().cloned().collect();
+			util::KEY_BINDINGS.to_vec();
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
 			help_text.push(Text::styled(

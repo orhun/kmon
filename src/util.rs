@@ -19,6 +19,24 @@ macro_rules! keys {
     }}
 }
 
+pub const KEY_BINDINGS: &'static [(&str, &str)] = &[
+	("'?', f1", "help"),
+	("right/left, h/l", "switch between blocks"),
+	("up/down, k/j", "scroll up/down [selected block]"),
+	("pgup/pgdown", "scroll up/down [kernel activities]"),
+	("</>", "scroll up/down [module information]"),
+	("ctrl-t/b, home/end", "scroll to top/bottom [module list]"),
+	("\\, tab, backtab", "show the next kernel information"),
+	("/, s, enter", "search a kernel module"),
+	("+, i, insert", "load a kernel module"),
+	("-, u, backspace", "unload the kernel module"),
+	("x, b, delete", "blacklist the kernel module"),
+	("y/n", "execute/cancel the command"),
+	("c/v", "copy/paste"),
+	("r, f5", "refresh"),
+	("q, ctrl-c/d, esc", "quit"),
+];
+
 /* ASCII format of the project logo */
 const ASCII_LOGO: &str = "
  ``    ````````````    ````   ```````````    ```````````

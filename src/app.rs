@@ -404,7 +404,7 @@ impl App {
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Block::Activities))
 				.borders(Borders::ALL)
-				.title("Kernel Activities"),
+				.title("Kernel Activities \u{26a1}"),
 		)
 		.alignment(Alignment::Left)
 		.wrap(false)

@@ -180,11 +180,8 @@ impl App {
 		for (key, desc) in &key_bindings {
 			help_text.push(Text::styled(
 				format!(
-					"{}: {}",
+					"{}:\n\u{2800} ",
 					key,
-					iter::repeat(" ")
-						.take(20_usize.saturating_sub(key.len()))
-						.collect::<String>()
 				),
 				self.style.colored,
 			));

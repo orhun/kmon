@@ -174,7 +174,6 @@ impl KernelModules<'_> {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
 				Ok(_) => command_executed = true,
 				Err(e) => {
-					self.current_name = String::from("!Error");
 					self.current_info.set_styled_text(
 						vec![
 							Text::styled(
@@ -197,6 +196,7 @@ impl KernelModules<'_> {
 							e
 						),
 					);
+					self.current_name = String::from("!Error");
 				}
 			}
 			self.command = ModuleCommand::None;

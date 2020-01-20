@@ -83,18 +83,22 @@ impl InputMode {
 /* Implementation of Display for using InputMode members as string */
 impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
-		if self.is_none() {
-			write!(
-				f,
-				"{:?}",
-				match InputMode::min_value().next_variant() {
-					Some(v) => v,
-					None => *self,
-				}
-			)
-		} else {
-			Debug::fmt(self, f)
+		let mut input_mode = *self;
+		if input_mode.is_none() {
+			input_mode = match InputMode::min_value().next_variant() {
+				Some(v) => v,
+				None => input_mode,
+			}
 		}
+		write!(
+			f,
+			"{:?} {}",
+			input_mode,
+			match input_mode {
+				InputMode::Load => "\u{2693}",
+				_ => "\u{1F50D}",
+			}
+		)
 	}
 }
 

@@ -344,6 +344,7 @@ where
 						Key::Char('\n')
 						| Key::Char('\t')
 						| Key::Char('?')
+						| Key::F(1)
 						| Key::Right
 						| Key::Left => {
 							/* Select the next eligible block for action. */
@@ -362,7 +363,7 @@ where
 									}
 									_ => Block::ModuleTable,
 								},
-								Key::Char('?') => {
+								Key::Char('?') | Key::F(1) => {
 									app.show_help_message(&mut kernel.modules);
 									app.input_mode = InputMode::None;
 									Block::ModuleTable

@@ -196,7 +196,7 @@ impl KernelModules<'_> {
 							e
 						),
 					);
-					self.current_name = String::from("!Error");
+					self.current_name = String::from("!Error \u{26D4}");
 				}
 			}
 			self.command = ModuleCommand::None;

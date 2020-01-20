@@ -1,6 +1,7 @@
 use crate::event::Event;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
+use crate::kernel::cmd::ModuleCommand;
 use crate::style::{Style, StyledText};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
@@ -193,6 +194,7 @@ impl App {
 			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
 		}
 		kernel_modules.info_scroll_offset = 0;
+		kernel_modules.command = ModuleCommand::None;
 		kernel_modules.current_name = String::from("!Help \u{262F} ");
 		kernel_modules.current_info.set_styled_text(
 			help_text,

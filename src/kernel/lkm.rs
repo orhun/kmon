@@ -139,7 +139,7 @@ impl KernelModules<'_> {
 		module_command: ModuleCommand,
 		command_name: String,
 	) {
-		if !command_name.contains(' ') {
+		if !command_name.contains(' ') && !self.current_name.starts_with('!') {
 			if !command_name.is_empty() {
 				self.current_name = command_name;
 			}

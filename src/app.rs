@@ -258,7 +258,7 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.style.colored)
 					.borders(Borders::ALL)
-					.title(&info[0]),
+					.title(&format!("{} \u{2699} ", info[0])),
 			)
 			.alignment(Alignment::Center)
 			.wrap(true)

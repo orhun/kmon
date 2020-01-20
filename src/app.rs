@@ -1,7 +1,7 @@
 use crate::event::Event;
+use crate::kernel::cmd::ModuleCommand;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
-use crate::kernel::cmd::ModuleCommand;
 use crate::style::{Style, StyledText};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};

@@ -173,6 +173,11 @@ impl App {
 		}
 	}
 
+	/**
+	 * Show help message on the information block.
+	 *
+	 * @param kernel_modules
+	 */
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
 		let mut help_text: Vec<Text<'static>> = Vec::new();

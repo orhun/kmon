@@ -178,10 +178,7 @@ impl App {
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
 			help_text.push(Text::styled(
-				format!(
-					"{}:\n\u{2800} ",
-					key,
-				),
+				format!("{}:\n\u{2800} ", key),
 				self.style.colored,
 			));
 			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));

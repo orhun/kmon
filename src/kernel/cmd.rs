@@ -60,7 +60,7 @@ impl ModuleCommand {
 				format!("modprobe {}", &module_name),
 				"modprobe: Add and remove modules from the Linux Kernel\n
                                 This command inserts a module to the kernel.",
-				format!("Load: {}", module_name)),
+				format!("Load: {} \u{2693}", module_name)),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
@@ -73,7 +73,7 @@ impl ModuleCommand {
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
-                format!("Remove: {}", module_name),
+                format!("Remove: {} \u{1F167} ", module_name),
             ),
 			Self::Blacklist => Command::new(
 				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
@@ -84,7 +84,7 @@ impl ModuleCommand {
 				them together would result in a conflict.\n
 				You might want to regenerate the initial ramdisk image and reboot after \
 				blacklisting the modules depending on your configuration.",
-				format!("Blacklist: {}", module_name)),
+				format!("Blacklist: {} \u{1F187} ", module_name)),
         }
 	}
 

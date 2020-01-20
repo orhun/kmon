@@ -7,7 +7,6 @@ use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
-use std::iter;
 use std::slice::Iter;
 use std::sync::mpsc::Sender;
 use termion::event::Key;

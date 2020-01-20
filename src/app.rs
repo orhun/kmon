@@ -462,8 +462,8 @@ mod tests {
 	fn test_input_mode() {
 		let mut input_mode = InputMode::Load;
 		assert_eq!(false, input_mode.is_none());
-		assert_eq!("Load", input_mode.to_string());
+		assert_eq!(true, input_mode.to_string().contains("Load"));
 		input_mode = InputMode::None;
-		assert_eq!("Search", input_mode.to_string());
+		assert_eq!(true, input_mode.to_string().contains("Search"));
 	}
 }

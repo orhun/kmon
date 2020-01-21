@@ -195,7 +195,7 @@ impl App {
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name = String::from("!Help \u{25D1} ");
+		kernel_modules.current_name = String::from("!Help \u{26D1} ");
 		kernel_modules.current_info.set_styled_text(
 			help_text,
 			key_bindings.len(),
@@ -410,7 +410,7 @@ impl App {
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Block::Activities))
 				.borders(Borders::ALL)
-				.title("Kernel Activities \u{26a1}"),
+				.title("Kernel Activities \u{26A1}"),
 		)
 		.alignment(Alignment::Left)
 		.wrap(false)

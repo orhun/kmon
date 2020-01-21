@@ -325,7 +325,7 @@ impl App {
 				.border_style(self.block_style(Block::ModuleTable))
 				.borders(Borders::ALL)
 				.title(&format!(
-					"Loaded Kernel Modules ({}/{}) [{}%]",
+					"Loaded Kernel Modules \u{2997}{}/{}\u{2998} \u{2997}{}%\u{2998}",
 					match kernel_modules.list.len() {
 						0 => kernel_modules.index,
 						_ => kernel_modules.index + 1,

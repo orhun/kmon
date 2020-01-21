@@ -195,7 +195,7 @@ impl App {
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name = String::from("!Help \u{262F} ");
+		kernel_modules.current_name = String::from("!Help \u{25D1} ");
 		kernel_modules.current_info.set_styled_text(
 			help_text,
 			key_bindings.len(),

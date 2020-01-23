@@ -26,6 +26,7 @@ impl KernelLogs {
 		logs_updated
 	}
 
+	/* Refresh the kernel logs. */
 	pub fn refresh(&mut self) {
 		self.last_line = String::new();
 		self.index = 0;

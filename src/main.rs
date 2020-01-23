@@ -110,9 +110,7 @@ where
 						/* Refresh. */
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app.refresh();
-							kernel.logs.refresh();
-							kernel.info.refresh();
-							kernel.modules.refresh();
+							kernel.refresh();
 						}
 						/* Show help message. */
 						Key::Char('?') | Key::F(1) => {

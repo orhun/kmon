@@ -29,4 +29,10 @@ impl Kernel {
 			modules: KernelModules::new(ListArgs::new(args), Style::new(args)),
 		}
 	}
+
+	pub fn refresh(&mut self) {
+		self.logs.refresh();
+		self.info.refresh();
+		self.modules.refresh();
+	}
 }

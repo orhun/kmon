@@ -30,6 +30,7 @@ impl Kernel {
 		}
 	}
 
+	/* Refresh kernel logs, modules and information. */
 	pub fn refresh(&mut self) {
 		self.logs.refresh();
 		self.info.refresh();

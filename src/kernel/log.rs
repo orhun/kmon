@@ -26,6 +26,12 @@ impl KernelLogs {
 		logs_updated
 	}
 
+	pub fn refresh(&mut self) {
+		self.last_line = String::new();
+		self.index = 0;
+		self.update();
+	}
+
 	/**
 	 * Select a part of the output depending on the area properties.
 	 *

@@ -66,7 +66,6 @@ pub struct StyledText<'a> {
 	pub styled_text: Vec<Text<'a>>,
 }
 
-#[allow(dead_code)]
 impl<'a> StyledText<'a> {
 	/**
 	 * Get a vector of Text widget from styled text.
@@ -79,16 +78,6 @@ impl<'a> StyledText<'a> {
 		} else {
 			self.styled_text.to_vec()
 		}
-	}
-
-	/**
-	 * Set a raw text.
-	 *
-	 * @param text
-	 */
-	pub fn set_raw_text(&mut self, text: String) {
-		self.raw_text = text;
-		self.styled_text = Vec::new();
 	}
 
 	/**

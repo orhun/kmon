@@ -144,7 +144,7 @@ impl KernelModules<'_> {
 				self.current_name = command_name;
 			}
 			self.command = module_command;
-			self.current_info.set_styled_text(
+			self.current_info.set(
 				vec![
 					Text::styled(
 						"Execute the following command? [y/N]:\n",
@@ -174,7 +174,7 @@ impl KernelModules<'_> {
 			match util::exec_cmd("sh", &["-c", &self.get_current_command().cmd]) {
 				Ok(_) => command_executed = true,
 				Err(e) => {
-					self.current_info.set_styled_text(
+					self.current_info.set(
 						vec![
 							Text::styled(
 								"Failed to execute command:",

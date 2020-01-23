@@ -87,7 +87,7 @@ impl<'a> StyledText<'a> {
 	 * @param newline_count
 	 * @param placeholder
 	 */
-	pub fn set_styled_text(
+	pub fn set(
 		&mut self,
 		text: Vec<Text<'static>>,
 		newline_count: usize,

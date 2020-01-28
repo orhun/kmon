@@ -1,9 +1,12 @@
+use crate::style::UnicodeSymbol;
+
 /* Kernel module related command */
 #[derive(Debug)]
 pub struct Command {
 	pub cmd: String,
 	pub desc: &'static str,
 	pub title: String,
+	pub symbol: UnicodeSymbol,
 }
 
 impl Command {
@@ -19,6 +22,7 @@ impl Command {
 		cmd: String,
 		desc: &'static str,
 		mut title: String,
+		symbol: UnicodeSymbol,
 	) -> Self {
 		/* Parse the command title if '!' is given. */
 		if title.contains('!') {
@@ -33,6 +37,7 @@ impl Command {
 			cmd,
 			desc,
 			title,
+			symbol,
 		}
 	}
 }
@@ -55,12 +60,12 @@ impl ModuleCommand {
 	 */
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
-            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name)),
+            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), UnicodeSymbol::None),
             Self::Load => Command::new(
 				format!("modprobe {}", &module_name),
 				"modprobe: Add and remove modules from the Linux Kernel\n
                                 This command inserts a module to the kernel.",
-				format!("Load: {} \u{2693}", module_name)),
+				format!("Load: {}", module_name), UnicodeSymbol::Anchor),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
@@ -73,7 +78,7 @@ impl ModuleCommand {
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
-                format!("Remove: {} \u{1F167} ", module_name),
+                format!("Remove: {}", module_name), UnicodeSymbol::CircleX,
             ),
 			Self::Blacklist => Command::new(
 				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
@@ -84,7 +89,7 @@ impl ModuleCommand {
 				them together would result in a conflict.\n
 				You might want to regenerate the initial ramdisk image and reboot after \
 				blacklisting the modules depending on your configuration.",
-				format!("Blacklist: {} \u{1F187} ", module_name)),
+				format!("Blacklist: {}", module_name), UnicodeSymbol::SquareX),
         }
 	}
 

@@ -5,7 +5,7 @@ use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-pub enum UnicodeSymbol {
+pub enum Symbol {
 	None,
 	Anchor,
 	CircleX,
@@ -14,7 +14,7 @@ pub enum UnicodeSymbol {
 
 #[derive(Debug)]
 pub struct Unicode<'a> {
-	symbols: HashMap<UnicodeSymbol, &'a [&'a str; 2]>,
+	symbols: HashMap<Symbol, &'a [&'a str; 2]>,
 	replace: bool,
 }
 
@@ -22,15 +22,15 @@ impl Unicode<'_> {
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
-			UnicodeSymbol::None => &["", ""],
-			UnicodeSymbol::Anchor => &["\u{2693}", ""],
-			UnicodeSymbol::CircleX => &["\u{1F167} ", ""],
-			UnicodeSymbol::SquareX => &["\u{1F187} ", ""]
+			Symbol::None => &["", ""],
+			Symbol::Anchor => &["\u{2693}", ""],
+			Symbol::CircleX => &["\u{1F167} ", ""],
+			Symbol::SquareX => &["\u{1F187} ", ""]
 			},
 			replace,
 		}
 	}
-	pub fn get(&self, symbol: UnicodeSymbol) -> &str {
+	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
 	}
 }

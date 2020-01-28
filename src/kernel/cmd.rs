@@ -1,4 +1,4 @@
-use crate::style::UnicodeSymbol;
+use crate::style::Symbol;
 
 /* Kernel module related command */
 #[derive(Debug)]
@@ -6,7 +6,7 @@ pub struct Command {
 	pub cmd: String,
 	pub desc: &'static str,
 	pub title: String,
-	pub symbol: UnicodeSymbol,
+	pub symbol: Symbol,
 }
 
 impl Command {
@@ -22,7 +22,7 @@ impl Command {
 		cmd: String,
 		desc: &'static str,
 		mut title: String,
-		symbol: UnicodeSymbol,
+		symbol: Symbol,
 	) -> Self {
 		/* Parse the command title if '!' is given. */
 		if title.contains('!') {
@@ -60,12 +60,12 @@ impl ModuleCommand {
 	 */
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
-            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), UnicodeSymbol::None),
+            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
             Self::Load => Command::new(
 				format!("modprobe {}", &module_name),
 				"modprobe: Add and remove modules from the Linux Kernel\n
                                 This command inserts a module to the kernel.",
-				format!("Load: {}", module_name), UnicodeSymbol::Anchor),
+				format!("Load: {}", module_name), Symbol::Anchor),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
@@ -78,7 +78,7 @@ impl ModuleCommand {
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
-                format!("Remove: {}", module_name), UnicodeSymbol::CircleX,
+                format!("Remove: {}", module_name), Symbol::CircleX,
             ),
 			Self::Blacklist => Command::new(
 				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
@@ -89,7 +89,7 @@ impl ModuleCommand {
 				them together would result in a conflict.\n
 				You might want to regenerate the initial ramdisk image and reboot after \
 				blacklisting the modules depending on your configuration.",
-				format!("Blacklist: {}", module_name), UnicodeSymbol::SquareX),
+				format!("Blacklist: {}", module_name), Symbol::SquareX),
         }
 	}
 

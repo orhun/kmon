@@ -366,7 +366,7 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.block_style(Block::ModuleInfo))
 					.borders(Borders::ALL)
-					.title(&kernel_modules.get_current_command().title),
+					.title(&format!("{} {}", kernel_modules.get_current_command().title, self.style.unicode.get(kernel_modules.get_current_command().symbol))),
 			)
 			.alignment(
 				if kernel_modules.command.is_none()

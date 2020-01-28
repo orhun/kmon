@@ -325,15 +325,19 @@ impl App {
 				.border_style(self.block_style(Block::ModuleTable))
 				.borders(Borders::ALL)
 				.title(&format!(
-					"Loaded Kernel Modules \u{2997}{}/{}\u{2998} \u{2997}{}%\u{2998}",
+					"Loaded Kernel Modules {}{}/{}{} {}{}%{}",
+					self.style.unicode.get(Symbol::LeftBracket),
 					match kernel_modules.list.len() {
 						0 => kernel_modules.index,
 						_ => kernel_modules.index + 1,
 					},
 					kernel_modules.list.len(),
+					self.style.unicode.get(Symbol::RightBracket),
+					self.style.unicode.get(Symbol::LeftBracket),
 					((kernel_modules.index + 1) as f64
 						/ kernel_modules.list.len() as f64
-						* 100.0) as usize
+						* 100.0) as usize,
+					self.style.unicode.get(Symbol::RightBracket),
 				)),
 		)
 		.header_style(self.style.bold)

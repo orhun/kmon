@@ -6,6 +6,7 @@ use tui::widgets::Text;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum UnicodeSymbol {
+	None,
 	Anchor,
 }
 
@@ -19,7 +20,8 @@ impl Unicode<'_> {
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
-			UnicodeSymbol::Anchor => &["\u{2693}", ""]
+			UnicodeSymbol::Anchor => &["\u{2693}", ""],
+			UnicodeSymbol::None => &["", ""]
 			},
 			replace,
 		}

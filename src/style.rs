@@ -8,6 +8,8 @@ use tui::widgets::Text;
 pub enum UnicodeSymbol {
 	None,
 	Anchor,
+	CircleX,
+	SquareX,
 }
 
 #[derive(Debug)]
@@ -21,7 +23,9 @@ impl Unicode<'_> {
 		Self {
 			symbols: map! {
 			UnicodeSymbol::None => &["", ""],
-			UnicodeSymbol::Anchor => &["\u{2693}", ""]
+			UnicodeSymbol::Anchor => &["\u{2693}", ""],
+			UnicodeSymbol::CircleX => &["\u{1F167} ", ""],
+			UnicodeSymbol::SquareX => &["\u{1F187} ", ""]
 			},
 			replace,
 		}

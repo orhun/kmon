@@ -1,7 +1,33 @@
 use clap::ArgMatches;
 use colorsys::Rgb;
+use std::collections::HashMap;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub enum UnicodeSymbol {
+	Anchor,
+}
+
+#[derive(Debug)]
+pub struct Unicode<'a> {
+	symbols: HashMap<UnicodeSymbol, &'a [&'a str; 2]>,
+	replace: bool,
+}
+
+impl Unicode<'_> {
+	pub fn new(replace: bool) -> Self {
+		Self {
+			symbols: map! {
+			UnicodeSymbol::Anchor => &["\u{2693}", ""]
+			},
+			replace,
+		}
+	}
+	pub fn get(&self, symbol: UnicodeSymbol) -> &str {
+		self.symbols[&symbol][self.replace as usize]
+	}
+}
 
 /* Style properties */
 #[derive(Debug, Clone, Copy)]

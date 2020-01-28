@@ -4,6 +4,7 @@ mod kernel;
 #[macro_use]
 mod util;
 mod style;
+mod unicode;
 use app::{App, Block, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};

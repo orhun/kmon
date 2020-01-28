@@ -4,7 +4,6 @@ mod kernel;
 #[macro_use]
 mod util;
 mod style;
-mod unicode;
 use app::{App, Block, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
@@ -37,7 +36,7 @@ where
 	B: Backend,
 {
 	/* Configure the application. */
-	let mut app = App::new(Block::ModuleTable, kernel.modules.style);
+	let mut app = App::new(Block::ModuleTable, kernel.modules.style.clone());
 	/* Draw terminal and render the widgets. */
 	terminal.hide_cursor()?;
 	loop {

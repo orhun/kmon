@@ -402,7 +402,7 @@ impl App {
 	{
 		Paragraph::new(
 			StyledText::default()
-				.stylize_data(&kernel_logs.select(area.height, 2), ']', self.style)
+				.stylize_data(&kernel_logs.select(area.height, 2), ']', self.style.clone())
 				.iter(),
 		)
 		.block(

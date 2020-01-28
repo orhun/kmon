@@ -2,13 +2,46 @@ use clap::ArgMatches;
 use colorsys::Rgb;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
+use std::collections::HashMap;
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub enum Symbol {
+	None,
+	Anchor,
+	CircleX,
+	SquareX,
+}
+
+#[derive(Clone, Debug)]
+pub struct Unicode<'a> {
+	symbols: HashMap<Symbol, &'a [&'a str; 2]>,
+	replace: bool,
+}
+
+impl Unicode<'_> {
+	pub fn new(replace: bool) -> Self {
+		Self {
+			symbols: map! {
+			Symbol::None => &["", ""],
+			Symbol::Anchor => &["\u{2693}", ""],
+			Symbol::CircleX => &["\u{1F167} ", ""],
+			Symbol::SquareX => &["\u{1F187} ", ""]
+			},
+			replace,
+		}
+	}
+	pub fn get(&self, symbol: Symbol) -> &str {
+		self.symbols[&symbol][self.replace as usize]
+	}
+}
 
 /* Style properties */
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct Style {
 	pub default: TuiStyle,
 	pub bold: TuiStyle,
 	pub colored: TuiStyle,
+	pub unicode: Unicode<'static>,
 }
 
 impl Style {
@@ -55,6 +88,7 @@ impl Style {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
 			colored: TuiStyle::default().fg(main_color),
+			unicode: Unicode::new(args.is_present("unicode")),
 		}
 	}
 }

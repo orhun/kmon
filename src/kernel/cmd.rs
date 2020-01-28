@@ -1,4 +1,4 @@
-use crate::unicode::Symbol;
+use crate::style::Symbol;
 
 /* Kernel module related command */
 #[derive(Debug)]

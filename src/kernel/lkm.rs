@@ -288,7 +288,7 @@ impl KernelModules<'_> {
 						.into_boxed_str(),
 				),
 				':',
-				self.style,
+				self.style.clone(),
 			);
 			/* Clear the current command. */
 			if !self.command.is_none() {

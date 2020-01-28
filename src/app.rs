@@ -2,7 +2,7 @@ use crate::event::Event;
 use crate::kernel::cmd::ModuleCommand;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
-use crate::style::{Style, StyledText};
+use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
@@ -188,14 +188,14 @@ impl App {
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
 			help_text.push(Text::styled(
-				format!("{}:\n\u{2800} ", key),
+				format!("{}:\n{}", key, self.style.unicode.get(Symbol::Blank)),
 				self.style.colored,
 			));
 			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name = String::from("!Help \u{26D1} ");
+		kernel_modules.current_name = format!("!Help{}", self.style.unicode.get(Symbol::Helmet));
 		kernel_modules.current_info.set(
 			help_text,
 			key_bindings.len(),
@@ -260,7 +260,7 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.style.colored)
 					.borders(Borders::ALL)
-					.title(&format!("{} \u{2699} ", info[0])),
+					.title(&format!("{}{}", info[0], self.style.unicode.get(Symbol::Gear))),
 			)
 			.alignment(Alignment::Center)
 			.wrap(true)
@@ -366,7 +366,7 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.block_style(Block::ModuleInfo))
 					.borders(Borders::ALL)
-					.title(&format!("{} {}", kernel_modules.get_current_command().title, self.style.unicode.get(kernel_modules.get_current_command().symbol))),
+					.title(&format!("{}{}", kernel_modules.get_current_command().title, self.style.unicode.get(kernel_modules.get_current_command().symbol))),
 			)
 			.alignment(
 				if kernel_modules.command.is_none()
@@ -410,7 +410,7 @@ impl App {
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Block::Activities))
 				.borders(Borders::ALL)
-				.title("Kernel Activities \u{26A1}"),
+				.title(&format!("Kernel Activities{}", self.style.unicode.get(Symbol::HighVoltage))),
 		)
 		.alignment(Alignment::Left)
 		.wrap(false)

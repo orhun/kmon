@@ -7,9 +7,13 @@ use std::collections::HashMap;
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Symbol {
 	None,
+	Blank,
+	Gear,
 	Anchor,
+	Helmet,
 	CircleX,
 	SquareX,
+	HighVoltage,
 }
 
 #[derive(Clone, Debug)]
@@ -23,9 +27,13 @@ impl Unicode<'_> {
 		Self {
 			symbols: map! {
 			Symbol::None => &["", ""],
-			Symbol::Anchor => &["\u{2693}", ""],
-			Symbol::CircleX => &["\u{1F167} ", ""],
-			Symbol::SquareX => &["\u{1F187} ", ""]
+			Symbol::Blank => &["\u{2800} ", "\u{2800} "],
+			Symbol::Gear => &[" \u{2699} ", ""],
+			Symbol::Anchor => &[" \u{2693}", ""],
+			Symbol::Helmet => &[" \u{26D1} ", ""],
+			Symbol::CircleX => &[" \u{1F167} ", ""],
+			Symbol::SquareX => &[" \u{1F187} ", ""],
+			Symbol::HighVoltage => &[" \u{26A1}", ""]
 			},
 			replace,
 		}

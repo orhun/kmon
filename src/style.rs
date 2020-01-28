@@ -20,8 +20,8 @@ impl Unicode<'_> {
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
-			UnicodeSymbol::Anchor => &["\u{2693}", ""],
-			UnicodeSymbol::None => &["", ""]
+			UnicodeSymbol::None => &["", ""],
+			UnicodeSymbol::Anchor => &["\u{2693}", ""]
 			},
 			replace,
 		}

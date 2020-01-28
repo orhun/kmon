@@ -1,3 +1,4 @@
+use clap::ArgMatches;
 use std::collections::HashMap;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
@@ -15,7 +16,7 @@ pub struct Unicode<'a> {
 }
 
 impl Unicode<'_> {
-	pub fn new(replace: bool) -> Self {
+	pub fn new(args: &ArgMatches) -> Self {
 		Self {
 			symbols: map! {
 			Symbol::None => &["", ""],
@@ -23,7 +24,7 @@ impl Unicode<'_> {
 			Symbol::CircleX => &["\u{1F167} ", ""],
 			Symbol::SquareX => &["\u{1F187} ", ""]
 			},
-			replace,
+			replace: args.is_present("unicode"),
 		}
 	}
 	pub fn get(&self, symbol: Symbol) -> &str {

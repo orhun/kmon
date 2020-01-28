@@ -13,6 +13,7 @@ pub enum Symbol {
 	Helmet,
 	CircleX,
 	SquareX,
+	Magnifier,
 	HighVoltage,
 	LeftBracket,
 	RightBracket,
@@ -35,6 +36,7 @@ impl Unicode<'_> {
 			Symbol::Helmet => &[" \u{26D1} ", ""],
 			Symbol::CircleX => &[" \u{1F167} ", ""],
 			Symbol::SquareX => &[" \u{1F187} ", ""],
+			Symbol::Magnifier => &[" \u{1F50D}", ""],
 			Symbol::HighVoltage => &[" \u{26A1}", ""],
 			Symbol::LeftBracket => &["\u{2997}", "("],
 			Symbol::RightBracket => &["\u{2998}", ")"]

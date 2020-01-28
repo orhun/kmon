@@ -93,12 +93,8 @@ impl Display for InputMode {
 		}
 		write!(
 			f,
-			"{:?} {}",
-			input_mode,
-			match input_mode {
-				InputMode::Load => "\u{2693}",
-				_ => "\u{1F50D}",
-			}
+			"{:?}",
+			input_mode
 		)
 	}
 }
@@ -232,7 +228,11 @@ impl App {
 						_ => self.style.colored,
 					})
 					.borders(Borders::ALL)
-					.title(&self.input_mode.to_string()),
+					.title(&format!("{}{}", self.input_mode.to_string(),
+						match self.input_mode {
+							InputMode::Load => self.style.unicode.get(Symbol::Anchor),
+							_ => self.style.unicode.get(Symbol::Magnifier),
+						})),
 			)
 			.alignment(Alignment::Left)
 			.wrap(false)

@@ -16,13 +16,13 @@ impl Command {
 	 * @return Command
 	 */
 	fn new(
-		command: String,
-		description: &'static str,
-		mut command_title: String,
+		cmd: String,
+		desc: &'static str,
+		mut title: String,
 	) -> Self {
 		/* Parse the command title if '!' is given. */
-		if command_title.contains('!') {
-			command_title = (*command_title
+		if title.contains('!') {
+			title = (*title
 				.split('!')
 				.collect::<Vec<&str>>()
 				.last()
@@ -30,9 +30,9 @@ impl Command {
 			.to_string();
 		}
 		Self {
-			cmd: command,
-			desc: description,
-			title: command_title,
+			cmd,
+			desc,
+			title,
 		}
 	}
 }

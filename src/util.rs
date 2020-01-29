@@ -75,6 +75,12 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 				.long("reverse")
 				.help("Reverse the kernel module list"),
 		)
+		.arg(
+			Arg::with_name("unicode")
+				.short("u")
+				.long("unicode")
+				.help("Hide Unicode symbols of the blocks"),
+		)
 		.subcommand(
 			SubCommand::with_name("sort")
 				.about("Sort kernel modules")

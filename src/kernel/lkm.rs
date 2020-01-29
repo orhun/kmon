@@ -1,6 +1,6 @@
 use crate::app::ScrollDirection;
 use crate::kernel::cmd::{Command, ModuleCommand};
-use crate::style::{Style, StyledText};
+use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
@@ -192,6 +192,8 @@ impl KernelModules<'_> {
 							e
 						),
 					);
+					self.current_name =
+						format!("!Error{}", self.style.unicode.get(Symbol::NoEntry));
 				}
 			}
 			self.command = ModuleCommand::None;

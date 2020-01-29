@@ -1,8 +1,8 @@
 use clap::ArgMatches;
 use colorsys::Rgb;
+use std::collections::HashMap;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
-use std::collections::HashMap;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Symbol {

@@ -91,11 +91,7 @@ impl Display for InputMode {
 				None => input_mode,
 			}
 		}
-		write!(
-			f,
-			"{:?}",
-			input_mode
-		)
+		write!(f, "{:?}", input_mode)
 	}
 }
 
@@ -191,7 +187,8 @@ impl App {
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name = format!("!Help{}", self.style.unicode.get(Symbol::Helmet));
+		kernel_modules.current_name =
+			format!("!Help{}", self.style.unicode.get(Symbol::Helmet));
 		kernel_modules.current_info.set(
 			help_text,
 			key_bindings.len(),
@@ -228,11 +225,15 @@ impl App {
 						_ => self.style.colored,
 					})
 					.borders(Borders::ALL)
-					.title(&format!("{}{}", self.input_mode.to_string(),
+					.title(&format!(
+						"{}{}",
+						self.input_mode.to_string(),
 						match self.input_mode {
-							InputMode::Load => self.style.unicode.get(Symbol::Anchor),
+							InputMode::Load =>
+								self.style.unicode.get(Symbol::Anchor),
 							_ => self.style.unicode.get(Symbol::Magnifier),
-						})),
+						}
+					)),
 			)
 			.alignment(Alignment::Left)
 			.wrap(false)
@@ -260,7 +261,11 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.style.colored)
 					.borders(Borders::ALL)
-					.title(&format!("{}{}", info[0], self.style.unicode.get(Symbol::Gear))),
+					.title(&format!(
+						"{}{}",
+						info[0],
+						self.style.unicode.get(Symbol::Gear)
+					)),
 			)
 			.alignment(Alignment::Center)
 			.wrap(true)
@@ -370,7 +375,13 @@ impl App {
 					.title_style(self.style.bold)
 					.border_style(self.block_style(Block::ModuleInfo))
 					.borders(Borders::ALL)
-					.title(&format!("{}{}", kernel_modules.get_current_command().title, self.style.unicode.get(kernel_modules.get_current_command().symbol))),
+					.title(&format!(
+						"{}{}",
+						kernel_modules.get_current_command().title,
+						self.style
+							.unicode
+							.get(kernel_modules.get_current_command().symbol)
+					)),
 			)
 			.alignment(
 				if kernel_modules.command.is_none()
@@ -406,7 +417,11 @@ impl App {
 	{
 		Paragraph::new(
 			StyledText::default()
-				.stylize_data(&kernel_logs.select(area.height, 2), ']', self.style.clone())
+				.stylize_data(
+					&kernel_logs.select(area.height, 2),
+					']',
+					self.style.clone(),
+				)
 				.iter(),
 		)
 		.block(
@@ -414,7 +429,10 @@ impl App {
 				.title_style(self.style.bold)
 				.border_style(self.block_style(Block::Activities))
 				.borders(Borders::ALL)
-				.title(&format!("Kernel Activities{}", self.style.unicode.get(Symbol::HighVoltage))),
+				.title(&format!(
+					"Kernel Activities{}",
+					self.style.unicode.get(Symbol::HighVoltage)
+				)),
 		)
 		.alignment(Alignment::Left)
 		.wrap(false)

@@ -240,8 +240,20 @@ where
 									.tx
 									.send(Event::Input(Key::Char('r')))
 									.unwrap();
-							} else if kernel.modules.current_info.raw_text.contains("Execution Error\n") {
-								kernel.modules.current_name = format!("!Error{}", kernel.modules.style.unicode.get(Symbol::NoEntry));
+							} else if kernel
+								.modules
+								.current_info
+								.raw_text
+								.contains("Execution Error\n")
+							{
+								kernel.modules.current_name = format!(
+									"!Error{}",
+									kernel
+										.modules
+										.style
+										.unicode
+										.get(Symbol::NoEntry)
+								);
 							}
 						}
 						/* Cancel the execution of current command. */

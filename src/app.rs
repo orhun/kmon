@@ -453,7 +453,7 @@ mod tests {
 		let args = util::parse_args();
 		let mut kernel_modules =
 			KernelModules::new(ListArgs::new(&args), Style::new(&args));
-		let mut app = App::new(Block::ModuleTable, kernel_modules.style);
+		let mut app = App::new(Block::ModuleTable, kernel_modules.style.clone());
 		app.set_clipboard_contents("test");
 		assert_ne!("x", app.get_clipboard_contents());
 		assert_eq!(app.style.default, app.block_style(Block::ModuleTable));

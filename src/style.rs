@@ -230,4 +230,19 @@ mod tests {
 		assert_eq!(1, styled_text.lines());
 		assert_eq!("test", styled_text.raw_text);
 	}
+	#[test]
+	fn test_unicode() {
+		let mut unicode = Unicode::new(true);
+		for symbol in unicode.symbols.clone() {
+			if symbol.0 != Symbol::Blank {
+				assert_eq!(true, symbol.1[1].len() < 2)
+			}
+		}
+		unicode.replace = false;
+		for symbol in unicode.symbols {
+			if symbol.0 != Symbol::None {
+				assert_ne!("", symbol.1[0]);
+			}
+		}
+	}
 }

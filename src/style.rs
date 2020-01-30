@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use tui::style::{Color, Modifier, Style as TuiStyle};
 use tui::widgets::Text;
 
+/* Unicode symbol */
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Symbol {
 	None,
@@ -20,6 +21,7 @@ pub enum Symbol {
 	RightBracket,
 }
 
+/* Supported Unicode symbols */
 #[derive(Clone, Debug)]
 pub struct Unicode<'a> {
 	symbols: HashMap<Symbol, &'a [&'a str; 2]>,
@@ -27,6 +29,12 @@ pub struct Unicode<'a> {
 }
 
 impl Unicode<'_> {
+	/**
+	 * Create a new Unicode instance.
+	 *
+	 * @param  replace
+	 * @return Unicode
+	 */
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
@@ -46,6 +54,12 @@ impl Unicode<'_> {
 			replace,
 		}
 	}
+	/**
+	 * Get string from a Unicode symbol.
+	 *
+	 * @param  Symbol
+	 * @return str
+	 */
 	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
 	}

@@ -104,7 +104,7 @@ impl Style {
 			default: TuiStyle::default(),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
 			colored: TuiStyle::default().fg(main_color),
-			unicode: Unicode::new(args.is_present("unicode")),
+			unicode: Unicode::new(!args.is_present("unicode")),
 		}
 	}
 }

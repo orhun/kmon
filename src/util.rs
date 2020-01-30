@@ -79,7 +79,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 			Arg::with_name("unicode")
 				.short("u")
 				.long("unicode")
-				.help("Hide Unicode symbols of the blocks"),
+				.help("Show Unicode symbols for the block titles"),
 		)
 		.subcommand(
 			SubCommand::with_name("sort")

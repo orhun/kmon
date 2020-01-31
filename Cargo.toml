@@ -1,14 +1,15 @@
 [package]
 name = "kmon"
+description = "Linux Kernel Module Manager and Activity Monitor"
 version = "0.1.0"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
 license = "GPL-3.0"
-description = "Linux Kernel Module Manager and Activity Monitor"
 readme = "README.md"
+documentation = "https://github.com/orhun/kmon/blob/master/README.md"
 homepage = "https://github.com/orhun/kmon"
 repository = "https://github.com/orhun/kmon"
-keywords = ["todo"]
-categories = ["command-line-utilities"]
+keywords = ["linux", "kernel", "module", "activity", "monitor"]
+categories = ["command-line-utilities", "os"]
 edition = "2018"
 
 [dependencies]

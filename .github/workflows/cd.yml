@@ -5,20 +5,21 @@ on:
     branches:
       - master
 
-  cargo:
-    name: Cargo Publish
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Install X11 dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          command: publish
-          args: --token ${{ secrets.CARGO_TOKEN }}
+  jobs:
+    cargo:
+      name: Cargo Publish
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@master
+        - uses: actions-rs/toolchain@v1
+          with:
+            toolchain: stable
+            override: true
+        - name: Install X11 dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
+        - uses: actions-rs/cargo@v1
+          with:
+            command: publish
+            args: --token ${{ secrets.CARGO_TOKEN }}

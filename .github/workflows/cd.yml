@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Set release version
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -26,17 +28,16 @@ jobs:
           toolchain: stable
           args: --release
       - name: Create package
-        shell: bash
         run: |
           cd target/release
           strip -s kmon
-          tar czvf kmon.tar.gz kmon
-          shasum -a 256 kmon.tar.gz > kmon.sha256
+          tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon
+          shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/release/kmon.tar.gz
-            target/release/kmon.sha256
+            target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
+            target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

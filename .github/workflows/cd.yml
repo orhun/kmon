@@ -72,8 +72,6 @@ jobs:
           echo "  IdentityFile /root/.ssh/aur" >> config
           echo "  User aur" >> config
           sudo mv config /root/.ssh/
-          sudo echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-          sudo systemctl restart sshd
           sudo -s eval $(ssh-agent -s)
           sudo ssh-add -k /root/.ssh/aur
           sudo ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts

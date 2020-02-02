@@ -6,6 +6,40 @@ on:
       - master
 
 jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Install X11 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          toolchain: stable
+          args: --release
+      - name: Create package
+        shell: bash
+        run: |
+          cd target/release
+          strip -s kmon
+          tar czvf kmon.tar.gz kmon
+          shasum -a 256 kmon.tar.gz > kmon.sha256
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            target/release/kmon.tar.gz
+            target/release/kmon.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   cargo:
     name: Cargo Publish
     runs-on: ubuntu-latest

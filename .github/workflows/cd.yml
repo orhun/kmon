@@ -33,13 +33,13 @@ jobs:
           strip -s kmon
           tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon
           shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
-      - uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
-            target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- uses: softprops/action-gh-release@v1
+      #  with:
+      #    files: |
+      #      target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
+      #      target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   cargo:
     name: Cargo Publish

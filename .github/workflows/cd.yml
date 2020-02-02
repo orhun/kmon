@@ -54,7 +54,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          command: publish
-          args: --token ${{ secrets.CARGO_TOKEN }}
+      #- uses: actions-rs/cargo@v1
+      #  with:
+      #    command: publish
+      #    args: --token ${{ secrets.CARGO_TOKEN }}

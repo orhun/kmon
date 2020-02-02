@@ -66,8 +66,8 @@ jobs:
       - name: Set up SSH
         run: |
           sudo mkdir -p /root/.ssh
-          sudo echo ${{ secrets.AUR_SSH_PUBLIC }} > /root/.ssh/aur.pub
-          sudo echo ${{ secrets.AUR_SSH_PRIVATE }} > /root/.ssh/aur
+          sudo echo "${{ secrets.AUR_SSH_PUBLIC }}" > /root/.ssh/aur.pub
+          sudo echo "${{ secrets.AUR_SSH_PRIVATE }}" > /root/.ssh/aur
           sudo echo "Host aur.archlinux.org" >> /root/.ssh/config
           sudo echo "  IdentityFile /root/.ssh/aur" >> /root/.ssh/config
           sudo echo "  User aur" >> /root/.ssh/config

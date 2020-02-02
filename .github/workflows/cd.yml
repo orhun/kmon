@@ -72,7 +72,6 @@ jobs:
           echo "  IdentityFile /root/.ssh/aur" >> config
           echo "  User aur" >> config
           sudo mv config /root/.ssh/
-          sudo chmod 600 /root/.ssh/{aur*,config}
           eval `ssh-agent -s`
           sudo ssh-add /root/.ssh/aur
           sudo ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts

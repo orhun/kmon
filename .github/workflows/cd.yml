@@ -72,8 +72,8 @@ jobs:
           echo "  IdentityFile /root/.ssh/aur" >> config
           echo "  User aur" >> config
           sudo mv config /root/.ssh/
-          eval `ssh-agent -s`
-          ssh-add -k /root/.ssh/aur
+          ssh-agent /bin/sh
+          sudo ssh-add -k /root/.ssh/aur
           exit
           sudo ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts
           git config --global user.name "orhun"

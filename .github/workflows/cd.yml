@@ -65,16 +65,16 @@ jobs:
     steps:
       - name: Set up SSH
         run: |
-          mkdir -p /root/.ssh
-          echo ${{ secrets.AUR_SSH_PUBLIC }} > /root/.ssh/aur.pub
-          echo ${{ secrets.AUR_SSH_PRIVATE }} > /root/.ssh/aur
-          echo "Host aur.archlinux.org" >> /root/.ssh/config
-          echo "  IdentityFile /root/.ssh/aur" >> /root/.ssh/config
-          echo "  User aur" >> /root/.ssh/config
-          chmod 600 /root/.ssh/{aur*,config}
+          sudo mkdir -p /root/.ssh
+          sudo echo ${{ secrets.AUR_SSH_PUBLIC }} > /root/.ssh/aur.pub
+          sudo echo ${{ secrets.AUR_SSH_PRIVATE }} > /root/.ssh/aur
+          sudo echo "Host aur.archlinux.org" >> /root/.ssh/config
+          sudo echo "  IdentityFile /root/.ssh/aur" >> /root/.ssh/config
+          sudo echo "  User aur" >> /root/.ssh/config
+          sudo chmod 600 /root/.ssh/{aur*,config}
           eval `ssh-agent -s`
-          ssh-add /root/.ssh/aur
-          ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts
+          sudo ssh-add /root/.ssh/aur
+          sudo ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
       - uses: actions/checkout@master

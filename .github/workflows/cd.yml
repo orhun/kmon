@@ -72,9 +72,9 @@ jobs:
           echo "  IdentityFile /root/.ssh/aur" >> config
           echo "  User aur" >> config
           sudo mv config /root/.ssh/
-          eval `ssh-agent -s`
-          sudo ssh-add /root/.ssh/aur
-          sudo ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts
+          eval $(ssh-agent -s)
+          ssh-add /root/.ssh/aur
+          ssh-keyscan -H aur.archlinux.org >> /root/.ssh/known_hosts
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
       - uses: actions/checkout@master

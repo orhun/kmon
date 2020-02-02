@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Set release version
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:11}
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable

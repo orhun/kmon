@@ -1,2 +1,2 @@
 ## kmon
-Linux Kernel Module Manager and Activity Monitor 🐧💻
+Linux Kernel Manager and Activity Monitor 🐧💻

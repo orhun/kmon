@@ -58,3 +58,16 @@ jobs:
       #  with:
       #    command: publish
       #    args: --token ${{ secrets.CARGO_TOKEN }}
+
+  aur:
+    name: AUR Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Update git package
+        shell: bash
+        run: |
+          version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')
+          git clone ssh://aur@aur.archlinux.org/kmon-git.git && cd kmon-git
+          sed "s/^pkgver=.*\$/pkgver=$version/" -i PKGBUILD
+          sed "s/\tpkgver = .*\$/\tpkgver = $version/" -i .SRCINFO

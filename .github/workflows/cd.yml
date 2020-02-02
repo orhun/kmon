@@ -66,11 +66,12 @@ jobs:
       - name: Set up SSH
         run: |
           sudo mkdir -p /root/.ssh
-          sudo echo "${{ secrets.AUR_SSH_PUBLIC }}" | base64 --decode > /root/.ssh/aur.pub
-          sudo echo "${{ secrets.AUR_SSH_PRIVATE }}" | base64 --decode > /root/.ssh/aur
-          sudo echo "Host aur.archlinux.org" >> /root/.ssh/config
-          sudo echo "  IdentityFile /root/.ssh/aur" >> /root/.ssh/config
-          sudo echo "  User aur" >> /root/.ssh/config
+          echo "${{ secrets.AUR_SSH_PUBLIC }}" | base64 --decode > aur.pub && sudo mv aur.pub /root/.ssh/
+          echo "${{ secrets.AUR_SSH_PRIVATE }}" | base64 --decode > aur && sudo mv aur /root/.ssh/
+          echo "Host aur.archlinux.org" >> config
+          echo "  IdentityFile /root/.ssh/aur" >> config
+          echo "  User aur" >> config
+          sudo mv config /root/.ssh/
           sudo chmod 600 /root/.ssh/{aur*,config}
           eval `ssh-agent -s`
           sudo ssh-add /root/.ssh/aur

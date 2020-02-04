@@ -47,7 +47,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up SSH for AUR
         run: |
-          pwd && ls
           mkdir -p ~/.ssh
           echo "${{ secrets.AUR_SSH_PUBLIC }}" | base64 --decode > ~/.ssh/aur.pub
           echo "${{ secrets.AUR_SSH_PRIVATE }}" | base64 --decode > ~/.ssh/aur
@@ -62,7 +61,6 @@ jobs:
           git config --global user.email "orhunparmaksiz@gmail.com"
       - name: Publish on AUR (main)
         run: |
-          pwd && ls
           git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
           wget https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz
           sed "s/^pkgver=.*\$/pkgver=v${{ env.RELEASE_VERSION }}/" -i PKGBUILD
@@ -75,7 +73,6 @@ jobs:
           git push
       - name: Publish on AUR (git)
         run: |
-          pwd && ls
           version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')
           git clone ssh://aur@aur.archlinux.org/kmon-git.git && cd kmon-git
           sed "s/^pkgver=.*\$/pkgver=$version/" -i PKGBUILD

@@ -59,7 +59,6 @@ jobs:
           ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
-      - uses: actions/checkout@master
       - name: Publish on AUR (main)
         shell: bash
         run: |

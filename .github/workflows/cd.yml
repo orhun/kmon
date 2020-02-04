@@ -6,8 +6,8 @@ on:
       - "v*.*.*"
 
 jobs:
-  release:
-    name: Release
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -27,7 +27,12 @@ jobs:
           command: build
           toolchain: stable
           args: --release --locked --all-features
-      - name: Create package
+      #- name: "Publish on crates.io"
+      #  uses: actions-rs/cargo@v1
+      #  with:
+      #    command: publish
+      #    args: --token ${{ secrets.CARGO_TOKEN }}
+      - name: Publish on GitHub
         run: |
           cd target/release
           strip -s kmon
@@ -40,30 +45,7 @@ jobs:
             target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  cargo:
-    name: Cargo Publish
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Install X11 dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
-      #- uses: actions-rs/cargo@v1
-      #  with:
-      #    command: publish
-      #    args: --token ${{ secrets.CARGO_TOKEN }}
-
-  aur:
-    name: AUR Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up SSH
+      - name: Set up SSH for AUR
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.AUR_SSH_PUBLIC }}" | base64 --decode > ~/.ssh/aur.pub
@@ -78,22 +60,20 @@ jobs:
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
       - uses: actions/checkout@master
-      - name: Set the release version
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
-      - name: Publish the main package
+      - name: Publish on AUR (main)
         shell: bash
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
-          wget https://github.com/orhun/kmon/archive/${{ env.RELEASE_VERSION }}.tar.gz
-          sed "s/^pkgver=.*\$/pkgver=${{ env.RELEASE_VERSION }}/" -i PKGBUILD
-          sed "s/^sha512sums=(.*)\$/sha512sums=('`sha512sum ${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`')/" -i PKGBUILD
-          sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
-          sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/archive/${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
-          sed "s/\tsha512sums = .*\$/\tsha512sums = `sha512sum ${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`/" -i .SRCINFO
+          wget https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz
+          sed "s/^pkgver=.*\$/pkgver=v${{ env.RELEASE_VERSION }}/" -i PKGBUILD
+          sed "s/^sha512sums=(.*)\$/sha512sums=('`sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`')/" -i PKGBUILD
+          sed "s/\tpkgver = .*\$/\tpkgver = v${{ env.RELEASE_VERSION }}/" -i .SRCINFO
+          sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
+          sed "s/\tsha512sums = .*\$/\tsha512sums = `sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`/" -i .SRCINFO
           git add PKGBUILD .SRCINFO
-          git commit -m "Release ${{ env.RELEASE_VERSION }}"
+          git commit -m "Release v${{ env.RELEASE_VERSION }}"
           git push
-      - name: Publish git package
+      - name: Publish on AUR (git)
         shell: bash
         run: |
           version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')

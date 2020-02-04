@@ -80,7 +80,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Set release version
         run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
-      - name: Update main package
+      - name: Publish the main package
         shell: bash
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
@@ -93,7 +93,7 @@ jobs:
           git add PKGBUILD .SRCINFO
           git commit -m "Release ${{ env.RELEASE_VERSION }}"
           git push
-      - name: Update git package
+      - name: Publish git package
         shell: bash
         run: |
           version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')

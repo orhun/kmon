@@ -60,7 +60,6 @@ jobs:
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
       - name: Publish on AUR (main)
-        shell: bash
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
           wget https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz
@@ -73,7 +72,6 @@ jobs:
           git commit -m "Release v${{ env.RELEASE_VERSION }}"
           git push
       - name: Publish on AUR (git)
-        shell: bash
         run: |
           version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')
           git clone ssh://aur@aur.archlinux.org/kmon-git.git && cd kmon-git

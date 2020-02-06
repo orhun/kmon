@@ -7,10 +7,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app/
 COPY Cargo.toml Cargo.toml
 RUN mkdir src/ && echo "fn main() {println!(\"failed to build\")}" > src/main.rs
-RUN cargo build --release --locked --all-features
+RUN cargo build --release
 RUN rm -f target/release/deps/kmon*
 COPY . .
-RUN cargo build --release --locked --all-features
+RUN cargo build --release
 RUN mkdir -p build-out && cp target/release/kmon build-out/
 # Runtime Image
 FROM debian:stretch-slim as runtime-image

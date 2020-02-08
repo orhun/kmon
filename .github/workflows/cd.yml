@@ -20,7 +20,7 @@ jobs:
       - name: Install X11 dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
+          sudo apt-get install --allow-unauthenticated -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
       - name: Build
         uses: actions-rs/cargo@v1
         with:

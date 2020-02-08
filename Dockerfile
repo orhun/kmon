@@ -1,7 +1,7 @@
 # Build Image
 FROM rust:1.40.0-stretch as cargo-build
 RUN apt-get update && apt-get install -y --no-install-recommends \
- libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 \
+ libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 --allow-unauthenticated \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app/
@@ -15,7 +15,7 @@ RUN mkdir -p build-out && cp target/release/kmon build-out/
 # Runtime Image
 FROM debian:stretch-slim as runtime-image
 RUN apt-get update && apt-get install -y --no-install-recommends \
- libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 kmod=23-2 \
+ libxcb-shape0-dev=1.12-1 libxcb-xfixes0-dev=1.12-1 kmod=23-2 --allow-unauthenticated \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /root/

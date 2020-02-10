@@ -32,7 +32,7 @@ cargo fmt --all -- --check
 cargo clippy -- -D warnings
 ```
 
-## Create Pull Request
+## Create a Pull Request
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
 

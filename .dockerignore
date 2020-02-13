@@ -1,8 +1,11 @@
-# Compiled files and executables (Rust)
+# Compiled files and executables
 /target/
 
-# Examples directory
+# Examples
 /example/
+
+# GitHub files
+/.github/
 
 # Docker
 Dockerfile

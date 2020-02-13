@@ -17,3 +17,12 @@
 </p>
 
 ## Installation
+
+
+## License
+
+GNU General Public License ([3.0](https://www.gnu.org/licenses/gpl.txt))
+
+## Copyright
+
+Copyright (c) 2020, [orhun](mailto:orhunparmaksiz@gmail.com)

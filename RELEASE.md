@@ -9,7 +9,6 @@
 5. Push the tag: `git push --tags`
 6. Wait for [Continous Deployment](https://github.com/orhun/kmon/actions) workflow to finish.
 
-
 ## License
 
 GNU General Public License ([3.0](https://www.gnu.org/licenses/gpl.txt))

@@ -26,7 +26,7 @@ cargo build
 cargo test --all
 ```
 
-5. Make sure [rustfmt](https://github.com/rust-lang/rustfmt) and [clippy](https://github.com/rust-lang/rust-clippy) pass before creating a pull request.
+5. Make sure [rustfmt](https://github.com/rust-lang/rustfmt) and [clippy](https://github.com/rust-lang/rust-clippy) are passed before creating a pull request.
 ```
 cargo fmt --all -- --check
 cargo clippy -- -D warnings
@@ -36,7 +36,7 @@ cargo clippy -- -D warnings
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
 
-2. Update the [README.md](https://github.com/orhun/kmon/blob/master/README.md) with details of changes to the terminal user interface including new environment variables, command line arguments and container parameters.
+2. Update the [README.md](https://github.com/orhun/kmon/blob/master/README.md) and [CHANGELOG.md](https://github.com/orhun/kmon/blob/master/CHANGELOG.md) with details of changes to the terminal user interface including new environment variables, command line arguments and container parameters.
 
 3. Increase the version number in [Cargo.toml](https://github.com/orhun/kmon/blob/master/Cargo.toml) to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
 

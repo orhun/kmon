@@ -49,7 +49,7 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))
 		.about(env!("CARGO_PKG_DESCRIPTION"))
-		.usage("Press '?' while running the app to see key bindings")
+		.usage("Press '?' while running the terminal UI to see key bindings")
 		.before_help(ASCII_LOGO)
 		.arg(
 			Arg::with_name("color")

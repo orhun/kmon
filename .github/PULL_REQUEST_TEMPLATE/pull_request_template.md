@@ -1,5 +1,3 @@
-<!--- Provide a general summary of your changes in the title above -->
-
 ## Description
 <!--- Describe your changes in detail -->
 
@@ -21,8 +19,7 @@
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
 - [ ] Documentation (no code change)
 - [ ] Refactor (refactoring production code)
-- [ ] Other
-
+- [ ] Other <!--- (provide information) -->
 
 ## Checklist:
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->

@@ -16,6 +16,8 @@
     <a href="https://github.com/orhun/kmon/blob/master/LICENSE"><img src="https://img.shields.io/crates/l/kmon?color=000000&style=flat-square"></a>
 </p>
 
+The kernel is the part of the operating system that manages interactions between hardware and software components. On most systems, it is loaded on startup after the bootloader and handles I/O requests as well as peripherals like keyboards, monitors, printers, and speakers.
+
 ## Installation
 
 ## Usage

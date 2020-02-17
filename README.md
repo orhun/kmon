@@ -16,7 +16,9 @@
     <a href="https://github.com/orhun/kmon/blob/master/LICENSE"><img src="https://img.shields.io/crates/l/kmon?color=000000&style=flat-square"></a>
 </p>
 
-The kernel is the part of the operating system that manages interactions between hardware and software components. On most systems, it is loaded on startup after the bootloader and handles I/O requests as well as peripherals like keyboards, monitors, printers, and speakers.
+The kernel is the part of the operating system that facilitates interactions between hardware and software components. On most systems, it is loaded on startup after the bootloader and handles I/O requests as well as peripherals like keyboards, monitors, network adapters, and speakers. Typically, the kernel is responsible for memory management, resource management, and device management.  
+Applications use the system call mechanism for requesting a service from the operating system and most of the time, this request is passed to the kernel using a library provided by the operating system to invoke the related kernel function. While the kernel performs these low-level tasks, it's resident on a separate part of memory named protected kernel space which is not accessible by applications and other parts of the system. In contrast, applications like browsers, text editors, window managers or audio/video players use a different separate area of the memory, user space. This separation prevents user data and kernel data from interfering with each other and causing instability and slowness, as well as preventing malfunctioning application programs from crashing the entire operating system.  
+There are different kernel designs due to the different ways of managing system calls and resources. For example, while monolithic kernels run all the operating system instructions in the same address space for speed, microkernels use different spaces for user and kernel services for modularity.
 
 ## Installation
 

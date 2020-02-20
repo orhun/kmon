@@ -24,7 +24,20 @@ The Linux kernel is the open-source, monolithic and, Unix-like operating system 
 Although the Linux-based operating systems dominate the most of computing, it still carries some of the design flaws which were quite a bit of debate in the early days of Linux. For example, it has the largest footprint and the most complexity over the other types of kernels. But it's a design feature that monolithic kernels inherent to have. These kind of design issues led developers to add new features and mechanisms to the Linux kernel which other kernels don't have.
 
 Unlike the standard monolithic kernels, the Linux kernel is also modular, accepting loadable kernel modules (LKM) that typically used to add support for new hardware (as device drivers) and/or filesystems, or for adding system calls. Since LKMs could be loaded and unloaded to the system at runtime, they have the advantage of extending the kernel without rebooting and re-compiling. Thus, the kernel functionalities provided by modules would not reside in memory without being used and the related module can be unloaded in order to free memory and other resources.  
-Loadable kernel modules are located in /lib/modules with the .ko (kernel object) extension in Linux. While the lsmod command could be used for listing the loaded kernel modules, the modprobe command is used for loading (or unloading) a kernel module.
+Loadable kernel modules are located in /lib/modules with the .ko (kernel object) extension in Linux. While the lsmod command could be used for listing the loaded kernel modules, modprobe is used for loading (or unloading) a kernel module.
+
+Here's a simple example of a Linux kernel module that prints a message when it's loaded and unloaded. The build and installation steps of the module using a Makefile are shown below.
+
+```
+make                         # build
+sudo insmod lkm_example.ko   # install
+sudo modprobe lkm_example    # load
+sudo modprobe -r lkm_example # unload
+```
+
+![dmesg output](https://user-images.githubusercontent.com/24392180/74931125-0dfa8600-53f0-11ea-8037-60024564ad3d.png)
+
+The dmesg command is used above to retrieve the message buffer of the kernel.
 
 ## Installation
 

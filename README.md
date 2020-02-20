@@ -51,6 +51,23 @@ The [dmesg](https://linux.die.net/man/8/dmesg) command is used above to retrieve
 
 ## Docker
 
+[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)  [![Package Registry Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=package%20registry&style=flat-square)](https://github.com/orhun/kmon/packages/95852)
+
+```
+docker run -it --cap-add syslog orhunp/kmon:tagname
+```
+### Build
+
+```
+docker build -t kmon .
+```
+
+### Run
+
+```
+docker run -it --cap-add syslog kmon
+```
+
 ## TODO(s)
 
 ## Contributing

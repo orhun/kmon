@@ -210,6 +210,9 @@ where
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
+						Key::Ctrl('k') | Key::Ctrl('u') => {
+							break;
+						}
 						/* Unload kernel module. */
 						Key::Char('u')
 						| Key::Char('U')

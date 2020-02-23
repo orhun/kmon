@@ -94,7 +94,7 @@ impl ModuleCommand {
 			Self::Clear => Command::new(
 				String::from("dmesg --clear"),
 				"description",
-				String::from("Clear the ring buffer"), Symbol::Pick),
+				String::from("Clear the ring buffer"), Symbol::Cloud),
         }
 	}
 

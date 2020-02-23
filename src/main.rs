@@ -473,6 +473,7 @@ mod tests {
 				Key::Ctrl('b'),
 				Key::Char('x'),
 				Key::Char('n'),
+				Key::Ctrl('l'),
 				Key::Char('u'),
 				Key::Char('y'),
 				Key::PageUp,

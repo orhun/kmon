@@ -88,25 +88,38 @@ tar -xvzf kmon-*.tar.gz
 
 ## Usage
 
-### Command Line Arguments
+### Flags
 
 ```
+-h, --help       Prints help information
+-r, --reverse    Reverse the kernel module list
+-u, --unicode    Show Unicode symbols for the block titles
+-V, --version    Prints version information
+```
+
+### Options
+
+```
+-c, --color <COLOR>    Set the main color using hex or color name [default: darkgray]
+-t, --tickrate <MS>    Set the refresh rate of the terminal [default: 250]
+```
+
+### Subcommands
+
+```
+help    Prints this message or the help of the given subcommand(s)
+sort    Sort kernel modules
+```
+
+```
+kmon sort [FLAGS]
+
 FLAGS:
-    -h, --help       Prints help information
-    -r, --reverse    Reverse the kernel module list
-    -u, --unicode    Show Unicode symbols for the block titles
-    -V, --version    Prints version information
-
-OPTIONS:
-    -c, --color <COLOR>    Set the main color using hex or color name [default: darkgray]
-    -t, --tickrate <MS>    Set the refresh rate of the terminal [default: 250]
-
-SUBCOMMANDS:
-    help    Prints this message or the help of the given subcommand(s)
-    sort    Sort kernel modules
+    -n, --name    Sort modules by their names
+    -s, --size    Sort modules by their sizes
 ```
 
-### Key Bindings
+## Key Bindings
 
 Press '`?`' while running the terminal UI to see key bindings.
 

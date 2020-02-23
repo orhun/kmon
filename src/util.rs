@@ -18,6 +18,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("pgup/pgdown", "scroll up/down [kernel activities]"),
 	("</>", "scroll up/down [module information]"),
 	("ctrl-t/b, home/end", "scroll to top/bottom [module list]"),
+	("ctrl-l/u, alt-c", "clear the kernel ring buffer"),
 	("\\, tab, backtab", "show the next kernel information"),
 	("/, s, enter", "search a kernel module"),
 	("+, i, insert", "load a kernel module"),

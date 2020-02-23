@@ -70,7 +70,7 @@ impl ModuleCommand {
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),
                 "modprobe: Add and remove modules from the Linux Kernel
-                option:   -r, --remove\n
+                option: -r, --remove\n
                 This option causes modprobe to remove rather than insert a module. \
                 If the modules it depends on are also unused, modprobe will try to \
 				remove them too. Unlike insertion, more than one module can be \
@@ -93,8 +93,10 @@ impl ModuleCommand {
 				format!("Blacklist: {}", module_name), Symbol::SquareX),
 			Self::Clear => Command::new(
 				String::from("dmesg --clear"),
-				"description",
-				String::from("Clear the ring buffer"), Symbol::Cloud),
+				"dmesg: Print or control the kernel ring buffer
+				option: -C, --clear\n
+				Clear the ring buffer.",
+				String::from("Clear"), Symbol::Cloud),
         }
 	}
 

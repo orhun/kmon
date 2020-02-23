@@ -66,18 +66,23 @@ trizen kmon
 ### Manual
 
 1. Download the latest binary from [releases](https://github.com/orhun/kmon/releases).
+
 ```
 wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION].tar.gz
 ```
 2. Extract the files.
+
 ```
 tar -xvzf kmon-*.tar.gz
 ```
+
 3. Run the binary.
 
 ```
 ./kmon
 ```
+
+4. Move binary to `/usr/local/bin/` for running it from the terminal using `kmon` command. (Optional)
 
 #### Note
 

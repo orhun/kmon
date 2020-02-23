@@ -211,7 +211,10 @@ where
 							kernel.info.next();
 						}
 						Key::Ctrl('k') | Key::Ctrl('u') => {
-							break;
+							kernel.modules.set_current_command(
+								ModuleCommand::Clear,
+								String::new(),
+							);
 						}
 						/* Unload kernel module. */
 						Key::Char('u')

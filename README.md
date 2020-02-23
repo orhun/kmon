@@ -43,11 +43,11 @@ The [dmesg](https://linux.die.net/man/8/dmesg) command is used above to retrieve
 
 ## Usage
 
-### Key Bindings
-
 ### Command Line Arguments
 
-## Examples
+### Key Bindings
+
+### Examples
 
 ## Docker
 
@@ -67,8 +67,6 @@ docker build -t kmon .
 ```
 docker run -it --cap-add syslog kmon
 ```
-
-## TODO(s)
 
 ## Contributing
 

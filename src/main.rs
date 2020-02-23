@@ -210,7 +210,7 @@ where
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
-						Key::Ctrl('l') | Key::Ctrl('u') => {
+						Key::Ctrl('l') | Key::Ctrl('u') | Key::Alt('c') => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Clear,
 								String::new(),

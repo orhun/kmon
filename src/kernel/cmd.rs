@@ -49,6 +49,7 @@ pub enum ModuleCommand {
 	Load,
 	Unload,
 	Blacklist,
+	Clear,
 }
 
 impl ModuleCommand {
@@ -90,6 +91,10 @@ impl ModuleCommand {
 				You might want to regenerate the initial ramdisk image and reboot after \
 				blacklisting the modules depending on your configuration.",
 				format!("Blacklist: {}", module_name), Symbol::SquareX),
+			Self::Clear => Command::new(
+				String::from("dmesg --clear"),
+				"description",
+				String::from("Clear the ring buffer"), Symbol::Pick),
         }
 	}
 

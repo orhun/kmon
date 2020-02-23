@@ -210,6 +210,7 @@ where
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
+						/* Clear the kernel ring buffer. */
 						Key::Ctrl('l') | Key::Ctrl('u') | Key::Alt('c') => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Clear,

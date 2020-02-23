@@ -41,6 +41,46 @@ The [dmesg](https://linux.die.net/man/8/dmesg) command is used above to retrieve
 
 ## Installation
 
+### Cargo
+
+**kmon** can be installed from [crates.io](https://crates.io/crates/kmon/) using Cargo if [Rust](https://www.rust-lang.org/tools/install) is installed.
+
+```
+cargo install kmon
+```
+
+Use the `--force` option to update.
+
+```
+cargo install kmon --force
+```
+
+### AUR
+
+**kmon** can be installed from available [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=nd&K=Linux+kernel+manager+and+activity&outdated=&SB=n&SO=a&PP=50&do_Search=Go) using an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers). For example,
+
+```
+trizen kmon
+```
+
+### Manual
+
+1. Download the latest binary from [releases](https://github.com/orhun/kmon/releases).
+```
+wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION].tar.gz
+```
+2. Extract the files.
+```
+tar -xvzf kmon-*.tar.gz
+```
+3. Run the binary.
+
+```
+./kmon
+```
+
+#### Note
+
 ## Usage
 
 ### Command Line Arguments

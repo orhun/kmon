@@ -88,6 +88,10 @@ tar -xvzf kmon-*.tar.gz
 
 ## Usage
 
+```
+kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]
+```
+
 ### Flags
 
 ```

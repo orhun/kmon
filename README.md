@@ -86,6 +86,9 @@ tar -xvzf kmon-*.tar.gz
 
 #### Note
 
+[libxcb](https://xcb.freedesktop.org/) should be installed for using the copy/paste commands of X11.
+[*](https://github.com/aweinstock314/rust-clipboard/issues/67)
+
 ## Usage
 
 ```

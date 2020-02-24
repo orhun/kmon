@@ -49,8 +49,12 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 	App::new(env!("CARGO_PKG_NAME"))
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))
-		.about(env!("CARGO_PKG_DESCRIPTION"))
-		.usage("Press '?' while running the terminal UI to see key bindings")
+		.about(&*format!(
+			"{}\n\n{}",
+			env!("CARGO_PKG_DESCRIPTION"),
+			"Press '?' while running the terminal UI to see key bindings."
+		))
+		.usage("kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]")
 		.before_help(ASCII_LOGO)
 		.arg(
 			Arg::with_name("color")

@@ -132,22 +132,22 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 |                    	|                                     	|
 |--------------------	|-------------------------------------	|
-| '?', f1            	| help                                	|
-| right/left, h/l    	| switch between blocks               	|
-| up/down, k/j       	| scroll up/down [selected block]     	|
-| pgup/pgdown        	| scroll up/down [kernel activities]  	|
-| </>                	| scroll up/down [module information] 	|
-| ctrl-t/b, home/end 	| scroll to top/bottom [module list]  	|
-| ctrl-l/u, alt-c    	| clear the kernel ring buffer        	|
-| \\, tab, backtab   	| show the next kernel information    	|
-| /, s, enter        	| search a kernel module              	|
-| +, i, insert       	| load a kernel module                	|
-| -, u, backspace    	| unload the kernel module            	|
-| x, b, delete       	| blacklist the kernel module         	|
-| y/n                	| execute/cancel the command          	|
-| c/v                	| copy/paste                          	|
-| r, f5              	| refresh                             	|
-| q, ctrl-c/d, esc   	| quit                                	|
+| **'?', F1**            	| Help                                	|
+| **right/left, h/l**    	| Switch between blocks               	|
+| **up/down, k/j**       	| Scroll up/down [selected block]     	|
+| **pgup/pgdown**        	| Scroll up/down [kernel activities]  	|
+| **</>**                	| Scroll up/down [module information] 	|
+| **ctrl-t/b, home/end** 	| Scroll to top/bottom [module list]  	|
+| **ctrl-l/u, alt-c**    	| Clear the kernel ring buffer        	|
+| **\\, tab, backtab**   	| Show the next kernel information    	|
+| **/, s, enter**        	| Search a kernel module              	|
+| **+, i, insert**       	| Load a kernel module                	|
+| **-, u, backspace**    	| Unload the kernel module            	|
+| **x, b, delete**       	| Blacklist the kernel module         	|
+| **y/n**                	| Execute/cancel the command          	|
+| **c/v**                	| Copy/paste                          	|
+| **r, F5**              	| Refresh                             	|
+| **q, ctrl-c/d, ESC**   	| Quit                                	|
 
 ### Examples
 

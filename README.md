@@ -172,7 +172,19 @@ docker build -t kmon .
 docker run -it --cap-add syslog kmon
 ```
 
-## Contributing
+## Resources
+
+### Project
+
+* [Code of conduct](https://github.com/orhun/kmon/blob/master/CODE_OF_CONDUCT.md)
+* [Contributing](https://github.com/orhun/kmon/blob/master/CONTRIBUTING.md)
+* [Creating a release](https://github.com/orhun/kmon/blob/master/RELEASE.md)
+
+### Links
+
+* [Exploring the Linux Kernel by Bob Cromwell](https://cromwell-intl.com/open-source/linux-kernel-details.html)
+* [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
+* [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
 
 ## License
 

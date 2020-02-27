@@ -134,17 +134,17 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 |                    	|                                     	|
 |--------------------	|-------------------------------------	|
-| **'?', F1**            	| Help                                	|
+| **[?], F1**            	| Help                                	|
 | **right/left, h/l**    	| Switch between blocks               	|
 | **up/down, k/j**       	| Scroll up/down [selected block]     	|
 | **pgup/pgdown**        	| Scroll up/down [kernel activities]  	|
 | **</>**                	| Scroll up/down [module information] 	|
 | **ctrl-t/b, home/end** 	| Scroll to top/bottom [module list]  	|
 | **ctrl-l/u, alt-c**    	| Clear the kernel ring buffer        	|
-| **\\, tab, backtab**   	| Show the next kernel information    	|
-| **/, s, enter**        	| Search a kernel module              	|
-| **+, i, insert**       	| Load a kernel module                	|
-| **-, u, backspace**    	| Unload the kernel module            	|
+| **[\\], tab, backtab**   	| Show the next kernel information    	|
+| **[/], s, enter**        	| Search a kernel module              	|
+| **[+], i, insert**       	| Load a kernel module                	|
+| **[-], u, backspace**    	| Unload the kernel module            	|
 | **x, b, delete**       	| Blacklist the kernel module         	|
 | **y/n**                	| Execute/cancel the command          	|
 | **c/v**                	| Copy/paste                          	|

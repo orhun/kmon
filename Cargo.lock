@@ -182,7 +182,7 @@ dependencies = [
 
 [[package]]
 name = "kmon"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "bytesize 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",

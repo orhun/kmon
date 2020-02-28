@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-02-28
+### Added
+- Add project installation, usage, key bindings and resources to README
+- Add manual page for the project
+- Add test for the `ctrl-l` key action
+
+### Changed
+- Update the CD workflow for adding the manual page to the final binary package
+
 ## [0.2.0] - 2020-02-23
 ### Added
 - Add key bindings for clearing the kernel ring buffer

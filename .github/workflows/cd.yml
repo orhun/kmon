@@ -36,7 +36,7 @@ jobs:
         run: |
           cd target/release
           strip -s kmon
-          tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon ../../LICENSE ../../README.md ../../kmon.man
+          tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon ../../LICENSE ../../README.md ../../man/kmon.8
           shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
       - uses: softprops/action-gh-release@v1
         with:

@@ -91,7 +91,7 @@ tar -xvzf kmon-*.tar.gz
 5. Man page could be viewed if [kmon.man](https://github.com/orhun/kmon/blob/master/kmon.man) file is installed to `/usr/local/man/man8/` directory.
 
 ```
-cp kmon.man /usr/local/man/man8/kmon.8
+cp kmon.8 /usr/local/man/man8/
 gzip /usr/local/man/man8/kmon.8
 man kmon
 ```

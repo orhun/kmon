@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2020-03-01
+### Added
+- Update README.md about man page and project description
+
+### Changed
+- Move man page file to man/ directory
+- Update the CD workflow about the new location of man page
+
 ## [0.2.1] - 2020-02-28
 ### Added
 - Add project installation, usage, key bindings and resources to README

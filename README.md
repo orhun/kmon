@@ -41,7 +41,7 @@ The [dmesg](https://linux.die.net/man/8/dmesg) command is used above to retrieve
 
 **kmon** provides a [text-based user interface](https://en.wikipedia.org/wiki/Text-based_user_interface) for managing the Linux kernel modules and monitoring the kernel activities. By managing, it means loading, unloading, blacklisting and showing the information of a module. These updates in the kernel modules, logs about the hardware and other kernel messages can be tracked with the real-time activity monitor in kmon. Since the usage of different tools like [dmesg](https://en.wikipedia.org/wiki/Dmesg) and [kmod](https://www.linux.org/docs/man8/kmod.html) are required for these tasks in Linux, kmon aims to gather them in a single terminal window and facilitate the usage as much as possible while preserving the functionality.
 
-kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://github.com/fdehau/tui-rs) and [termion](https://github.com/redox-os/termion) libraries for its text-based user interface.
+kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://github.com/fdehau/tui-rs) & [termion](https://github.com/redox-os/termion) libraries for its text-based user interface.
 
 ## Installation
 
@@ -161,7 +161,29 @@ Press '`?`' while running the terminal UI to see key bindings.
 | **r, F5**              	| Refresh                             	|
 | **q, ctrl-c/d, ESC**   	| Quit                                	|
 
-### Examples
+## Examples
+
+### Navigating & Scrolling
+
+### Searching a module
+
+### Loading a module
+
+### Unloading a module
+
+### Blacklisting a module
+
+### Clearing the ring buffer
+
+### Copy & Paste
+
+### Sort the kernel modules
+
+### Use a custom color
+
+### Enable Unicode symbols
+
+### Set the terminal tick rate
 
 ## Docker
 
@@ -195,6 +217,8 @@ docker run -it --cap-add syslog kmon
 * [Exploring the Linux Kernel by Bob Cromwell](https://cromwell-intl.com/open-source/linux-kernel-details.html)
 * [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
 * [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
+
+### Images
 
 ## License
 

@@ -54,7 +54,7 @@ impl KernelLogs {
 		self.selected_output = self
 			.output
 			.lines()
-			.map(|line| match line.char_indices().nth(crop_offset) {
+			.map(|line| match line.char_indices().nth(self.crop_offset) {
 				Some((pos, _)) => &line[pos..],
 				None => "",
 			})

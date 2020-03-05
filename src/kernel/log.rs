@@ -7,6 +7,7 @@ pub struct KernelLogs {
 	pub output: String,
 	pub selected_output: String,
 	last_line: String,
+	pub crop_offset: usize,
 	pub index: usize,
 }
 
@@ -38,6 +39,7 @@ impl KernelLogs {
 	pub fn refresh(&mut self) {
 		self.last_line = String::new();
 		self.index = 0;
+		self.crop_offset = 0;
 		self.update();
 	}
 
@@ -52,6 +54,10 @@ impl KernelLogs {
 		self.selected_output = self
 			.output
 			.lines()
+			.map(|line| match line.char_indices().skip(self.crop_offset).next() {
+				Some((pos, _)) => &line[pos..],
+				None => "",
+			})
 			.skip(
 				area_height
 					.checked_sub(area_sub)

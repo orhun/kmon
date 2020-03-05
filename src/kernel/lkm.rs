@@ -270,6 +270,7 @@ impl KernelModules<'_> {
 				ScrollDirection::Down => self.next_module(),
 				ScrollDirection::Top => self.index = 0,
 				ScrollDirection::Bottom => self.index = self.list.len() - 1,
+				_ => {}
 			}
 			/* Set current module name. */
 			self.current_name = self.list[self.index][0]

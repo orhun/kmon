@@ -192,6 +192,22 @@ where
 							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Down, false);
 						}
+						/* Scroll kernel activities left. */
+						Key::Alt('h') | Key::Alt('H') => {
+							app.selected_block = Block::Activities;
+							kernel.logs.crop_offset = match kernel.logs.crop_offset.checked_sub(10) {
+								Some(v) => v,
+								None => 0
+							}
+						}
+						/* Scroll kernel activities right. */
+						Key::Alt('l') | Key::Alt('L') => {
+							app.selected_block = Block::Activities;
+							kernel.logs.crop_offset = match kernel.logs.crop_offset.checked_add(10) {
+								Some(v) => v,
+								None => 0
+							}
+						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {
 							app.selected_block = Block::ModuleInfo;

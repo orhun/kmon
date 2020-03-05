@@ -493,6 +493,8 @@ mod tests {
 				Key::Char('y'),
 				Key::PageUp,
 				Key::PageDown,
+				Key::Alt('l'),
+				Key::Alt('h'),
 				Key::Char('<'),
 				Key::Char('>'),
 				Key::Char('\t'),

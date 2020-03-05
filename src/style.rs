@@ -68,7 +68,7 @@ impl Unicode<'_> {
 }
 
 /* Style properties */
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug)]
 pub struct Style {
 	pub default: TuiStyle,
 	pub bold: TuiStyle,
@@ -126,7 +126,7 @@ impl Style {
 }
 
 /* Styled text that has raw and style parts */
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct StyledText<'a> {
 	pub raw_text: String,
 	pub styled_text: Vec<Text<'a>>,

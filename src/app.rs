@@ -27,6 +27,8 @@ pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
 pub enum ScrollDirection {
 	Up,
 	Down,
+	Left,
+	Right,
 	Top,
 	Bottom,
 }
@@ -42,6 +44,8 @@ impl ScrollDirection {
 		[
 			ScrollDirection::Up,
 			ScrollDirection::Down,
+			ScrollDirection::Left,
+			ScrollDirection::Right,
 			ScrollDirection::Top,
 			ScrollDirection::Bottom,
 		]

@@ -96,13 +96,13 @@ impl KernelLogs {
 			ScrollDirection::Left => {
 				self.crop_offset = match self.crop_offset.checked_sub(10) {
 					Some(v) => v,
-					None => 0
+					None => 0,
 				}
 			}
 			ScrollDirection::Right => {
 				self.crop_offset = match self.crop_offset.checked_add(10) {
 					Some(v) => v,
-					None => 0
+					None => 0,
 				}
 			}
 			_ => {}

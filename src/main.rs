@@ -223,7 +223,10 @@ where
 							kernel.info.next();
 						}
 						/* Clear the kernel ring buffer. */
-						Key::Ctrl('l') | Key::Ctrl('u') | Key::Alt('c') | Key::Alt('C') => {
+						Key::Ctrl('l')
+						| Key::Ctrl('u')
+						| Key::Alt('c')
+						| Key::Alt('C') => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Clear,
 								String::new(),

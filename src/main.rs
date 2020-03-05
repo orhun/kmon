@@ -120,18 +120,19 @@ where
 						Key::Up
 						| Key::Char('k')
 						| Key::Char('K')
-						| Key::Alt('k') => match app.selected_block {
+						| Key::Alt('k')
+						| Key::Alt('K') => match app.selected_block {
 							Block::ModuleTable => {
 								kernel.modules.scroll_list(ScrollDirection::Up)
 							}
 							Block::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Up,
-								input == Key::Alt('k'),
+								input == Key::Alt('k') || input == Key::Alt('K'),
 							),
 							Block::Activities => {
 								kernel.logs.scroll(
 									ScrollDirection::Up,
-									input == Key::Alt('k'),
+									input == Key::Alt('k') || input == Key::Alt('K'),
 								);
 							}
 							_ => {}
@@ -140,18 +141,19 @@ where
 						Key::Down
 						| Key::Char('j')
 						| Key::Char('J')
-						| Key::Alt('j') => match app.selected_block {
+						| Key::Alt('j')
+						| Key::Alt('J') => match app.selected_block {
 							Block::ModuleTable => {
 								kernel.modules.scroll_list(ScrollDirection::Down)
 							}
 							Block::ModuleInfo => kernel.modules.scroll_mod_info(
 								ScrollDirection::Down,
-								input == Key::Alt('j'),
+								input == Key::Alt('j') || input == Key::Alt('J'),
 							),
 							Block::Activities => {
 								kernel.logs.scroll(
 									ScrollDirection::Down,
-									input == Key::Alt('j'),
+									input == Key::Alt('j') || input == Key::Alt('J'),
 								);
 							}
 							_ => {}
@@ -221,7 +223,7 @@ where
 							kernel.info.next();
 						}
 						/* Clear the kernel ring buffer. */
-						Key::Ctrl('l') | Key::Ctrl('u') | Key::Alt('c') => {
+						Key::Ctrl('l') | Key::Ctrl('u') | Key::Alt('c') | Key::Alt('C') => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Clear,
 								String::new(),

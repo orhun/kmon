@@ -195,18 +195,12 @@ where
 						/* Scroll kernel activities left. */
 						Key::Alt('h') | Key::Alt('H') => {
 							app.selected_block = Block::Activities;
-							kernel.logs.crop_offset = match kernel.logs.crop_offset.checked_sub(10) {
-								Some(v) => v,
-								None => 0
-							}
+							kernel.logs.scroll(ScrollDirection::Left, false);
 						}
 						/* Scroll kernel activities right. */
 						Key::Alt('l') | Key::Alt('L') => {
 							app.selected_block = Block::Activities;
-							kernel.logs.crop_offset = match kernel.logs.crop_offset.checked_add(10) {
-								Some(v) => v,
-								None => 0
-							}
+							kernel.logs.scroll(ScrollDirection::Right, false);
 						}
 						/* Scroll module information up. */
 						Key::Char('<') | Key::Alt(' ') => {

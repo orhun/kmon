@@ -7,7 +7,7 @@ pub struct KernelLogs {
 	pub output: String,
 	pub selected_output: String,
 	last_line: String,
-	pub crop_offset: usize,
+	crop_offset: usize,
 	pub index: usize,
 }
 
@@ -91,6 +91,18 @@ impl KernelLogs {
 					self.index -= scroll_amount;
 				} else {
 					self.index = 0;
+				}
+			}
+			ScrollDirection::Left => {
+				self.crop_offset = match self.crop_offset.checked_sub(10) {
+					Some(v) => v,
+					None => 0
+				}
+			}
+			ScrollDirection::Right => {
+				self.crop_offset = match self.crop_offset.checked_add(10) {
+					Some(v) => v,
+					None => 0
 				}
 			}
 			_ => {}

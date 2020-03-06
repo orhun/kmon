@@ -167,6 +167,14 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ### Navigating & Scrolling
 
+#### Scroll Kernel Activities
+
+#### Smooth Scroll
+
+### Module Information
+
+#### Dependency Information
+
 ### Searching a module
 
 ### Loading a module

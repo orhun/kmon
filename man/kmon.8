@@ -45,7 +45,7 @@ Help
 .B right/left, h/l
 Switch between blocks
 .TP
-.B up/down, k/j
+.B up/down, k/j, alt-k/j
 Scroll up/down [selected block]
 .TP
 .B pgup/pgdown
@@ -54,11 +54,17 @@ Scroll up/down [kernel activities]
 .B </>
 Scroll up/down [module information]
 .TP
+.B alt-h/l
+Scroll right/left [kernel activities]
+.TP
 .B ctrl-t/b, home/end
 Scroll to top/bottom [module list]
 .TP
 .B ctrl-l/u, alt-c
 Clear the kernel ring buffer
+.TP
+.B [1]..[9]
+Show the module dependency information
 .TP
 .B [\\\], tab, backtab
 Show the next kernel information
@@ -72,7 +78,7 @@ Load a kernel module
 .B [-], u, backspace
 Unload the kernel module
 .TP
-.B x, b, delete
+.B [x], b, delete
 Blacklist the kernel module
 .TP
 .B y/n

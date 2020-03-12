@@ -232,6 +232,8 @@ docker run -it --cap-add syslog kmon
 
 ### Images
 
+![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png)
+
 ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)
 
 ## License

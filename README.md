@@ -163,13 +163,13 @@ Press '`?`' while running the terminal UI to see key bindings.
 | **r, F5**                 	| Refresh                                	|
 | **q, ctrl-c/d, ESC**      	| Quit                                   	|
 
-## Examples
+## Features
 
 ### Navigating & Scrolling
 
-#### Scroll Kernel Activities
+#### Scrolling Kernel Activities
 
-#### Smooth Scroll
+#### Smooth Scrolling
 
 ### Module Information
 
@@ -187,13 +187,13 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ### Copy & Paste
 
-### Sort the kernel modules
+### Sorting the kernel modules
 
-### Use a custom color
+### Using a custom color
 
-### Enable Unicode symbols
+### Unicode symbols
 
-### Set the terminal tick rate
+### Setting the terminal tick rate
 
 ## Docker
 

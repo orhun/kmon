@@ -101,6 +101,8 @@ man kmon
 [libxcb](https://xcb.freedesktop.org/) should be installed for using the copy/paste commands of X11.
 [*](https://github.com/aweinstock314/rust-clipboard/issues/67)
 
+For example, run `apt-get install libxcb1-dev` for Debian/Ubuntu and `yum install libxcb-devel` for Fedora.
+
 ## Usage
 
 ```

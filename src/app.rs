@@ -423,7 +423,7 @@ impl App {
 			StyledText::default()
 				.stylize_data(
 					&kernel_logs.select(area.height, 2),
-					']',
+					"] ",
 					self.style.clone(),
 				)
 				.iter(),

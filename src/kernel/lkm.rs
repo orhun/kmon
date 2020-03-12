@@ -289,7 +289,7 @@ impl KernelModules<'_> {
 						.replace("signature: ", "signature: \n")
 						.into_boxed_str(),
 				),
-				':',
+				":",
 				self.style.clone(),
 			);
 			/* Clear the current command. */

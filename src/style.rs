@@ -178,7 +178,7 @@ impl<'a> StyledText<'a> {
 	pub fn stylize_data(
 		&mut self,
 		text: &str,
-		delimiter: char,
+		delimiter: &str,
 		style: Style,
 	) -> Vec<Text<'a>> {
 		self.styled_text = Vec::new();
@@ -189,10 +189,7 @@ impl<'a> StyledText<'a> {
 				self.styled_text.extend_from_slice(&[
 					Text::styled(format!("{}{}", data[0], delimiter), style.colored),
 					Text::styled(
-						format!(
-							"{}\n",
-							data[1..data.len()].join(&delimiter.to_string())
-						),
+						format!("{}\n", data[1..data.len()].join(delimiter)),
 						style.default,
 					),
 				]);

@@ -189,7 +189,7 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ### Sorting the kernel modules
 
-### Using a custom color
+### Customizing colors
 
 ### Unicode symbols
 
@@ -229,6 +229,8 @@ docker run -it --cap-add syslog kmon
 * [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
 
 ### Images
+
+![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)
 
 ## License
 

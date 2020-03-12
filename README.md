@@ -169,7 +169,15 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ### Navigating & Scrolling
 
+![Navigating & Scrolling](https://user-images.githubusercontent.com/24392180/76524232-c1e4b380-647a-11ea-8e37-fdb5cb07a085.gif)
+
+`Arrow keys` are used for navigating between blocks and scrolling.
+
 #### Scrolling Kernel Activities
+
+Some kernel messages might be long enough for not fitting into the kernel activities block since they are not wrapped. In this situation, kernel activities can be scrolled horizontally with `alt-h & alt-l` keys. Vertical scrolling mechanism is the same as other blocks.
+
+![Scrolling Kernel Activities](https://user-images.githubusercontent.com/24392180/76527008-813b6900-647f-11ea-9295-23ea6376a68e.gif)
 
 #### Smooth Scrolling
 

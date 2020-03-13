@@ -181,6 +181,10 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 
 #### Smooth Scrolling
 
+`alt-j & alt-k` keys can be used to scroll kernel activity and module information blocks slowly.
+
+![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76599509-3de00980-6516-11ea-9e17-3f875a4bde9c.gif)
+
 ### Module Information
 
 #### Dependency Information

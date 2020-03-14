@@ -189,6 +189,10 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 
 ![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76685907-4aed1d80-6628-11ea-96b7-a5bc0597455b.gif)
 
+### Kernel Information
+
+![Kernel Information](https://user-images.githubusercontent.com/24392180/76686943-9f949680-6630-11ea-9045-a8f83313faa1.gif)
+
 ### Module Information
 
 The status of a kernel module is shown on selection.
@@ -203,25 +207,54 @@ For jumping to a dependent kernel module from its parent module, `number keys` (
 
 ### Searching a module
 
-Switch to the search area with arrow keys or using `/ - s - enter` and provide a search query for the module name.
+Switch to the search area with arrow keys or using one of the `/, s, enter` and provide a search query for the module name.
 
 ![Searching a module](https://user-images.githubusercontent.com/24392180/76686001-23e31b80-6629-11ea-9e9a-ff92c6a05cdd.gif)
 
 ### Loading a module
 
+For adding a module to the Linux kernel, switch to load mode with one of the `+, i, insert` keys and provide the name of the module to load. Then confirm/cancel the execution of the load command with `y/n`.
+
 ![Loading a module](https://user-images.githubusercontent.com/24392180/76686027-64429980-6629-11ea-852f-1316ff08ec80.gif)
+
+Command that used for loading a module:
+
+```
+modprobe <module_name>
+```
 
 ### Unloading a module
 
+Use one of the `-, u, backspace` keys to remove the selected module from the Linux kernel.
+
 ![Unloading a module](https://user-images.githubusercontent.com/24392180/76686045-8b996680-6629-11ea-9d8c-c0f5b367e269.gif)
+
+Command that used for removing a module:
+
+```
+modprobe -r <module_name>
+```
 
 ### Blacklisting a module
 
+Blacklisting is a mechanism to prevent the kernel module from loading. To blacklist the selected module, use one of the `x, b, delete` keys and confirm the execution.
+
 ![Blacklisting a module](https://user-images.githubusercontent.com/24392180/76686140-56d9df00-662a-11ea-960f-3229d772f462.gif)
+
+Command that used for blacklisting a module:
+```
+echo 'blacklist <module_name>' >> /etc/modprobe.d/blacklist.conf
+```
 
 ### Clearing the ring buffer
 
+The kernel ring buffer can be cleared with using one of the `ctrl-l/u, alt-c` keys.
+
 ![Clearing the ring buffer](https://user-images.githubusercontent.com/24392180/76686162-87217d80-662a-11ea-9ced-36bb1e7a942b.gif)
+
+```
+dmesg --clear
+```
 
 ### Copy & Paste
 
@@ -229,7 +262,9 @@ Switch to the search area with arrow keys or using `/ - s - enter` and provide a
 
 ### Sorting the kernel modules
 
-### Customizing colors
+![Sorting the kernel modules](https://user-images.githubusercontent.com/24392180/76688765-ee4a2c80-6640-11ea-95ea-1bdfc68b3281.gif)
+
+### Customizing the colors
 
 ### Unicode symbols
 

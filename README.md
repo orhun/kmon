@@ -169,9 +169,9 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ### Navigating & Scrolling
 
-![Navigating & Scrolling](https://user-images.githubusercontent.com/24392180/76524232-c1e4b380-647a-11ea-8e37-fdb5cb07a085.gif)
-
 `Arrow keys` are used for navigating between blocks and scrolling.
+
+![Navigating & Scrolling](https://user-images.githubusercontent.com/24392180/76524232-c1e4b380-647a-11ea-8e37-fdb5cb07a085.gif)
 
 #### Scrolling Kernel Activities
 
@@ -187,7 +187,15 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 
 ### Module Information
 
+The status of a kernel module is shown on selection.
+
+![Module Information](https://user-images.githubusercontent.com/24392180/76607279-c49be300-6524-11ea-8540-70ab68a96e0e.gif)
+
 #### Dependency Information
+
+For jumping to a dependent kernel module from its parent module, `number keys` (1-9) can be used for specifying the index of the module on the _Used By_ column.
+
+![Dependency Information](https://user-images.githubusercontent.com/24392180/76607546-2c522e00-6525-11ea-85c4-433b8eac3759.gif)
 
 ### Searching a module
 

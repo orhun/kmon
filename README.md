@@ -30,7 +30,7 @@ Here's a simple example of a Linux kernel module that prints a message when it's
 
 ```
 make                         # build
-sudo insmod lkm_example.ko   # install
+sudo make install            # install
 sudo modprobe lkm_example    # load
 sudo modprobe -r lkm_example # unload
 ```
@@ -142,8 +142,6 @@ FLAGS:
 
 ## Key Bindings
 
-Press '`?`' while running the terminal UI to see key bindings.
-
 |                           	|                                        	|
 |---------------------------	|----------------------------------------	|
 | **[?], F1**               	| Help                                   	|
@@ -167,47 +165,67 @@ Press '`?`' while running the terminal UI to see key bindings.
 
 ## Features
 
+### Help
+
+Press '`?`' while running the terminal UI to see key bindings.
+
+![Help](https://user-images.githubusercontent.com/24392180/76685660-8d155f80-6626-11ea-9aa6-f3eb26a3869f.gif)
+
 ### Navigating & Scrolling
 
 `Arrow keys` are used for navigating between blocks and scrolling.
 
-![Navigating & Scrolling](https://user-images.githubusercontent.com/24392180/76524232-c1e4b380-647a-11ea-8e37-fdb5cb07a085.gif)
+![Navigating & Scrolling](https://user-images.githubusercontent.com/24392180/76685750-26447600-6627-11ea-99fd-157449c9529f.gif)
 
 #### Scrolling Kernel Activities
 
 Some kernel messages might be long enough for not fitting into the kernel activities block since they are not wrapped. In this situation, kernel activities can be scrolled horizontally with `alt-h & alt-l` keys. Vertical scrolling mechanism is the same as other blocks.
 
-![Scrolling Kernel Activities](https://user-images.githubusercontent.com/24392180/76527008-813b6900-647f-11ea-9295-23ea6376a68e.gif)
+![Scrolling Kernel Activities](https://user-images.githubusercontent.com/24392180/76685862-fe094700-6627-11ea-9996-4ff1d177baf3.gif)
 
 #### Smooth Scrolling
 
 `alt-j & alt-k` keys can be used to scroll kernel activity and module information blocks slowly.
 
-![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76599509-3de00980-6516-11ea-9e17-3f875a4bde9c.gif)
+![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76685907-4aed1d80-6628-11ea-96b7-a5bc0597455b.gif)
 
 ### Module Information
 
 The status of a kernel module is shown on selection.
 
-![Module Information](https://user-images.githubusercontent.com/24392180/76607279-c49be300-6524-11ea-8540-70ab68a96e0e.gif)
+![Module Information](https://user-images.githubusercontent.com/24392180/76685957-b931e000-6628-11ea-8657-76047deee681.gif)
 
 #### Dependency Information
 
 For jumping to a dependent kernel module from its parent module, `number keys` (1-9) can be used for specifying the index of the module on the _Used By_ column.
 
-![Dependency Information](https://user-images.githubusercontent.com/24392180/76607546-2c522e00-6525-11ea-85c4-433b8eac3759.gif)
+![Dependency Information](https://user-images.githubusercontent.com/24392180/76685972-eaaaab80-6628-11ea-94dd-630e07827949.gif)
 
 ### Searching a module
 
+Switch to the search area with arrow keys or using `/ - s - enter` and provide a search query for the module name.
+
+![Searching a module](https://user-images.githubusercontent.com/24392180/76686001-23e31b80-6629-11ea-9e9a-ff92c6a05cdd.gif)
+
 ### Loading a module
+
+![Loading a module](https://user-images.githubusercontent.com/24392180/76686027-64429980-6629-11ea-852f-1316ff08ec80.gif)
 
 ### Unloading a module
 
+![Unloading a module](https://user-images.githubusercontent.com/24392180/76686045-8b996680-6629-11ea-9d8c-c0f5b367e269.gif)
+
 ### Blacklisting a module
+
+![Blacklisting a module](https://user-images.githubusercontent.com/24392180/76686140-56d9df00-662a-11ea-960f-3229d772f462.gif)
 
 ### Clearing the ring buffer
 
+![Clearing the ring buffer](https://user-images.githubusercontent.com/24392180/76686162-87217d80-662a-11ea-9ced-36bb1e7a942b.gif)
+
 ### Copy & Paste
+
+![Copy & Paste](https://user-images.githubusercontent.com/24392180/76686463-986b8980-662c-11ea-9762-9137b32c5cca.gif)
 
 ### Sorting the kernel modules
 

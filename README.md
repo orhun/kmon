@@ -260,15 +260,40 @@ dmesg --clear
 
 ### Copy & Paste
 
+`c/v` keys are set for copy/paste operations.
+
 ![Copy & Paste](https://user-images.githubusercontent.com/24392180/76686463-986b8980-662c-11ea-9762-9137b32c5cca.gif)
 
-### Sorting the kernel modules
+Use `ctrl-c/ctrl-v` for copying and pasting while in input mode.
 
-![Sorting the kernel modules](https://user-images.githubusercontent.com/24392180/76688765-ee4a2c80-6640-11ea-95ea-1bdfc68b3281.gif)
+### Sorting/reversing the kernel modules
+
+`sort` subcommand can be used for sorting the kernel modules by their names or sizes.
+
+```
+kmon sort --name
+kmon sort --size
+```
+
+Also the `-r, --reverse` flag is used for reversing the kernel module list.
+
+```
+kmon --reverse
+```
+
+![Sorting/reversing the kernel modules](https://user-images.githubusercontent.com/24392180/76688765-ee4a2c80-6640-11ea-95ea-1bdfc68b3281.gif)
 
 ### Customizing the colors
 
 ### Unicode symbols
+
+Use `-u, --unicode` flag for showing Unicode symbols for the block titles.
+
+```
+kmon --unicode
+```
+
+![Unicode symbols](https://user-images.githubusercontent.com/24392180/76711734-74d73a80-6723-11ea-8eae-180e69a5395c.gif)
 
 ### Setting the terminal tick rate
 

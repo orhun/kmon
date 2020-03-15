@@ -191,6 +191,8 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 
 ### Kernel Information
 
+Use one of the `\, tab, backtab` keys to switch between kernel release, version and platform informations.
+
 ![Kernel Information](https://user-images.githubusercontent.com/24392180/76686943-9f949680-6630-11ea-9045-a8f83313faa1.gif)
 
 ### Module Information
@@ -303,11 +305,15 @@ docker run -it --cap-add syslog kmon
 * [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
 * [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
 
-### Images
+### Gallery
 
 Fedora 31                  |  Debian 10
 :-------------------------:|:-------------------------:
 ![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png)  |  ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)
+
+Ubuntu 18.04               |  Debian 10
+:-------------------------:|:-------------------------:
+![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)
 
 ## License
 

@@ -285,6 +285,28 @@ kmon --reverse
 
 ### Customizing the colors
 
+kmon uses the colors of the terminal as default but the highlighting color could be specified with `-c, --color` option.
+
+#### Supported Colors
+
+Supported terminal colors are `black, red, green, yellow, blue, magenta, cyan, gray, darkgray, lightred, lightgreen, lightyellow, lightblue, lightmagenta, lightcyan, white`.
+
+```
+kmon --color red
+```
+
+![Supported Colors](https://user-images.githubusercontent.com/24392180/76773518-a697e200-67b3-11ea-838b-6816193b88c5.gif)
+
+#### Using a custom color
+
+Provide a hexadecimal value for the color to use.
+
+```
+kmon --color 19683a
+```
+
+![Using a custom color](https://user-images.githubusercontent.com/24392180/76772858-a0edcc80-67b2-11ea-86ea-9b138a0b937b.gif)
+
 ### Unicode symbols
 
 Use `-u, --unicode` flag for showing Unicode symbols for the block titles.

@@ -35,9 +35,12 @@ sudo modprobe lkm_example    # load
 sudo modprobe -r lkm_example # unload
 ```
 
-![dmesg output](https://user-images.githubusercontent.com/24392180/74931125-0dfa8600-53f0-11ea-8037-60024564ad3d.png)
+The [dmesg](https://linux.die.net/man/8/dmesg) command is used below to retrieve the message buffer of the kernel.
 
-The [dmesg](https://linux.die.net/man/8/dmesg) command is used above to retrieve the message buffer of the kernel.
+```
+[16994.295552] [+] Example kernel module loaded.
+[16996.325674] [-] Example kernel module unloaded.
+```
 
 **kmon** provides a [text-based user interface](https://en.wikipedia.org/wiki/Text-based_user_interface) for managing the Linux kernel modules and monitoring the kernel activities. By managing, it means loading, unloading, blacklisting and showing the information of a module. These updates in the kernel modules, logs about the hardware and other kernel messages can be tracked with the real-time activity monitor in kmon. Since the usage of different tools like [dmesg](https://en.wikipedia.org/wiki/Dmesg) and [kmod](https://www.linux.org/docs/man8/kmod.html) are required for these tasks in Linux, kmon aims to gather them in a single terminal window and facilitate the usage as much as possible while preserving the functionality.
 
@@ -318,6 +321,10 @@ kmon --unicode
 ![Unicode symbols](https://user-images.githubusercontent.com/24392180/76711734-74d73a80-6723-11ea-8eae-180e69a5395c.gif)
 
 ### Setting the terminal tick rate
+
+`-t, --tickrate` option can be used for setting the refresh interval of the terminal UI in milliseconds.
+
+![Setting the terminal tick rate](https://user-images.githubusercontent.com/24392180/76807925-1aa7a980-67f7-11ea-9af5-bb80849f5629.gif)
 
 ## Docker
 

@@ -156,7 +156,7 @@ FLAGS:
 | `ctrl-t/b, home/end`    	| Scroll to top/bottom [module list]     	|
 | `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer           	|
 | `[1]..[9]`              	| Show the module dependency information 	|
-| `[\\], tab, backtab`    	| Show the next kernel information       	|
+| `[\], tab, backtab`    	| Show the next kernel information       	|
 | `[/], s, enter`         	| Search a kernel module                 	|
 | `[+], i, insert`        	| Load a kernel module                   	|
 | `[-], u, backspace`     	| Unload the kernel module               	|

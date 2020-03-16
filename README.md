@@ -142,26 +142,26 @@ FLAGS:
 
 ## Key Bindings
 
-|                           	|                                        	|
-|---------------------------	|----------------------------------------	|
-| **[?], F1**               	| Help                                   	|
-| **right/left, h/l**       	| Switch between blocks                  	|
-| **up/down, k/j, alt-k/j** 	| Scroll up/down [selected block]        	|
-| **pgup/pgdown**           	| Scroll up/down [kernel activities]     	|
-| **</>**                   	| Scroll up/down [module information]    	|
-| **alt-h/l**               	| Scroll right/left [kernel activities]  	|
-| **ctrl-t/b, home/end**    	| Scroll to top/bottom [module list]     	|
-| **ctrl-l/u, alt-c**       	| Clear the kernel ring buffer           	|
-| **[1]..[9]**              	| Show the module dependency information 	|
-| **[\\], tab, backtab**    	| Show the next kernel information       	|
-| **[/], s, enter**         	| Search a kernel module                 	|
-| **[+], i, insert**        	| Load a kernel module                   	|
-| **[-], u, backspace**     	| Unload the kernel module               	|
-| **[x], b, delete**        	| Blacklist the kernel module            	|
-| **y/n**                   	| Execute/cancel the command             	|
-| **c/v**                   	| Copy/paste                             	|
-| **r, F5**                 	| Refresh                                	|
-| **q, ctrl-c/d, ESC**      	| Quit                                   	|
+|                         	|                                        	|
+|-------------------------	|----------------------------------------	|
+|  `[?], F1`              	| Help                                   	|
+| `right/left, h/l`       	| Switch between blocks                  	|
+| `up/down, k/j, alt-k/j` 	| Scroll up/down [selected block]        	|
+| `pgup/pgdown`           	| Scroll up/down [kernel activities]     	|
+| `</>`                   	| Scroll up/down [module information]    	|
+| `alt-h/l`               	| Scroll right/left [kernel activities]  	|
+| `ctrl-t/b, home/end`    	| Scroll to top/bottom [module list]     	|
+| `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer           	|
+| `[1]..[9]`              	| Show the module dependency information 	|
+| `[\\], tab, backtab`    	| Show the next kernel information       	|
+| `[/], s, enter`         	| Search a kernel module                 	|
+| `[+], i, insert`        	| Load a kernel module                   	|
+| `[-], u, backspace`     	| Unload the kernel module               	|
+| `[x], b, delete`        	| Blacklist the kernel module            	|
+| `y/n`                   	| Execute/cancel the command             	|
+| `c/v`                   	| Copy/paste                             	|
+| `r, F5`                 	| Refresh                                	|
+| `q, ctrl-c/d, ESC`      	| Quit                                   	|
 
 ## Features
 

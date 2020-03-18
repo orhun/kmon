@@ -73,9 +73,7 @@ impl ModuleCommand {
                 option: -r, --remove\n
                 This option causes modprobe to remove rather than insert a module. \
                 If the modules it depends on are also unused, modprobe will try to \
-				remove them too. Unlike insertion, more than one module can be \
-                specified on the command line (it does not make sense to specify \
-                module parameters when removing modules).\n
+				remove them too.
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
@@ -85,11 +83,16 @@ impl ModuleCommand {
 				  echo 'blacklist {module}' >> /etc/modprobe.d/blacklist.conf
 				  echo 'install {module} /bin/false' >> /etc/modprobe.d/blacklist.conf
 				fi", module = &module_name),
-				"Blacklisting is a mechanism to prevent the kernel module from loading. \
+				"This command blacklists a module and any other module that depends on it.\n
+				Blacklisting is a mechanism to prevent the kernel module from loading. \
 				This could be useful if, for example, the associated hardware is not needed, \
-				or if loading that module causes problems. For instance, there may be two \
-				kernel modules that try to control the same piece of hardware, and loading \
-				them together would result in a conflict.",
+				or if loading that module causes problems.
+				The blacklist command will blacklist a module so that it will not be loaded \
+				automatically, but the module may be loaded if another non-blacklisted module \
+				depends on it or if it is loaded manually. However, there is a workaround for \
+				this behaviour; the install command instructs modprobe to run a custom command \
+				instead of inserting the module in the kernel as normal, so the module will \
+				always fail to load.",
 				format!("Blacklist: {}", module_name), Symbol::SquareX),
 			Self::Clear => Command::new(
 				String::from("dmesg --clear"),

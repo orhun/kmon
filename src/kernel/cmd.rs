@@ -65,7 +65,7 @@ impl ModuleCommand {
             Self::Load => Command::new(
 				format!("modprobe {}", &module_name),
 				"modprobe: Add and remove modules from the Linux Kernel\n
-                                This command inserts a module to the kernel.",
+				This command inserts a module to the kernel.",
 				format!("Load: {}", module_name), Symbol::Anchor),
             Self::Unload => Command::new(
                 format!("modprobe -r {}", &module_name),

@@ -79,17 +79,17 @@ impl ModuleCommand {
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
-                format!("Remove: {}", module_name), Symbol::CircleX,
-            ),
+                format!("Remove: {}", module_name), Symbol::CircleX),
 			Self::Blacklist => Command::new(
-				format!("echo 'blacklist {}' >> /etc/modprobe.d/blacklist.conf", &module_name),
+				format!("if ! grep -q {module} /etc/modprobe.d/blacklist.conf; then
+				  echo 'blacklist {module}' >> /etc/modprobe.d/blacklist.conf
+				  echo 'install {module} /bin/false' >> /etc/modprobe.d/blacklist.conf
+				fi", module = &module_name),
 				"Blacklisting is a mechanism to prevent the kernel module from loading. \
 				This could be useful if, for example, the associated hardware is not needed, \
 				or if loading that module causes problems. For instance, there may be two \
 				kernel modules that try to control the same piece of hardware, and loading \
-				them together would result in a conflict.\n
-				You might want to regenerate the initial ramdisk image and reboot after \
-				blacklisting the modules depending on your configuration.",
+				them together would result in a conflict.",
 				format!("Blacklist: {}", module_name), Symbol::SquareX),
 			Self::Clear => Command::new(
 				String::from("dmesg --clear"),

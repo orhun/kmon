@@ -222,7 +222,7 @@ For adding a module to the Linux kernel, switch to load mode with one of the `+,
 
 ![Loading a module](https://user-images.githubusercontent.com/24392180/76686027-64429980-6629-11ea-852f-1316ff08ec80.gif)
 
-Command that used for loading a module:
+The command that used for loading a module:
 
 ```
 modprobe <module_name>
@@ -234,7 +234,7 @@ Use one of the `-, u, backspace` keys to remove the selected module from the Lin
 
 ![Unloading a module](https://user-images.githubusercontent.com/24392180/76686045-8b996680-6629-11ea-9d8c-c0f5b367e269.gif)
 
-Command that used for removing a module:
+The command that used for removing a module:
 
 ```
 modprobe -r <module_name>
@@ -242,13 +242,17 @@ modprobe -r <module_name>
 
 ### Blacklisting a module
 
-Blacklisting is a mechanism to prevent the kernel module from loading. To blacklist the selected module, use one of the `x, b, delete` keys and confirm the execution.
+[Blacklisting](https://wiki.archlinux.org/index.php/Kernel_module#Blacklisting) is a mechanism to prevent the kernel module from loading. To blacklist the selected module, use one of the `x, b, delete` keys and confirm the execution.
 
-![Blacklisting a module](https://user-images.githubusercontent.com/24392180/76686140-56d9df00-662a-11ea-960f-3229d772f462.gif)
+![Blacklisting a module](https://user-images.githubusercontent.com/24392180/77003935-48176300-696f-11ea-9047-41f6a934be6e.gif)
 
-Command that used for blacklisting a module:
+The command that used for blacklisting a module:
+
 ```
-echo 'blacklist <module_name>' >> /etc/modprobe.d/blacklist.conf
+if ! grep -q <module_name> /etc/modprobe.d/blacklist.conf; then
+  echo 'blacklist <module_name>' >> /etc/modprobe.d/blacklist.conf
+  echo 'install <module_name> /bin/false' >> /etc/modprobe.d/blacklist.conf
+fi
 ```
 
 ### Clearing the ring buffer

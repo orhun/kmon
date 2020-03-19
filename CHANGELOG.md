@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2020-03-19
+### Fixed
+- Fix stylize function about adding colors to the text
+
+### Changed
+- Update README.md about usage information, features and images
+- Update descriptions of the module management commands
+- Update the module blacklisting command
+
 ## [0.3.0] - 2020-03-10
 ### Added
 - Add horizontal scrolling feature to kernel activities block

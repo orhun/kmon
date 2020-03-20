@@ -10,6 +10,9 @@
 *.obj
 *.elf
 
+# Snap package files
+*.snap
+
 # Kernel module compilation files
 *.mod*
 *.cmd

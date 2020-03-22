@@ -5,15 +5,31 @@
     <b>Linux Kernel Manager and Activity Monitor 🐧💻</b>
     <br>
     <br>
-    <a href="https://github.com/orhun/kmon/releases"><img src="https://img.shields.io/github/v/release/orhun/kmon?color=000000&style=flat-square"></a>
-    <a href="https://crates.io/crates/kmon/"><img src="https://img.shields.io/crates/v/kmon?color=000000&style=flat-square"></a>
-    <a href="https://aur.archlinux.org/packages/kmon/"><img src="https://img.shields.io/aur/version/kmon?color=000000&style=flat-square"></a>
+    <a href="https://github.com/orhun/kmon/releases">
+        <img src="https://img.shields.io/github/v/release/orhun/kmon?color=000000&style=flat-square">
+    </a>
+    <a href="https://crates.io/crates/kmon/">
+        <img src="https://img.shields.io/crates/v/kmon?color=000000&style=flat-square">
+    </a>
+    <a href="https://aur.archlinux.org/packages/kmon/">
+        <img src="https://img.shields.io/aur/version/kmon?color=000000&style=flat-square">
+    </a>
+    <br>
+    <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Integration%22">
+        <img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Integration/master?color=000000&label=CI&style=flat-square">
+    </a>
+    <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Deployment%22">
+        <img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Deployment/master?color=000000&label=CD&style=flat-square">
+    </a>
+    <a href="https://codecov.io/gh/orhun/kmon">
+        <img src="https://img.shields.io/codecov/c/gh/orhun/kmon?color=000000&style=flat-square">
+    </a>
+    <a href="https://github.com/orhun/kmon/blob/master/LICENSE">
+        <img src="https://img.shields.io/crates/l/kmon?color=000000&style=flat-square">
+    </a>
     <a href="https://github.com/orhun/kmon">
-    <img src="https://user-images.githubusercontent.com/24392180/77252333-35997400-6c64-11ea-9627-bb56ee14ae22.gif"></a>
-    <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Integration%22"><img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Integration/master?color=000000&label=CI&style=flat-square"></a>
-    <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Deployment%22"><img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Deployment/master?color=000000&label=CD&style=flat-square"></a>
-    <a href="https://codecov.io/gh/orhun/kmon"><img src="https://img.shields.io/codecov/c/gh/orhun/kmon?color=000000&style=flat-square"></a>
-    <a href="https://github.com/orhun/kmon/blob/master/LICENSE"><img src="https://img.shields.io/crates/l/kmon?color=000000&style=flat-square"></a>
+        <img src="https://user-images.githubusercontent.com/24392180/77252333-35997400-6c64-11ea-9627-bb56ee14ae22.gif">
+    </a>
 </p>
 
 **The kernel** is the part of the operating system that facilitates interactions between *hardware* and *software* components. On most systems, it is loaded on startup after the *bootloader* and handles I/O requests as well as peripherals like keyboards, monitors, network adapters, and speakers. Typically, the kernel is responsible for **memory management**, **process management**, **device management**, **system calls**, and **security**.

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2020-03-23
+### Fixed
+- Update the AUR (git) release step in CD workflow
+
 ## [0.3.2] - 2020-03-23
 ### Added
 - Add snapcraft.yml for the snap package

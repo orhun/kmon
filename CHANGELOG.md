@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2020-03-23
+### Added
+- Add snapcraft.yml for the snap package
+
+### Fixed
+- Fix the AUR publish actions in CD workflow according to the package guidelines
+
+### Changed
+- Update .gitignore and .dockerignore files about snap package files
+- Update README.md about the main usage gif
+
 ## [0.3.1] - 2020-03-19
 ### Fixed
 - Fix stylize function about adding colors to the text

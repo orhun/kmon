@@ -63,30 +63,30 @@ jobs:
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
           wget https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz
-          sed "s/^pkgver=.*\$/pkgver=v${{ env.RELEASE_VERSION }}/" -i PKGBUILD
+          sed "s/^pkgver=.*\$/pkgver=${{ env.RELEASE_VERSION }}/" -i PKGBUILD
           sed "s/^sha512sums=(.*)\$/sha512sums=('`sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`')/" -i PKGBUILD
-          sed "s/\tpkgver = .*\$/\tpkgver = v${{ env.RELEASE_VERSION }}/" -i .SRCINFO
-          sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
+          sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
+          sed "s|\tsource = .*\$|\tsource = kmon-${{ env.RELEASE_VERSION }}.tar.gz::https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
           sed "s/\tsha512sums = .*\$/\tsha512sums = `sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`/" -i .SRCINFO
           git add PKGBUILD .SRCINFO
           git commit -m "Release v${{ env.RELEASE_VERSION }}"
           git push
       - name: Publish on AUR (git)
         run: |
-          version=$(git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g')
+          version=$(git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')
           git clone ssh://aur@aur.archlinux.org/kmon-git.git && cd kmon-git
           sed "s/^pkgver=.*\$/pkgver=$version/" -i PKGBUILD
           sed "s/\tpkgver = .*\$/\tpkgver = $version/" -i .SRCINFO
           git add PKGBUILD .SRCINFO
-          git commit -m "Release $version"
+          git commit -m "Release v$version"
           git push
       - name: Publish on AUR (binary)
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon-bin.git && cd kmon-bin
           sum=$(wget https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.sha256 -q -O - | cut -d ' ' -f 1)
-          sed "s/^pkgver=.*\$/pkgver=v${{ env.RELEASE_VERSION }}/" -i PKGBUILD
+          sed "s/^pkgver=.*\$/pkgver=${{ env.RELEASE_VERSION }}/" -i PKGBUILD
           sed "s/^sha256sums=(.*)\$/sha256sums=('$sum')/" -i PKGBUILD
-          sed "s/\tpkgver = .*\$/\tpkgver = v${{ env.RELEASE_VERSION }}/" -i .SRCINFO
+          sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
           sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
           sed "s/\tsha256sums = .*\$/\tsha256sums = $sum/" -i .SRCINFO
           git add PKGBUILD .SRCINFO

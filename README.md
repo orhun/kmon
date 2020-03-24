@@ -381,13 +381,13 @@ docker run -it --cap-add syslog kmon
 
 ### Gallery
 
-Fedora 31                  |  Debian 10
-:-------------------------:|:-------------------------:
-![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png)  |  ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)
+Fedora 31                  |  Debian 10                |  Manjaro 19
+:-------------------------:|:-------------------------:|:-------------------------:
+![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png)  |  ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)  |  ![kmon on manjaro](https://user-images.githubusercontent.com/24392180/76940351-1f5d8200-690b-11ea-8fe9-1d751fe102c5.png)
 
-Ubuntu 18.04               |  Manjaro 19
-:-------------------------:|:-------------------------:
-![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on manjaro](https://user-images.githubusercontent.com/24392180/76940351-1f5d8200-690b-11ea-8fe9-1d751fe102c5.png)
+Ubuntu 18.04                  |  openSUSE                |  Void Linux
+:-------------------------:|:-------------------------:|:-------------------------:
+![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on opensuse](https://user-images.githubusercontent.com/24392180/77414512-38b27280-6dd2-11ea-888c-9bf6f7245387.png)  |  ![kmon on voidlinux](https://user-images.githubusercontent.com/24392180/77417004-c9d71880-6dd5-11ea-82b2-f6c7df9a05c3.png)
 
 ## License
 

@@ -365,6 +365,22 @@ docker build -t kmon .
 docker run -it --cap-add syslog kmon
 ```
 
+## Roadmap
+
+kmon aims to be a standard tool for Linux kernel management while supporting most of the Linux distributions.
+
+### Accessibility
+
+For achieving this goal, kmon should be accessible from different package managers such as [Snap](https://snapcraft.io/)[*](https://forum.snapcraft.io/t/unable-to-load-modules-to-kernel-and-get-module-information/16151) and [RPM](https://rpm.org/).
+
+### Dependencies
+
+It is required to have the essential tools like [dmesg](https://en.wikipedia.org/wiki/Dmesg) and [kmod](https://www.linux.org/docs/man8/kmod.html) on the system for kmon to work as expected. So the next step would be using just the system resources for these functions.
+
+### Testing
+
+kmon should be tested and reported on different architectures for further development and support. 
+
 ## Resources
 
 ### About the project

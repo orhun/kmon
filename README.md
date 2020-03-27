@@ -375,7 +375,11 @@ For achieving this goal, kmon should be accessible from different package manage
 
 ### Dependencies
 
-It is required to have the essential tools like [dmesg](https://en.wikipedia.org/wiki/Dmesg) and [kmod](https://www.linux.org/docs/man8/kmod.html) on the system for kmon to work as expected. So the next step would be using just the system resources for these functions.
+It is required to have the essential tools like [dmesg](https://en.wikipedia.org/wiki/Dmesg) and [kmod](https://www.linux.org/docs/man8/kmod.html) on the system for kmon to work as expected. Thus the next step would be using just the system resources for these functions.
+
+### Features
+
+Management actions about the Linux kernel should be applicable in kmon for minimizing the dependence on to command line and other tools.
 
 ### Testing
 

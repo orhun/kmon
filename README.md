@@ -409,6 +409,20 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 :-------------------------:|:-------------------------:|:-------------------------:
 ![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on opensuse](https://user-images.githubusercontent.com/24392180/77414512-38b27280-6dd2-11ea-888c-9bf6f7245387.png)  |  ![kmon on voidlinux](https://user-images.githubusercontent.com/24392180/77417004-c9d71880-6dd5-11ea-82b2-f6c7df9a05c3.png)
 
+## Funding
+
+### Patreon
+
+[![Patreon Badge](https://img.shields.io/badge/patreon-donate-000000?color=000000&style=flat-square)](https://www.patreon.com/join/orhunp)
+
+Support the development of kmon and [other](https://www.patreon.com/orhunp) projects by becoming a [patron](https://www.patreon.com/join/orhunp).
+
+### Open Collective
+
+[![Open Collective backers](https://img.shields.io/opencollective/backers/kmon?color=000000&style=flat-square)](https://opencollective.com/kmon) [![Open Collective sponsors](https://img.shields.io/opencollective/sponsors/kmon?color=000000&style=flat-square)](https://opencollective.com/kmon)
+
+Support the open source development efforts by becoming a [backer](https://opencollective.com/kmon/contribute/backer-15060/checkout) or [sponsor](https://opencollective.com/kmon/contribute/sponsor-15061/checkout).
+
 ## License
 
 GNU General Public License ([3.0](https://www.gnu.org/licenses/gpl.txt))

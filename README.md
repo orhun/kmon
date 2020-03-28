@@ -413,8 +413,6 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 
 ### Patreon
 
-[![Patreon Badge](https://img.shields.io/badge/patreon-donate-000000?color=000000&style=flat-square)](https://www.patreon.com/join/orhunp)
-
 Support the development of kmon and [other](https://www.patreon.com/orhunp) projects by becoming a [patron](https://www.patreon.com/join/orhunp).
 
 [![Patreon Button](https://user-images.githubusercontent.com/24392180/77826872-e7c8b400-711a-11ea-8f51-502e3a4d46b9.png)](https://www.patreon.com/join/orhunp)

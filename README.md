@@ -417,11 +417,15 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 
 Support the development of kmon and [other](https://www.patreon.com/orhunp) projects by becoming a [patron](https://www.patreon.com/join/orhunp).
 
+[![Patreon Button](https://user-images.githubusercontent.com/24392180/77826872-e7c8b400-711a-11ea-8f51-502e3a4d46b9.png)](https://www.patreon.com/join/orhunp)
+
 ### Open Collective
 
 [![Open Collective backers](https://img.shields.io/opencollective/backers/kmon?color=000000&style=flat-square)](https://opencollective.com/kmon) [![Open Collective sponsors](https://img.shields.io/opencollective/sponsors/kmon?color=000000&style=flat-square)](https://opencollective.com/kmon)
 
 Support the open source development efforts by becoming a [backer](https://opencollective.com/kmon/contribute/backer-15060/checkout) or [sponsor](https://opencollective.com/kmon/contribute/sponsor-15061/checkout).
+
+[![Open Collective Button](https://user-images.githubusercontent.com/24392180/77827001-d0d69180-711b-11ea-817e-855ec4cf56f7.png)](https://opencollective.com/kmon/donate)
 
 ## License
 

@@ -89,7 +89,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Copy & Paste](#copy--paste)
   - [Sorting/reversing the kernel modules](#sortingreversing-the-kernel-modules)
   - [Customizing the colors](#customizing-the-colors)
-    - [Supported Colors](#supported-colors)
+    - [Supported colors](#supported-colors)
     - [Using a custom color](#using-a-custom-color)
   - [Unicode symbols](#unicode-symbols)
   - [Setting the terminal tick rate](#setting-the-terminal-tick-rate)
@@ -360,7 +360,7 @@ kmon --reverse
 
 kmon uses the colors of the terminal as default but the highlighting color could be specified with `-c, --color` option.
 
-#### Supported Colors
+#### Supported colors
 
 Supported terminal colors are `black, red, green, yellow, blue, magenta, cyan, gray, darkgray, lightred, lightgreen, lightyellow, lightblue, lightmagenta, lightcyan, white`.
 

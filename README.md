@@ -409,6 +409,13 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 :-------------------------:|:-------------------------:|:-------------------------:
 ![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on opensuse](https://user-images.githubusercontent.com/24392180/77414512-38b27280-6dd2-11ea-888c-9bf6f7245387.png)  |  ![kmon on voidlinux](https://user-images.githubusercontent.com/24392180/77417004-c9d71880-6dd5-11ea-82b2-f6c7df9a05c3.png)
 
+### Social Media
+
+* Follow [@kmonitor_](twitter.com/kmonitor_) on Twitter
+* Follow the [author](https://orhun.github.io/):
+    * [@orhun](https://github.com/orhun) on GitHub
+    * [@orhunp_](https://twitter.com/orhunp_) on Twitter
+
 ## Funding
 
 ### Patreon

@@ -157,7 +157,7 @@ tar -xvzf kmon-*.tar.gz
 
 4. Move binary to `/usr/local/bin/` for running it from the terminal using `kmon` command.
 
-5. Man page could be viewed if [kmon.man](https://github.com/orhun/kmon/blob/master/man/kmon.8) file is installed to `/usr/local/man/man8/` directory.
+5. Man page could be viewed if [kmon.man](https://github.com/orhun/kmon/blob/master/man/kmon.8) file is copied to `/usr/local/man/man8/` directory.
 
 ```
 cp kmon.8 /usr/local/man/man8/

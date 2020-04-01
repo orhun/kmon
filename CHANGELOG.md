@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-04-01
+### Added
+- Add roadmap, ToC, funding information and new images to README.md
+- Add FUNDING.yml
+
 ## [0.3.3] - 2020-03-23
 ### Fixed
 - Update the AUR (git) release step in CD workflow

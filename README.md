@@ -136,6 +136,15 @@ cargo install kmon --force
 trizen kmon
 ```
 
+### Fedora/CentOS
+
+**kmon** can be installed from available [COPR](https://copr.fedorainfracloud.org/coprs/atim/kmon/):
+
+```
+# dnf copr enable atim/kmon
+# dnf install kmon
+```
+
 ### Manual
 
 1. Download the latest binary from [releases](https://github.com/orhun/kmon/releases).

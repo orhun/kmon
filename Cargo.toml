@@ -1,6 +1,6 @@
 [package]
 name = "kmon"
-version = "1.0.0"
+version = "1.0.1"
 description = "Linux kernel manager and activity monitor"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
 license = "GPL-3.0"

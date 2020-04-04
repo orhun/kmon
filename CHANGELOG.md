@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2020-04-05
+### Added
+- Add Copr package instructions to README.md
+
+### Fixed
+- Fix the broken manpage link in README.md
+
 ## [1.0.0] - 2020-04-01
 ### Added
 - Add roadmap, ToC, funding information and new images to README.md

@@ -102,6 +102,12 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 						.short("n")
 						.long("name")
 						.help("Sort modules by their names"),
+				)
+				.arg(
+					Arg::with_name("used")
+						.short("u")
+						.long("used")
+						.help("Sort modules by used-by other modules"),
 				),
 		)
 		.get_matches()

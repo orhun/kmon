@@ -26,4 +26,4 @@ jobs:
         run: echo ${{ secrets.GITHUB_TOKEN }} |
           docker login -u orhun docker.pkg.github.com --password-stdin
       - name: Push (Package Registry)
-        run: docker push docker.pkg.github.com/orhun/kmon/kmon:lates
+        run: docker push docker.pkg.github.com/orhun/kmon/kmon:latest

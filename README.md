@@ -67,6 +67,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Cargo](#cargo)
   - [AUR](#aur)
   - [Copr](#copr)
+  - [Nixpkgs](#nixpkgs)
   - [Manual](#manual)
     - [Note](#note)
 - [Usage](#usage)
@@ -144,6 +145,24 @@ trizen kmon
 ```
 dnf copr enable atim/kmon
 dnf install kmon
+```
+
+### Nixpkgs
+
+**kmon** can be installed using [Nix package manager](https://nixos.org/nix/) from `nixpkgs-unstable` channel.
+
+```
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+nix-channel --update nixpkgs
+nix-env -iA nixpkgs.kmon
+```
+
+On [NixOS](https://nixos.org/nixos/):
+
+```
+nix-channel --add https://nixos.org/channels/nixos-unstable
+nix-channel --update nixos
+nix-env -iA nixos.kmon
 ```
 
 ### Manual

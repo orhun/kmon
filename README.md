@@ -379,13 +379,15 @@ kmon sort --size
 kmon sort --dependent
 ```
 
+![Sorting the kernel modules](https://user-images.githubusercontent.com/24392180/78900376-70324780-7a7f-11ea-813e-78972fc3c880.gif)
+
 Also the `-r, --reverse` flag is used for reversing the kernel module list.
 
 ```
 kmon --reverse
 ```
 
-![Sorting/reversing the kernel modules](https://user-images.githubusercontent.com/24392180/76688765-ee4a2c80-6640-11ea-95ea-1bdfc68b3281.gif)
+![Reversing the kernel modules](https://user-images.githubusercontent.com/24392180/78901094-812f8880-7a80-11ea-85cf-2a0c6ac6354a.gif)
 
 ### Customizing the colors
 

@@ -234,8 +234,9 @@ sort    Sort kernel modules
 kmon sort [FLAGS]
 
 FLAGS:
-    -n, --name    Sort modules by their names
-    -s, --size    Sort modules by their sizes
+    -n, --name         Sort modules by their names
+    -s, --size         Sort modules by their sizes
+    -d, --dependent    Sort modules by their dependent modules
 ```
 
 ## Key Bindings
@@ -370,11 +371,12 @@ Use `ctrl-c/ctrl-v` for copying and pasting while in input mode.
 
 ### Sorting/reversing the kernel modules
 
-`sort` subcommand can be used for sorting the kernel modules by their names or sizes.
+`sort` subcommand can be used for sorting the kernel modules by their names, sizes or dependent modules.
 
 ```
 kmon sort --name
 kmon sort --size
+kmon sort --dependent
 ```
 
 Also the `-r, --reverse` flag is used for reversing the kernel module list.

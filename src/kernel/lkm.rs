@@ -4,14 +4,34 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
+use std::slice::Iter;
 use tui::widgets::Text;
 
 /* Type of the sorting of module list */
+#[derive(Clone, Copy, Debug)]
 enum SortType {
 	None,
 	Size,
 	Name,
 	Dependent,
+}
+
+impl SortType {
+	/**
+	 * Return iterator for the sort types.
+	 *
+	 * @return Iter
+	 */
+	#[allow(dead_code)]
+	pub fn iter() -> Iter<'static, SortType> {
+		[
+			SortType::None,
+			SortType::Size,
+			SortType::Name,
+			SortType::Dependent,
+		]
+		.iter()
+	}
 }
 
 /* Listing properties of module list */

@@ -11,7 +11,7 @@ enum SortType {
 	None,
 	Size,
 	Name,
-	Used,
+	Dependent,
 }
 
 /* Listing properties of module list */
@@ -32,8 +32,8 @@ impl ListArgs {
 		if let Some(matches) = args.subcommand_matches("sort") {
 			if matches.is_present("size") {
 				sort_type = SortType::Size;
-			} else if matches.is_present("used") {
-				sort_type = SortType::Used;
+			} else if matches.is_present("dependent") {
+				sort_type = SortType::Dependent;
 			} else {
 				sort_type = SortType::Name;
 			}
@@ -90,7 +90,7 @@ impl KernelModules<'_> {
 		match self.args.sort {
 			SortType::Size => module_read_cmd += " | sort -n -r -t ' ' -k2",
 			SortType::Name => module_read_cmd += " | sort -t ' ' -k1",
-			SortType::Used => module_read_cmd += " | sort -n -r -t ' ' -k3",
+			SortType::Dependent => module_read_cmd += " | sort -n -r -t ' ' -k3",
 			_ => {}
 		}
 		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])

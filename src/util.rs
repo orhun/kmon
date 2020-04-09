@@ -104,10 +104,10 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 						.help("Sort modules by their names"),
 				)
 				.arg(
-					Arg::with_name("used")
-						.short("u")
-						.long("used")
-						.help("Sort modules by used-by other modules"),
+					Arg::with_name("dependent")
+						.short("d")
+						.long("dependent")
+						.help("Sort modules by their dependent modules"),
 				),
 		)
 		.get_matches()

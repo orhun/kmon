@@ -384,8 +384,10 @@ mod tests {
 		list_args.sort = SortType::Size;
 		list_args.reverse = true;
 		let mut kernel_modules = KernelModules::new(list_args, Style::new(&args));
-		kernel_modules.args.sort = SortType::Name;
-		kernel_modules.refresh();
+		for sort_type in SortType::iter().rev().chain(SortType::iter()) {
+			kernel_modules.args.sort = *sort_type;
+			kernel_modules.refresh();
+		}
 		for direction in ScrollDirection::iter().rev().chain(ScrollDirection::iter())
 		{
 			kernel_modules.show_used_module(0);

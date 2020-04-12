@@ -495,7 +495,7 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 ### Social Media
 
 * Follow [@kmonitor_](https://twitter.com/kmonitor_) on Twitter
-* Follow the [author](https://orhun.github.io/):
+* Follow the [author](https://orhun.dev/):
     * [@orhun](https://github.com/orhun) on GitHub
     * [@orhunp_](https://twitter.com/orhunp_) on Twitter
 

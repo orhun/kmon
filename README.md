@@ -259,7 +259,7 @@ FLAGS:
 | `[x], b, delete`        	| Blacklist the kernel module            	|
 | `y/n`                   	| Execute/cancel the command             	|
 | `c/v`                   	| Copy/paste                             	|
-| `r, F5`                 	| Refresh                                	|
+| `ctrl-r, F5`            	| Refresh                                	|
 | `q, ctrl-c/d, ESC`      	| Quit                                   	|
 
 ## Features

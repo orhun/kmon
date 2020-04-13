@@ -48,6 +48,7 @@ pub enum ModuleCommand {
 	None,
 	Load,
 	Unload,
+	Reload,
 	Blacklist,
 	Clear,
 }
@@ -78,6 +79,13 @@ impl ModuleCommand {
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
                 format!("Remove: {}", module_name), Symbol::CircleX),
+            Self::Reload => Command::new(
+                format!("{} && {}",
+                    ModuleCommand::Unload.get(module_name).cmd,
+                    ModuleCommand::Load.get(module_name).cmd),
+                "modprobe: Add and remove modules from the Linux Kernel\n
+                This command reloads (first removes and than inserts) a module to the kernel.",
+                format!("Reload: {}", module_name), Symbol::Gear),
 			Self::Blacklist => Command::new(
 				format!("if ! grep -q {module} /etc/modprobe.d/blacklist.conf; then
 				  echo 'blacklist {module}' >> /etc/modprobe.d/blacklist.conf
@@ -124,5 +132,9 @@ mod tests {
 		assert_ne!("", ModuleCommand::Load.get("module").desc);
 		assert_ne!("", ModuleCommand::Unload.get("!command").cmd);
 		assert_ne!("", ModuleCommand::Blacklist.get("~").cmd);
+		assert_eq!(
+			"modprobe -r test-module && modprobe test-module",
+			ModuleCommand::Reload.get("test-module").cmd,
+		);
 	}
 }

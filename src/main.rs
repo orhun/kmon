@@ -259,7 +259,7 @@ where
 							if kernel.modules.execute_command() {
 								events
 									.tx
-									.send(Event::Input(Key::Char('r')))
+									.send(Event::Input(Key::Ctrl('r')))
 									.unwrap();
 							}
 						}
@@ -501,7 +501,7 @@ mod tests {
 			] {
 				send_key(&tx, key);
 			}
-			send_key(&tx, Key::Char('r'));
+			send_key(&tx, Key::Ctrl('r'));
 			/* Test the switch keys. */
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Block::count()] {

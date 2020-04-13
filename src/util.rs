@@ -28,7 +28,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("x, b, delete", "blacklist the kernel module"),
 	("y/n", "execute/cancel the command"),
 	("c/v", "copy/paste"),
-	("r, f5", "refresh"),
+	("ctrl-r, f5", "refresh"),
 	("q, ctrl-c/d, esc", "quit"),
 ];
 

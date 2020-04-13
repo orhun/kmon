@@ -108,7 +108,7 @@ where
 							break;
 						}
 						/* Refresh. */
-						Key::Char('r') | Key::Char('R') | Key::F(5) => {
+						Key::Ctrl('r') | Key::Ctrl('R') | Key::F(5) => {
 							app.refresh();
 							kernel.refresh();
 						}

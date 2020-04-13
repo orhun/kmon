@@ -86,6 +86,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Searching a module](#searching-a-module)
   - [Loading a module](#loading-a-module)
   - [Unloading a module](#unloading-a-module)
+  - [Reloading a module](#reloading-a-module)
   - [Blacklisting a module](#blacklisting-a-module)
   - [Clearing the ring buffer](#clearing-the-ring-buffer)
   - [Copy & Paste](#copy--paste)
@@ -256,6 +257,7 @@ FLAGS:
 | `[/], s, enter`         	| Search a kernel module                 	|
 | `[+], i, insert`        	| Load a kernel module                   	|
 | `[-], u, backspace`     	| Unload the kernel module               	|
+| `r`                     	| Reload the kernel module              	|
 | `[x], b, delete`        	| Blacklist the kernel module            	|
 | `y/n`                   	| Execute/cancel the command             	|
 | `c/v`                   	| Copy/paste                             	|
@@ -334,6 +336,18 @@ The command that used for removing a module:
 
 ```
 modprobe -r <module_name>
+```
+
+### Reloading a module
+
+Use `r` key to reload the selected module.
+
+![Reloading a module](https://dummyimage.com/900x497/000/dddddd&text=Placeholder+for+reloading+modules)
+
+The command that used for removing a module:
+
+```
+modprobe -r <module_name> && modprobe <module_name>
 ```
 
 ### Blacklisting a module

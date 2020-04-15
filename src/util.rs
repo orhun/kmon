@@ -25,6 +25,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("/, s, enter", "search a kernel module"),
 	("+, i, insert", "load a kernel module"),
 	("-, u, backspace", "unload the kernel module"),
+	("ctrl-r", "reload the kernel module"),
 	("x, b, delete", "blacklist the kernel module"),
 	("y/n", "execute/cancel the command"),
 	("c/v", "copy/paste"),

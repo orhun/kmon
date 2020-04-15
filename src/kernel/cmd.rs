@@ -84,8 +84,8 @@ impl ModuleCommand {
                     ModuleCommand::Unload.get(module_name).cmd,
                     ModuleCommand::Load.get(module_name).cmd),
                 "modprobe: Add and remove modules from the Linux Kernel\n
-                This command reloads (first removes and than inserts) a module to the kernel.",
-                format!("Reload: {}", module_name), Symbol::Gear),
+                This command reloads a module, removes and inserts to the kernel.",
+                format!("Reload: {}", module_name), Symbol::FuelPump),
 			Self::Blacklist => Command::new(
 				format!("if ! grep -q {module} /etc/modprobe.d/blacklist.conf; then
 				  echo 'blacklist {module}' >> /etc/modprobe.d/blacklist.conf

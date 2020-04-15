@@ -243,13 +243,6 @@ where
 								String::new(),
 							);
 						}
-						/* Reload kernel module. */
-						Key::Ctrl('r') | Key::Ctrl('R') => {
-							kernel.modules.set_current_command(
-								ModuleCommand::Reload,
-								String::new(),
-							);
-						}
 						/* Blacklist kernel module. */
 						Key::Char('x')
 						| Key::Char('X')
@@ -258,6 +251,16 @@ where
 						| Key::Delete => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Blacklist,
+								String::new(),
+							);
+						}
+						/* Reload kernel module. */
+						Key::Ctrl('r')
+						| Key::Ctrl('R')
+						| Key::Alt('r')
+						| Key::Alt('R') => {
+							kernel.modules.set_current_command(
+								ModuleCommand::Reload,
 								String::new(),
 							);
 						}

@@ -500,6 +500,7 @@ mod tests {
 				Key::Char('n'),
 				Key::Ctrl('l'),
 				Key::Char('u'),
+				Key::Ctrl('r'),
 				Key::Char('y'),
 				Key::PageUp,
 				Key::PageDown,

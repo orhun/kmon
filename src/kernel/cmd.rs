@@ -133,8 +133,12 @@ mod tests {
 		assert_ne!("", ModuleCommand::Unload.get("!command").cmd);
 		assert_ne!("", ModuleCommand::Blacklist.get("~").cmd);
 		assert_eq!(
-			"modprobe -r test-module && modprobe test-module",
-			ModuleCommand::Reload.get("test-module").cmd,
+			format!(
+				"{} && {}",
+				ModuleCommand::Unload.get("x").cmd,
+				ModuleCommand::Load.get("x").cmd
+			),
+			ModuleCommand::Reload.get("x").cmd,
 		);
 	}
 }

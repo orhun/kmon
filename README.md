@@ -257,11 +257,11 @@ FLAGS:
 | `[/], s, enter`         	| Search a kernel module                 	|
 | `[+], i, insert`        	| Load a kernel module                   	|
 | `[-], u, backspace`     	| Unload the kernel module               	|
-| `r`                     	| Reload the kernel module              	|
+| `ctrl-r`                	| Reload the kernel module              	|
 | `[x], b, delete`        	| Blacklist the kernel module            	|
 | `y/n`                   	| Execute/cancel the command             	|
 | `c/v`                   	| Copy/paste                             	|
-| `ctrl-r, F5`            	| Refresh                                	|
+| `r, F5`                 	| Refresh                                	|
 | `q, ctrl-c/d, ESC`      	| Quit                                   	|
 
 ## Features
@@ -340,7 +340,7 @@ modprobe -r <module_name>
 
 ### Reloading a module
 
-Use `r` key to reload the selected module.
+Use `ctrl-r` key to reload the selected module.
 
 ![Reloading a module](https://dummyimage.com/900x497/000/dddddd&text=Placeholder+for+reloading+modules)
 

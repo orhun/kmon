@@ -108,7 +108,7 @@ where
 							break;
 						}
 						/* Refresh. */
-						Key::Ctrl('r') | Key::Ctrl('R') | Key::F(5) => {
+						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app.refresh();
 							kernel.refresh();
 						}
@@ -244,7 +244,7 @@ where
 							);
 						}
 						/* Reload kernel module. */
-						Key::Char('r') | Key::Char('R') => {
+						Key::Ctrl('r') | Key::Ctrl('R') => {
 							kernel.modules.set_current_command(
 								ModuleCommand::Reload,
 								String::new(),
@@ -266,7 +266,7 @@ where
 							if kernel.modules.execute_command() {
 								events
 									.tx
-									.send(Event::Input(Key::Ctrl('r')))
+									.send(Event::Input(Key::Char('r')))
 									.unwrap();
 							}
 						}
@@ -508,7 +508,7 @@ mod tests {
 			] {
 				send_key(&tx, key);
 			}
-			send_key(&tx, Key::Ctrl('r'));
+			send_key(&tx, Key::Char('r'));
 			/* Test the switch keys. */
 			for arrow_key in vec![Key::Right, Key::Left] {
 				for selected_key in vec![arrow_key; Block::count()] {

@@ -86,8 +86,8 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Searching a module](#searching-a-module)
   - [Loading a module](#loading-a-module)
   - [Unloading a module](#unloading-a-module)
-  - [Reloading a module](#reloading-a-module)
   - [Blacklisting a module](#blacklisting-a-module)
+  - [Reloading a module](#reloading-a-module)
   - [Clearing the ring buffer](#clearing-the-ring-buffer)
   - [Copy & Paste](#copy--paste)
   - [Sorting/reversing the kernel modules](#sortingreversing-the-kernel-modules)
@@ -257,8 +257,8 @@ FLAGS:
 | `[/], s, enter`         	| Search a kernel module                 	|
 | `[+], i, insert`        	| Load a kernel module                   	|
 | `[-], u, backspace`     	| Unload the kernel module               	|
-| `ctrl-r`                	| Reload the kernel module              	|
 | `[x], b, delete`        	| Blacklist the kernel module            	|
+| `ctrl-r, alt-r`         	| Reload the kernel module              	|
 | `y/n`                   	| Execute/cancel the command             	|
 | `c/v`                   	| Copy/paste                             	|
 | `r, F5`                 	| Refresh                                	|
@@ -338,18 +338,6 @@ The command that used for removing a module:
 modprobe -r <module_name>
 ```
 
-### Reloading a module
-
-Use `ctrl-r` key to reload the selected module.
-
-![Reloading a module](https://dummyimage.com/900x497/000/dddddd&text=Placeholder+for+reloading+modules)
-
-The command that used for removing a module:
-
-```
-modprobe -r <module_name> && modprobe <module_name>
-```
-
 ### Blacklisting a module
 
 [Blacklisting](https://wiki.archlinux.org/index.php/Kernel_module#Blacklisting) is a mechanism to prevent the kernel module from loading. To blacklist the selected module, use one of the `x, b, delete` keys and confirm the execution.
@@ -363,6 +351,18 @@ if ! grep -q <module_name> /etc/modprobe.d/blacklist.conf; then
   echo 'blacklist <module_name>' >> /etc/modprobe.d/blacklist.conf
   echo 'install <module_name> /bin/false' >> /etc/modprobe.d/blacklist.conf
 fi
+```
+
+### Reloading a module
+
+Use `ctrl-r` or `alt-r` key for reloading the selected module.
+
+![Reloading a module](https://dummyimage.com/900x497/000/dddddd&text=Placeholder+for+reloading+modules)
+
+The command that used for reloading a module:
+
+```
+modprobe -r <module_name> && modprobe <module_name>
 ```
 
 ### Clearing the ring buffer

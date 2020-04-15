@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add `ctrl-r, alt-r` key actions for reloading a module
+
+### Fixed
+
+### Changed
+- Update the date in the manual page
 
 ## [1.1.0] - 2020-04-09
 ### Added
@@ -16,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix the CI workflow about Docker builds
 
-## Changed
+### Changed
 - Update README.md about sorting/reversing GIFs
 - Improve the test cases of sort type flags
 

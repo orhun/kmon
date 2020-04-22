@@ -4,6 +4,8 @@ mod kernel;
 #[macro_use]
 mod util;
 mod style;
+#[macro_use]
+extern crate lazy_static;
 use app::{App, Block, InputMode, ScrollDirection};
 use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
@@ -221,6 +223,10 @@ where
 						/* Show the next kernel information. */
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
+						}
+						/* Display dependent modules */
+						Key::Char('d') | Key::Alt('d') => {
+							app.show_dependent_modules(&mut kernel.modules);
 						}
 						/* Clear the kernel ring buffer. */
 						Key::Ctrl('l')

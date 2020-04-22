@@ -23,6 +23,8 @@ enum-unitary = "0.4.1"
 enum-iterator = "0.5.0"
 clipboard = "0.5.0"
 colorsys = "0.5.3"
+regex = "1"
+lazy_static = "1.4.0"
 
 [profile.dev]
 opt-level = 0

@@ -6,6 +6,7 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
+use regex::Regex;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
@@ -21,6 +22,12 @@ use tui::Frame;
 
 /* Table header of the module table */
 pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
+
+/* Regular Expression for removing prefix for dependent modules (for example "2 foo,bar") */
+lazy_static! {
+	static ref DEPENDENT_MODULES_PREFIX_REGEXP: Regex =
+		Regex::new(r"^\d+\s").unwrap();
+}
 
 /* Supported directions of scrolling */
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -200,6 +207,44 @@ impl App {
 		);
 	}
 
+	/**
+	 * Show dependent modules on the information block.
+	 *
+	 * @param kernel_modules
+	 */
+	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
+		// todo: handle if keybinding is used multiple times (title stacks...)
+		kernel_modules.info_scroll_offset = 0;
+		kernel_modules.command = ModuleCommand::None;
+		kernel_modules.current_name =
+			format!("{} (Dependent modules)", kernel_modules.current_name);
+
+		let dependent_modules_raw =
+			kernel_modules.default_list[kernel_modules.index][2].clone();
+		let dependent_modules_without_prefix =
+			DEPENDENT_MODULES_PREFIX_REGEXP.replace(&dependent_modules_raw, "");
+		let dependent_modules: Vec<&str> =
+			dependent_modules_without_prefix.split(',').collect();
+
+		let mut dependent_modules_text: Vec<Text<'static>> = Vec::new();
+
+		if dependent_modules.len() == 1 && dependent_modules[0].eq("-") {
+			dependent_modules_text.push(Text::styled("- none", self.style.default));
+		} else {
+			for module in &dependent_modules {
+				dependent_modules_text.push(Text::styled(
+					format!("- {}\n", module),
+					self.style.default,
+				))
+			}
+		}
+
+		kernel_modules.current_info.set(
+			dependent_modules_text,
+			dependent_modules.len(),
+			kernel_modules.current_name.clone(),
+		);
+	}
 	/**
 	 * Draw a paragraph widget for using as user input.
 	 *

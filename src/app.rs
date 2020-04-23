@@ -213,11 +213,13 @@ impl App {
 	 * @param kernel_modules
 	 */
 	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
-		// todo: handle if keybinding is used multiple times (title stacks...)
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name =
-			format!("{} (Dependent modules)", kernel_modules.current_name);
+		if !kernel_modules.current_name.contains("(Dependent modules)") {
+			// avoiding stacking of title (like foo (Dependent modules) (Dependent modules)...)
+			kernel_modules.current_name =
+				format!("{} (Dependent modules)", kernel_modules.current_name);
+		}
 
 		let dependent_modules_raw =
 			kernel_modules.default_list[kernel_modules.index][2].clone();
@@ -348,6 +350,14 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
+		// todo: move into table.rs, the available width can not be determined in here
+		for module in &mut kernel_module_list {
+			if module[2].len() >= 10 {
+				module[2].truncate(10);
+				module[2] = format!("{}...", module[2]);
+			}
+		}
+
 		kernel_modules.list = kernel_module_list;
 		/* Set the scroll offset for modules. */
 		let modules_scroll_offset = area

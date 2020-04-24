@@ -215,14 +215,20 @@ impl App {
 	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
+
+		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Displaying dependent modules
+		// Discuss and find better way to avoid having this workaround
 		if !kernel_modules.current_name.contains("(Dependent modules)") {
-			// avoiding stacking of title (like foo (Dependent modules) (Dependent modules)...)
+			// avoiding stacking of title (like module-name (Dependent modules) (Dependent modules)...)
+			// when keybinding is pressed multiple times
 			kernel_modules.current_name =
 				format!("{} (Dependent modules)", kernel_modules.current_name);
 		}
 
 		let dependent_modules_raw =
 			kernel_modules.default_list[kernel_modules.index][2].clone();
+		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Displaying dependent modules
+		// Discuss alternatives to using a regexp here and introducing two new dependencies (regex & lazy_static)
 		let dependent_modules_without_prefix =
 			DEPENDENT_MODULES_PREFIX_REGEXP.replace(&dependent_modules_raw, "");
 		let dependent_modules: Vec<&str> =
@@ -350,10 +356,14 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
-		// todo: move into table.rs, the available width can not be determined in here
+
+		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Appending '...'
+		// Appending '...' works with a fixed width but how to get the available width?
+
+		let fixed_width = 20;
 		for module in &mut kernel_module_list {
-			if module[2].len() >= 10 {
-				module[2].truncate(10);
+			if module[2].len() >= fixed_width {
+				module[2].truncate(fixed_width);
 				module[2] = format!("{}...", module[2]);
 			}
 		}

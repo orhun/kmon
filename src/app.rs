@@ -6,7 +6,6 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
-use regex::Regex;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
@@ -22,12 +21,6 @@ use tui::Frame;
 
 /* Table header of the module table */
 pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
-
-/* Regular Expression for removing prefix for dependent modules (for example "2 foo,bar") */
-lazy_static! {
-	static ref DEPENDENT_MODULES_PREFIX_REGEXP: Regex =
-		Regex::new(r"^\d+\s").unwrap();
-}
 
 /* Supported directions of scrolling */
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -215,44 +208,37 @@ impl App {
 	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
-
-		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Displaying dependent modules
-		// Discuss and find better way to avoid having this workaround
-		if !kernel_modules.current_name.contains("(Dependent modules)") {
-			// avoiding stacking of title (like module-name (Dependent modules) (Dependent modules)...)
-			// when keybinding is pressed multiple times
-			kernel_modules.current_name =
-				format!("{} (Dependent modules)", kernel_modules.current_name);
+		kernel_modules.current_name = format!(
+			"!Dependent modules of {}{}",
+			kernel_modules.current_name,
+			self.style.unicode.get(Symbol::Helmet)
+		);
+		let mut dependent_modules: Vec<Text<'static>> = Vec::new();
+		for module in &kernel_modules.default_list[kernel_modules.index][2]
+			.split(' ')
+			.last()
+			.unwrap_or("")
+			.split(',')
+			.collect::<Vec<&str>>()
+		{
+			dependent_modules.push(Text::styled(
+				format!(
+					"- {}\n",
+					match *module {
+						"-" => "none",
+						_ => module,
+					}
+				),
+				self.style.default,
+			))
 		}
-
-		let dependent_modules_raw =
-			kernel_modules.default_list[kernel_modules.index][2].clone();
-		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Displaying dependent modules
-		// Discuss alternatives to using a regexp here and introducing two new dependencies (regex & lazy_static)
-		let dependent_modules_without_prefix =
-			DEPENDENT_MODULES_PREFIX_REGEXP.replace(&dependent_modules_raw, "");
-		let dependent_modules: Vec<&str> =
-			dependent_modules_without_prefix.split(',').collect();
-
-		let mut dependent_modules_text: Vec<Text<'static>> = Vec::new();
-
-		if dependent_modules.len() == 1 && dependent_modules[0].eq("-") {
-			dependent_modules_text.push(Text::styled("- none", self.style.default));
-		} else {
-			for module in &dependent_modules {
-				dependent_modules_text.push(Text::styled(
-					format!("- {}\n", module),
-					self.style.default,
-				))
-			}
-		}
-
 		kernel_modules.current_info.set(
-			dependent_modules_text,
+			dependent_modules.clone(),
 			dependent_modules.len(),
 			kernel_modules.current_name.clone(),
 		);
 	}
+
 	/**
 	 * Draw a paragraph widget for using as user input.
 	 *
@@ -357,13 +343,10 @@ impl App {
 			});
 		}
 
-		// todo: Issue #11 (https://github.com/orhun/kmon/issues/11), Appending '...'
-		// Appending '...' works with a fixed width but how to get the available width?
-
-		let fixed_width = 20;
+		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {
-			if module[2].len() >= fixed_width {
-				module[2].truncate(fixed_width);
+			if module[2].len() >= dependent_width {
+				module[2].truncate(dependent_width);
 				module[2] = format!("{}...", module[2]);
 			}
 		}

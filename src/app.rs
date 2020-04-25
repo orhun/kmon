@@ -345,7 +345,7 @@ impl App {
 
 		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {
-			if module[2].len() >= dependent_width {
+			if module[2].len() > dependent_width {
 				module[2].truncate(dependent_width);
 				module[2] = format!("{}...", module[2]);
 			}

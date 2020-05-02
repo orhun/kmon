@@ -206,37 +206,35 @@ impl App {
 	 * @param kernel_modules
 	 */
 	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
-		kernel_modules.info_scroll_offset = 0;
-		kernel_modules.command = ModuleCommand::None;
-		kernel_modules.current_name = format!(
-			"!Dependent modules of {}{}",
-			kernel_modules.current_name,
-			self.style.unicode.get(Symbol::Helmet)
-		);
-		let mut dependent_modules: Vec<Text<'static>> = Vec::new();
-		for module in &kernel_modules.default_list[kernel_modules.index][2]
+		let dependent_modules_list = kernel_modules.default_list
+			[kernel_modules.index][2]
 			.split(' ')
 			.last()
-			.unwrap_or("")
+			.unwrap_or("-")
 			.split(',')
-			.collect::<Vec<&str>>()
-		{
-			dependent_modules.push(Text::styled(
-				format!(
-					"- {}\n",
-					match *module {
-						"-" => "none",
-						_ => module,
-					}
-				),
-				self.style.default,
-			))
+			.collect::<Vec<&str>>();
+		if dependent_modules_list[0] != "-" {
+			kernel_modules.info_scroll_offset = 0;
+			kernel_modules.command = ModuleCommand::None;
+			kernel_modules.current_name = format!(
+				"!Dependent modules of {}{}",
+				kernel_modules.current_name,
+				self.style.unicode.get(Symbol::Helmet)
+			);
+			let mut dependent_modules: Vec<Text> = Vec::new();
+			for module in &dependent_modules_list {
+				dependent_modules.push(Text::styled("-", self.style.colored));
+				dependent_modules.push(Text::styled(
+					format!(" {}\n", module),
+					self.style.default,
+				));
+			}
+			kernel_modules.current_info.set(
+				dependent_modules.clone(),
+				dependent_modules.len(),
+				kernel_modules.current_name.clone(),
+			);
 		}
-		kernel_modules.current_info.set(
-			dependent_modules.clone(),
-			dependent_modules.len(),
-			kernel_modules.current_name.clone(),
-		);
 	}
 
 	/**

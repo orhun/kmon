@@ -201,6 +201,45 @@ impl App {
 	}
 
 	/**
+	 * Show dependent modules on the information block.
+	 *
+	 * @param kernel_modules
+	 */
+	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
+		kernel_modules.info_scroll_offset = 0;
+		kernel_modules.command = ModuleCommand::None;
+		kernel_modules.current_name = format!(
+			"!Dependent modules of {}{}",
+			kernel_modules.current_name,
+			self.style.unicode.get(Symbol::Helmet)
+		);
+		let mut dependent_modules: Vec<Text<'static>> = Vec::new();
+		for module in &kernel_modules.default_list[kernel_modules.index][2]
+			.split(' ')
+			.last()
+			.unwrap_or("")
+			.split(',')
+			.collect::<Vec<&str>>()
+		{
+			dependent_modules.push(Text::styled(
+				format!(
+					"- {}\n",
+					match *module {
+						"-" => "none",
+						_ => module,
+					}
+				),
+				self.style.default,
+			))
+		}
+		kernel_modules.current_info.set(
+			dependent_modules.clone(),
+			dependent_modules.len(),
+			kernel_modules.current_name.clone(),
+		);
+	}
+
+	/**
 	 * Draw a paragraph widget for using as user input.
 	 *
 	 * @param frame
@@ -303,6 +342,15 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
+
+		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
+		for module in &mut kernel_module_list {
+			if module[2].len() > dependent_width {
+				module[2].truncate(dependent_width);
+				module[2] = format!("{}...", module[2]);
+			}
+		}
+
 		kernel_modules.list = kernel_module_list;
 		/* Set the scroll offset for modules. */
 		let modules_scroll_offset = area

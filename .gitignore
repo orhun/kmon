@@ -21,3 +21,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Editor configuration (like Visual Studio Code, ...)
+.vscode
+*.code-workspace

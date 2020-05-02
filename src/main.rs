@@ -222,6 +222,10 @@ where
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
+						/* Display dependent modules */
+						Key::Char('d') | Key::Alt('d') => {
+							app.show_dependent_modules(&mut kernel.modules);
+						}
 						/* Clear the kernel ring buffer. */
 						Key::Ctrl('l')
 						| Key::Ctrl('u')

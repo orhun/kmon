@@ -254,7 +254,7 @@ FLAGS:
 | `ctrl-t/b, home/end`    	| Scroll to top/bottom [module list]    	|
 | `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer          	|
 | `[d], alt-d`            	| Show the dependent modules            	|
-| `[1]..[9]`              	| Jump to a dependent module            	|
+| `[1]..[9]`              	| Jump to the dependent module           	|
 | `[\], tab, backtab`     	| Show the next kernel information      	|
 | `[/], s, enter`         	| Search a kernel module                	|
 | `[+], i, insert`        	| Load a kernel module                  	|

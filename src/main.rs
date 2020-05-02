@@ -502,6 +502,7 @@ mod tests {
 				Key::Ctrl('b'),
 				Key::Char('x'),
 				Key::Char('n'),
+				Key::Char('d'),
 				Key::Ctrl('l'),
 				Key::Char('u'),
 				Key::Ctrl('r'),

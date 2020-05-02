@@ -213,7 +213,9 @@ impl App {
 			.unwrap_or("-")
 			.split(',')
 			.collect::<Vec<&str>>();
-		if dependent_modules_list[0] != "-" {
+		if dependent_modules_list[0] != "-"
+			&& !kernel_modules.current_name.contains("Dependent modules")
+		{
 			kernel_modules.info_scroll_offset = 0;
 			kernel_modules.command = ModuleCommand::None;
 			kernel_modules.current_name = format!(

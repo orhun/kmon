@@ -340,7 +340,7 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
-
+		/* Append '...' if dependent modules exceed the block width. */
 		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {
 			if module[2].len() > dependent_width {
@@ -348,7 +348,6 @@ impl App {
 				module[2] = format!("{}...", module[2]);
 			}
 		}
-
 		kernel_modules.list = kernel_module_list;
 		/* Set the scroll offset for modules. */
 		let modules_scroll_offset = area

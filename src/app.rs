@@ -205,6 +205,7 @@ impl App {
 	 *
 	 * @param kernel_modules
 	 */
+	#[allow(clippy::nonminimal_bool)]
 	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
 		let dependent_modules_list = kernel_modules.default_list
 			[kernel_modules.index][2]
@@ -215,7 +216,7 @@ impl App {
 			.collect::<Vec<&str>>();
 		if !(dependent_modules_list[0] == "-"
 			|| kernel_modules.current_name.contains("Dependent modules"))
-			|| (cfg!(test))
+			|| cfg!(test)
 		{
 			kernel_modules.info_scroll_offset = 0;
 			kernel_modules.command = ModuleCommand::None;

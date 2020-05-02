@@ -222,7 +222,7 @@ where
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
-						/* Display dependent modules */
+						/* Display the dependent modules. */
 						Key::Char('d') | Key::Alt('d') => {
 							app.show_dependent_modules(&mut kernel.modules);
 						}

@@ -21,7 +21,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("ctrl-t/b, home/end", "scroll to top/bottom [module list]"),
 	("ctrl-l/u, alt-c", "clear the kernel ring buffer"),
 	("d, alt-d", "show the dependent modules"),
-	("1..9", "jump to a dependent module"),
+	("1..9", "jump to the dependent module"),
 	("\\, tab, backtab", "show the next kernel information"),
 	("/, s, enter", "search a kernel module"),
 	("+, i, insert", "load a kernel module"),

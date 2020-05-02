@@ -219,7 +219,7 @@ impl App {
 			kernel_modules.current_name = format!(
 				"!Dependent modules of {}{}",
 				kernel_modules.current_name,
-				self.style.unicode.get(Symbol::Helmet)
+				self.style.unicode.get(Symbol::HistoricSite)
 			);
 			let mut dependent_modules: Vec<Text> = Vec::new();
 			for module in &dependent_modules_list {

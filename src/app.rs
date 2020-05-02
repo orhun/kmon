@@ -213,8 +213,8 @@ impl App {
 			.unwrap_or("-")
 			.split(',')
 			.collect::<Vec<&str>>();
-		if (dependent_modules_list[0] != "-"
-			&& !kernel_modules.current_name.contains("Dependent modules"))
+		if !(dependent_modules_list[0] == "-"
+			|| kernel_modules.current_name.contains("Dependent modules"))
 			|| (cfg!(test))
 		{
 			kernel_modules.info_scroll_offset = 0;

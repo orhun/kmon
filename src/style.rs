@@ -21,6 +21,7 @@ pub enum Symbol {
 	HighVoltage,
 	LeftBracket,
 	RightBracket,
+	HistoricSite,
 }
 
 /* Supported Unicode symbols */
@@ -53,7 +54,8 @@ impl Unicode<'_> {
 			Symbol::Magnifier => &[" \u{1F50D}", ""],
 			Symbol::HighVoltage => &[" \u{26A1}", ""],
 			Symbol::LeftBracket => &["\u{2997}", "("],
-			Symbol::RightBracket => &["\u{2998}", ")"]
+			Symbol::RightBracket => &["\u{2998}", ")"],
+			Symbol::HistoricSite => &[" \u{26EC} ", ""]
 			},
 			replace,
 		}

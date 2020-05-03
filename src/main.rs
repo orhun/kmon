@@ -9,6 +9,7 @@ use enum_unitary::{Bounded, EnumUnitary};
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
 use kernel::Kernel;
+use std::error::Error;
 use std::io::stdout;
 use termion::event::Key;
 use termion::input::MouseTerminal;
@@ -18,7 +19,6 @@ use tui::backend::{Backend, TermionBackend};
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
-use std::error::Error;
 
 /**
  * Configure the terminal and draw its widgets.

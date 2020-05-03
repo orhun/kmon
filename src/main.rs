@@ -18,6 +18,7 @@ use tui::backend::{Backend, TermionBackend};
 use tui::layout::{Constraint, Direction, Layout};
 use tui::Terminal;
 use unicode_width::UnicodeWidthStr;
+use std::error::Error;
 
 /**
  * Configure the terminal and draw its widgets.
@@ -31,7 +32,7 @@ fn start_tui<B>(
 	mut terminal: Terminal<B>,
 	mut kernel: Kernel,
 	events: &Events,
-) -> Result<(), failure::Error>
+) -> Result<(), Box<dyn Error>>
 where
 	B: Backend,
 {
@@ -462,7 +463,7 @@ where
  *
  * @return Result
  */
-fn main() -> Result<(), failure::Error> {
+fn main() -> Result<(), Box<dyn Error>> {
 	let args = util::parse_args();
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
@@ -488,7 +489,7 @@ mod tests {
 	use std::time::Duration;
 	use tui::backend::TestBackend;
 	#[test]
-	fn test_tui() -> Result<(), failure::Error> {
+	fn test_tui() -> Result<(), Box<dyn Error>> {
 		main()?;
 		let args = util::parse_args();
 		let kernel = Kernel::new(&args);

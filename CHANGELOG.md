@@ -11,11 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `d, alt-d` key actions for showing the dependent modules
 
 ### Fixed
+- Use Box<dyn std::error::Error> instead of failure::Error
 
 ### Changed
 - Update the date in the manual page
 - Update .gitignore about Visual Studio Code
 - Update README.md about key binding changes
+
+### Removed
+- Remove the deprecated failure crate
 
 ## [1.1.0] - 2020-04-09
 ### Added

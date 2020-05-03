@@ -1,4 +1,5 @@
 use crate::kernel::log::KernelLogs;
+use std::error::Error;
 use std::io;
 use std::sync::mpsc;
 use std::thread;
@@ -83,7 +84,7 @@ impl Events {
 mod tests {
 	use super::*;
 	#[test]
-	fn test_events() -> Result<(), failure::Error> {
+	fn test_events() -> Result<(), Box<dyn Error>> {
 		let kernel_logs = KernelLogs::default();
 		let events = Events::new(100, &kernel_logs);
 		let mut i = 0;

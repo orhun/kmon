@@ -8,11 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add `ctrl-r, alt-r` key actions for reloading a module
+- Add `d, alt-d` key actions for showing the dependent modules
 
 ### Fixed
 
 ### Changed
 - Update the date in the manual page
+- Update .gitignore about Visual Studio Code
+- Update README.md about key binding changes
 
 ## [1.1.0] - 2020-04-09
 ### Added

@@ -1,5 +1,4 @@
 use crate::kernel::log::KernelLogs;
-use std::error::Error;
 use std::io;
 use std::sync::mpsc;
 use std::thread;

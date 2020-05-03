@@ -308,7 +308,7 @@ The status of a kernel module is shown on selection.
 
 Use one of the `d, alt-d` keys to show all the dependent modules of the selected module.
 
-![Displaying the dependent modules](https://user-images.githubusercontent.com/24392180/80924349-1167a180-8d91-11ea-8e5a-889d28da51ab.gif)
+![Displaying the dependent modules](https://user-images.githubusercontent.com/24392180/80925098-d6b43800-8d95-11ea-8b41-da7d93fd12f8.gif)
 
 #### Jumping to dependent modules
 
@@ -365,7 +365,7 @@ fi
 
 Use `ctrl-r` or `alt-r` key for reloading the selected module.
 
-![Reloading a module](https://user-images.githubusercontent.com/24392180/80924684-12013780-8d93-11ea-87b9-499602106b98.gif)
+![Reloading a module](https://user-images.githubusercontent.com/24392180/80925109-f3507000-8d95-11ea-9004-4063907f0cfc.gif)
 
 The command that used for reloading a module:
 

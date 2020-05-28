@@ -63,18 +63,23 @@ impl ModuleCommand {
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
-            Self::Load => Command::new(
-				format!("modprobe {}", &module_name),
-				"modprobe: Add and remove modules from the Linux Kernel\n
-				This command inserts a module to the kernel.",
-				format!("Load: {}", module_name), Symbol::Anchor),
+
+            Self::Load => {
+                let cmd = if ! Self::is_module_filename(&module_name) { "modprobe" } else { "insmod" };
+
+                return Command::new(
+                    format!("{} {}", &cmd, &module_name),
+                    "Add and remove modules from the Linux Kernel\n
+                    This command inserts a module to the kernel.",
+                    format!("Load: {}", module_name), Symbol::Anchor);
+            },
             Self::Unload => Command::new(
-                format!("modprobe -r {}", &module_name),
-                "modprobe: Add and remove modules from the Linux Kernel
-                option: -r, --remove\n
+                format!("modprobe -r {0} || rmmod {0}", &module_name),
+                "modprobe/rmmod: Add and remove modules from the Linux Kernel
+                modprobe -r, --remove or rmmod\n
                 This option causes modprobe to remove rather than insert a module. \
                 If the modules it depends on are also unused, modprobe will try to \
-				remove them too.
+                remove them too.
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
@@ -118,6 +123,17 @@ impl ModuleCommand {
 	 */
 	pub fn is_none(self) -> bool {
 		self == Self::None
+	}
+
+	/**
+	 * Check if module name is a filename with suffix 'ko'
+	 *
+	 * @return bool
+	 */
+	pub fn is_module_filename(module_name: &str) -> bool {
+		module_name.len() > 2
+			&& module_name.trim()[module_name.len() - 2..module_name.len()]
+				== String::from("ko")
 	}
 }
 

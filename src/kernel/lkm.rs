@@ -4,7 +4,6 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
-use std::path::Path;
 use std::slice::Iter;
 use tui::widgets::Text;
 
@@ -312,11 +311,7 @@ impl KernelModules<'_> {
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
 						.unwrap_or_else(|_| {
-							if Self::is_module_loaded(&self.current_name) {
-								String::from("module information not available")
-							} else {
-								String::from("failed to retrieve module information")
-							}
+							String::from("module information not available")
 						})
 						.replace("signature: ", "signature: \n")
 						.into_boxed_str(),
@@ -378,10 +373,6 @@ impl KernelModules<'_> {
 			}
 			_ => {}
 		}
-	}
-
-	pub fn is_module_loaded(module_name: &str) -> bool {
-		Path::new(&format!("/sys/module/{}", module_name)).exists()
 	}
 }
 

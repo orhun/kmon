@@ -63,23 +63,19 @@ impl ModuleCommand {
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
-
-            Self::Load => {
-                let cmd = if ! Self::is_module_filename(&module_name) { "modprobe" } else { "insmod" };
-
-                return Command::new(
-                    format!("{} {}", &cmd, &module_name),
-                    "Add and remove modules from the Linux Kernel\n
-                    This command inserts a module to the kernel.",
-                    format!("Load: {}", module_name), Symbol::Anchor);
-            },
+            Self::Load => Command::new(
+                Self::get_load_command(&module_name),
+                "Add and remove modules from the Linux Kernel\n
+                This command inserts a module to the kernel.",
+                format!("Load: {}", module_name), Symbol::Anchor),
             Self::Unload => Command::new(
                 format!("modprobe -r {0} || rmmod {0}", &module_name),
                 "modprobe/rmmod: Add and remove modules from the Linux Kernel
                 modprobe -r, --remove or rmmod\n
                 This option causes modprobe to remove rather than insert a module. \
                 If the modules it depends on are also unused, modprobe will try to \
-                remove them too.
+                remove them too. \
+                For modules loaded with insmod rmmod will be used instead. \
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
@@ -88,7 +84,7 @@ impl ModuleCommand {
                 format!("{} && {}",
                     ModuleCommand::Unload.get(module_name).cmd,
                     ModuleCommand::Load.get(module_name).cmd),
-                "modprobe: Add and remove modules from the Linux Kernel\n
+                "modprobe/insmod/rmmod: Add and remove modules from the Linux Kernel\n
                 This command reloads a module, removes and inserts to the kernel.",
                 format!("Reload: {}", module_name), Symbol::FuelPump),
 			Self::Blacklist => Command::new(
@@ -131,9 +127,23 @@ impl ModuleCommand {
 	 * @return bool
 	 */
 	pub fn is_module_filename(module_name: &str) -> bool {
+		// todo: solve clippy::cmp-owned, this creates an owned instance just for comparison
 		module_name.len() > 2
 			&& module_name.trim()[module_name.len() - 2..module_name.len()]
 				== String::from("ko")
+	}
+
+	/**
+	 * Get load command based upon module_name
+	 *
+	 * @return String
+	 */
+	pub fn get_load_command(module_name: &str) -> String {
+		if !Self::is_module_filename(&module_name) {
+			format!("modprobe {0} || insmod {0}.ko", &module_name)
+		} else {
+			format!("insmod {}", &module_name)
+		}
 	}
 }
 

@@ -64,7 +64,7 @@ impl ModuleCommand {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
             Self::Load => Command::new(
-                Self::get_load_command(&module_name),
+                Self::get_load_commandline(&module_name),
                 "Add and remove modules from the Linux Kernel\n
                 This command inserts a module to the kernel.",
                 format!("Load: {}", module_name), Symbol::Anchor),
@@ -134,11 +134,11 @@ impl ModuleCommand {
 	}
 
 	/**
-	 * Get load command based upon module_name
+	 * Get load command line based upon module_name
 	 *
 	 * @return String
 	 */
-	pub fn get_load_command(module_name: &str) -> String {
+	pub fn get_load_commandline(module_name: &str) -> String {
 		if !Self::is_module_filename(&module_name) {
 			format!("modprobe {0} || insmod {0}.ko", &module_name)
 		} else {

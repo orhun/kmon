@@ -128,9 +128,10 @@ impl ModuleCommand {
 	 */
 	pub fn is_module_filename(module_name: &str) -> bool {
 		// todo: solve clippy::cmp-owned, this creates an owned instance just for comparison
-		module_name.len() > 2
-			&& module_name.trim()[module_name.len() - 2..module_name.len()]
-				== String::from("ko")
+		let suffix =
+			module_name.trim()[module_name.len() - 2..module_name.len()].to_string();
+
+		return module_name.len() > 2 && suffix == String::from("ko");
 	}
 
 	/**

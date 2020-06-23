@@ -127,10 +127,10 @@ impl ModuleCommand {
 	 * @return bool
 	 */
 	pub fn is_module_filename(module_name: &str) -> bool {
-		// todo: solve clippy::cmp-owned, this creates an owned instance just for comparison
-		module_name.len() > 2
-			&& module_name.trim()[module_name.len() - 2..module_name.len()]
-				== String::from("ko")
+		match module_name.split('.').collect::<Vec<&str>>().last() {
+			Some(v) => *v == "ko",
+			None => false,
+		}
 	}
 
 	/**

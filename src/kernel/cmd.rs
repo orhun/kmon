@@ -145,17 +145,46 @@ mod tests {
 	fn test_module_command() {
 		let module_command = ModuleCommand::None;
 		assert_eq!(true, module_command == ModuleCommand::None);
+
 		assert_ne!("", ModuleCommand::None.get("test").title);
 		assert_ne!("", ModuleCommand::Load.get("module").desc);
 		assert_ne!("", ModuleCommand::Unload.get("!command").cmd);
 		assert_ne!("", ModuleCommand::Blacklist.get("~").cmd);
+
+		assert_eq!(
+			"modprobe test-module || insmod test-module.ko",
+			ModuleCommand::Load.get("test-module").cmd
+		);
+		assert_eq!(
+			"insmod test-module.ko",
+			ModuleCommand::Load.get("test-module.ko").cmd
+		);
+
+		assert_eq!(
+			"modprobe -r test-module || rmmod test-module",
+			ModuleCommand::Unload.get("test-module").cmd
+		);
+		assert_eq!(
+			"modprobe -r test-module.ko || rmmod test-module.ko",
+			ModuleCommand::Unload.get("test-module.ko").cmd
+		);
+
 		assert_eq!(
 			format!(
 				"{} && {}",
-				ModuleCommand::Unload.get("x").cmd,
-				ModuleCommand::Load.get("x").cmd
+				ModuleCommand::Unload.get("test-module").cmd,
+				ModuleCommand::Load.get("test-module").cmd
 			),
-			ModuleCommand::Reload.get("x").cmd,
+			ModuleCommand::Reload.get("test-module").cmd,
+		);
+
+		assert_eq!(
+			format!(
+				"{} && {}",
+				ModuleCommand::Unload.get("test-module.ko").cmd,
+				ModuleCommand::Load.get("test-module.ko").cmd
+			),
+			ModuleCommand::Reload.get("test-module.ko").cmd,
 		);
 	}
 }

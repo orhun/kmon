@@ -1,3 +1,6 @@
+#![allow(clippy::tabs_in_doc_comments)]
+#![warn(rust_2018_idioms)]
+
 mod app;
 mod event;
 mod kernel;

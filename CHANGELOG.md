@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2020-07-22
+### Added
+- Support insmod/rmmod for low-level module handling
+
+### Fixed
+- Use codecov action for uploading reports to codecov.io
+
+### Changed
+- Update Cargo dependencies to the latest version
+- Update README.md about load/unload/reload commands
+- Update the CI workflow about clippy arguments
+
 ## [1.2.0] - 2020-05-03
 ### Added
 - Add `ctrl-r, alt-r` key actions for reloading a module

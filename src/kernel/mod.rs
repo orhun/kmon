@@ -22,7 +22,7 @@ impl Kernel {
 	 * @param  ArgMatches
 	 * @return Kernel
 	 */
-	pub fn new(args: &ArgMatches) -> Self {
+	pub fn new(args: &ArgMatches<'_>) -> Self {
 		Self {
 			logs: KernelLogs::default(),
 			info: KernelInfo::new(),

@@ -87,7 +87,7 @@ impl Style {
 	 * @param  args
 	 * @return Style
 	 */
-	pub fn new(args: &ArgMatches) -> Self {
+	pub fn new(args: &ArgMatches<'_>) -> Self {
 		let colors = map![
 			"black" => Color::Black,
 			"red" => Color::Red,

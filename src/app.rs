@@ -87,7 +87,7 @@ impl InputMode {
 
 /* Implementation of Display for using InputMode members as string */
 impl Display for InputMode {
-	fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 		let mut input_mode = *self;
 		if input_mode.is_none() {
 			input_mode = match InputMode::min_value().next_variant() {
@@ -179,7 +179,7 @@ impl App {
 	 *
 	 * @param kernel_modules
 	 */
-	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules) {
+	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
 		let mut help_text: Vec<Text<'static>> = Vec::new();
 		for (key, desc) in &key_bindings {
@@ -206,7 +206,7 @@ impl App {
 	 * @param kernel_modules
 	 */
 	#[allow(clippy::nonminimal_bool)]
-	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules) {
+	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let dependent_modules_list = kernel_modules.default_list
 			[kernel_modules.index][2]
 			.split(' ')
@@ -225,7 +225,7 @@ impl App {
 				kernel_modules.current_name,
 				self.style.unicode.get(Symbol::HistoricSite)
 			);
-			let mut dependent_modules: Vec<Text> = Vec::new();
+			let mut dependent_modules: Vec<Text<'_>> = Vec::new();
 			for module in &dependent_modules_list {
 				dependent_modules.push(Text::styled("-", self.style.colored));
 				dependent_modules.push(Text::styled(
@@ -250,7 +250,7 @@ impl App {
 	 */
 	pub fn draw_user_input<B>(
 		&self,
-		frame: &mut Frame<B>,
+		frame: &mut Frame<'_, B>,
 		area: Rect,
 		tx: &Sender<Event<Key>>,
 	) where
@@ -294,7 +294,7 @@ impl App {
 	 */
 	pub fn draw_kernel_info<B>(
 		&self,
-		frame: &mut Frame<B>,
+		frame: &mut Frame<'_, B>,
 		area: Rect,
 		info: &[String],
 	) where
@@ -326,9 +326,9 @@ impl App {
 	 */
 	pub fn draw_kernel_modules<B>(
 		&self,
-		frame: &mut Frame<B>,
+		frame: &mut Frame<'_, B>,
 		area: Rect,
-		kernel_modules: &mut KernelModules,
+		kernel_modules: &mut KernelModules<'_>,
 	) where
 		B: Backend,
 	{
@@ -416,9 +416,9 @@ impl App {
 	 */
 	pub fn draw_module_info<B>(
 		&self,
-		frame: &mut Frame<B>,
+		frame: &mut Frame<'_, B>,
 		area: Rect,
-		kernel_modules: &mut KernelModules,
+		kernel_modules: &mut KernelModules<'_>
 	) where
 		B: Backend,
 	{
@@ -462,7 +462,7 @@ impl App {
 	 */
 	pub fn draw_kernel_activities<B>(
 		&self,
-		frame: &mut Frame<B>,
+		frame: &mut Frame<'_, B>,
 		area: Rect,
 		kernel_logs: &mut KernelLogs,
 	) where

@@ -81,4 +81,4 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -- -A clippy::tabs-in-doc-comments -D warnings
+          args: -- -D warnings

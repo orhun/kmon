@@ -44,14 +44,13 @@ jobs:
         with:
           args: '-v'
       - name: Upload reports to codecov.io
-        uses: codecov/codecov-action@v1.0.5
+        uses: codecov/codecov-action@v1.0.7
         with:
           token: ${{secrets.CODECOV_TOKEN}}
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v1
-        with:
+          file: cobertura.xml
+          flags: unittests
           name: code-coverage-report
-          path: cobertura.xml
+          fail_ci_if_error: true
 
   fmt:
     name: Rustfmt

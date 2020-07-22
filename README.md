@@ -40,7 +40,7 @@ There are different kernel designs due to the different ways of managing system 
 Although the Linux-based operating systems dominate the most of computing, it still carries some of the design flaws which were quite a bit of debate in the early days of Linux. For example, it has the **largest footprint** and **the most complexity** over the other types of kernels. But it's a design feature that monolithic kernels inherent to have. These kind of design issues led developers to add new features and mechanisms to the Linux kernel which other kernels don't have.
 
 Unlike the standard monolithic kernels, the Linux kernel is also **modular**, accepting **loadable kernel modules (LKM)** that typically used to add support for new *hardware* (as device drivers) and/or *filesystems*, or for adding *system calls*. Since LKMs could be loaded and unloaded to the system *at runtime*, they have the advantage of extending the kernel without rebooting and re-compiling. Thus, the kernel functionalities provided by modules would not reside in memory without being used and the related module can be unloaded in order to free memory and other resources.  
-Loadable kernel modules are located in `/lib/modules` with the `.ko` (*kernel object*) extension in Linux. While the [lsmod](https://linux.die.net/man/8/lsmod) command could be used for listing the loaded kernel modules, [modprobe](https://linux.die.net/man/8/modprobe) is used for loading or unloading a kernel module.
+Loadable kernel modules are located in `/lib/modules` with the `.ko` (*kernel object*) extension in Linux. While the [lsmod](https://linux.die.net/man/8/lsmod) command could be used for listing the loaded kernel modules, [modprobe](https://linux.die.net/man/8/modprobe) or [insmod](https://linux.die.net/man/8/insmod)/[rmmod](https://linux.die.net/man/8/rmmod) is used for loading or unloading a kernel module. insmod/rmmod are used for modules independent of modprobe and without requiring an installation to ```/lib/modules/$(uname -r)```.
 
 Here's a simple example of a Linux kernel module that prints a message when it's loaded and unloaded. The build and installation steps of the [module](https://github.com/orhun/kmon/blob/master/example/lkm_example.c) using a [Makefile](https://github.com/orhun/kmon/blob/master/example/Makefile) are shown below.
 
@@ -331,7 +331,7 @@ For adding a module to the Linux kernel, switch to load mode with one of the `+,
 The command that used for loading a module:
 
 ```
-modprobe <module_name>
+modprobe <module_name> || insmod <module_name>.ko
 ```
 
 ### Unloading a module
@@ -343,7 +343,7 @@ Use one of the `-, u, backspace` keys to remove the selected module from the Lin
 The command that used for removing a module:
 
 ```
-modprobe -r <module_name>
+modprobe -r <module_name> || rmmod <module_name>
 ```
 
 ### Blacklisting a module
@@ -370,7 +370,7 @@ Use `ctrl-r` or `alt-r` key for reloading the selected module.
 The command that used for reloading a module:
 
 ```
-modprobe -r <module_name> && modprobe <module_name>
+modprobe -r <module_name> || rmmod <module_name> && modprobe <module_name> || insmod <module_name>.ko
 ```
 
 ### Clearing the ring buffer

@@ -311,7 +311,7 @@ impl KernelModules<'_> {
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
 						.unwrap_or_else(|_| {
-							String::from("failed to retrieve module information")
+							String::from("module information not available")
 						})
 						.replace("signature: ", "signature: \n")
 						.into_boxed_str(),

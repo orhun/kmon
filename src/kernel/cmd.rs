@@ -64,17 +64,22 @@ impl ModuleCommand {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
             Self::Load => Command::new(
-				format!("modprobe {}", &module_name),
-				"modprobe: Add and remove modules from the Linux Kernel\n
-				This command inserts a module to the kernel.",
-				format!("Load: {}", module_name), Symbol::Anchor),
+                if Self::is_module_filename(&module_name) {
+					format!("insmod {}", &module_name)
+				} else {
+					format!("modprobe {0} || insmod {0}.ko", &module_name)
+				},
+                "Add and remove modules from the Linux Kernel\n
+                This command inserts a module to the kernel.",
+                format!("Load: {}", module_name), Symbol::Anchor),
             Self::Unload => Command::new(
-                format!("modprobe -r {}", &module_name),
-                "modprobe: Add and remove modules from the Linux Kernel
-                option: -r, --remove\n
+                format!("modprobe -r {0} || rmmod {0}", &module_name),
+                "modprobe/rmmod: Add and remove modules from the Linux Kernel
+                modprobe -r, --remove or rmmod\n
                 This option causes modprobe to remove rather than insert a module. \
                 If the modules it depends on are also unused, modprobe will try to \
-				remove them too.
+                remove them too. \
+                For modules loaded with insmod rmmod will be used instead. \
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
@@ -83,7 +88,7 @@ impl ModuleCommand {
                 format!("{} && {}",
                     ModuleCommand::Unload.get(module_name).cmd,
                     ModuleCommand::Load.get(module_name).cmd),
-                "modprobe: Add and remove modules from the Linux Kernel\n
+                "modprobe/insmod/rmmod: Add and remove modules from the Linux Kernel\n
                 This command reloads a module, removes and inserts to the kernel.",
                 format!("Reload: {}", module_name), Symbol::FuelPump),
 			Self::Blacklist => Command::new(
@@ -119,6 +124,18 @@ impl ModuleCommand {
 	pub fn is_none(self) -> bool {
 		self == Self::None
 	}
+
+	/**
+	 * Check if module name is a filename with suffix 'ko'
+	 *
+	 * @return bool
+	 */
+	pub fn is_module_filename(module_name: &str) -> bool {
+		match module_name.split('.').collect::<Vec<&str>>().last() {
+			Some(v) => *v == "ko",
+			None => false,
+		}
+	}
 }
 
 #[cfg(test)]
@@ -128,17 +145,46 @@ mod tests {
 	fn test_module_command() {
 		let module_command = ModuleCommand::None;
 		assert_eq!(true, module_command == ModuleCommand::None);
+
 		assert_ne!("", ModuleCommand::None.get("test").title);
 		assert_ne!("", ModuleCommand::Load.get("module").desc);
 		assert_ne!("", ModuleCommand::Unload.get("!command").cmd);
 		assert_ne!("", ModuleCommand::Blacklist.get("~").cmd);
+
+		assert_eq!(
+			"modprobe test-module || insmod test-module.ko",
+			ModuleCommand::Load.get("test-module").cmd
+		);
+		assert_eq!(
+			"insmod test-module.ko",
+			ModuleCommand::Load.get("test-module.ko").cmd
+		);
+
+		assert_eq!(
+			"modprobe -r test-module || rmmod test-module",
+			ModuleCommand::Unload.get("test-module").cmd
+		);
+		assert_eq!(
+			"modprobe -r test-module.ko || rmmod test-module.ko",
+			ModuleCommand::Unload.get("test-module.ko").cmd
+		);
+
 		assert_eq!(
 			format!(
 				"{} && {}",
-				ModuleCommand::Unload.get("x").cmd,
-				ModuleCommand::Load.get("x").cmd
+				ModuleCommand::Unload.get("test-module").cmd,
+				ModuleCommand::Load.get("test-module").cmd
 			),
-			ModuleCommand::Reload.get("x").cmd,
+			ModuleCommand::Reload.get("test-module").cmd,
+		);
+
+		assert_eq!(
+			format!(
+				"{} && {}",
+				ModuleCommand::Unload.get("test-module.ko").cmd,
+				ModuleCommand::Load.get("test-module.ko").cmd
+			),
+			ModuleCommand::Reload.get("test-module.ko").cmd,
 		);
 	}
 }

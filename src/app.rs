@@ -206,7 +206,10 @@ impl App {
 	 * @param kernel_modules
 	 */
 	#[allow(clippy::nonminimal_bool)]
-	pub fn show_dependent_modules(&mut self, kernel_modules: &mut KernelModules<'_>) {
+	pub fn show_dependent_modules(
+		&mut self,
+		kernel_modules: &mut KernelModules<'_>,
+	) {
 		let dependent_modules_list = kernel_modules.default_list
 			[kernel_modules.index][2]
 			.split(' ')
@@ -418,7 +421,7 @@ impl App {
 		&self,
 		frame: &mut Frame<'_, B>,
 		area: Rect,
-		kernel_modules: &mut KernelModules<'_>
+		kernel_modules: &mut KernelModules<'_>,
 	) where
 		B: Backend,
 	{

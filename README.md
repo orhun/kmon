@@ -66,7 +66,6 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 - [Installation](#installation)
   - [Cargo](#cargo)
   - [AUR](#aur)
-  - [Copr](#copr)
   - [Nixpkgs](#nixpkgs)
   - [Manual](#manual)
     - [Note](#note)
@@ -138,15 +137,6 @@ cargo install kmon --force
 
 ```
 trizen kmon
-```
-
-### Copr
-
-**kmon** can be installed from the available [Copr package](https://copr.fedorainfracloud.org/coprs/atim/kmon/) which is maintained by [atim](https://copr.fedorainfracloud.org/coprs/atim/).
-
-```
-dnf copr enable atim/kmon
-dnf install kmon
 ```
 
 ### Nixpkgs

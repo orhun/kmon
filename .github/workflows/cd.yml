@@ -59,7 +59,7 @@ jobs:
           echo "  User aur" >> ~/.ssh/config
           chmod 600 ~/.ssh/aur ~/.ssh/aur.pub ~/.ssh/config
           eval $(ssh-agent)
-          { sleep .3; echo "${{ secrets.AUR_SSH_PASSPHRASE }}"; } | script -q /dev/null -c 'ssh-add -k ~/.ssh/aur'
+          ssh-add -k ~/.ssh/aur
           ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"

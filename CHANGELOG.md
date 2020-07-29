@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.4] - 2020-07-30
+### Fixed
+- Update CD workflow about AUR releases
+
 ## [1.3.3] - 2020-07-30
 ### Changed
 - Update the release instructions about git tag command

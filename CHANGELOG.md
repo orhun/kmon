@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2020-07-29
+### Added
+- Add CNAME record and theme config for the project page
+- Add PGP keys to CD workflow for signing the releases
+
+### Changed
+- Update README.md about Copr package
+
 ## [1.3.0] - 2020-07-22
 ### Added
 - Support insmod/rmmod for low-level module handling

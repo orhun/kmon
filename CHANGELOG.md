@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2020-07-29
+### Fixed
+- Update the publishing order in CD workflow
+
 ## [1.3.1] - 2020-07-29
 ### Added
 - Add CNAME record and theme config for the project page

@@ -5,7 +5,7 @@
 1. Bump the [version](https://semver.org/spec/v2.0.0.html) in [Cargo.toml](https://github.com/orhun/kmon/blob/master/Cargo.toml) and run the app to update [Cargo.lock](https://github.com/orhun/kmon/blob/master/Cargo.lock).
 2. Ensure [CHANGELOG.md](https://github.com/orhun/kmon/blob/master/CHANGELOG.md) is updated according to the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 3. Commit and push the changes.
-4. Create a new tag: `git tag -a v[x.y.z]`
+4. Create a new tag: `git tag -s -a v[x.y.z]`
 5. Push the tag: `git push --tags`
 6. Wait for [Continous Deployment](https://github.com/orhun/kmon/actions) workflow to finish.
 

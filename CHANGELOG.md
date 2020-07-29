@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2020-07-30
+### Changed
+- Update the release instructions about git tag command
+
+### Fixed
+- Update the repository secrets for fixing the CD workflow
+
 ## [1.3.2] - 2020-07-29
 ### Fixed
 - Update the publishing order in CD workflow

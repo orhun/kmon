@@ -27,11 +27,6 @@ jobs:
           command: build
           toolchain: stable
           args: --release --locked --all-features
-      - name: "Publish on crates.io"
-        uses: actions-rs/cargo@v1
-        with:
-          command: publish
-          args: --token ${{ secrets.CARGO_TOKEN }}
       - name: Publish on GitHub
         run: |
           cd target/release
@@ -49,6 +44,11 @@ jobs:
             target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Publish on crates.io"
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CARGO_TOKEN }}
       - name: Set up SSH for AUR
         run: |
           mkdir -p ~/.ssh

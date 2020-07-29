@@ -20,7 +20,7 @@ jobs:
       - name: Install X11 dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --allow-unauthenticated -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
+          sudo apt-get install --allow-unauthenticated -y -qq libxcb-shape0-dev libxcb-xfixes0-dev gpg
       - name: Build
         uses: actions-rs/cargo@v1
         with:
@@ -38,10 +38,14 @@ jobs:
           strip -s kmon
           tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon ../../LICENSE ../../README.md ../../man/kmon.8
           shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
+          echo "${{ secrets.GPG_RELEASE_KEY }}" | base64 --decode > private.key
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --import private.key
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --detach-sign kmon-${{ env.RELEASE_VERSION }}.tar.gz
       - uses: softprops/action-gh-release@v1
         with:
           files: |
             target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
+            target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz.sig
             target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

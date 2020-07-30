@@ -65,18 +65,6 @@ jobs:
           ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
           git config --global user.name "orhun"
           git config --global user.email "orhunparmaksiz@gmail.com"
-      - name: Publish on AUR (main)
-        run: |
-          git clone ssh://aur@aur.archlinux.org/kmon.git && cd kmon
-          wget https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz
-          sed "s/^pkgver=.*\$/pkgver=${{ env.RELEASE_VERSION }}/" -i PKGBUILD
-          sed "s/^sha512sums=(.*)\$/sha512sums=('`sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`')/" -i PKGBUILD
-          sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
-          sed "s|\tsource = .*\$|\tsource = kmon-${{ env.RELEASE_VERSION }}.tar.gz::https://github.com/orhun/kmon/archive/v${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
-          sed "s/\tsha512sums = .*\$/\tsha512sums = `sha512sum v${{ env.RELEASE_VERSION }}.tar.gz | cut -d ' ' -f 1`/" -i .SRCINFO
-          git add PKGBUILD .SRCINFO
-          git commit -m "Release v${{ env.RELEASE_VERSION }}"
-          git push
       - name: Publish on AUR (git)
         run: |
           version=$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')
@@ -86,15 +74,16 @@ jobs:
           git add PKGBUILD .SRCINFO
           git commit -m "Release v$version"
           git push
-      - name: Publish on AUR (binary)
+      - name: Publish on AUR (bin)
         run: |
           git clone ssh://aur@aur.archlinux.org/kmon-bin.git && cd kmon-bin
-          sum=$(wget https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.sha256 -q -O - | cut -d ' ' -f 1)
+          sum=$(wget https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.sha512 -q -O - | cut -d ' ' -f 1)
           sed "s/^pkgver=.*\$/pkgver=${{ env.RELEASE_VERSION }}/" -i PKGBUILD
-          sed "s/^sha256sums=(.*)\$/sha256sums=('$sum')/" -i PKGBUILD
+          sed "s/^sha512sums=(.*'\$/sha512sums=('$sum'/" -i PKGBUILD
           sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
+          sed "s|\tsource = .*tar.gz.sig|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz.sig|" -i .SRCINFO
           sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
-          sed "s/\tsha256sums = .*\$/\tsha256sums = $sum/" -i .SRCINFO
+          sed "/SKIP/! s/\tsha512sums = .*\$/\tsha512sums = $sum/" -i .SRCINFO
           git add PKGBUILD .SRCINFO
           git commit -m "Release v${{ env.RELEASE_VERSION }}"
           git push

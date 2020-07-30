@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.5] - 2020-07-30
+### Changed
+- Update README.md about Arch Linux packages
+- Update the release steps of AUR packages in CD worflow
+- Update a link in release instructions about AUR packages
+
+### Fixed
+- Continue to run the CD workflow if crates.io publish fails (for re-running the workflow)
+
 ## [1.3.4] - 2020-07-30
 ### Fixed
 - Update CD workflow about AUR releases

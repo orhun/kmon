@@ -83,7 +83,7 @@ jobs:
           sed "s/^sha512sums=(.*'\$/sha512sums=('$sum'/" -i PKGBUILD
           sed "s/\tpkgver = .*\$/\tpkgver = ${{ env.RELEASE_VERSION }}/" -i .SRCINFO
           sed "s|\tsource = .*tar.gz.sig|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz.sig|" -i .SRCINFO
-          sed "s|\tsource = .*\$|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
+          sed "s|\tsource = .*tar.gz|\tsource = https://github.com/orhun/kmon/releases/download/v${{ env.RELEASE_VERSION }}/kmon-${{ env.RELEASE_VERSION }}.tar.gz|" -i .SRCINFO
           sed "/SKIP/! s/\tsha512sums = .*\$/\tsha512sums = $sum/" -i .SRCINFO
           git add PKGBUILD .SRCINFO
           git commit -m "Release v${{ env.RELEASE_VERSION }}"

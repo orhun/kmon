@@ -11,8 +11,8 @@
     <a href="https://crates.io/crates/kmon/">
         <img src="https://img.shields.io/crates/v/kmon?color=000000&style=flat-square">
     </a>
-    <a href="https://aur.archlinux.org/packages/kmon/">
-        <img src="https://img.shields.io/aur/version/kmon?color=000000&style=flat-square">
+    <a href="https://www.archlinux.org/packages/community/x86_64/kmon/">
+        <img src="https://img.shields.io/archlinux/v/community/x86_64/kmon?color=000000&style=flat-square">
     </a>
     <br>
     <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Integration%22">
@@ -65,7 +65,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 ### Table of Contents
 - [Installation](#installation)
   - [Cargo](#cargo)
-  - [AUR](#aur)
+  - [Arch Linux](#arch-linux)
   - [Nixpkgs](#nixpkgs)
   - [Manual](#manual)
     - [Note](#note)
@@ -131,12 +131,18 @@ Use the `--force` option to update.
 cargo install kmon --force
 ```
 
-### AUR
+### Arch Linux
 
-**kmon** can be installed from available [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=nd&K=Linux+kernel+manager+and+activity&outdated=&SB=n&SO=a&PP=50&do_Search=Go) using an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers). For example,
+**kmon** can be installed from the Arch Linux [official repository](https://www.archlinux.org/packages/community/x86_64/kmon/).
 
 ```
-trizen kmon
+pacman -S kmon
+```
+
+There are also [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=nd&K=Linux+kernel+manager+and+activity&outdated=&SB=n&SO=a&PP=50&do_Search=Go) available for installation. Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
+
+```
+yay -S kmon
 ```
 
 ### Nixpkgs

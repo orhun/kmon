@@ -51,6 +51,7 @@ jobs:
         with:
           command: publish
           args: --token ${{ secrets.CARGO_TOKEN }}
+          continue-on-error: true
       - name: Set up SSH for AUR
         run: |
           mkdir -p ~/.ssh

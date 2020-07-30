@@ -33,6 +33,7 @@ jobs:
           strip -s kmon
           tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon ../../LICENSE ../../README.md ../../man/kmon.8
           shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
+          shasum -a 512 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha512
           echo "${{ secrets.GPG_RELEASE_KEY }}" | base64 --decode > private.key
           echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --import private.key
           echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --detach-sign kmon-${{ env.RELEASE_VERSION }}.tar.gz
@@ -42,6 +43,7 @@ jobs:
             target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
             target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz.sig
             target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
+            target/release/kmon-${{ env.RELEASE_VERSION }}.sha512
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Publish on crates.io"

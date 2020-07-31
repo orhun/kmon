@@ -61,6 +61,15 @@ pub fn parse_args() -> clap::ArgMatches<'static> {
 		.usage("kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]")
 		.before_help(ASCII_LOGO)
 		.arg(
+			Arg::with_name("accent-color")
+				.short("a")
+				.long("accent-color")
+				.value_name("COLOR")
+				.default_value("white")
+				.help("Set the accent color using hex or color name")
+				.takes_value(true),
+		)
+		.arg(
 			Arg::with_name("color")
 				.short("c")
 				.long("color")

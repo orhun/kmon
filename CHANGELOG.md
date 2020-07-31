@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2020-07-31
+### Changed
+- Add accent color option to set default text color
+
 ## [1.3.5] - 2020-07-30
 ### Changed
 - Update README.md about Arch Linux packages

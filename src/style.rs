@@ -106,6 +106,20 @@ impl Style {
 			"lightcyan" => Color::LightCyan,
 			"white" => Color::White
 		];
+		let accent_color = match args.value_of("accent-color") {
+			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
+				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
+					Box::leak(Box::new(Color::Rgb(
+						rgb.get_red() as u8,
+						rgb.get_green() as u8,
+						rgb.get_blue() as u8,
+					)))
+				} else {
+					&Color::White
+				}
+			}),
+			None => Color::White,
+		};
 		let main_color = match args.value_of("color") {
 			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
 				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
@@ -121,7 +135,7 @@ impl Style {
 			None => Color::DarkGray,
 		};
 		Self {
-			default: TuiStyle::default(),
+			default: TuiStyle::default().fg(accent_color),
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
 			colored: TuiStyle::default().fg(main_color),
 			unicode: Unicode::new(!args.is_present("unicode")),

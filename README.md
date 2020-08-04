@@ -217,8 +217,9 @@ kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]
 ### Options
 
 ```
--c, --color <COLOR>    Set the main color using hex or color name [default: darkgray]
--t, --tickrate <MS>    Set the refresh rate of the terminal [default: 250]
+-a, --accent-color <COLOR>    Set the accent color using hex or color name [default: gray]
+-c, --color <COLOR>           Set the main color using hex or color name [default: darkgray]
+-t, --tickrate <MS>           Set the refresh rate of the terminal [default: 250]
 ```
 
 ### Subcommands

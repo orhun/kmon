@@ -395,9 +395,13 @@ impl App {
 					kernel_modules.list.len(),
 					self.style.unicode.get(Symbol::RightBracket),
 					self.style.unicode.get(Symbol::LeftBracket),
-					((kernel_modules.index + 1) as f64
-						/ kernel_modules.list.len() as f64
-						* 100.0) as usize,
+					if !kernel_modules.list.is_empty() {
+						((kernel_modules.index + 1) as f64
+							/ kernel_modules.list.len() as f64
+							* 100.0) as u64
+					} else {
+						0
+					},
 					self.style.unicode.get(Symbol::RightBracket),
 				)),
 		)

@@ -94,6 +94,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Customizing the colors](#customizing-the-colors)
     - [Supported colors](#supported-colors)
     - [Using a custom color](#using-a-custom-color)
+    - [Changing the accent color](#changing-the-accent-color)
   - [Unicode symbols](#unicode-symbols)
   - [Setting the terminal tick rate](#setting-the-terminal-tick-rate)
 - [Docker](#docker)
@@ -217,7 +218,7 @@ kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]
 ### Options
 
 ```
--a, --accent-color <COLOR>    Set the accent color using hex or color name [default: gray]
+-a, --accent-color <COLOR>    Set the accent color using hex or color name [default: white]
 -c, --color <COLOR>           Set the main color using hex or color name [default: darkgray]
 -t, --tickrate <MS>           Set the refresh rate of the terminal [default: 250]
 ```
@@ -410,7 +411,7 @@ kmon --reverse
 
 ### Customizing the colors
 
-kmon uses the colors of the terminal as default but the highlighting color could be specified with `-c, --color` option.
+kmon uses the colors of the terminal as default but the highlighting color could be specified with `-c, --color` option. Alternatively, default text color can be set via `-a, --accent-color` option.
 
 #### Supported colors
 
@@ -431,6 +432,16 @@ kmon --color 19683a
 ```
 
 ![Using a custom color](https://user-images.githubusercontent.com/24392180/76772858-a0edcc80-67b2-11ea-86ea-9b138a0b937b.gif)
+
+#### Changing the accent color
+
+Default text color might cause readability issues on some themes that have transparency. `-a, --accent-color` option can be used similarly to the `-c, --color` option for overcoming this issue.
+
+```
+kmon --color 6f849c --accent-color e35760
+```
+
+![Changing the accent color](https://user-images.githubusercontent.com/24392180/89355576-61be0a80-d6c4-11ea-9693-f152edf5be38.gif)
 
 ### Unicode symbols
 

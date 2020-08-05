@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [1.4.0] - 2020-07-31
-### Changed
+### Added
 - Add accent color option to set default text color
+
+### Changed
+- Update README.md about accent color option
+- Update manual page about accent color option
 
 ## [1.3.5] - 2020-07-30
 ### Changed

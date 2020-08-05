@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix the percentage overflow in kernel module table
 
-## [1.4.0] - 2020-07-31
+## [1.4.0] - 2020-08-05
 ### Added
 - Add accent color option to set default text color
 

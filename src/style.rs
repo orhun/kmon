@@ -88,12 +88,19 @@ impl Style {
 	 * @return Style
 	 */
 	pub fn new(args: &ArgMatches<'_>) -> Self {
-		let accent_color = Self::get_color(args, "accent-color", Color::White);
-		let main_color = Self::get_color(args, "color", Color::DarkGray);
+		let mut default = TuiStyle::default();
+		if args.is_present("accent-color") {
+			default =
+				default.fg(Self::get_color(args, "accent-color", Color::White));
+		}
 		Self {
-			default: TuiStyle::default().fg(accent_color),
+			default,
 			bold: TuiStyle::default().modifier(Modifier::BOLD),
-			colored: TuiStyle::default().fg(main_color),
+			colored: TuiStyle::default().fg(Self::get_color(
+				args,
+				"color",
+				Color::DarkGray,
+			)),
 			unicode: Unicode::new(!args.is_present("unicode")),
 		}
 	}

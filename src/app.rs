@@ -64,6 +64,24 @@ enum_unitary! {
 	}
 }
 
+/* Sizes of the terminal blocks */
+pub struct BlockSize {
+	pub input: u16,
+	pub info: u16,
+	pub activities: u16,
+}
+
+/* Default initialization values for BlockSize */
+impl Default for BlockSize {
+	fn default() -> Self {
+		Self {
+			input: 60,
+			info: 40,
+			activities: 25,
+		}
+	}
+}
+
 /* User input mode */
 enum_unitary! {
 	#[derive(Copy, Debug, PartialEq)]
@@ -103,6 +121,7 @@ impl Display for InputMode {
 pub struct App {
 	pub selected_block: Block,
 	pub default_block: Block,
+	pub block_size: BlockSize,
 	pub input_mode: InputMode,
 	pub input_query: String,
 	style: Style,
@@ -120,6 +139,7 @@ impl App {
 		Self {
 			selected_block: block,
 			default_block: block,
+			block_size: BlockSize::default(),
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			style,
@@ -129,6 +149,7 @@ impl App {
 	/* Reset app properties to default. */
 	pub fn refresh(&mut self) {
 		self.selected_block = self.default_block;
+		self.block_size = BlockSize::default();
 		self.input_mode = InputMode::None;
 		self.input_query = String::new();
 	}
@@ -144,6 +165,19 @@ impl App {
 			self.style.default
 		} else {
 			self.style.colored
+		}
+	}
+
+	/**
+	 * Get the size of the selected block.
+	 *
+	 * @return u16
+	 */
+	pub fn block_size(&mut self) -> &mut u16 {
+		match self.selected_block {
+			Block::ModuleInfo => &mut self.block_size.info,
+			Block::Activities => &mut self.block_size.activities,
+			_ => &mut self.block_size.input,
 		}
 	}
 

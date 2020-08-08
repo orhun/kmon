@@ -48,16 +48,22 @@ where
 			let chunks = Layout::default()
 				.direction(Direction::Vertical)
 				.constraints(
-					[Constraint::Percentage(75), Constraint::Percentage(25)]
-						.as_ref(),
+					[
+						Constraint::Percentage(100 - app.block_size.activities),
+						Constraint::Percentage(app.block_size.activities),
+					]
+					.as_ref(),
 				)
 				.split(f.size());
 			{
 				let chunks = Layout::default()
 					.direction(Direction::Horizontal)
 					.constraints(
-						[Constraint::Percentage(60), Constraint::Percentage(40)]
-							.as_ref(),
+						[
+							Constraint::Percentage(100 - app.block_size.info),
+							Constraint::Percentage(app.block_size.info),
+						]
+						.as_ref(),
 					)
 					.split(chunks[0]);
 				{
@@ -73,8 +79,10 @@ where
 							.direction(Direction::Horizontal)
 							.constraints(
 								[
-									Constraint::Percentage(60),
-									Constraint::Percentage(40),
+									Constraint::Percentage(app.block_size.input),
+									Constraint::Percentage(
+										100 - app.block_size.input,
+									),
 								]
 								.as_ref(),
 							)
@@ -86,7 +94,13 @@ where
 							&kernel.info.current_info,
 						);
 					}
-					app.draw_kernel_modules(&mut f, chunks[1], &mut kernel.modules);
+					if app.block_size.info != 100 {
+						app.draw_kernel_modules(
+							&mut f,
+							chunks[1],
+							&mut kernel.modules,
+						);
+					}
 				}
 				app.draw_module_info(&mut f, chunks[1], &mut kernel.modules);
 			}
@@ -177,6 +191,21 @@ where
 									Some(v) => v,
 									None => Block::min_value(),
 								}
+						}
+						/* Expand the selected block. */
+						Key::Alt('e') => {
+							let block_size = app.block_size();
+							if *block_size < 95 {
+								*block_size += 5;
+							} else {
+								*block_size = 100;
+							}
+						}
+						/* Shrink the selected block. */
+						Key::Alt('s') => {
+							let block_size = app.block_size();
+							*block_size =
+								(*block_size).checked_sub(5).unwrap_or_default()
 						}
 						/* Scroll to the top of the module list. */
 						Key::Ctrl('t') | Key::Home => {
@@ -504,6 +533,8 @@ mod tests {
 				Key::Char('?'),
 				Key::Ctrl('t'),
 				Key::Ctrl('b'),
+				Key::Alt('e'),
+				Key::Alt('s'),
 				Key::Char('x'),
 				Key::Char('n'),
 				Key::Char('d'),

@@ -79,6 +79,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Navigating & Scrolling](#navigating--scrolling)
     - [Scrolling Kernel Activities](#scrolling-kernel-activities)
     - [Smooth Scrolling](#smooth-scrolling)
+  - [Block Sizes](#block-sizes)
   - [Kernel Information](#kernel-information)
   - [Module Information](#module-information)
     - [Displaying the dependent modules](#displaying-the-dependent-modules)
@@ -250,7 +251,8 @@ FLAGS:
 | `</>`                   	| Scroll up/down [module information]   	|
 | `alt-h/l`               	| Scroll right/left [kernel activities] 	|
 | `ctrl-t/b, home/end`    	| Scroll to top/bottom [module list]    	|
-| `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer          	|
+| `alt-e/s`       	        | Expand/shrink the selected block        |
+| `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer            |
 | `[d], alt-d`            	| Show the dependent modules            	|
 | `[1]..[9]`              	| Jump to the dependent module           	|
 | `[\], tab, backtab`     	| Show the next kernel information      	|
@@ -289,6 +291,12 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 `alt-j & alt-k` keys can be used to scroll kernel activity and module information blocks slowly.
 
 ![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76685907-4aed1d80-6628-11ea-96b7-a5bc0597455b.gif)
+
+### Block Sizes
+
+`alt-e & alt-s` keys can be used for expanding/shrinking the selected block.
+
+![Block Sizes](https://user-images.githubusercontent.com/24392180/89716231-f8841300-d9b3-11ea-9cea-ee9816174336.gif)
 
 ### Kernel Information
 

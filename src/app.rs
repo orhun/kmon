@@ -2,6 +2,7 @@ use crate::event::Event;
 use crate::kernel::cmd::ModuleCommand;
 use crate::kernel::lkm::KernelModules;
 use crate::kernel::log::KernelLogs;
+use crate::kernel::Kernel;
 use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use clipboard::{ClipboardContext, ClipboardProvider};
@@ -122,6 +123,7 @@ pub struct App {
 	pub selected_block: Block,
 	pub default_block: Block,
 	pub block_size: BlockSize,
+	pub block_index: u8,
 	pub input_mode: InputMode,
 	pub input_query: String,
 	style: Style,
@@ -140,6 +142,7 @@ impl App {
 			selected_block: block,
 			default_block: block,
 			block_size: BlockSize::default(),
+			block_index: 0,
 			input_mode: InputMode::None,
 			input_query: String::new(),
 			style,
@@ -150,6 +153,7 @@ impl App {
 	pub fn refresh(&mut self) {
 		self.selected_block = self.default_block;
 		self.block_size = BlockSize::default();
+		self.block_index = 0;
 		self.input_mode = InputMode::None;
 		self.input_query = String::new();
 	}
@@ -275,6 +279,33 @@ impl App {
 				dependent_modules.len(),
 				kernel_modules.current_name.clone(),
 			);
+		}
+	}
+
+	/**
+	 * Draw a block according to the index.
+	 *
+	 * @param frame
+	 * @param area
+	 * @param kernel
+	 */
+	pub fn draw_dynamic_block<B>(
+		&mut self,
+		frame: &mut Frame<'_, B>,
+		area: Rect,
+		kernel: &mut Kernel,
+	) where
+		B: Backend,
+	{
+		match self.block_index {
+			0 => self.draw_kernel_modules(frame, area, &mut kernel.modules),
+			1 => self.draw_module_info(frame, area, &mut kernel.modules),
+			_ => self.draw_kernel_activities(frame, area, &mut kernel.logs),
+		}
+		if self.block_index < 2 {
+			self.block_index += 1;
+		} else {
+			self.block_index = 0;
 		}
 	}
 

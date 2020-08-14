@@ -95,16 +95,14 @@ where
 						);
 					}
 					if app.block_size.info != 100 {
-						app.draw_kernel_modules(
-							&mut f,
-							chunks[1],
-							&mut kernel.modules,
-						);
+						app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
+					} else {
+						app.block_index += 1;
 					}
 				}
-				app.draw_module_info(&mut f, chunks[1], &mut kernel.modules);
+				app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
 			}
-			app.draw_kernel_activities(&mut f, chunks[1], &mut kernel.logs);
+			app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
 		})?;
 		/* Set cursor position if the input mode flag is set. */
 		if !app.input_mode.is_none() {
@@ -206,6 +204,14 @@ where
 							let block_size = app.block_size();
 							*block_size =
 								(*block_size).checked_sub(5).unwrap_or_default()
+						}
+						/* Change the block position. */
+						Key::Ctrl('x') => {
+							if app.block_index == 2 {
+								app.block_index = 0;
+							} else {
+								app.block_index += 1;
+							}
 						}
 						/* Scroll to the top of the module list. */
 						Key::Ctrl('t') | Key::Home => {
@@ -535,6 +541,9 @@ mod tests {
 				Key::Ctrl('b'),
 				Key::Alt('e'),
 				Key::Alt('s'),
+				Key::Ctrl('x'),
+				Key::Ctrl('x'),
+				Key::Ctrl('x'),
 				Key::Char('x'),
 				Key::Char('n'),
 				Key::Char('d'),

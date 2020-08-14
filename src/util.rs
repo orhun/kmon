@@ -20,6 +20,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("alt-h/l", "scroll right/left [kernel activities]"),
 	("ctrl-t/b, home/end", "scroll to top/bottom [module list]"),
 	("alt-e/s", "expand/shrink the selected block"),
+	("ctrl-x", "change the block position"),
 	("ctrl-l/u, alt-c", "clear the kernel ring buffer"),
 	("d, alt-d", "show the dependent modules"),
 	("1..9", "jump to the dependent module"),

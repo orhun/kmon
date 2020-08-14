@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add alt-e/s keys for expanding/shrinking the selected block 
+- Add alt-e/s keys for expanding/shrinking the selected block
+- Add ctrl-x key for changing the position of a block
 
 ### Fixed
 - Fix the percentage overflow in kernel module table

@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add alt-e/s keys for expanding/shrinking the selected block
 - Add ctrl-x key for changing the position of a block
 
+### Changed
+- Update the AUR installation step in README.md
+
 ### Fixed
 - Fix the percentage overflow in kernel module table
 - Use the default colors if the accent color is not provided

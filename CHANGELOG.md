@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix the percentage overflow in kernel module table
 - Use the default colors if the accent color is not provided
 
+### Removed
+- Remove the AUR binary package publish step from CD workflow
+
 ## [1.4.0] - 2020-08-05
 ### Added
 - Add accent color option to set default text color

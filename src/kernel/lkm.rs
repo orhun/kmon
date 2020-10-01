@@ -379,10 +379,9 @@ impl KernelModules<'_> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::App;
 	#[test]
 	fn test_kernel_modules() {
-		let args = App::new("test").get_matches();
+		let args = ArgMatches::default();
 		let mut list_args = ListArgs::new(&args);
 		list_args.sort = SortType::Size;
 		list_args.reverse = true;

@@ -246,18 +246,11 @@ impl<'a> StyledText<'a> {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use clap::{App, Arg};
+	use clap::ArgMatches;
 	use tui::widgets::Text;
 	#[test]
 	fn test_style() {
-		let mut args = App::new("test").get_matches();
-		for color in vec!["black", "000000", "lightblue", "3c70a4"] {
-			args = App::new("test")
-				.arg(Arg::with_name("color").default_value(color))
-				.arg(Arg::with_name("accent-color").default_value(color))
-				.get_matches();
-			Style::new(&args);
-		}
+		let args = ArgMatches::default();
 		let style = Style::new(&args);
 		let mut styled_text = StyledText::default();
 		styled_text.set(

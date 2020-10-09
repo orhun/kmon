@@ -571,11 +571,12 @@ mod tests {
 	use crate::event::Events;
 	use crate::kernel::info;
 	use crate::kernel::lkm::ListArgs;
+	use clap::ArgMatches;
 	use tui::backend::TestBackend;
 	use tui::Terminal;
 	#[test]
 	fn test_app() {
-		let args = util::parse_args();
+		let args = ArgMatches::default();
 		let mut kernel_modules =
 			KernelModules::new(ListArgs::new(&args), Style::new(&args));
 		let mut app = App::new(Block::ModuleTable, kernel_modules.style.clone());

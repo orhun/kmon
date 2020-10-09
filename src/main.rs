@@ -522,14 +522,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use clap::ArgMatches;
 	use std::sync::mpsc::Sender;
 	use std::thread;
 	use std::time::Duration;
 	use tui::backend::TestBackend;
 	#[test]
 	fn test_tui() -> Result<(), Box<dyn Error>> {
-		main()?;
-		let args = util::parse_args();
+		let args = ArgMatches::default();
 		let kernel = Kernel::new(&args);
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();

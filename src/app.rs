@@ -15,9 +15,7 @@ use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::Style as TuiStyle;
-use tui::widgets::{
-	Block as TuiBlock, Borders, Paragraph, Row, Table, Text, Widget,
-};
+use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Text};
 use tui::Frame;
 
 /* Table header of the module table */
@@ -324,33 +322,35 @@ impl App {
 	) where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(self.input_query.to_string())].iter())
-			.block(
-				TuiBlock::default()
-					.title_style(self.style.bold)
-					.border_style(match self.selected_block {
-						Block::UserInput => {
-							if self.input_mode.is_none() {
-								tx.send(Event::Input(Key::Char('\n'))).unwrap();
+		frame.render_widget(
+			Paragraph::new([Text::raw(self.input_query.to_string())].iter())
+				.block(
+					TuiBlock::default()
+						.title_style(self.style.bold)
+						.border_style(match self.selected_block {
+							Block::UserInput => {
+								if self.input_mode.is_none() {
+									tx.send(Event::Input(Key::Char('\n'))).unwrap();
+								}
+								self.style.default
 							}
-							self.style.default
-						}
-						_ => self.style.colored,
-					})
-					.borders(Borders::ALL)
-					.title(&format!(
-						"{}{}",
-						self.input_mode.to_string(),
-						match self.input_mode {
-							InputMode::Load =>
-								self.style.unicode.get(Symbol::Anchor),
-							_ => self.style.unicode.get(Symbol::Magnifier),
-						}
-					)),
-			)
-			.alignment(Alignment::Left)
-			.wrap(false)
-			.render(frame, area);
+							_ => self.style.colored,
+						})
+						.borders(Borders::ALL)
+						.title(&format!(
+							"{}{}",
+							self.input_mode.to_string(),
+							match self.input_mode {
+								InputMode::Load =>
+									self.style.unicode.get(Symbol::Anchor),
+								_ => self.style.unicode.get(Symbol::Magnifier),
+							}
+						)),
+				)
+				.alignment(Alignment::Left)
+				.wrap(false),
+			area,
+		);
 	}
 
 	/**
@@ -368,21 +368,23 @@ impl App {
 	) where
 		B: Backend,
 	{
-		Paragraph::new([Text::raw(&info[1])].iter())
-			.block(
-				TuiBlock::default()
-					.title_style(self.style.bold)
-					.border_style(self.style.colored)
-					.borders(Borders::ALL)
-					.title(&format!(
-						"{}{}",
-						info[0],
-						self.style.unicode.get(Symbol::Gear)
-					)),
-			)
-			.alignment(Alignment::Center)
-			.wrap(true)
-			.render(frame, area);
+		frame.render_widget(
+			Paragraph::new([Text::raw(&info[1])].iter())
+				.block(
+					TuiBlock::default()
+						.title_style(self.style.bold)
+						.border_style(self.style.colored)
+						.borders(Borders::ALL)
+						.title(&format!(
+							"{}{}",
+							info[0],
+							self.style.unicode.get(Symbol::Gear)
+						)),
+				)
+				.alignment(Alignment::Center)
+				.wrap(true),
+			area,
+		);
 	}
 
 	/**
@@ -428,55 +430,59 @@ impl App {
 			.and_then(|height| kernel_modules.index.checked_sub(height as usize))
 			.unwrap_or(0);
 		/* Set selected state of the modules and render the table widget. */
-		Table::new(
-			TABLE_HEADER.iter(),
-			kernel_modules
-				.list
-				.iter()
-				.skip(modules_scroll_offset)
-				.enumerate()
-				.map(|(i, item)| {
-					if Some(i)
-						== kernel_modules.index.checked_sub(modules_scroll_offset)
-					{
-						Row::StyledData(item.iter(), self.style.default)
-					} else {
-						Row::StyledData(item.iter(), self.style.colored)
-					}
-				}),
-		)
-		.block(
-			TuiBlock::default()
-				.title_style(self.style.bold)
-				.border_style(self.block_style(Block::ModuleTable))
-				.borders(Borders::ALL)
-				.title(&format!(
-					"Loaded Kernel Modules {}{}/{}{} {}{}%{}",
-					self.style.unicode.get(Symbol::LeftBracket),
-					match kernel_modules.list.len() {
-						0 => kernel_modules.index,
-						_ => kernel_modules.index + 1,
-					},
-					kernel_modules.list.len(),
-					self.style.unicode.get(Symbol::RightBracket),
-					self.style.unicode.get(Symbol::LeftBracket),
-					if !kernel_modules.list.is_empty() {
-						((kernel_modules.index + 1) as f64
-							/ kernel_modules.list.len() as f64
-							* 100.0) as u64
-					} else {
-						0
-					},
-					self.style.unicode.get(Symbol::RightBracket),
-				)),
-		)
-		.header_style(self.style.bold)
-		.widths(&[
-			Constraint::Percentage(30),
-			Constraint::Percentage(20),
-			Constraint::Percentage(50),
-		])
-		.render(frame, area);
+		frame.render_widget(
+			Table::new(
+				TABLE_HEADER.iter(),
+				kernel_modules
+					.list
+					.iter()
+					.skip(modules_scroll_offset)
+					.enumerate()
+					.map(|(i, item)| {
+						if Some(i)
+							== kernel_modules
+								.index
+								.checked_sub(modules_scroll_offset)
+						{
+							Row::StyledData(item.iter(), self.style.default)
+						} else {
+							Row::StyledData(item.iter(), self.style.colored)
+						}
+					}),
+			)
+			.block(
+				TuiBlock::default()
+					.title_style(self.style.bold)
+					.border_style(self.block_style(Block::ModuleTable))
+					.borders(Borders::ALL)
+					.title(&format!(
+						"Loaded Kernel Modules {}{}/{}{} {}{}%{}",
+						self.style.unicode.get(Symbol::LeftBracket),
+						match kernel_modules.list.len() {
+							0 => kernel_modules.index,
+							_ => kernel_modules.index + 1,
+						},
+						kernel_modules.list.len(),
+						self.style.unicode.get(Symbol::RightBracket),
+						self.style.unicode.get(Symbol::LeftBracket),
+						if !kernel_modules.list.is_empty() {
+							((kernel_modules.index + 1) as f64
+								/ kernel_modules.list.len() as f64
+								* 100.0) as u64
+						} else {
+							0
+						},
+						self.style.unicode.get(Symbol::RightBracket),
+					)),
+			)
+			.header_style(self.style.bold)
+			.widths(&[
+				Constraint::Percentage(30),
+				Constraint::Percentage(20),
+				Constraint::Percentage(50),
+			]),
+			area,
+		);
 	}
 
 	/**
@@ -494,35 +500,37 @@ impl App {
 	) where
 		B: Backend,
 	{
-		Paragraph::new(kernel_modules.current_info.get().iter())
-			.block(
-				TuiBlock::default()
-					.title_style(self.style.bold)
-					.border_style(self.block_style(Block::ModuleInfo))
-					.borders(Borders::ALL)
-					.title(&format!(
-						"{}{}",
-						kernel_modules.get_current_command().title,
-						self.style
-							.unicode
-							.get(kernel_modules.get_current_command().symbol)
-					)),
-			)
-			.alignment(
-				if kernel_modules.command.is_none()
-					&& !kernel_modules
-						.current_info
-						.raw_text
-						.contains("Execution Error\n")
-				{
-					Alignment::Left
-				} else {
-					Alignment::Center
-				},
-			)
-			.wrap(true)
-			.scroll(kernel_modules.info_scroll_offset as u16)
-			.render(frame, area);
+		frame.render_widget(
+			Paragraph::new(kernel_modules.current_info.get().iter())
+				.block(
+					TuiBlock::default()
+						.title_style(self.style.bold)
+						.border_style(self.block_style(Block::ModuleInfo))
+						.borders(Borders::ALL)
+						.title(&format!(
+							"{}{}",
+							kernel_modules.get_current_command().title,
+							self.style
+								.unicode
+								.get(kernel_modules.get_current_command().symbol)
+						)),
+				)
+				.alignment(
+					if kernel_modules.command.is_none()
+						&& !kernel_modules
+							.current_info
+							.raw_text
+							.contains("Execution Error\n")
+					{
+						Alignment::Left
+					} else {
+						Alignment::Center
+					},
+				)
+				.wrap(true)
+				.scroll(kernel_modules.info_scroll_offset as u16),
+			area,
+		);
 	}
 
 	/**
@@ -540,28 +548,30 @@ impl App {
 	) where
 		B: Backend,
 	{
-		Paragraph::new(
-			StyledText::default()
-				.stylize_data(
-					&kernel_logs.select(area.height, 2),
-					"] ",
-					self.style.clone(),
-				)
-				.iter(),
-		)
-		.block(
-			TuiBlock::default()
-				.title_style(self.style.bold)
-				.border_style(self.block_style(Block::Activities))
-				.borders(Borders::ALL)
-				.title(&format!(
-					"Kernel Activities{}",
-					self.style.unicode.get(Symbol::HighVoltage)
-				)),
-		)
-		.alignment(Alignment::Left)
-		.wrap(false)
-		.render(frame, area);
+		frame.render_widget(
+			Paragraph::new(
+				StyledText::default()
+					.stylize_data(
+						&kernel_logs.select(area.height, 2),
+						"] ",
+						self.style.clone(),
+					)
+					.iter(),
+			)
+			.block(
+				TuiBlock::default()
+					.title_style(self.style.bold)
+					.border_style(self.block_style(Block::Activities))
+					.borders(Borders::ALL)
+					.title(&format!(
+						"Kernel Activities{}",
+						self.style.unicode.get(Symbol::HighVoltage)
+					)),
+			)
+			.alignment(Alignment::Left)
+			.wrap(false),
+			area,
+		);
 	}
 }
 

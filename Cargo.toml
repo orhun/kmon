@@ -14,7 +14,7 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33.3"
-tui = "0.8.0"
+tui = "0.9.0"
 termion = "1.5.5"
 bytesize = "1.0.1"
 unicode-width = "0.1.8"

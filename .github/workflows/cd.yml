@@ -52,29 +52,6 @@ jobs:
           command: publish
           args: --token ${{ secrets.CARGO_TOKEN }}
           continue-on-error: true
-      - name: Set up SSH for AUR
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.AUR_SSH_PUBLIC }}" | base64 --decode > ~/.ssh/aur.pub
-          echo "${{ secrets.AUR_SSH_PRIVATE }}" | base64 --decode > ~/.ssh/aur
-          echo "Host aur.archlinux.org" >> ~/.ssh/config
-          echo "  IdentityFile ~/.ssh/aur" >> ~/.ssh/config
-          echo "  User aur" >> ~/.ssh/config
-          chmod 600 ~/.ssh/aur ~/.ssh/aur.pub ~/.ssh/config
-          eval $(ssh-agent)
-          ssh-add -k ~/.ssh/aur
-          ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts
-          git config --global user.name "orhun"
-          git config --global user.email "orhunparmaksiz@gmail.com"
-      - name: Publish on AUR (git)
-        run: |
-          version=$(git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')
-          git clone ssh://aur@aur.archlinux.org/kmon-git.git && cd kmon-git
-          sed "s/^pkgver=.*\$/pkgver=$version/" -i PKGBUILD
-          sed "s/\tpkgver = .*\$/\tpkgver = $version/" -i .SRCINFO
-          git add PKGBUILD .SRCINFO
-          git commit -m "Release v$version"
-          git push
       - name: Publish the Docker Image
         run: |
           docker build -t kmon .

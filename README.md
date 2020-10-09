@@ -142,7 +142,7 @@ cargo install kmon --force
 pacman -S kmon
 ```
 
-There are also an development package on [AUR](https://aur.archlinux.org/packages/kmon-git/) available for installation. Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
+There are also a development package on [AUR](https://aur.archlinux.org/packages/kmon-git/). Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
 
 ```
 yay -S kmon-git

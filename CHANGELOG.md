@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.5.1] - 2020-10-01
+## [1.5.1] - 2020-10-09
 ### Fixed
-- Fix test failing when giving arguments to the test binary.
+- Fix test failing when giving arguments to the test binary
 
 ## [1.5.0] - 2020-08-27
 ### Added

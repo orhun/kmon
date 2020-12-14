@@ -120,6 +120,8 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 
 ## Installation
 
+[![Packaging status](https://repology.org/badge/vertical-allrepos/kmon.svg)](https://repology.org/project/kmon/versions)
+
 ### Cargo
 
 **kmon** can be installed from [crates.io](https://crates.io/crates/kmon/) using Cargo if [Rust](https://www.rust-lang.org/tools/install) is installed.

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update kmon.8 to include string "kmod" ([#24](https://github.com/orhun/kmon/issues/24))
 - Update Cargo.toml about project details
+- Update Dockerfile about image and dependency versions
 
 ### Removed
 - Remove snapcraft.yaml

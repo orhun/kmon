@@ -34,7 +34,8 @@ jobs:
       - name: Install X11 dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --allow-unauthenticated -y -qq libxcb-shape0-dev libxcb-xfixes0-dev
+          sudo apt-get install --allow-unauthenticated -y -qq \
+            libxcb-shape0-dev libxcb-xfixes0-dev
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -61,7 +62,6 @@ jobs:
         with:
           toolchain: stable
           override: true
-      - run: rustup component add rustfmt
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
@@ -76,7 +76,6 @@ jobs:
         with:
           toolchain: stable
           override: true
-      - run: rustup component add clippy
       - uses: actions-rs/cargo@v1
         with:
           command: clippy

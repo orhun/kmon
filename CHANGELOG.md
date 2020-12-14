@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update kmon.8 to include string "kmod" ([#24](https://github.com/orhun/kmon/issues/24))
 - Update Cargo.toml about project details
 
+### Removed
+- Remove snapcraft.yaml
+
 ## [1.5.1] - 2020-10-09
 ### Fixed
 - Fix test failing when giving arguments to the test binary

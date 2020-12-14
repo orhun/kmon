@@ -2,14 +2,15 @@
 name = "kmon"
 version = "1.5.1"
 description = "Linux kernel manager and activity monitor"
-authors = ["orhun <orhunparmaksiz@gmail.com>"]
+authors = ["Orhun Parmaksız <orhunparmaksiz@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
 documentation = "https://github.com/orhun/kmon/blob/master/README.md"
-homepage = "https://github.com/orhun/kmon"
+homepage = "https://kmon.cli.rs"
 repository = "https://github.com/orhun/kmon"
 keywords = ["linux", "kernel", "module", "activity", "monitor"]
 categories = ["command-line-utilities", "os"]
+include = ["src/**/*", "Cargo.*", "LICENSE", "README.md", "CHANGELOG.md"]
 edition = "2018"
 
 [dependencies]

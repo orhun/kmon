@@ -6,53 +6,80 @@ on:
       - "v*.*.*"
 
 jobs:
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
+  publish-github:
+    name: Publish on GitHub
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        TARGET: [x86_64-unknown-linux-gnu, x86_64-unknown-linux-musl]
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout repository
+        uses: actions/checkout@master
       - name: Set the release version
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:11}
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
       - name: Install X11 dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --allow-unauthenticated -y -qq libxcb-shape0-dev libxcb-xfixes0-dev gpg
-      - name: Build
-        uses: actions-rs/cargo@v1
+          sudo apt-get install --allow-unauthenticated -y -qq \
+            libxcb-shape0-dev libxcb-xfixes0-dev musl-tools
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
         with:
-          command: build
           toolchain: stable
-          args: --release --locked --all-features
-      - name: Publish on GitHub
+          target: ${{matrix.TARGET}}
+          override: true
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.TARGET }}
+      - name: Prepare assets
         run: |
-          cd target/release
-          strip -s kmon
-          tar czvf kmon-${{ env.RELEASE_VERSION }}.tar.gz kmon ../../LICENSE ../../README.md ../../man/kmon.8
-          shasum -a 256 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha256
-          shasum -a 512 kmon-${{ env.RELEASE_VERSION }}.tar.gz > kmon-${{ env.RELEASE_VERSION }}.sha512
+          mkdir assets
+          cp -t assets/ target/${{matrix.TARGET}}/release/kmon && strip -s assets/kmon
+          cp -t assets/ LICENSE README.md CHANGELOG.md
+          cp -t assets/ --parents man/kmon.8
+          mv assets/ kmon-${{env.RELEASE_VERSION}}/
+          tar -czvf kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz \
+            kmon-${{env.RELEASE_VERSION}}/
+          sha512sum kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz \
+            > kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz.sha512
           echo "${{ secrets.GPG_RELEASE_KEY }}" | base64 --decode > private.key
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --import private.key
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback --passphrase-fd 0 --detach-sign kmon-${{ env.RELEASE_VERSION }}.tar.gz
-      - uses: softprops/action-gh-release@v1
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback \
+            --passphrase-fd 0 --import private.key
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --pinentry-mode=loopback \
+            --passphrase-fd 0 --detach-sign \
+            kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz
+      - name: Upload assets
+        uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz
-            target/release/kmon-${{ env.RELEASE_VERSION }}.tar.gz.sig
-            target/release/kmon-${{ env.RELEASE_VERSION }}.sha256
-            target/release/kmon-${{ env.RELEASE_VERSION }}.sha512
+            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz
+            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz.sig
+            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz.sha512
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Publish on crates.io"
+
+  publish-crates-io:
+    name: Publish on crates.io
+    needs: publish-github
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+      - name: Publish
         uses: actions-rs/cargo@v1
         with:
           command: publish
-          args: --token ${{ secrets.CARGO_TOKEN }}
-          continue-on-error: true
-      - name: Publish the Docker Image
+          args: --locked --token ${{ secrets.CARGO_TOKEN }}
+
+  publish-docker-image:
+    name: Publish Docker image
+    needs: publish-github
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+      - name: Set the release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
+      - name: Publish
         run: |
           docker build -t kmon .
           docker tag kmon ${{ secrets.DOCKER_USERNAME }}/kmon:${{ env.RELEASE_VERSION }}

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add codecov.yml
+- Add strategy to CD workflow for different targets
 
 ### Changed
 - Update kmon.8 to include string "kmod" ([#24](https://github.com/orhun/kmon/issues/24))

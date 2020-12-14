@@ -67,6 +67,9 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Cargo](#cargo)
   - [Arch Linux](#arch-linux)
   - [Nixpkgs](#nixpkgs)
+  - [Docker](#docker)
+    - [Build](#build)
+    - [Run](#run)
   - [Manual](#manual)
     - [Note](#note)
 - [Usage](#usage)
@@ -99,9 +102,6 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
     - [Changing the accent color](#changing-the-accent-color)
   - [Unicode symbols](#unicode-symbols)
   - [Setting the terminal tick rate](#setting-the-terminal-tick-rate)
-- [Docker](#docker)
-  - [Build](#build)
-  - [Run](#run)
 - [Roadmap](#roadmap)
   - [Accessibility](#accessibility)
   - [Dependencies](#dependencies)
@@ -164,6 +164,25 @@ On [NixOS](https://nixos.org/nixos/):
 nix-channel --add https://nixos.org/channels/nixos-unstable
 nix-channel --update nixos
 nix-env -iA nixos.kmon
+```
+
+### Docker
+
+[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)  [![Package Registry Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=package%20registry&style=flat-square)](https://github.com/orhun/kmon/packages/95852)
+
+```
+docker run -it --cap-add syslog orhunp/kmon:tagname
+```
+#### Build
+
+```
+docker build -t kmon .
+```
+
+#### Run
+
+```
+docker run -it --cap-add syslog kmon
 ```
 
 ### Manual
@@ -474,25 +493,6 @@ kmon --unicode
 `-t, --tickrate` option can be used for setting the refresh interval of the terminal UI in milliseconds.
 
 ![Setting the terminal tick rate](https://user-images.githubusercontent.com/24392180/76807925-1aa7a980-67f7-11ea-9af5-bb80849f5629.gif)
-
-## Docker
-
-[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)  [![Package Registry Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=package%20registry&style=flat-square)](https://github.com/orhun/kmon/packages/95852)
-
-```
-docker run -it --cap-add syslog orhunp/kmon:tagname
-```
-### Build
-
-```
-docker build -t kmon .
-```
-
-### Run
-
-```
-docker run -it --cap-add syslog kmon
-```
 
 ## Roadmap
 

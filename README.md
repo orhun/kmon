@@ -567,4 +567,4 @@ GNU General Public License ([3.0](https://www.gnu.org/licenses/gpl.txt))
 
 ## Copyright
 
-Copyright (c) 2020, [orhun](mailto:orhunparmaksiz@gmail.com)
+Copyright © 2020-2021, [Orhun Parmaksız](mailto:orhunparmaksiz@gmail.com)

@@ -64,6 +64,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
+      - name: Install X11 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --allow-unauthenticated -y -qq \
+            libxcb-shape0-dev libxcb-xfixes0-dev
       - name: Publish
         uses: actions-rs/cargo@v1
         with:

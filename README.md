@@ -530,6 +530,12 @@ kmon should be tested and reported on different architectures for further develo
 * [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
 * [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
 
+### In the media
+
+* [Manage And Monitor Linux Kernel Modules With Kmon](https://ostechnix.com/manage-and-monitor-linux-kernel-modules-with-kmon/) (
+OSTechNix)
+* [Kmon The Linux Kernel Management And Monitoring Software](https://www.youtube.com/watch?v=lukxf6CnR2o) (Brodie Robertson on YouTube)
+
 ### Gallery
 
 Fedora 31                  |  Debian 10                |  Manjaro 19

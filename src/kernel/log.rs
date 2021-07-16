@@ -94,16 +94,10 @@ impl KernelLogs {
 				}
 			}
 			ScrollDirection::Left => {
-				self.crop_offset = match self.crop_offset.checked_sub(10) {
-					Some(v) => v,
-					None => 0,
-				}
+				self.crop_offset = self.crop_offset.saturating_sub(10)
 			}
 			ScrollDirection::Right => {
-				self.crop_offset = match self.crop_offset.checked_add(10) {
-					Some(v) => v,
-					None => 0,
-				}
+				self.crop_offset = self.crop_offset.checked_add(10).unwrap_or(0)
 			}
 			_ => {}
 		}

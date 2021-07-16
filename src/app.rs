@@ -560,7 +560,7 @@ impl App {
 	{
 		frame.render_widget(
 			Paragraph::new(StyledText::default().stylize_data(
-				&kernel_logs.select(area.height, 2),
+				kernel_logs.select(area.height, 2),
 				"] ",
 				self.style.clone(),
 			))

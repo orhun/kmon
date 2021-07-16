@@ -64,7 +64,7 @@ impl ModuleCommand {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
             Self::Load => Command::new(
-                if Self::is_module_filename(&module_name) {
+                if Self::is_module_filename(module_name) {
 					format!("insmod {}", &module_name)
 				} else {
 					format!("modprobe {0} || insmod {0}.ko", &module_name)

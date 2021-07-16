@@ -328,7 +328,7 @@ where
 									&kernel.modules.current_info.raw_text
 								}
 								Block::Activities => {
-									&kernel.logs.selected_output.trim()
+									kernel.logs.selected_output.trim()
 								}
 								_ => "",
 							});

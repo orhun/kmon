@@ -140,9 +140,9 @@ impl Style {
 			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
 				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
 					Box::leak(Box::new(Color::Rgb(
-						rgb.get_red() as u8,
-						rgb.get_green() as u8,
-						rgb.get_blue() as u8,
+						rgb.red() as u8,
+						rgb.green() as u8,
+						rgb.blue() as u8,
 					)))
 				} else {
 					&default_color

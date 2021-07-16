@@ -16,13 +16,13 @@ edition = "2018"
 [dependencies]
 clap = "2.33.3"
 tui = "0.15.0"
-termion = "1.5.5"
+termion = "1.5.6"
 bytesize = "1.0.1"
 unicode-width = "0.1.8"
 enum-unitary = "0.4.2"
 enum-iterator = "0.6.0"
 clipboard = "0.5.0"
-colorsys = "0.5.7"
+colorsys = "0.6.3"
 
 [profile.dev]
 opt-level = 0

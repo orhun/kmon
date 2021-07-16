@@ -147,7 +147,7 @@ pacman -S kmon
 There are also a development package on [AUR](https://aur.archlinux.org/packages/kmon-git/). Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
 
 ```
-yay -S kmon-git
+paru -S kmon-git
 ```
 
 ### Nixpkgs

@@ -42,7 +42,6 @@ where
 	/* Configure the application. */
 	let mut app = App::new(Block::ModuleTable, kernel.modules.style.clone());
 	/* Draw terminal and render the widgets. */
-	terminal.hide_cursor()?;
 	loop {
 		terminal.draw(|mut f| {
 			let chunks = Layout::default()
@@ -103,11 +102,10 @@ where
 				app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
 			}
 			app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
+			if !app.input_mode.is_none() {
+				f.set_cursor(1 + app.input_query.width() as u16, 1);
+			}
 		})?;
-		/* Set cursor position if the input mode flag is set. */
-		if !app.input_mode.is_none() {
-			terminal.set_cursor(1 + app.input_query.width() as u16, 1)?;
-		}
 		/* Handle terminal events. */
 		match events.rx.recv()? {
 			/* Key input events. */
@@ -361,9 +359,6 @@ where
 							if input != Key::Char('\n') {
 								app.input_query = String::new();
 							}
-							terminal
-								.set_cursor(1 + app.input_query.width() as u16, 1)?;
-							terminal.show_cursor()?;
 						}
 						/* Other character input. */
 						Key::Char(v) => {
@@ -458,8 +453,7 @@ where
 								);
 								app.input_query = String::new();
 							}
-							/* Hide terminal cursor and set the input mode flag. */
-							terminal.hide_cursor()?;
+							/* Set the input mode flag. */
 							app.input_mode = InputMode::None;
 						}
 						/* Append character to input query. */

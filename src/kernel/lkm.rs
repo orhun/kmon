@@ -5,7 +5,7 @@ use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
 use std::slice::Iter;
-use tui::widgets::Text;
+use tui::text::{Span, Spans, Text};
 
 /* Type of the sorting of module list */
 #[derive(Clone, Copy, Debug)]
@@ -165,18 +165,27 @@ impl KernelModules<'_> {
 			}
 			self.command = module_command;
 			self.current_info.set(
-				vec![
-					Text::styled(
-						"Execute the following command? [y/N]:\n",
-						self.style.colored,
-					),
-					Text::styled(self.get_current_command().cmd, self.style.default),
-					Text::styled(
-						format!("\n\n{}", self.get_current_command().desc),
-						self.style.colored,
-					),
-				],
-				3,
+				Text::from({
+					let mut spans = vec![
+						Spans::from(Span::styled(
+							"Execute the following command? [y/N]:",
+							self.style.colored,
+						)),
+						Spans::from(Span::styled(
+							self.get_current_command().cmd,
+							self.style.default,
+						)),
+						Spans::default(),
+					];
+					spans.append(
+						&mut Text::styled(
+							self.get_current_command().desc,
+							self.style.colored,
+						)
+						.lines,
+					);
+					spans
+				}),
 				self.get_current_command().cmd,
 			);
 			self.info_scroll_offset = 0;
@@ -195,21 +204,24 @@ impl KernelModules<'_> {
 				Ok(_) => command_executed = true,
 				Err(e) => {
 					self.current_info.set(
-						vec![
-							Text::styled(
-								"Failed to execute command:",
-								self.style.colored,
-							),
-							Text::styled(
-								format!(
-									"\n'{}'\n\n{}",
-									self.get_current_command().cmd,
-									e
-								),
-								self.style.default,
-							),
-						],
-						3,
+						Text::from({
+							let mut spans = vec![
+								Spans::from(Span::styled(
+									"Failed to execute command:",
+									self.style.colored,
+								)),
+								Spans::from(Span::styled(
+									format!("'{}'", self.get_current_command().cmd),
+									self.style.default,
+								)),
+								Spans::default(),
+							];
+							spans.append(
+								&mut Text::styled(e.to_string(), self.style.default)
+									.lines,
+							);
+							spans
+						}),
 						format!(
 							"Execution Error\n'{}'\n{}",
 							self.get_current_command().cmd,

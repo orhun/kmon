@@ -15,7 +15,8 @@ use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::Style as TuiStyle;
-use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Text};
+use tui::text::{Span, Spans, Text};
+use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Wrap};
 use tui::Frame;
 
 /* Table header of the module table */
@@ -217,23 +218,25 @@ impl App {
 	 */
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
-		let mut help_text: Vec<Text<'static>> = Vec::new();
+
+		let mut help_text = Vec::new();
 		for (key, desc) in &key_bindings {
-			help_text.push(Text::styled(
-				format!("{}:\n{}", key, self.style.unicode.get(Symbol::Blank)),
+			help_text.push(Spans::from(Span::styled(
+				format!("{}:", key),
 				self.style.colored,
-			));
-			help_text.push(Text::styled(format!("{}\n", desc), self.style.default));
+			)));
+			help_text.push(Spans::from(Span::styled(
+				format!("{}{}", self.style.unicode.get(Symbol::Blank), desc),
+				self.style.default,
+			)));
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
 		kernel_modules.current_name =
 			format!("!Help{}", self.style.unicode.get(Symbol::Helmet));
-		kernel_modules.current_info.set(
-			help_text,
-			key_bindings.len(),
-			kernel_modules.current_name.clone(),
-		);
+		kernel_modules
+			.current_info
+			.set(Text::from(help_text), kernel_modules.current_name.clone());
 	}
 
 	/**
@@ -264,17 +267,15 @@ impl App {
 				kernel_modules.current_name,
 				self.style.unicode.get(Symbol::HistoricSite)
 			);
-			let mut dependent_modules: Vec<Text<'_>> = Vec::new();
+			let mut dependent_modules = Vec::new();
 			for module in &dependent_modules_list {
-				dependent_modules.push(Text::styled("-", self.style.colored));
-				dependent_modules.push(Text::styled(
-					format!(" {}\n", module),
-					self.style.default,
-				));
+				dependent_modules.push(Spans::from(vec![
+					Span::styled("-", self.style.colored),
+					Span::styled(format!(" {}", module), self.style.default),
+				]));
 			}
 			kernel_modules.current_info.set(
-				dependent_modules.clone(),
-				dependent_modules.len(),
+				Text::from(dependent_modules),
 				kernel_modules.current_name.clone(),
 			);
 		}
@@ -323,10 +324,9 @@ impl App {
 		B: Backend,
 	{
 		frame.render_widget(
-			Paragraph::new([Text::raw(self.input_query.to_string())].iter())
+			Paragraph::new(Span::raw(self.input_query.to_string()))
 				.block(
 					TuiBlock::default()
-						.title_style(self.style.bold)
 						.border_style(match self.selected_block {
 							Block::UserInput => {
 								if self.input_mode.is_none() {
@@ -337,18 +337,20 @@ impl App {
 							_ => self.style.colored,
 						})
 						.borders(Borders::ALL)
-						.title(&format!(
-							"{}{}",
-							self.input_mode.to_string(),
-							match self.input_mode {
-								InputMode::Load =>
-									self.style.unicode.get(Symbol::Anchor),
-								_ => self.style.unicode.get(Symbol::Magnifier),
-							}
+						.title(Span::styled(
+							format!(
+								"{}{}",
+								self.input_mode.to_string(),
+								match self.input_mode {
+									InputMode::Load =>
+										self.style.unicode.get(Symbol::Anchor),
+									_ => self.style.unicode.get(Symbol::Magnifier),
+								}
+							),
+							self.style.bold,
 						)),
 				)
-				.alignment(Alignment::Left)
-				.wrap(false),
+				.alignment(Alignment::Left),
 			area,
 		);
 	}
@@ -369,20 +371,22 @@ impl App {
 		B: Backend,
 	{
 		frame.render_widget(
-			Paragraph::new([Text::raw(&info[1])].iter())
+			Paragraph::new(Span::raw(&info[1]))
 				.block(
 					TuiBlock::default()
-						.title_style(self.style.bold)
 						.border_style(self.style.colored)
 						.borders(Borders::ALL)
-						.title(&format!(
-							"{}{}",
-							info[0],
-							self.style.unicode.get(Symbol::Gear)
+						.title(Span::styled(
+							&format!(
+								"{}{}",
+								info[0],
+								self.style.unicode.get(Symbol::Gear)
+							),
+							self.style.bold,
 						)),
 				)
 				.alignment(Alignment::Center)
-				.wrap(true),
+				.wrap(Wrap { trim: true }),
 			area,
 		);
 	}
@@ -432,50 +436,54 @@ impl App {
 		/* Set selected state of the modules and render the table widget. */
 		frame.render_widget(
 			Table::new(
-				TABLE_HEADER.iter(),
 				kernel_modules
 					.list
 					.iter()
 					.skip(modules_scroll_offset)
 					.enumerate()
 					.map(|(i, item)| {
+						let item = item.iter().map(|v| v.to_string());
 						if Some(i)
 							== kernel_modules
 								.index
 								.checked_sub(modules_scroll_offset)
 						{
-							Row::StyledData(item.iter(), self.style.default)
+							Row::new(item).style(self.style.default)
 						} else {
-							Row::StyledData(item.iter(), self.style.colored)
+							Row::new(item).style(self.style.colored)
 						}
 					}),
 			)
+			.header(
+				Row::new(TABLE_HEADER.iter().map(|v| v.to_string()))
+					.style(self.style.bold),
+			)
 			.block(
 				TuiBlock::default()
-					.title_style(self.style.bold)
 					.border_style(self.block_style(Block::ModuleTable))
 					.borders(Borders::ALL)
-					.title(&format!(
-						"Loaded Kernel Modules {}{}/{}{} {}{}%{}",
-						self.style.unicode.get(Symbol::LeftBracket),
-						match kernel_modules.list.len() {
-							0 => kernel_modules.index,
-							_ => kernel_modules.index + 1,
-						},
-						kernel_modules.list.len(),
-						self.style.unicode.get(Symbol::RightBracket),
-						self.style.unicode.get(Symbol::LeftBracket),
-						if !kernel_modules.list.is_empty() {
-							((kernel_modules.index + 1) as f64
-								/ kernel_modules.list.len() as f64
-								* 100.0) as u64
-						} else {
-							0
-						},
-						self.style.unicode.get(Symbol::RightBracket),
+					.title(Span::styled(
+						format!(
+							"Loaded Kernel Modules {}{}/{}{} {}{}%{}",
+							self.style.unicode.get(Symbol::LeftBracket),
+							match kernel_modules.list.len() {
+								0 => kernel_modules.index,
+								_ => kernel_modules.index + 1,
+							},
+							kernel_modules.list.len(),
+							self.style.unicode.get(Symbol::RightBracket),
+							self.style.unicode.get(Symbol::LeftBracket),
+							if !kernel_modules.list.is_empty() {
+								((kernel_modules.index + 1) as f64
+									/ kernel_modules.list.len() as f64 * 100.0) as u64
+							} else {
+								0
+							},
+							self.style.unicode.get(Symbol::RightBracket),
+						),
+						self.style.bold,
 					)),
 			)
-			.header_style(self.style.bold)
 			.widths(&[
 				Constraint::Percentage(30),
 				Constraint::Percentage(20),
@@ -501,18 +509,20 @@ impl App {
 		B: Backend,
 	{
 		frame.render_widget(
-			Paragraph::new(kernel_modules.current_info.get().iter())
+			Paragraph::new(kernel_modules.current_info.get())
 				.block(
 					TuiBlock::default()
-						.title_style(self.style.bold)
 						.border_style(self.block_style(Block::ModuleInfo))
 						.borders(Borders::ALL)
-						.title(&format!(
-							"{}{}",
-							kernel_modules.get_current_command().title,
-							self.style
-								.unicode
-								.get(kernel_modules.get_current_command().symbol)
+						.title(Span::styled(
+							format!(
+								"{}{}",
+								kernel_modules.get_current_command().title,
+								self.style.unicode.get(
+									kernel_modules.get_current_command().symbol
+								)
+							),
+							self.style.bold,
 						)),
 				)
 				.alignment(
@@ -527,8 +537,8 @@ impl App {
 						Alignment::Center
 					},
 				)
-				.wrap(true)
-				.scroll(kernel_modules.info_scroll_offset as u16),
+				.wrap(Wrap { trim: true })
+				.scroll((kernel_modules.info_scroll_offset as u16, 0)),
 			area,
 		);
 	}
@@ -549,27 +559,24 @@ impl App {
 		B: Backend,
 	{
 		frame.render_widget(
-			Paragraph::new(
-				StyledText::default()
-					.stylize_data(
-						&kernel_logs.select(area.height, 2),
-						"] ",
-						self.style.clone(),
-					)
-					.iter(),
-			)
+			Paragraph::new(StyledText::default().stylize_data(
+				&kernel_logs.select(area.height, 2),
+				"] ",
+				self.style.clone(),
+			))
 			.block(
 				TuiBlock::default()
-					.title_style(self.style.bold)
 					.border_style(self.block_style(Block::Activities))
 					.borders(Borders::ALL)
-					.title(&format!(
-						"Kernel Activities{}",
-						self.style.unicode.get(Symbol::HighVoltage)
+					.title(Span::styled(
+						format!(
+							"Kernel Activities{}",
+							self.style.unicode.get(Symbol::HighVoltage)
+						),
+						self.style.bold,
 					)),
 			)
-			.alignment(Alignment::Left)
-			.wrap(false),
+			.alignment(Alignment::Left),
 			area,
 		);
 	}

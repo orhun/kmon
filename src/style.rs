@@ -2,7 +2,7 @@ use clap::ArgMatches;
 use colorsys::Rgb;
 use std::collections::HashMap;
 use tui::style::{Color, Modifier, Style as TuiStyle};
-use tui::widgets::Text;
+use tui::text::{Span, Spans, Text};
 
 /* Unicode symbol */
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
@@ -88,15 +88,15 @@ impl Style {
 	 * @return Style
 	 */
 	pub fn new(args: &ArgMatches<'_>) -> Self {
-		let mut default = TuiStyle::default();
+		let mut default = TuiStyle::reset();
 		if args.is_present("accent-color") {
 			default =
 				default.fg(Self::get_color(args, "accent-color", Color::White));
 		}
 		Self {
 			default,
-			bold: TuiStyle::default().modifier(Modifier::BOLD),
-			colored: TuiStyle::default().fg(Self::get_color(
+			bold: TuiStyle::reset().add_modifier(Modifier::BOLD),
+			colored: TuiStyle::reset().fg(Self::get_color(
 				args,
 				"color",
 				Color::DarkGray,
@@ -157,7 +157,7 @@ impl Style {
 #[derive(Debug, Default)]
 pub struct StyledText<'a> {
 	pub raw_text: String,
-	pub styled_text: Vec<Text<'a>>,
+	pub styled_text: Text<'a>,
 }
 
 impl<'a> StyledText<'a> {
@@ -166,11 +166,11 @@ impl<'a> StyledText<'a> {
 	 *
 	 * @return vector
 	 */
-	pub fn get(&'a self) -> Vec<Text<'a>> {
-		if self.styled_text.is_empty() {
-			vec![Text::raw(&self.raw_text)]
+	pub fn get(&'a self) -> Text<'a> {
+		if self.styled_text.lines.is_empty() {
+			Text::raw(&self.raw_text)
 		} else {
-			self.styled_text.to_vec()
+			self.styled_text.clone()
 		}
 	}
 
@@ -178,21 +178,11 @@ impl<'a> StyledText<'a> {
 	 * Set a styled text.
 	 *
 	 * @param text
-	 * @param newline_count
 	 * @param placeholder
 	 */
-	pub fn set(
-		&mut self,
-		text: Vec<Text<'static>>,
-		newline_count: usize,
-		placeholder: String,
-	) {
+	pub fn set(&mut self, text: Text<'static>, placeholder: String) {
 		self.styled_text = text;
 		self.raw_text = placeholder;
-		/* Append empty strings as much as newlines. */
-		for _i in 0..newline_count * 2 {
-			self.styled_text.push(Text::raw(""));
-		}
 	}
 
 	/**
@@ -205,25 +195,23 @@ impl<'a> StyledText<'a> {
 	 */
 	pub fn stylize_data(
 		&mut self,
-		text: &str,
+		text: &'a str,
 		delimiter: &str,
 		style: Style,
-	) -> Vec<Text<'a>> {
-		self.styled_text = Vec::new();
+	) -> Text<'a> {
+		self.styled_text = Text::default();
 		self.raw_text = text.to_string();
 		for line in text.lines() {
 			let data = line.split(delimiter).collect::<Vec<&str>>();
 			if data.len() > 1 && data[0].trim().len() > 2 {
-				self.styled_text.extend_from_slice(&[
-					Text::styled(format!("{}{}", data[0], delimiter), style.colored),
-					Text::styled(
-						format!("{}\n", data[1..data.len()].join(delimiter)),
-						style.default,
-					),
-				]);
+				self.styled_text.lines.push(Spans::from(vec![
+					Span::styled(format!("{}{}", data[0], delimiter), style.colored),
+					Span::styled(data[1..data.len()].join(delimiter), style.default),
+				]));
 			} else {
 				self.styled_text
-					.push(Text::styled(format!("{}\n", line), style.default));
+					.lines
+					.push(Spans::from(Span::styled(line, style.default)))
 			}
 		}
 		self.styled_text.clone()
@@ -235,10 +223,10 @@ impl<'a> StyledText<'a> {
 	 * @return usize
 	 */
 	pub fn lines(&self) -> usize {
-		if self.styled_text.is_empty() {
+		if self.styled_text.lines.is_empty() {
 			self.raw_text.lines().count()
 		} else {
-			self.styled_text.len()
+			self.styled_text.lines.len()
 		}
 	}
 }
@@ -247,22 +235,20 @@ impl<'a> StyledText<'a> {
 mod tests {
 	use super::*;
 	use clap::ArgMatches;
-	use tui::widgets::Text;
 	#[test]
 	fn test_style() {
 		let args = ArgMatches::default();
 		let style = Style::new(&args);
 		let mut styled_text = StyledText::default();
 		styled_text.set(
-			vec![Text::styled("styled\ntext", style.colored)],
-			0,
+			Text::styled("styled\ntext", style.colored),
 			String::from("test"),
 		);
 		assert_eq!(
-			vec![Text::styled("styled\ntext", style.colored)],
+			Text::styled("styled\ntext", style.colored),
 			styled_text.get()
 		);
-		assert_eq!(1, styled_text.lines());
+		assert_eq!(2, styled_text.lines());
 		assert_eq!("test", styled_text.raw_text);
 	}
 	#[test]

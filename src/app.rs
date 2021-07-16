@@ -218,17 +218,19 @@ impl App {
 	 */
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
-
 		let mut help_text = Vec::new();
+		let mut help_text_raw = Vec::new();
 		for (key, desc) in &key_bindings {
 			help_text.push(Spans::from(Span::styled(
-				format!("{}:", key),
+				format!("{}:", &key),
 				self.style.colored,
 			)));
+			help_text_raw.push(format!("{}:", key));
 			help_text.push(Spans::from(Span::styled(
-				format!("{}{}", self.style.unicode.get(Symbol::Blank), desc),
+				format!("{}{}", self.style.unicode.get(Symbol::Blank), &desc),
 				self.style.default,
 			)));
+			help_text_raw.push(format!(" {}", &desc));
 		}
 		kernel_modules.info_scroll_offset = 0;
 		kernel_modules.command = ModuleCommand::None;
@@ -236,7 +238,7 @@ impl App {
 			format!("!Help{}", self.style.unicode.get(Symbol::Helmet));
 		kernel_modules
 			.current_info
-			.set(Text::from(help_text), kernel_modules.current_name.clone());
+			.set(Text::from(help_text), help_text_raw.join("\n"));
 	}
 
 	/**

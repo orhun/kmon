@@ -110,6 +110,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 - [Resources](#resources)
   - [About the project](#about-the-project)
   - [Articles](#articles)
+  - [In the media](#in-the-media)
   - [Gallery](#gallery)
   - [Social Media](#social-media)
 - [Funding](#funding)

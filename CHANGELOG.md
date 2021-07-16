@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.4] - 2021-07-16
+
+This release contains major code refactoring for bumping [tui-rs](https://github.com/fdehau/tui-rs/) to the latest version. Please [report](https://github.com/orhun/kmon/issues/new/choose) if you come across any unexpected behaviour.
+
+### Changed
+- Update dependencies to the latest version
+- Update README.md about social media links and AUR installation
+- Update RELEASE.md to mention the release signing key
+
+### Fixed
+- Make the help text copyable via `c` key press
+- Apply clippy suggestions
+
 ## [1.5.3] - 2020-12-15
 ### Fixed
 - Install X11 dependencies for crates.io release

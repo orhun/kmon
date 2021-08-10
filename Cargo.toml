@@ -15,9 +15,9 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33.3"
-tui = "0.15.0"
+tui = "0.16.0"
 termion = "1.5.6"
-bytesize = "1.0.1"
+bytesize = "1.1.0"
 unicode-width = "0.1.8"
 enum-unitary = "0.4.2"
 enum-iterator = "0.6.0"

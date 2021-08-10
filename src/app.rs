@@ -385,7 +385,8 @@ impl App {
 								self.style.unicode.get(Symbol::Gear)
 							),
 							self.style.bold,
-						)),
+						))
+						.title_alignment(Alignment::Center),
 				)
 				.alignment(Alignment::Center)
 				.wrap(Wrap { trim: true }),

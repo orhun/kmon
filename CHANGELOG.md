@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.5] - 2021-08-11
+
+### Changed
+- Center the title of kernel information block
+- Update dependencies to the latest version
+- Update the upload step in CD workflow
+
 ## [1.5.4] - 2021-07-16
 
 This release contains major code refactoring for bumping [tui-rs](https://github.com/fdehau/tui-rs/) to the latest version. Please [report](https://github.com/orhun/kmon/issues/new/choose) if you come across any unexpected behaviour.

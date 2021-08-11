@@ -48,14 +48,16 @@ jobs:
             --passphrase-fd 0 --detach-sign \
             kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz
       - name: Upload assets
-        uses: softprops/action-gh-release@v1
+        uses: svenstaro/upload-release-action@v2
         with:
-          files: |
-            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz
-            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz.sig
-            kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz.sha512
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: kmon-${{ env.RELEASE_VERSION }}-${{ matrix.TARGET }}.tar.gz*
+          file_glob: true
+          overwrite: true
+          tag: ${{ github.ref }}
+          body: |
+            <a href="https://github.com/orhun/kmon"><img src="https://user-images.githubusercontent.com/24392180/73918056-d5c45500-48d1-11ea-8d18-9943827ab2ed.png" width="400"></a>
+            See [**changelog**](CHANGELOG.md) for release notes.
 
   publish-crates-io:
     name: Publish on crates.io

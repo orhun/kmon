@@ -54,6 +54,7 @@ jobs:
           args: --all -- --check
 
       - name: Check lints
+        if: matrix.TOOLCHAIN == 'stable'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
@@ -66,11 +67,13 @@ jobs:
           args: --target ${{ matrix.TARGET }}
 
       - name: Run code coverage tool
+        if: matrix.TOOLCHAIN == 'stable' && matrix.TARGET == 'x86_64-unknown-linux-gnu'
         uses: actions-rs/tarpaulin@v0.1
         with:
           args: "-v"
 
       - name: Upload reports to codecov.io
+        if: matrix.TOOLCHAIN == 'stable' && matrix.TARGET == 'x86_64-unknown-linux-gnu'
         uses: codecov/codecov-action@v1.0.7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

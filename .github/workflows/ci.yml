@@ -7,77 +7,76 @@ on:
   pull_request:
     branches:
       - master
+  schedule:
+    - cron: "0 0 * * 0"
 
 jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-          args: --locked
+  build:
+    name: Build for ${{ matrix.TARGET }} using Rust ${{ matrix.TOOLCHAIN }} (on ${{ matrix.OS }})
+    runs-on: ${{ matrix.OS }}
+    strategy:
+      fail-fast: false
+      matrix:
+        OS: [ubuntu-latest]
+        TOOLCHAIN: [stable, nightly]
+        TARGET:
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
 
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Install X11 dependencies
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --allow-unauthenticated -y -qq \
             libxcb-shape0-dev libxcb-xfixes0-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --all
-      - name: Run cargo-tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          args: '-v'
-      - name: Upload reports to codecov.io
-        uses: codecov/codecov-action@v1.0.7
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          file: cobertura.xml
-          flags: unittests
-          name: code-coverage-report
-          fail_ci_if_error: true
 
-  fmt:
-    name: Rustfmt
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: ${{ matrix.TOOLCHAIN }}
+          target: ${{ matrix.TARGET }}
           override: true
-      - uses: actions-rs/cargo@v1
+          components: rustfmt, clippy
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --target ${{ matrix.TARGET }}
+
+      - name: Check formatting
+        uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all -- --check
 
-  clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
+      - name: Check lints
+        uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -- -D warnings
+
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: test
+          args: --target ${{ matrix.TARGET }}
+
+      - name: Run code coverage tool
+        uses: actions-rs/tarpaulin@v0.1
+        with:
+          args: "-v"
+
+      - name: Upload reports to codecov.io
+        uses: codecov/codecov-action@v1.0.7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: cobertura.xml
+          flags: unittests
+          name: code-coverage-report
+          fail_ci_if_error: true

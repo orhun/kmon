@@ -1,5 +1,5 @@
-# Build Image
-FROM rust:1.48-slim-buster as cargo-build
+# Builder
+FROM rust:1.56-slim-buster as builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libxcb1-dev=1.13.1-2 libxcb-shape0-dev=1.13.1-2 libxcb-xfixes0-dev=1.13.1-2 \
   python3 --allow-unauthenticated \
@@ -14,7 +14,7 @@ COPY . .
 RUN cargo build --release
 RUN mkdir -p build-out && cp target/release/kmon build-out/
 
-# Runtime Image
+# Runtime
 FROM debian:buster-slim as runtime-image
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libxcb1-dev=1.13.1-2 libxcb-shape0-dev=1.13.1-2 libxcb-xfixes0-dev=1.13.1-2 \
@@ -22,5 +22,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /root/
-COPY --from=cargo-build /app/build-out/kmon .
+COPY --from=builder /app/build-out/kmon .
 CMD ["./kmon"]

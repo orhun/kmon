@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --allow-unauthenticated -y -qq \
-            libxcb-shape0-dev libxcb-xfixes0-dev python3
+            libxcb-shape0-dev libxcb-xfixes0-dev musl-tools
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -44,7 +44,6 @@ jobs:
       - name: Build
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: build
           args: --target ${{ matrix.TARGET }}
 
@@ -63,7 +62,6 @@ jobs:
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: test
           args: --target ${{ matrix.TARGET }}
 

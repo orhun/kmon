@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@master
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: minimal
+          override: true
       - name: Run cargo-audit
         uses: actions-rs/audit-check@v1
         with:

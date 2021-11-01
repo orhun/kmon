@@ -18,11 +18,11 @@ clap = "2.33.3"
 tui = "0.16.0"
 termion = "1.5.6"
 bytesize = "1.1.0"
-unicode-width = "0.1.8"
+unicode-width = "0.1.9"
 enum-unitary = "0.4.3"
 enum-iterator = "0.7.0"
 clipboard = "0.5.0"
-colorsys = "0.6.3"
+colorsys = "0.6.5"
 
 [profile.dev]
 opt-level = 0

@@ -53,6 +53,20 @@ pub enum ModuleCommand {
 	Clear,
 }
 
+impl TryFrom<String> for ModuleCommand {
+	type Error = ();
+	fn try_from(s: String) -> Result<Self, Self::Error> {
+		match s.as_ref() {
+			"load" => Ok(Self::Load),
+			"unload" => Ok(Self::Unload),
+			"reload" => Ok(Self::Reload),
+			"blacklist" => Ok(Self::Blacklist),
+			"clear" => Ok(Self::Clear),
+			_ => Err(()),
+		}
+	}
+}
+
 impl ModuleCommand {
 	/**
 	 * Get Command struct from a enum element.

@@ -5,6 +5,7 @@ use crate::kernel::log::KernelLogs;
 use crate::kernel::Kernel;
 use crate::style::{Style, StyledText, Symbol};
 use crate::util;
+use crate::widgets::StatefulList;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
 use std::error::Error;
@@ -13,14 +14,28 @@ use std::slice::Iter;
 use std::sync::mpsc::Sender;
 use termion::event::Key;
 use tui::backend::Backend;
-use tui::layout::{Alignment, Constraint, Rect};
+use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::style::Style as TuiStyle;
 use tui::text::{Span, Spans, Text};
-use tui::widgets::{Block as TuiBlock, Borders, Paragraph, Row, Table, Wrap};
+use tui::widgets::{
+	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
+};
 use tui::Frame;
+use unicode_width::UnicodeWidthStr;
 
 /* Table header of the module table */
 pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
+
+/* Available options in the module management menu */
+const OPTIONS: &[(&str, &str)] = &[
+	("unload", "Unload the module"),
+	("reload", "Reload the module"),
+	("blacklist", "Blacklist the module"),
+	("dependent", "Show the dependent modules"),
+	("copy", "Copy the module name"),
+	("load", "Load a kernel module"),
+	("clear", "Clear the ring buffer"),
+];
 
 /* Supported directions of scrolling */
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -125,6 +140,8 @@ pub struct App {
 	pub block_index: u8,
 	pub input_mode: InputMode,
 	pub input_query: String,
+	pub options: StatefulList<(String, String)>,
+	pub show_options: bool,
 	style: Style,
 }
 
@@ -144,6 +161,15 @@ impl App {
 			block_index: 0,
 			input_mode: InputMode::None,
 			input_query: String::new(),
+			options: StatefulList::with_items(
+				OPTIONS
+					.iter()
+					.map(|(option, text)| {
+						(String::from(*option), String::from(*text))
+					})
+					.collect(),
+			),
+			show_options: false,
 			style,
 		}
 	}
@@ -155,6 +181,8 @@ impl App {
 		self.block_index = 0;
 		self.input_mode = InputMode::None;
 		self.input_query = String::new();
+		self.options.state.select(Some(0));
+		self.show_options = false;
 	}
 
 	/**
@@ -164,7 +192,9 @@ impl App {
 	 * @return TuiStyle
 	 */
 	pub fn block_style(&self, block: Block) -> TuiStyle {
-		if block == self.selected_block {
+		if self.show_options {
+			self.style.colored
+		} else if block == self.selected_block {
 			self.style.default
 		} else {
 			self.style.colored
@@ -402,7 +432,7 @@ impl App {
 	 * @param kernel_modules
 	 */
 	pub fn draw_kernel_modules<B>(
-		&self,
+		&mut self,
 		frame: &mut Frame<'_, B>,
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
@@ -493,6 +523,95 @@ impl App {
 				Constraint::Percentage(50),
 			]),
 			area,
+		);
+		if self.show_options {
+			self.draw_options_menu(frame, area, kernel_modules);
+		}
+	}
+
+	/**
+	 * Draws the options menu as a popup.
+	 *
+	 * @param frame
+	 * @param area
+	 */
+	pub fn draw_options_menu<B>(
+		&mut self,
+		frame: &mut Frame<'_, B>,
+		area: Rect,
+		kernel_modules: &mut KernelModules<'_>,
+	) where
+		B: Backend,
+	{
+		let block_title = format!(
+			"Options ({})",
+			kernel_modules.list[kernel_modules.index][0]
+				.split_whitespace()
+				.next()
+				.unwrap_or("?")
+				.trim()
+				.to_string()
+		);
+		let items = self
+			.options
+			.items
+			.iter()
+			.map(|(_, text)| ListItem::new(Span::raw(format!(" {}", text))))
+			.collect::<Vec<ListItem<'_>>>();
+		let (mut percent_y, mut percent_x) = (40, 60);
+		let text_height = items.iter().map(|v| v.height() as f32).sum::<f32>() + 3.;
+		if area.height.checked_sub(5).unwrap_or(area.height) as f32 > text_height {
+			percent_y = ((text_height / area.height as f32) * 100.) as u16;
+		}
+		if let Some(text_width) = self
+			.options
+			.items
+			.iter()
+			.map(|(_, text)| text.width())
+			.chain(vec![block_title.width()].into_iter())
+			.max()
+			.map(|v| v as f32 + 7.)
+		{
+			if area.width.checked_sub(2).unwrap_or(area.width) as f32 > text_width {
+				percent_x = ((text_width / area.width as f32) * 100.) as u16;
+			}
+		}
+		let popup_layout = Layout::default()
+			.direction(Direction::Vertical)
+			.constraints(
+				[
+					Constraint::Percentage((100 - percent_y) / 2),
+					Constraint::Percentage(percent_y),
+					Constraint::Percentage((100 - percent_y) / 2),
+				]
+				.as_ref(),
+			)
+			.split(area);
+		let popup_rect = Layout::default()
+			.direction(Direction::Horizontal)
+			.constraints(
+				[
+					Constraint::Percentage((100 - percent_x) / 2),
+					Constraint::Percentage(percent_x),
+					Constraint::Percentage((100 - percent_x) / 2),
+				]
+				.as_ref(),
+			)
+			.split(popup_layout[1])[1];
+		frame.render_widget(Clear, popup_rect);
+		frame.render_stateful_widget(
+			List::new(items)
+				.block(
+					TuiBlock::default()
+						.title(Span::styled(block_title, self.style.bold))
+						.title_alignment(Alignment::Center)
+						.style(self.style.default)
+						.borders(Borders::ALL),
+				)
+				.style(self.style.colored)
+				.highlight_style(self.style.default),
+			popup_rect,
+			&mut self.options.state,
 		);
 	}
 

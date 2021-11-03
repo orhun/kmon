@@ -118,7 +118,7 @@ impl KernelModules<'_> {
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();
-			let mut module_name = format!(" {}", columns[0].to_string());
+			let mut module_name = format!(" {}", columns[0]);
 			if columns.len() >= 7 {
 				module_name = format!("{} {}", module_name, columns[6]);
 			}

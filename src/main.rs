@@ -44,7 +44,7 @@ where
 	let mut app = App::new(Block::ModuleTable, kernel.modules.style.clone());
 	/* Draw terminal and render the widgets. */
 	loop {
-		terminal.draw(|mut f| {
+		terminal.draw(|frame| {
 			let chunks = Layout::default()
 				.direction(Direction::Vertical)
 				.constraints(
@@ -54,7 +54,7 @@ where
 					]
 					.as_ref(),
 				)
-				.split(f.size());
+				.split(frame.size());
 			{
 				let chunks = Layout::default()
 					.direction(Direction::Horizontal)
@@ -87,24 +87,24 @@ where
 								.as_ref(),
 							)
 							.split(chunks[0]);
-						app.draw_user_input(&mut f, chunks[0], &events.tx);
+						app.draw_user_input(frame, chunks[0], &events.tx);
 						app.draw_kernel_info(
-							&mut f,
+							frame,
 							chunks[1],
 							&kernel.info.current_info,
 						);
 					}
 					if app.block_size.info != 100 {
-						app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
+						app.draw_dynamic_block(frame, chunks[1], &mut kernel);
 					} else {
 						app.block_index += 1;
 					}
 				}
-				app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
+				app.draw_dynamic_block(frame, chunks[1], &mut kernel);
 			}
-			app.draw_dynamic_block(&mut f, chunks[1], &mut kernel);
+			app.draw_dynamic_block(frame, chunks[1], &mut kernel);
 			if !app.input_mode.is_none() {
-				f.set_cursor(1 + app.input_query.width() as u16, 1);
+				frame.set_cursor(1 + app.input_query.width() as u16, 1);
 			}
 		})?;
 		/* Handle terminal events. */

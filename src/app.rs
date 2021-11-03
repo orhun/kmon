@@ -372,7 +372,7 @@ impl App {
 						.title(Span::styled(
 							format!(
 								"{}{}",
-								self.input_mode.to_string(),
+								self.input_mode,
 								match self.input_mode {
 									InputMode::Load =>
 										self.style.unicode.get(Symbol::Anchor),
@@ -550,7 +550,6 @@ impl App {
 				.next()
 				.unwrap_or("?")
 				.trim()
-				.to_string()
 		);
 		let items = self
 			.options

@@ -82,6 +82,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Navigating & Scrolling](#navigating--scrolling)
     - [Scrolling Kernel Activities](#scrolling-kernel-activities)
     - [Smooth Scrolling](#smooth-scrolling)
+  - [Options Menu](#options-menu)
   - [Block Sizes](#block-sizes)
   - [Block Positions](#block-positions)
   - [Kernel Information](#kernel-information)
@@ -265,30 +266,31 @@ FLAGS:
 
 ## Key Bindings
 
-|                         	|                                       	|
-|-------------------------	|---------------------------------------	|
-|  `[?], F1`              	| Help                                  	|
-| `right/left, h/l`       	| Switch between blocks                 	|
-| `up/down, k/j, alt-k/j` 	| Scroll up/down [selected block]       	|
-| `pgup/pgdown`           	| Scroll up/down [kernel activities]    	|
-| `</>`                   	| Scroll up/down [module information]   	|
-| `alt-h/l`               	| Scroll right/left [kernel activities] 	|
-| `ctrl-t/b, home/end`    	| Scroll to top/bottom [module list]    	|
-| `alt-e/s`       	        | Expand/shrink the selected block      	|
-| `ctrl-x`         	        | Change the block position             	|
-| `ctrl-l/u, alt-c`       	| Clear the kernel ring buffer          	|
-| `[d], alt-d`            	| Show the dependent modules            	|
-| `[1]..[9]`              	| Jump to the dependent module          	|
-| `[\], tab, backtab`     	| Show the next kernel information      	|
-| `[/], s, enter`         	| Search a kernel module                	|
-| `[+], i, insert`        	| Load a kernel module                  	|
-| `[-], u, backspace`     	| Unload the kernel module              	|
-| `[x], b, delete`        	| Blacklist the kernel module           	|
-| `ctrl-r, alt-r`         	| Reload the kernel module              	|
-| `y/n`                   	| Execute/cancel the command            	|
-| `c/v`                   	| Copy/paste                            	|
-| `r, F5`                 	| Refresh                               	|
-| `q, ctrl-c/d, ESC`      	| Quit                                  	|
+|                         |                                       |
+| ----------------------- | ------------------------------------- |
+| `[?], F1`               | Help                                  |
+| `right/left, h/l`       | Switch between blocks                 |
+| `up/down, k/j, alt-k/j` | Scroll up/down [selected block]       |
+| `pgup/pgdown`           | Scroll up/down [kernel activities]    |
+| `</>`                   | Scroll up/down [module information]   |
+| `alt-h/l`               | Scroll right/left [kernel activities] |
+| `ctrl-t/b, home/end`    | Scroll to top/bottom [module list]    |
+| `alt-e/s`               | Expand/shrink the selected block      |
+| `ctrl-x`                | Change the block position             |
+| `ctrl-l/u, alt-c`       | Clear the kernel ring buffer          |
+| `[d], alt-d`            | Show the dependent modules            |
+| `[1]..[9]`              | Jump to the dependent module          |
+| `[\], tab, backtab`     | Show the next kernel information      |
+| `[/], s, enter`         | Search a kernel module                |
+| `[+], i, insert`        | Load a kernel module                  |
+| `[-], u, backspace`     | Unload the kernel module              |
+| `[x], b, delete`        | Blacklist the kernel module           |
+| `ctrl-r, alt-r`         | Reload the kernel module              |
+| `m, o`                  | Show the options menu                 |
+| `y/n`                   | Execute/cancel the command            |
+| `c/v`                   | Copy/paste                            |
+| `r, F5`                 | Refresh                               |
+| `q, ctrl-c/d, ESC`      | Quit                                  |
 
 ## Features
 
@@ -315,6 +317,12 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 `alt-j & alt-k` keys can be used to scroll kernel activity and module information blocks slowly.
 
 ![Smooth Scrolling](https://user-images.githubusercontent.com/24392180/76685907-4aed1d80-6628-11ea-96b7-a5bc0597455b.gif)
+
+### Options Menu
+
+`m` and `o` keys can be used as a shortcut for kernel management operations. When pressed, an options menu will be provided for managing the currently selected kernel module.
+
+![Options Menu](https://user-images.githubusercontent.com/24392180/140408275-5c400e39-c1e6-4484-85fe-f39160a842a0.gif)
 
 ### Block Sizes
 

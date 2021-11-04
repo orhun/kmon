@@ -241,11 +241,13 @@ where
 						}
 						/* Scroll to the top of the module list. */
 						Key::Ctrl('t') | Key::Home => {
+							app.options.state.select(Some(0));
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Top)
 						}
 						/* Scroll to the bottom of the module list. */
 						Key::Ctrl('b') | Key::End => {
+							app.options.state.select(Some(0));
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Bottom)
 						}

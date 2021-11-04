@@ -620,6 +620,9 @@ mod tests {
 				Key::Char('<'),
 				Key::Char('>'),
 				Key::Char('\t'),
+				Key::Char('m'),
+				Key::Down,
+				Key::Char('\n'),
 			] {
 				send_key(&tx, key);
 			}

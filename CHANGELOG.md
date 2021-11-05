@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.6.0] - 2021-11-05
+
+### Added
+- Add [options menu](https://github.com/orhun/kmon#options-menu) for managing the kernel modules. Press `m` to show:
+
+<img src="https://user-images.githubusercontent.com/24392180/140534532-f7a3bb59-ba2f-4f6b-9540-d6e21e96a2e2.jpg" width="500">
+
+### Changed
+
+- Migrate to Rust 2021 edition
+- Bump the dependencies
+- Optimize CI/CD workflows
 
 ## [1.5.5] - 2021-08-11
 

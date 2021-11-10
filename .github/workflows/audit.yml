@@ -15,7 +15,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: minimal
+          profile: minimal
           override: true
       - name: Run cargo-audit
         uses: actions-rs/audit-check@v1

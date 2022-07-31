@@ -115,6 +115,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Gallery](#gallery)
   - [Social Media](#social-media)
 - [Funding](#funding)
+  - [GitHub](#github)
   - [Patreon](#patreon)
   - [Open Collective](#open-collective)
 - [License](#license)
@@ -564,9 +565,11 @@ Ubuntu 18.04                  |  openSUSE                |  Void Linux
 
 ## Funding
 
-### Patreon
+### GitHub
 
-Support the development of kmon and [other](https://www.patreon.com/orhunp) projects by becoming a [patron](https://www.patreon.com/join/orhunp).
+Support the development of my projects by supporting me on [GitHub Sponsors](https://github.com/sponsors/orhun).
+
+### Patreon
 
 [![Patreon Button](https://user-images.githubusercontent.com/24392180/77826872-e7c8b400-711a-11ea-8f51-502e3a4d46b9.png)](https://www.patreon.com/join/orhunp)
 

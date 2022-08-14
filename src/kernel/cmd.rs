@@ -43,7 +43,7 @@ impl Command {
 }
 
 /* Kernel module management commands */
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ModuleCommand {
 	None,
 	Load,

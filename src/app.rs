@@ -38,7 +38,7 @@ const OPTIONS: &[(&str, &str)] = &[
 ];
 
 /* Supported directions of scrolling */
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ScrollDirection {
 	Up,
 	Down,
@@ -70,7 +70,7 @@ impl ScrollDirection {
 
 /* Main blocks of the terminal */
 enum_unitary! {
-	#[derive(Copy, Debug, PartialEq)]
+	#[derive(Copy, Debug, PartialEq, Eq)]
 	pub enum Block {
 		UserInput,
 		ModuleTable,
@@ -99,7 +99,7 @@ impl Default for BlockSize {
 
 /* User input mode */
 enum_unitary! {
-	#[derive(Copy, Debug, PartialEq)]
+	#[derive(Copy, Debug, PartialEq, Eq)]
 	pub enum InputMode {
 		None,
 		Search,

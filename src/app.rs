@@ -240,7 +240,9 @@ impl App {
 	 */
 	pub fn set_clipboard_contents(&mut self, contents: &str) {
 		if let Some(clipboard) = self.clipboard.as_mut() {
-			clipboard.set_contents(contents.to_string()).unwrap();
+			if let Err(e) = clipboard.set_contents(contents.to_string()) {
+				eprintln!("{}", e);
+			}
 		}
 	}
 

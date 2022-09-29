@@ -364,7 +364,8 @@ where
 						}
 						/* Paste the clipboard contents and switch to search mode. */
 						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
-							app.input_query += &app.get_clipboard_contents();
+							let clipboard_contents = app.get_clipboard_contents();
+							app.input_query += &clipboard_contents;
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							kernel.modules.index = 0;
 						}
@@ -468,11 +469,13 @@ where
 						}
 						/* Copy input query to the clipboard. */
 						Key::Ctrl('c') => {
-							app.set_clipboard_contents(&app.input_query);
+							let query = app.input_query.clone();
+							app.set_clipboard_contents(&query);
 						}
 						/* Paste the clipboard contents. */
 						Key::Ctrl('v') => {
-							app.input_query += &app.get_clipboard_contents();
+							let clipboard_contents = app.get_clipboard_contents();
+							app.input_query += &clipboard_contents;
 						}
 						/* Exit user input mode. */
 						Key::Char('\n')

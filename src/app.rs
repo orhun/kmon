@@ -6,9 +6,9 @@ use crate::kernel::Kernel;
 use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use crate::widgets::StatefulList;
-use clipboard::{ClipboardContext, ClipboardProvider};
+use copypasta_ext::display::DisplayServer as ClipboardDisplayServer;
+use copypasta_ext::prelude::ClipboardProvider;
 use enum_iterator::Sequence;
-use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
 use std::sync::mpsc::Sender;
@@ -140,6 +140,7 @@ pub struct App {
 	pub options: StatefulList<(String, String)>,
 	pub show_options: bool,
 	style: Style,
+	clipboard: Option<Box<dyn ClipboardProvider>>,
 }
 
 impl App {
@@ -168,6 +169,13 @@ impl App {
 			),
 			show_options: false,
 			style,
+			clipboard: match ClipboardDisplayServer::select().try_context() {
+				None => {
+					eprintln!("failed to initialize clipboard, no suitable clipboard provider found");
+					None
+				}
+				clipboard => clipboard,
+			},
 		}
 	}
 
@@ -216,13 +224,13 @@ impl App {
 	 *
 	 * @return contents
 	 */
-	pub fn get_clipboard_contents(&self) -> String {
-		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
-			ClipboardProvider::new();
-		match clipboard_context {
-			Ok(mut v) => v.get_contents().unwrap_or_default(),
-			Err(_) => String::new(),
+	pub fn get_clipboard_contents(&mut self) -> String {
+		if let Some(clipboard) = self.clipboard.as_mut() {
+			if let Ok(contents) = clipboard.get_contents() {
+				return contents;
+			}
 		}
+		String::new()
 	}
 
 	/**
@@ -230,11 +238,9 @@ impl App {
 	 *
 	 * @param contents
 	 */
-	pub fn set_clipboard_contents(&self, contents: &str) {
-		let clipboard_context: Result<ClipboardContext, Box<dyn Error>> =
-			ClipboardProvider::new();
-		if let Ok(mut v) = clipboard_context {
-			v.set_contents(contents.to_string()).unwrap();
+	pub fn set_clipboard_contents(&mut self, contents: &str) {
+		if let Some(clipboard) = self.clipboard.as_mut() {
+			clipboard.set_contents(contents.to_string()).unwrap();
 		}
 	}
 

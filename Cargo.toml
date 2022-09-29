@@ -18,10 +18,10 @@ tui = { version = "0.19.0", default-features = false, features = ["termion"] }
 termion = "1.5.6"
 bytesize = "1.1.0"
 unicode-width = "0.1.10"
-clipboard = "0.5.0"
 colorsys = "0.6.6"
 enum-iterator = "1.2.0"
 clap = "4.0.4"
+copypasta-ext = "0.3.9"
 
 [profile.dev]
 opt-level = 0

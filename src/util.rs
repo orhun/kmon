@@ -1,4 +1,4 @@
-use clap::{App, Arg, SubCommand};
+use clap::{Arg, ArgAction, ArgMatches, Command as App};
 use std::process::Command;
 
 /* Macro for concise initialization of hashmap */
@@ -52,76 +52,83 @@ const ASCII_LOGO: &str = "
  *
  * @return ArgMatches
  */
-pub fn parse_args() -> clap::ArgMatches<'static> {
+pub fn parse_args() -> ArgMatches {
 	App::new(env!("CARGO_PKG_NAME"))
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))
-		.about(&*format!(
-			"{}\n\n{}",
+		.about(format!(
+			"{} {}\n{}\n{}\n\n{}",
+			env!("CARGO_PKG_NAME"),
+			env!("CARGO_PKG_VERSION"),
+			env!("CARGO_PKG_AUTHORS"),
 			env!("CARGO_PKG_DESCRIPTION"),
 			"Press '?' while running the terminal UI to see key bindings."
 		))
-		.usage("kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]")
 		.before_help(ASCII_LOGO)
 		.arg(
-			Arg::with_name("accent-color")
-				.short("a")
+			Arg::new("accent-color")
+				.short('a')
 				.long("accent-color")
 				.value_name("COLOR")
 				.default_value("white")
 				.help("Set the accent color using hex or color name")
-				.takes_value(true),
+				.num_args(1),
 		)
 		.arg(
-			Arg::with_name("color")
-				.short("c")
+			Arg::new("color")
+				.short('c')
 				.long("color")
 				.value_name("COLOR")
 				.default_value("darkgray")
 				.help("Set the main color using hex or color name")
-				.takes_value(true),
+				.num_args(1),
 		)
 		.arg(
-			Arg::with_name("rate")
-				.short("t")
+			Arg::new("rate")
+				.short('t')
 				.long("tickrate")
 				.value_name("MS")
 				.default_value("250")
 				.help("Set the refresh rate of the terminal")
-				.takes_value(true),
+				.num_args(1),
 		)
 		.arg(
-			Arg::with_name("reverse")
-				.short("r")
+			Arg::new("reverse")
+				.short('r')
 				.long("reverse")
-				.help("Reverse the kernel module list"),
+				.help("Reverse the kernel module list")
+				.action(ArgAction::SetTrue),
 		)
 		.arg(
-			Arg::with_name("unicode")
-				.short("u")
+			Arg::new("unicode")
+				.short('u')
 				.long("unicode")
-				.help("Show Unicode symbols for the block titles"),
+				.help("Show Unicode symbols for the block titles")
+				.action(ArgAction::SetTrue),
 		)
 		.subcommand(
-			SubCommand::with_name("sort")
+			App::new("sort")
 				.about("Sort kernel modules")
 				.arg(
-					Arg::with_name("size")
-						.short("s")
+					Arg::new("size")
+						.short('s')
 						.long("size")
-						.help("Sort modules by their sizes"),
+						.help("Sort modules by their sizes")
+						.action(ArgAction::SetTrue),
 				)
 				.arg(
-					Arg::with_name("name")
-						.short("n")
+					Arg::new("name")
+						.short('n')
 						.long("name")
-						.help("Sort modules by their names"),
+						.help("Sort modules by their names")
+						.action(ArgAction::SetTrue),
 				)
 				.arg(
-					Arg::with_name("dependent")
-						.short("d")
+					Arg::new("dependent")
+						.short('d')
 						.long("dependent")
-						.help("Sort modules by their dependent modules"),
+						.help("Sort modules by their dependent modules")
+						.action(ArgAction::SetTrue),
 				),
 		)
 		.get_matches()

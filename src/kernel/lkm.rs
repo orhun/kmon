@@ -47,12 +47,12 @@ impl ListArgs {
 	 * @param  ArgMatches
 	 * @return ListArgs
 	 */
-	pub fn new(args: &ArgMatches<'_>) -> Self {
+	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
-		if let Some(matches) = args.subcommand_matches("sort") {
-			if matches.is_present("size") {
+		if let Some(("sort", matches)) = args.subcommand() {
+			if matches.get_flag("size") {
 				sort_type = SortType::Size;
-			} else if matches.is_present("dependent") {
+			} else if matches.get_flag("dependent") {
 				sort_type = SortType::Dependent;
 			} else {
 				sort_type = SortType::Name;
@@ -60,7 +60,8 @@ impl ListArgs {
 		}
 		Self {
 			sort: sort_type,
-			reverse: args.is_present("reverse"),
+			reverse: args.try_get_one::<bool>("reverse").ok().flatten()
+				== Some(&true),
 		}
 	}
 }

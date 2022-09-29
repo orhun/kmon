@@ -87,9 +87,9 @@ impl Style {
 	 * @param  args
 	 * @return Style
 	 */
-	pub fn new(args: &ArgMatches<'_>) -> Self {
+	pub fn new(args: &ArgMatches) -> Self {
 		let mut default = TuiStyle::reset();
-		if args.is_present("accent-color") {
+		if let Ok(true) = args.try_contains_id("accent-color") {
 			default =
 				default.fg(Self::get_color(args, "accent-color", Color::White));
 		}
@@ -101,7 +101,9 @@ impl Style {
 				"color",
 				Color::DarkGray,
 			)),
-			unicode: Unicode::new(!args.is_present("unicode")),
+			unicode: Unicode::new(
+				args.try_get_one::<bool>("unicode").ok().flatten() == Some(&false),
+			),
 		}
 	}
 
@@ -113,11 +115,7 @@ impl Style {
 	 * @param  default_color
 	 * @return Color
 	 */
-	fn get_color(
-		args: &ArgMatches<'_>,
-		arg_name: &str,
-		default_color: Color,
-	) -> Color {
+	fn get_color(args: &ArgMatches, arg_name: &str, default_color: Color) -> Color {
 		let colors = map![
 			"black" => Color::Black,
 			"red" => Color::Red,
@@ -136,8 +134,8 @@ impl Style {
 			"lightcyan" => Color::LightCyan,
 			"white" => Color::White
 		];
-		match args.value_of(arg_name) {
-			Some(v) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
+		match args.try_get_one::<String>(arg_name) {
+			Ok(Some(v)) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
 				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
 					Box::leak(Box::new(Color::Rgb(
 						rgb.red() as u8,
@@ -148,7 +146,7 @@ impl Style {
 					&default_color
 				}
 			}),
-			None => default_color,
+			_ => default_color,
 		}
 	}
 }

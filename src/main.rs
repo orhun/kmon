@@ -9,7 +9,7 @@ mod widgets;
 mod util;
 mod style;
 use app::{App, Block, InputMode, ScrollDirection};
-use enum_unitary::{Bounded, EnumUnitary};
+use enum_iterator::Sequence;
 use event::{Event, Events};
 use kernel::cmd::ModuleCommand;
 use kernel::Kernel;
@@ -202,19 +202,18 @@ where
 						}
 						/* Select the next terminal block. */
 						Key::Left | Key::Char('h') | Key::Char('H') => {
-							app.selected_block =
-								match app.selected_block.prev_variant() {
-									Some(v) => v,
-									None => Block::max_value(),
-								}
+							app.selected_block = match app.selected_block.previous()
+							{
+								Some(v) => v,
+								None => Block::last().unwrap(),
+							}
 						}
 						/* Select the previous terminal block. */
 						Key::Right | Key::Char('l') | Key::Char('L') => {
-							app.selected_block =
-								match app.selected_block.next_variant() {
-									Some(v) => v,
-									None => Block::min_value(),
-								}
+							app.selected_block = match app.selected_block.next() {
+								Some(v) => v,
+								None => Block::first().unwrap(),
+							}
 						}
 						/* Expand the selected block. */
 						Key::Alt('e') => {
@@ -448,22 +447,22 @@ where
 						}
 						/* Switch to the previous input mode. */
 						Key::Up => {
-							app.input_mode = match app.input_mode.prev_variant() {
+							app.input_mode = match app.input_mode.previous() {
 								Some(v) => v,
-								None => InputMode::max_value(),
+								None => InputMode::last().unwrap(),
 							};
 							if app.input_mode.is_none() {
-								app.input_mode = InputMode::max_value();
+								app.input_mode = InputMode::last().unwrap();
 							}
 							app.input_query = String::new();
 						}
 						/* Switch to the next input mode. */
 						Key::Down => {
-							app.input_mode = match app.input_mode.next_variant() {
+							app.input_mode = match app.input_mode.next() {
 								Some(v) => v,
-								None => {
-									InputMode::min_value().next_variant().unwrap()
-								}
+								None => InputMode::first()
+									.and_then(|v| v.next())
+									.unwrap(),
 							};
 							app.input_query = String::new();
 						}
@@ -484,12 +483,10 @@ where
 						| Key::Left => {
 							/* Select the next eligible block for action. */
 							app.selected_block = match input {
-								Key::Left => {
-									match app.selected_block.prev_variant() {
-										Some(v) => v,
-										None => Block::max_value(),
-									}
-								}
+								Key::Left => match app.selected_block.previous() {
+									Some(v) => v,
+									None => Block::last().unwrap(),
+								},
 								Key::Char('\n') => match app.input_mode {
 									InputMode::Load
 										if !app.input_query.is_empty() =>
@@ -569,7 +566,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 	let args = util::parse_args();
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
-		args.value_of("rate").unwrap().parse::<u64>().unwrap_or(250),
+		args.get_one::<String>("rate")
+			.unwrap()
+			.parse::<u64>()
+			.unwrap_or(250),
 		&kernel.logs,
 	);
 	if !cfg!(test) {
@@ -631,7 +631,7 @@ mod tests {
 			send_key(&tx, Key::Char('r'));
 			/* Test the switch keys. */
 			for arrow_key in vec![Key::Right, Key::Left] {
-				for selected_key in vec![arrow_key; Block::count()] {
+				for selected_key in vec![arrow_key; Block::CARDINALITY] {
 					send_key(&tx, selected_key);
 					for key in vec![
 						Key::Up,

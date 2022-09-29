@@ -7,7 +7,7 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use crate::widgets::StatefulList;
 use clipboard::{ClipboardContext, ClipboardProvider};
-use enum_unitary::{enum_unitary, Bounded, EnumUnitary};
+use enum_iterator::Sequence;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
@@ -69,14 +69,13 @@ impl ScrollDirection {
 }
 
 /* Main blocks of the terminal */
-enum_unitary! {
-	#[derive(Copy, Debug, PartialEq, Eq)]
-	pub enum Block {
-		UserInput,
-		ModuleTable,
-		ModuleInfo,
-		Activities,
-	}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Sequence)]
+pub enum Block {
+	UserInput,
+	ModuleTable,
+	ModuleInfo,
+	Activities,
 }
 
 /* Sizes of the terminal blocks */
@@ -98,13 +97,11 @@ impl Default for BlockSize {
 }
 
 /* User input mode */
-enum_unitary! {
-	#[derive(Copy, Debug, PartialEq, Eq)]
-	pub enum InputMode {
-		None,
-		Search,
-		Load,
-	}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Sequence)]
+pub enum InputMode {
+	None,
+	Search,
+	Load,
 }
 
 impl InputMode {
@@ -123,7 +120,7 @@ impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 		let mut input_mode = *self;
 		if input_mode.is_none() {
-			input_mode = match InputMode::min_value().next_variant() {
+			input_mode = match InputMode::first().and_then(|v| v.next()) {
 				Some(v) => v,
 				None => input_mode,
 			}

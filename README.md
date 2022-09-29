@@ -73,9 +73,9 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
   - [Manual](#manual)
     - [Note](#note)
 - [Usage](#usage)
-  - [Flags](#flags)
   - [Options](#options)
-  - [Subcommands](#subcommands)
+  - [Commands](#commands)
+    - [Sort](#sort)
 - [Key Bindings](#key-bindings)
 - [Features](#features)
   - [Help](#help)
@@ -229,40 +229,40 @@ e.g: Install `libxcb1-dev` package for Debian/Ubuntu[*](https://github.com/orhun
 ## Usage
 
 ```
-kmon [FLAGS] [OPTIONS] [SUBCOMMANDS]
-```
-
-### Flags
-
-```
--h, --help       Prints help information
--r, --reverse    Reverse the kernel module list
--u, --unicode    Show Unicode symbols for the block titles
--V, --version    Prints version information
+kmon [OPTIONS] [COMMAND]
 ```
 
 ### Options
 
 ```
--a, --accent-color <COLOR>    Set the accent color using hex or color name [default: white]
--c, --color <COLOR>           Set the main color using hex or color name [default: darkgray]
--t, --tickrate <MS>           Set the refresh rate of the terminal [default: 250]
+-a, --accent-color <COLOR>  Set the accent color using hex or color name [default: white]
+-c, --color <COLOR>         Set the main color using hex or color name [default: darkgray]
+-t, --tickrate <MS>         Set the refresh rate of the terminal [default: 250]
+-r, --reverse               Reverse the kernel module list
+-u, --unicode               Show Unicode symbols for the block titles
+-h, --help                  Print help information
+-V, --version               Print version information
 ```
 
-### Subcommands
+### Commands
 
 ```
-help    Prints this message or the help of the given subcommand(s)
-sort    Sort kernel modules
+sort  Sort kernel modules
 ```
 
-```
-kmon sort [FLAGS]
+#### Sort
 
-FLAGS:
-    -n, --name         Sort modules by their names
-    -s, --size         Sort modules by their sizes
-    -d, --dependent    Sort modules by their dependent modules
+```
+kmon sort [OPTIONS]
+```
+
+**Options:**
+
+```
+-s, --size       Sort modules by their sizes
+-n, --name       Sort modules by their names
+-d, --dependent  Sort modules by their dependent modules
+-h, --help       Print help information
 ```
 
 ## Key Bindings

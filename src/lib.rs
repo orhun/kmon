@@ -6,6 +6,7 @@ pub mod kernel;
 pub mod widgets;
 #[macro_use]
 pub mod util;
+pub mod args;
 pub mod style;
 
 use crate::app::{App, Block, InputMode, ScrollDirection};

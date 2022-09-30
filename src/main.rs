@@ -1,6 +1,6 @@
+use kmon::args;
 use kmon::event::Events;
 use kmon::kernel::Kernel;
-use kmon::util;
 use std::error::Error;
 use std::io::stdout;
 use termion::input::MouseTerminal;
@@ -15,7 +15,7 @@ use tui::Terminal;
  * @return Result
  */
 fn main() -> Result<(), Box<dyn Error>> {
-	let args = util::parse_args();
+	let args = args::get_args().get_matches();
 	let kernel = Kernel::new(&args);
 	let events = Events::new(
 		args.get_one::<String>("rate")

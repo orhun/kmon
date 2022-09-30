@@ -95,3 +95,12 @@ pub fn get_args() -> App {
 				),
 		)
 }
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	#[test]
+	fn test_args() {
+		get_args().debug_assert();
+	}
+}

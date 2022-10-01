@@ -7,6 +7,12 @@ pub struct KernelInfo {
 	uname_output: IntoIter<Vec<String>>,
 }
 
+impl Default for KernelInfo {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl KernelInfo {
 	/**
 	 * Create a new kernel info instance.
@@ -70,7 +76,7 @@ mod tests {
 	use super::*;
 	#[test]
 	fn test_info() {
-		let mut kernel_info = KernelInfo::new();
+		let mut kernel_info = KernelInfo::default();
 		for _x in 0..kernel_info.uname_output.len() + 1 {
 			kernel_info.next();
 		}

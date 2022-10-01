@@ -25,7 +25,7 @@ impl Kernel {
 	pub fn new(args: &ArgMatches) -> Self {
 		Self {
 			logs: KernelLogs::default(),
-			info: KernelInfo::new(),
+			info: KernelInfo::default(),
 			modules: KernelModules::new(ListArgs::new(args), Style::new(args)),
 		}
 	}

@@ -23,6 +23,11 @@ enum-iterator = "1.2.0"
 clap = "4.0.4"
 copypasta-ext = "0.3.9"
 
+[build-dependencies]
+clap_mangen = "0.2.2"
+clap_complete = "4.0.2"
+clap = "4.0.4"
+
 [profile.dev]
 opt-level = 0
 debug = true

@@ -35,7 +35,10 @@ jobs:
           mkdir assets
           cp -t assets/ target/${{matrix.TARGET}}/release/kmon && strip -s assets/kmon
           cp -t assets/ LICENSE README.md CHANGELOG.md
+          mv target/man .
           cp -t assets/ --parents man/kmon.8
+          mv target/completions .
+          cp -t assets/ --parents completions/*
           mv assets/ kmon-${{env.RELEASE_VERSION}}/
           tar -czvf kmon-${{env.RELEASE_VERSION}}-${{matrix.TARGET}}.tar.gz \
             kmon-${{env.RELEASE_VERSION}}/

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2022-10-02
+### Added
+- Add build script for generating manpage and completions ([#34](https://github.com/orhun/kmon/pull/34))
+- Enable [GitHub Sponsors](https://github.com/sponsors/orhun) for funding
+  - Consider supporting me for my open-source efforts 💖
+
+### Changed
+- Update the project structure to be used as library
+- Apply clippy suggestions
+- Bump dependencies
+
+### Fixed
+- Switch to [copypasta-ext](https://gitlab.com/timvisee/copypasta-ext) crate for fixing [RUSTSEC-2022-0056](https://rustsec.org/advisories/RUSTSEC-2022-0056)
+
 ## [1.6.0] - 2021-11-05
 
 ### Added

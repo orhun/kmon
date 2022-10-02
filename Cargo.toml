@@ -20,13 +20,13 @@ bytesize = "1.1.0"
 unicode-width = "0.1.10"
 colorsys = "0.6.6"
 enum-iterator = "1.2.0"
-clap = "4.0.7"
+clap = "4.0.8"
 copypasta-ext = "0.3.9"
 
 [build-dependencies]
 clap_mangen = "0.2.2"
 clap_complete = "4.0.2"
-clap = "4.0.7"
+clap = "4.0.8"
 
 [profile.dev]
 opt-level = 0

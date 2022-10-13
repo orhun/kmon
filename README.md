@@ -192,26 +192,35 @@ docker run -it --cap-add syslog kmon
 
 ### Manual
 
-1. Download the latest binary from [releases](https://github.com/orhun/kmon/releases).
+1. Download the latest binary from [releases](https://github.com/orhun/kmon/releases) section and pick between [glibc](https://en.wikipedia.org/wiki/Glibc) or [musl-libc](https://musl.libc.org/) binary.
+2. To download the package compiled with [glibc](https://en.wikipedia.org/wiki/Glibc) run:
 
 ```
-wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION].tar.gz
+wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION]-x86_64-unknown-linux-gnu.tar.gz
 ```
-2. Extract the files.
+3. To download the package compiled with [musl-libc](https://musl.libc.org/) run:
+```
+wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION]-x86_64-unknown-linux-musl.tar.gz
+```
+3. Extract the files.
 
 ```
 tar -xvzf kmon-*.tar.gz
 ```
+4. Enter in the new folder.
+```
+cd kmon-[VERSION]
+```
 
-3. Run the binary.
+5. Run the binary.
 
 ```
 ./kmon
 ```
 
-4. Move binary to `/usr/local/bin/` for running it from the terminal using `kmon` command.
+6. Move binary to `/usr/local/bin/` for running it from the terminal using `kmon` command.
 
-5. Man page and shell completions are generated at build time in `target` directory.
+7. Man page and shell completions are generated at build time in `target` directory.
 
 #### Note
 

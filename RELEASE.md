@@ -8,7 +8,7 @@
 4. Commit and push the changes.
 5. Create a new tag: `git tag -s -a v[x.y.z]` ([signed](https://keyserver.ubuntu.com/pks/lookup?search=0x485B7C52E9EC0DC6&op=vindex))
 6. Push the tag: `git push --tags`
-7. Wait for [Continous Deployment](https://github.com/orhun/kmon/actions) workflow to finish.
+7. Wait for [Continuous Deployment](https://github.com/orhun/kmon/actions) workflow to finish.
 
 ## License
 

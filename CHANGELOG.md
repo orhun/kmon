@@ -101,7 +101,7 @@ This release contains major code refactoring for bumping [tui-rs](https://github
 ## [1.3.5] - 2020-07-30
 ### Changed
 - Update README.md about Arch Linux packages
-- Update the release steps of AUR packages in CD worflow
+- Update the release steps of AUR packages in CD workflow
 - Update a link in release instructions about AUR packages
 
 ### Fixed

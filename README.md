@@ -341,7 +341,7 @@ Some kernel messages might be long enough for not fitting into the kernel activi
 
 ### Kernel Information
 
-Use one of the `\, tab, backtab` keys to switch between kernel release, version and platform informations.
+Use one of the `\, tab, backtab` keys to switch between kernel release, version and platform information.
 
 ![Kernel Information](https://user-images.githubusercontent.com/24392180/76686943-9f949680-6630-11ea-9045-a8f83313faa1.gif)
 

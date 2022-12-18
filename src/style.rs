@@ -136,7 +136,7 @@ impl Style {
 		];
 		match args.try_get_one::<String>(arg_name) {
 			Ok(Some(v)) => *colors.get::<str>(&v.to_lowercase()).unwrap_or({
-				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{}", v)) {
+				if let Ok(rgb) = Rgb::from_hex_str(&format!("#{v}")) {
 					Box::leak(Box::new(Color::Rgb(
 						rgb.red() as u8,
 						rgb.green() as u8,

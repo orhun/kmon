@@ -67,7 +67,7 @@ impl KernelLogs {
 					})
 					.unwrap_or(0),
 			)
-			.map(|i| format!("{}\n", i))
+			.map(|i| format!("{i}\n"))
 			.collect::<String>();
 		&self.selected_output
 	}

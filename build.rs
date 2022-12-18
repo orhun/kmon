@@ -29,7 +29,7 @@ fn build_manpage(out_dir: &Path) -> Result<(), IoError> {
 	fs::create_dir_all(out_dir)?;
 	let app = args::get_args();
 	let file = out_dir.join(format!("{}.8", env!("CARGO_PKG_NAME")));
-	let mut file = File::create(&file)?;
+	let mut file = File::create(file)?;
 	Man::new(app).render(&mut file)?;
 	Ok(())
 }

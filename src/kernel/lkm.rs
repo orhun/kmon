@@ -277,7 +277,7 @@ impl KernelModules<'_> {
 			if let Some(v) = self
 				.list
 				.iter()
-				.position(|module| module[0] == format!(" {}", used_module))
+				.position(|module| module[0] == format!(" {used_module}"))
 			{
 				match v {
 					0 => {

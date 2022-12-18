@@ -125,7 +125,7 @@ impl Display for InputMode {
 				None => input_mode,
 			}
 		}
-		write!(f, "{:?}", input_mode)
+		write!(f, "{input_mode:?}")
 	}
 }
 
@@ -241,7 +241,7 @@ impl App {
 	pub fn set_clipboard_contents(&mut self, contents: &str) {
 		if let Some(clipboard) = self.clipboard.as_mut() {
 			if let Err(e) = clipboard.set_contents(contents.to_string()) {
-				eprintln!("{}", e);
+				eprintln!("{e}");
 			}
 		}
 	}
@@ -260,7 +260,7 @@ impl App {
 				format!("{}:", &key),
 				self.style.colored,
 			)));
-			help_text_raw.push(format!("{}:", key));
+			help_text_raw.push(format!("{key}:"));
 			help_text.push(Spans::from(Span::styled(
 				format!("{}{}", self.style.unicode.get(Symbol::Blank), &desc),
 				self.style.default,
@@ -308,7 +308,7 @@ impl App {
 			for module in &dependent_modules_list {
 				dependent_modules.push(Spans::from(vec![
 					Span::styled("-", self.style.colored),
-					Span::styled(format!(" {}", module), self.style.default),
+					Span::styled(format!(" {module}"), self.style.default),
 				]));
 			}
 			kernel_modules.current_info.set(
@@ -560,7 +560,7 @@ impl App {
 			.options
 			.items
 			.iter()
-			.map(|(_, text)| ListItem::new(Span::raw(format!(" {}", text))))
+			.map(|(_, text)| ListItem::new(Span::raw(format!(" {text}"))))
 			.collect::<Vec<ListItem<'_>>>();
 		let (mut percent_y, mut percent_x) = (40, 60);
 		let text_height = items.iter().map(|v| v.height() as f32).sum::<f32>() + 3.;

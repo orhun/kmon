@@ -76,7 +76,7 @@ impl ModuleCommand {
 	 */
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
-            Self::None => Command::new(String::from(""), "", format!("Module: {}", module_name), Symbol::None),
+            Self::None => Command::new(String::from(""), "", format!("Module: {module_name}"), Symbol::None),
             Self::Load => Command::new(
                 if Self::is_module_filename(module_name) {
 					format!("insmod {}", &module_name)
@@ -85,7 +85,7 @@ impl ModuleCommand {
 				},
                 "Add and remove modules from the Linux Kernel\n
                 This command inserts a module to the kernel.",
-                format!("Load: {}", module_name), Symbol::Anchor),
+                format!("Load: {module_name}"), Symbol::Anchor),
             Self::Unload => Command::new(
                 format!("modprobe -r {0} || rmmod {0}", &module_name),
                 "modprobe/rmmod: Add and remove modules from the Linux Kernel
@@ -97,14 +97,14 @@ impl ModuleCommand {
                 There is usually no reason to remove modules, but some buggy \
                 modules require it. Your distribution kernel may not have been \
                 built to support removal of modules at all.",
-                format!("Remove: {}", module_name), Symbol::CircleX),
+                format!("Remove: {module_name}"), Symbol::CircleX),
             Self::Reload => Command::new(
                 format!("{} && {}",
                     ModuleCommand::Unload.get(module_name).cmd,
                     ModuleCommand::Load.get(module_name).cmd),
                 "modprobe/insmod/rmmod: Add and remove modules from the Linux Kernel\n
                 This command reloads a module, removes and inserts to the kernel.",
-                format!("Reload: {}", module_name), Symbol::FuelPump),
+                format!("Reload: {module_name}"), Symbol::FuelPump),
 			Self::Blacklist => Command::new(
 				format!("if ! grep -q {module} /etc/modprobe.d/blacklist.conf; then
 				  echo 'blacklist {module}' >> /etc/modprobe.d/blacklist.conf
@@ -120,7 +120,7 @@ impl ModuleCommand {
 				this behaviour; the install command instructs modprobe to run a custom command \
 				instead of inserting the module in the kernel as normal, so the module will \
 				always fail to load.",
-				format!("Blacklist: {}", module_name), Symbol::SquareX),
+				format!("Blacklist: {module_name}"), Symbol::SquareX),
 			Self::Clear => Command::new(
 				String::from("dmesg --clear"),
 				"dmesg: Print or control the kernel ring buffer

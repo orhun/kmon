@@ -16,10 +16,10 @@
     </a>
     <br>
     <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Integration%22">
-        <img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Integration/master?color=000000&label=CI&style=flat-square">
+        <img src="https://img.shields.io/github/actions/workflow/status/orhun/kmon/ci.yml?branch=master&color=000000&label=CI&style=flat-square">
     </a>
     <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Deployment%22">
-        <img src="https://img.shields.io/github/workflow/status/orhun/kmon/Continuous Deployment/master?color=000000&label=CD&style=flat-square">
+        <img src="https://img.shields.io/github/actions/workflow/status/orhun/kmon/cd.yml?color=000000&label=CD&style=flat-square">
     </a>
     <a href="https://codecov.io/gh/orhun/kmon">
         <img src="https://img.shields.io/codecov/c/gh/orhun/kmon?color=000000&style=flat-square">
@@ -173,7 +173,7 @@ nix-env -iA nixos.kmon
 
 ### Docker
 
-[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)  [![Package Registry Build Status](https://img.shields.io/docker/cloud/build/orhunp/kmon?color=000000&label=package%20registry&style=flat-square)](https://github.com/orhun/kmon/packages/95852)
+[![Docker Hub Build Status](https://img.shields.io/github/actions/workflow/status/orhun/kmon/docker.yml?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)
 
 ```
 docker run -it --cap-add syslog orhunp/kmon:tagname

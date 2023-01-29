@@ -60,19 +60,17 @@ jobs:
           command: clippy
           args: -- -D warnings
 
+      - name: Setup cargo-tarpaulin
+        if: matrix.TARGET == 'x86_64-unknown-linux-gnu'
+        run: |
+          curl -s https://api.github.com/repos/xd009642/tarpaulin/releases/latest | \
+            grep "browser_download_url.*x86_64-unknown-linux-musl.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -qi -
+          tar -xzf cargo-tarpaulin-*.tar.gz
+          mv cargo-tarpaulin ~/.cargo/bin/
+
       - name: Run tests
         if: matrix.TARGET == 'x86_64-unknown-linux-gnu'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --target ${{ matrix.TARGET }}
-
-      - name: Run code coverage tool
-        if: matrix.TOOLCHAIN == 'stable'
-          && matrix.TARGET == 'x86_64-unknown-linux-gnu'
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          args: "-v"
+        run: cargo tarpaulin --out Xml --verbose --target ${{ matrix.TARGET }}
 
       - name: Upload reports to codecov.io
         if: github.event_name != 'pull_request'

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2023-04-06
+### Added
+- Build Docker image for arm64
+- Generate SBOM/provenance for the Docker image
+
+### Changed
+- Update README.md about manual installation (#37)
+- Apply clippy suggestions
+- Switch to `ratatui` (#40)
+- Integrate dependabot
+- Bump dependencies
+
+### Fixed
+- Fix typos (#38)
+- Remove target directory from .dockerignore for proper caching
+
 ## [1.6.2] - 2022-10-02
 ### Added
 - Add build script for generating manpage and completions ([#34](https://github.com/orhun/kmon/pull/34))

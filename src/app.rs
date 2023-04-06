@@ -7,7 +7,7 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use crate::widgets::StatefulList;
 use copypasta_ext::display::DisplayServer as ClipboardDisplayServer;
-use copypasta_ext::prelude::ClipboardProvider;
+use copypasta_ext::ClipboardProviderExt;
 use enum_iterator::Sequence;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
@@ -140,7 +140,7 @@ pub struct App {
 	pub options: StatefulList<(String, String)>,
 	pub show_options: bool,
 	style: Style,
-	clipboard: Option<Box<dyn ClipboardProvider>>,
+	clipboard: Option<Box<dyn ClipboardProviderExt>>,
 }
 
 impl App {

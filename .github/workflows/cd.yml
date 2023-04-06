@@ -8,10 +8,10 @@ on:
 jobs:
   publish-github:
     name: Publish on GitHub
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        TARGET: [x86_64-unknown-linux-gnu, x86_64-unknown-linux-musl]
+        TARGET: [ x86_64-unknown-linux-gnu, x86_64-unknown-linux-musl ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
@@ -65,7 +65,7 @@ jobs:
   publish-crates-io:
     name: Publish on crates.io
     needs: publish-github
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@master

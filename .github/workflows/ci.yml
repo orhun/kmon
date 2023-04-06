@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        OS: [ubuntu-latest]
-        TOOLCHAIN: [stable, nightly]
+        OS: [ ubuntu-22.04 ]
+        TOOLCHAIN: [ stable, nightly ]
         TARGET:
           - x86_64-unknown-linux-gnu
           - x86_64-unknown-linux-musl
@@ -73,9 +73,7 @@ jobs:
         run: cargo tarpaulin --out Xml --verbose --target ${{ matrix.TARGET }}
 
       - name: Upload reports to codecov.io
-        if: github.event_name != 'pull_request'
-          && matrix.TOOLCHAIN == 'stable'
-          && matrix.TARGET == 'x86_64-unknown-linux-gnu'
+        if: github.event_name != 'pull_request' && matrix.TOOLCHAIN == 'stable' && matrix.TARGET == 'x86_64-unknown-linux-gnu'
         uses: codecov/codecov-action@v1.0.7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

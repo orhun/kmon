@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+      - staging # for bors
+      - trying # for bors
   pull_request:
     branches:
       - master

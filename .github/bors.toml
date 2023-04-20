@@ -1,0 +1,10 @@
+status = [
+    "Build for x86_64-unknown-linux-gnu using Rust stable (on ubuntu-22.04)",
+    "Build for x86_64-unknown-linux-musl using Rust stable (on ubuntu-22.04)",
+    "Build for x86_64-unknown-linux-gnu using Rust nightly (on ubuntu-22.04)",
+    "Build for x86_64-unknown-linux-musl using Rust nightly (on ubuntu-22.04)",
+]
+delete_merged_branches = true
+update_base_for_deletes = true
+cut_body_after = "<details>"
+commit_title = "chore: Merge ${PR_REFS}"

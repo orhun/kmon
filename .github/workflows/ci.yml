@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - master
+      - staging # for bors
+      - trying # for bors
   pull_request:
     branches:
       - master
-  merge_group:
   schedule:
     - cron: "0 0 * * 0"
 

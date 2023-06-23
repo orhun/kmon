@@ -11,8 +11,8 @@
     <a href="https://crates.io/crates/kmon/">
         <img src="https://img.shields.io/crates/v/kmon?color=000000&style=flat-square">
     </a>
-    <a href="https://www.archlinux.org/packages/community/x86_64/kmon/">
-        <img src="https://img.shields.io/archlinux/v/community/x86_64/kmon?color=000000&style=flat-square">
+    <a href="https://www.archlinux.org/packages/extra/x86_64/kmon/">
+        <img src="https://img.shields.io/archlinux/v/extra/x86_64/kmon?color=000000&style=flat-square">
     </a>
     <br>
     <a href="https://github.com/orhun/kmon/actions?query=workflow%3A%22Continuous+Integration%22">

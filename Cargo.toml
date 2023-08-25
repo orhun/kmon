@@ -24,7 +24,7 @@ clap = "4.3.16"
 copypasta-ext = "0.4.4"
 
 [build-dependencies]
-clap_mangen = "0.2.12"
+clap_mangen = "0.2.13"
 clap_complete = "4.3.2"
 clap = "4.3.16"
 

@@ -16,7 +16,7 @@ use termion::event::Key;
 use tui::backend::Backend;
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::style::Style as TuiStyle;
-use tui::text::{Span, Spans, Text};
+use tui::text::{Line, Span, Text};
 use tui::widgets::{
 	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
 };
@@ -256,12 +256,12 @@ impl App {
 		let mut help_text = Vec::new();
 		let mut help_text_raw = Vec::new();
 		for (key, desc) in &key_bindings {
-			help_text.push(Spans::from(Span::styled(
+			help_text.push(Line::from(Span::styled(
 				format!("{}:", &key),
 				self.style.colored,
 			)));
 			help_text_raw.push(format!("{key}:"));
-			help_text.push(Spans::from(Span::styled(
+			help_text.push(Line::from(Span::styled(
 				format!("{}{}", self.style.unicode.get(Symbol::Blank), &desc),
 				self.style.default,
 			)));
@@ -306,7 +306,7 @@ impl App {
 			);
 			let mut dependent_modules = Vec::new();
 			for module in &dependent_modules_list {
-				dependent_modules.push(Spans::from(vec![
+				dependent_modules.push(Line::from(vec![
 					Span::styled("-", self.style.colored),
 					Span::styled(format!(" {module}"), self.style.default),
 				]));

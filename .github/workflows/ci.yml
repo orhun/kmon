@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
 
       - name: Install dependencies
         run: |

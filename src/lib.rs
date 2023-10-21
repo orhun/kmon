@@ -573,7 +573,7 @@ mod tests {
 		let tx = events.tx.clone();
 		thread::spawn(move || {
 			/* Test the general keys. */
-			for key in vec![
+			for key in [
 				Key::Char('?'),
 				Key::Ctrl('t'),
 				Key::Ctrl('b'),
@@ -604,10 +604,10 @@ mod tests {
 			}
 			send_key(&tx, Key::Char('r'));
 			/* Test the switch keys. */
-			for arrow_key in vec![Key::Right, Key::Left] {
-				for selected_key in vec![arrow_key; Block::CARDINALITY] {
+			for arrow_key in [Key::Right, Key::Left] {
+				for selected_key in [arrow_key; Block::CARDINALITY] {
 					send_key(&tx, selected_key);
-					for key in vec![
+					for key in [
 						Key::Up,
 						Key::Down,
 						Key::Down,
@@ -621,7 +621,7 @@ mod tests {
 				}
 			}
 			/* Test the input mode keys. */
-			for key in vec![
+			for key in [
 				Key::Char('v'),
 				Key::Delete,
 				Key::Char('~'),

@@ -158,7 +158,7 @@ mod tests {
 	#[test]
 	fn test_module_command() {
 		let module_command = ModuleCommand::None;
-		assert_eq!(true, module_command == ModuleCommand::None);
+		assert!(module_command == ModuleCommand::None);
 
 		assert_ne!("", ModuleCommand::None.get("test").title);
 		assert_ne!("", ModuleCommand::Load.get("module").desc);

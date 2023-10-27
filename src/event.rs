@@ -89,11 +89,9 @@ mod tests {
 		loop {
 			let tx = events.tx.clone();
 			thread::spawn(move || {
-				match tx.send(Event::Input(Key::Char(
+				let _ = tx.send(Event::Input(Key::Char(
 					std::char::from_digit(i, 10).unwrap_or('x'),
-				))) {
-					_ => {}
-				};
+				)));
 			});
 			i += 1;
 			match events.rx.recv()? {
@@ -103,7 +101,7 @@ mod tests {
 					}
 				}
 				Event::Tick => thread::sleep(Duration::from_millis(100)),
-				Event::Kernel(log) => assert_ne!(true, log.is_empty()),
+				Event::Kernel(log) => assert!(!log.is_empty()),
 			}
 		}
 		Ok(())

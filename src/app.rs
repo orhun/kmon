@@ -572,7 +572,7 @@ impl App {
 			.items
 			.iter()
 			.map(|(_, text)| text.width())
-			.chain(vec![block_title.width()].into_iter())
+			.chain(vec![block_title.width()])
 			.max()
 			.map(|v| v as f32 + 7.)
 		{
@@ -731,32 +731,24 @@ mod tests {
 		let backend = TestBackend::new(20, 10);
 		let mut terminal = Terminal::new(backend).unwrap();
 		terminal
-			.draw(|mut f| {
+			.draw(|f| {
 				let size = f.size();
 				app.selected_block = Block::UserInput;
-				app.draw_user_input(
-					&mut f,
-					size,
-					&Events::new(100, &kernel_logs).tx,
-				);
-				app.draw_kernel_info(
-					&mut f,
-					size,
-					&info::KernelInfo::new().current_info,
-				);
+				app.draw_user_input(f, size, &Events::new(100, &kernel_logs).tx);
+				app.draw_kernel_info(f, size, &info::KernelInfo::new().current_info);
 				app.input_query = String::from("a");
-				app.draw_kernel_modules(&mut f, size, &mut kernel_modules);
-				app.draw_module_info(&mut f, size, &mut kernel_modules);
-				app.draw_kernel_activities(&mut f, size, &mut kernel_logs);
+				app.draw_kernel_modules(f, size, &mut kernel_modules);
+				app.draw_module_info(f, size, &mut kernel_modules);
+				app.draw_kernel_activities(f, size, &mut kernel_logs);
 			})
 			.unwrap();
 	}
 	#[test]
 	fn test_input_mode() {
 		let mut input_mode = InputMode::Load;
-		assert_eq!(false, input_mode.is_none());
-		assert_eq!(true, input_mode.to_string().contains("Load"));
+		assert!(!input_mode.is_none());
+		assert!(input_mode.to_string().contains("Load"));
 		input_mode = InputMode::None;
-		assert_eq!(true, input_mode.to_string().contains("Search"));
+		assert!(input_mode.to_string().contains("Search"));
 	}
 }

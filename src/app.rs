@@ -9,18 +9,17 @@ use crate::widgets::StatefulList;
 use copypasta_ext::display::DisplayServer as ClipboardDisplayServer;
 use copypasta_ext::ClipboardProviderExt;
 use enum_iterator::Sequence;
+use ratatui::layout::{Alignment, Constraint, Direction, Layout, Rect};
+use ratatui::style::Style as TuiStyle;
+use ratatui::text::{Line, Span, Text};
+use ratatui::widgets::{
+	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
+};
+use ratatui::Frame;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
 use std::sync::mpsc::Sender;
 use termion::event::Key;
-use tui::backend::Backend;
-use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
-use tui::style::Style as TuiStyle;
-use tui::text::{Line, Span, Text};
-use tui::widgets::{
-	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
-};
-use tui::Frame;
 use unicode_width::UnicodeWidthStr;
 
 /* Table header of the module table */
@@ -325,14 +324,12 @@ impl App {
 	 * @param area
 	 * @param kernel
 	 */
-	pub fn draw_dynamic_block<B>(
+	pub fn draw_dynamic_block(
 		&mut self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		kernel: &mut Kernel,
-	) where
-		B: Backend,
-	{
+	) {
 		match self.block_index {
 			0 => self.draw_kernel_modules(frame, area, &mut kernel.modules),
 			1 => self.draw_module_info(frame, area, &mut kernel.modules),
@@ -352,14 +349,12 @@ impl App {
 	 * @param area
 	 * @param tx
 	 */
-	pub fn draw_user_input<B>(
+	pub fn draw_user_input(
 		&self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		tx: &Sender<Event<Key>>,
-	) where
-		B: Backend,
-	{
+	) {
 		frame.render_widget(
 			Paragraph::new(Span::raw(self.input_query.to_string()))
 				.block(
@@ -399,14 +394,7 @@ impl App {
 	 * @param area
 	 * @param info
 	 */
-	pub fn draw_kernel_info<B>(
-		&self,
-		frame: &mut Frame<'_, B>,
-		area: Rect,
-		info: &[String],
-	) where
-		B: Backend,
-	{
+	pub fn draw_kernel_info(&self, frame: &mut Frame, area: Rect, info: &[String]) {
 		frame.render_widget(
 			Paragraph::new(Span::raw(&info[1]))
 				.block(
@@ -436,14 +424,12 @@ impl App {
 	 * @param area
 	 * @param kernel_modules
 	 */
-	pub fn draw_kernel_modules<B>(
+	pub fn draw_kernel_modules(
 		&mut self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
-	) where
-		B: Backend,
-	{
+	) {
 		/* Filter the module list depending on the input query. */
 		let mut kernel_module_list = kernel_modules.default_list.clone();
 		if (self.input_mode == InputMode::None
@@ -540,14 +526,12 @@ impl App {
 	 * @param frame
 	 * @param area
 	 */
-	pub fn draw_options_menu<B>(
+	pub fn draw_options_menu(
 		&mut self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
-	) where
-		B: Backend,
-	{
+	) {
 		let block_title = format!(
 			"Options ({})",
 			kernel_modules.list[kernel_modules.index][0]
@@ -626,14 +610,12 @@ impl App {
 	 * @param area
 	 * @param kernel_modules
 	 */
-	pub fn draw_module_info<B>(
+	pub fn draw_module_info(
 		&self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
-	) where
-		B: Backend,
-	{
+	) {
 		frame.render_widget(
 			Paragraph::new(kernel_modules.current_info.get())
 				.block(
@@ -676,14 +658,12 @@ impl App {
 	 * @param area
 	 * @param kernel_logs
 	 */
-	pub fn draw_kernel_activities<B>(
+	pub fn draw_kernel_activities(
 		&self,
-		frame: &mut Frame<'_, B>,
+		frame: &mut Frame,
 		area: Rect,
 		kernel_logs: &mut KernelLogs,
-	) where
-		B: Backend,
-	{
+	) {
 		frame.render_widget(
 			Paragraph::new(StyledText::default().stylize_data(
 				kernel_logs.select(area.height, 2),
@@ -715,8 +695,8 @@ mod tests {
 	use crate::kernel::info;
 	use crate::kernel::lkm::ListArgs;
 	use clap::ArgMatches;
-	use tui::backend::TestBackend;
-	use tui::Terminal;
+	use ratatui::backend::TestBackend;
+	use ratatui::Terminal;
 	#[test]
 	fn test_app() {
 		let args = ArgMatches::default();

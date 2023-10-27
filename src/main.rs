@@ -1,13 +1,13 @@
 use kmon::args;
 use kmon::event::Events;
 use kmon::kernel::Kernel;
+use ratatui::backend::TermionBackend;
+use ratatui::Terminal;
 use std::error::Error;
 use std::io::stdout;
 use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
 use termion::screen::IntoAlternateScreen;
-use tui::backend::TermionBackend;
-use tui::Terminal;
 
 /**
  * Entry point.

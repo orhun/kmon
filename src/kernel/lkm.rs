@@ -4,8 +4,8 @@ use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
+use ratatui::text::{Line, Span, Text};
 use std::slice::Iter;
-use tui::text::{Line, Span, Text};
 
 /* Type of the sorting of module list */
 #[derive(Clone, Copy, Debug)]

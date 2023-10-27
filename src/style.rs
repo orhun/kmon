@@ -1,8 +1,8 @@
 use clap::ArgMatches;
 use colorsys::Rgb;
+use ratatui::style::{Color, Modifier, Style as TuiStyle};
+use ratatui::text::{Line, Span, Text};
 use std::collections::HashMap;
-use tui::style::{Color, Modifier, Style as TuiStyle};
-use tui::text::{Line, Span, Text};
 
 /* Unicode symbol */
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]

@@ -1,4 +1,4 @@
-use tui::widgets::ListState;
+use ratatui::widgets::ListState;
 
 /// List widget with TUI controlled states.
 #[derive(Debug)]

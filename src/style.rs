@@ -2,7 +2,7 @@ use clap::ArgMatches;
 use colorsys::Rgb;
 use std::collections::HashMap;
 use tui::style::{Color, Modifier, Style as TuiStyle};
-use tui::text::{Span, Spans, Text};
+use tui::text::{Line, Span, Text};
 
 /* Unicode symbol */
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
@@ -202,14 +202,14 @@ impl<'a> StyledText<'a> {
 		for line in text.lines() {
 			let data = line.split(delimiter).collect::<Vec<&str>>();
 			if data.len() > 1 && data[0].trim().len() > 2 {
-				self.styled_text.lines.push(Spans::from(vec![
+				self.styled_text.lines.push(Line::from(vec![
 					Span::styled(format!("{}{}", data[0], delimiter), style.colored),
 					Span::styled(data[1..data.len()].join(delimiter), style.default),
 				]));
 			} else {
 				self.styled_text
 					.lines
-					.push(Spans::from(Span::styled(line, style.default)))
+					.push(Line::from(Span::styled(line, style.default)))
 			}
 		}
 		self.styled_text.clone()

@@ -5,7 +5,7 @@ use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
 use std::slice::Iter;
-use tui::text::{Span, Spans, Text};
+use tui::text::{Line, Span, Text};
 
 /* Type of the sorting of module list */
 #[derive(Clone, Copy, Debug)]
@@ -168,15 +168,15 @@ impl KernelModules<'_> {
 			self.current_info.set(
 				Text::from({
 					let mut spans = vec![
-						Spans::from(Span::styled(
+						Line::from(Span::styled(
 							"Execute the following command? [y/N]:",
 							self.style.colored,
 						)),
-						Spans::from(Span::styled(
+						Line::from(Span::styled(
 							self.get_current_command().cmd,
 							self.style.default,
 						)),
-						Spans::default(),
+						Line::default(),
 					];
 					spans.append(
 						&mut Text::styled(
@@ -207,15 +207,15 @@ impl KernelModules<'_> {
 					self.current_info.set(
 						Text::from({
 							let mut spans = vec![
-								Spans::from(Span::styled(
+								Line::from(Span::styled(
 									"Failed to execute command:",
 									self.style.colored,
 								)),
-								Spans::from(Span::styled(
+								Line::from(Span::styled(
 									format!("'{}'", self.get_current_command().cmd),
 									self.style.default,
 								)),
-								Spans::default(),
+								Line::default(),
 							];
 							spans.append(
 								&mut Text::styled(e.to_string(), self.style.default)

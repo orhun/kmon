@@ -32,15 +32,15 @@
     </a>
 </p>
 
-**The kernel** is the part of the operating system that facilitates interactions between *hardware* and *software* components. On most systems, it is loaded on startup after the *bootloader* and handles I/O requests as well as peripherals like keyboards, monitors, network adapters, and speakers. Typically, the kernel is responsible for **memory management**, **process management**, **device management**, **system calls**, and **security**.
+**The kernel** is the part of the operating system that facilitates interactions between _hardware_ and _software_ components. On most systems, it is loaded on startup after the _bootloader_ and handles I/O requests as well as peripherals like keyboards, monitors, network adapters, and speakers. Typically, the kernel is responsible for **memory management**, **process management**, **device management**, **system calls**, and **security**.
 Applications use the **system call** mechanism for requesting a service from the operating system and most of the time, this request is passed to the kernel using a library provided by the operating system to invoke the related kernel function. While the kernel performs these low-level tasks, it's resident on a separate part of memory named **protected kernel space** which is not accessible by applications and other parts of the system. In contrast, applications like browsers, text editors, window managers or audio/video players use a different separate area of the memory, **user space**. This separation prevents user data and kernel data from interfering with each other and causing instability and slowness, as well as preventing malfunctioning application programs from crashing the entire operating system.  
-There are different kernel designs due to the different ways of managing system calls and resources. For example, while **monolithic kernels** run all the operating system instructions in the same address space *for speed*, **microkernels** use different spaces for user and kernel services *for modularity*. Apart from those, there are **hybrid kernels**, **nanokernels**, and, **exokernels**. The hybrid kernel architecture is based on combining aspects of microkernel and monolithic kernels.
+There are different kernel designs due to the different ways of managing system calls and resources. For example, while **monolithic kernels** run all the operating system instructions in the same address space _for speed_, **microkernels** use different spaces for user and kernel services _for modularity_. Apart from those, there are **hybrid kernels**, **nanokernels**, and, **exokernels**. The hybrid kernel architecture is based on combining aspects of microkernel and monolithic kernels.
 
 **The Linux kernel** is the open-source, monolithic and, Unix-like operating system kernel that used in the Linux distributions, various embedded systems such as routers and as well as in the all Android-based systems. **Linus Torvalds** conceived and created the Linux kernel in 1991 and it's still being developed by thousands of developers today. It's a prominent example of **free and open source software** and it's used in other free software projects, notably the **GNU operating system**.
 Although the Linux-based operating systems dominate the most of computing, it still carries some of the design flaws which were quite a bit of debate in the early days of Linux. For example, it has the **largest footprint** and **the most complexity** over the other types of kernels. But it's a design feature that monolithic kernels inherent to have. These kind of design issues led developers to add new features and mechanisms to the Linux kernel which other kernels don't have.
 
-Unlike the standard monolithic kernels, the Linux kernel is also **modular**, accepting **loadable kernel modules (LKM)** that typically used to add support for new *hardware* (as device drivers) and/or *filesystems*, or for adding *system calls*. Since LKMs could be loaded and unloaded to the system *at runtime*, they have the advantage of extending the kernel without rebooting and re-compiling. Thus, the kernel functionalities provided by modules would not reside in memory without being used and the related module can be unloaded in order to free memory and other resources.  
-Loadable kernel modules are located in `/lib/modules` with the `.ko` (*kernel object*) extension in Linux. While the [lsmod](https://linux.die.net/man/8/lsmod) command could be used for listing the loaded kernel modules, [modprobe](https://linux.die.net/man/8/modprobe) or [insmod](https://linux.die.net/man/8/insmod)/[rmmod](https://linux.die.net/man/8/rmmod) is used for loading or unloading a kernel module. insmod/rmmod are used for modules independent of modprobe and without requiring an installation to ```/lib/modules/$(uname -r)```.
+Unlike the standard monolithic kernels, the Linux kernel is also **modular**, accepting **loadable kernel modules (LKM)** that typically used to add support for new _hardware_ (as device drivers) and/or _filesystems_, or for adding _system calls_. Since LKMs could be loaded and unloaded to the system _at runtime_, they have the advantage of extending the kernel without rebooting and re-compiling. Thus, the kernel functionalities provided by modules would not reside in memory without being used and the related module can be unloaded in order to free memory and other resources.  
+Loadable kernel modules are located in `/lib/modules` with the `.ko` (_kernel object_) extension in Linux. While the [lsmod](https://linux.die.net/man/8/lsmod) command could be used for listing the loaded kernel modules, [modprobe](https://linux.die.net/man/8/modprobe) or [insmod](https://linux.die.net/man/8/insmod)/[rmmod](https://linux.die.net/man/8/rmmod) is used for loading or unloading a kernel module. insmod/rmmod are used for modules independent of modprobe and without requiring an installation to `/lib/modules/$(uname -r)`.
 
 Here's a simple example of a Linux kernel module that prints a message when it's loaded and unloaded. The build and installation steps of the [module](https://github.com/orhun/kmon/blob/master/example/lkm_example.c) using a [Makefile](https://github.com/orhun/kmon/blob/master/example/Makefile) are shown below.
 
@@ -63,10 +63,14 @@ The [dmesg](https://linux.die.net/man/8/dmesg) command is used below to retrieve
 kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://github.com/fdehau/tui-rs) & [termion](https://github.com/redox-os/termion) libraries for its text-based user interface.
 
 ### Table of Contents
+
+<!-- vim-markdown-toc GFM -->
+
 - [Installation](#installation)
   - [Cargo](#cargo)
   - [Arch Linux](#arch-linux)
   - [Nixpkgs](#nixpkgs)
+  - [Alpine Linux](#alpine-linux)
   - [Docker](#docker)
     - [Build](#build)
     - [Run](#run)
@@ -121,6 +125,8 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 - [License](#license)
 - [Copyright](#copyright)
 
+<!-- vim-markdown-toc -->
+
 ## Installation
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/kmon.svg)](https://repology.org/project/kmon/versions)
@@ -133,11 +139,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [tui-rs](https://
 cargo install kmon
 ```
 
-Use the `--force` option to update.
-
-```
-cargo install kmon --force
-```
+The minimum supported Rust version (MSRV) is `1.70.0`.
 
 ### Arch Linux
 
@@ -147,7 +149,7 @@ cargo install kmon --force
 pacman -S kmon
 ```
 
-There are also a development package on [AUR](https://aur.archlinux.org/packages/kmon-git/). Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
+There is also a development package on the [AUR](https://aur.archlinux.org/packages/kmon-git/). Use your favorite [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) to install. For example,
 
 ```
 paru -S kmon-git
@@ -171,6 +173,14 @@ nix-channel --update nixos
 nix-env -iA nixos.kmon
 ```
 
+### Alpine Linux
+
+**kmon** is available for [Alpine Edge](https://pkgs.alpinelinux.org/packages?name=kmon&branch=edge). It can be installed via [apk](https://wiki.alpinelinux.org/wiki/Alpine_Package_Keeper) after enabling the [community repository](https://wiki.alpinelinux.org/wiki/Repositories).
+
+```
+apk add kmon
+```
+
 ### Docker
 
 [![Docker Hub Build Status](https://img.shields.io/github/actions/workflow/status/orhun/kmon/docker.yml?color=000000&label=docker%20hub&style=flat-square)](https://hub.docker.com/r/orhunp/kmon)
@@ -178,6 +188,7 @@ nix-env -iA nixos.kmon
 ```
 docker run -it --cap-add syslog orhunp/kmon:tagname
 ```
+
 #### Build
 
 ```
@@ -198,16 +209,21 @@ docker run -it --cap-add syslog kmon
 ```
 wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION]-x86_64-unknown-linux-gnu.tar.gz
 ```
+
 3. To download the package compiled with [musl-libc](https://musl.libc.org/) run:
+
 ```
 wget https://github.com/orhun/kmon/releases/download/v[VERSION]/kmon-[VERSION]-x86_64-unknown-linux-musl.tar.gz
 ```
+
 3. Extract the files.
 
 ```
 tar -xvzf kmon-*.tar.gz
 ```
+
 4. Enter in the new folder.
+
 ```
 cd kmon-[VERSION]
 ```
@@ -226,7 +242,7 @@ cd kmon-[VERSION]
 
 [libxcb](https://xcb.freedesktop.org/) should be installed for using the copy/paste commands of X11.
 
-e.g: Install `libxcb1-dev` package for Debian/Ubuntu[*](https://github.com/orhun/kmon/issues/2) and `libxcb-devel` package for Fedora/openSUSE/Void Linux.
+e.g: Install `libxcb1-dev` package for Debian/Ubuntu[\*](https://github.com/orhun/kmon/issues/2) and `libxcb-devel` package for Fedora/openSUSE/Void Linux.
 
 ## Usage
 
@@ -514,7 +530,7 @@ kmon aims to be a standard tool for Linux kernel management while supporting mos
 
 ### Accessibility
 
-For achieving this goal, kmon should be accessible from different package managers such as [Snap](https://snapcraft.io/)[*](https://forum.snapcraft.io/t/unable-to-load-modules-to-kernel-and-get-module-information/16151) and [RPM](https://rpm.org/).
+For achieving this goal, kmon should be accessible from different package managers such as [Snap](https://snapcraft.io/)[\*](https://forum.snapcraft.io/t/unable-to-load-modules-to-kernel-and-get-module-information/16151) and [RPM](https://rpm.org/).
 
 ### Dependencies
 
@@ -526,44 +542,44 @@ Management actions about the Linux kernel should be applicable in kmon for minim
 
 ### Testing
 
-kmon should be tested and reported on different architectures for further development and support. 
+kmon should be tested and reported on different architectures for further development and support.
 
 ## Resources
 
 ### About the project
 
-* [Code of conduct](https://github.com/orhun/kmon/blob/master/CODE_OF_CONDUCT.md)
-* [Contributing](https://github.com/orhun/kmon/blob/master/CONTRIBUTING.md)
-* [Creating a release](https://github.com/orhun/kmon/blob/master/RELEASE.md)
+- [Code of conduct](https://github.com/orhun/kmon/blob/master/CODE_OF_CONDUCT.md)
+- [Contributing](https://github.com/orhun/kmon/blob/master/CONTRIBUTING.md)
+- [Creating a release](https://github.com/orhun/kmon/blob/master/RELEASE.md)
 
 ### Articles
 
-* [Exploring the Linux Kernel by Bob Cromwell](https://cromwell-intl.com/open-source/linux-kernel-details.html)
-* [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
-* [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
+- [Exploring the Linux Kernel by Bob Cromwell](https://cromwell-intl.com/open-source/linux-kernel-details.html)
+- [Anatomy of the Linux loadable kernel module by Terenceli](https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/06/02/linux-loadable-module)
+- [Managing kernel modules with kmod by Lucas De Marchi](https://elinux.org/images/8/89/Managing_Kernel_Modules_With_kmod.pdf)
 
 ### In the media
 
-* [Manage And Monitor Linux Kernel Modules With Kmon](https://ostechnix.com/manage-and-monitor-linux-kernel-modules-with-kmon/) (
-OSTechNix)
-* [Kmon The Linux Kernel Management And Monitoring Software](https://www.youtube.com/watch?v=lukxf6CnR2o) (Brodie Robertson on YouTube)
+- [Manage And Monitor Linux Kernel Modules With Kmon](https://ostechnix.com/manage-and-monitor-linux-kernel-modules-with-kmon/) (
+  OSTechNix)
+- [Kmon The Linux Kernel Management And Monitoring Software](https://www.youtube.com/watch?v=lukxf6CnR2o) (Brodie Robertson on YouTube)
 
 ### Gallery
 
-Fedora 31                  |  Debian 10                |  Manjaro 19
-:-------------------------:|:-------------------------:|:-------------------------:
-![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png)  |  ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png)  |  ![kmon on manjaro](https://user-images.githubusercontent.com/24392180/76940351-1f5d8200-690b-11ea-8fe9-1d751fe102c5.png)
+|                                                        Fedora 31                                                        |                                                        Debian 10                                                        |                                                        Manjaro 19                                                        |
+| :---------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: |
+| ![kmon on fedora](https://user-images.githubusercontent.com/24392180/76520554-27817180-6474-11ea-9966-e564f38c8a6a.png) | ![kmon on debian](https://user-images.githubusercontent.com/24392180/76514129-79bc9580-6468-11ea-9013-e32fbbdc1108.png) | ![kmon on manjaro](https://user-images.githubusercontent.com/24392180/76940351-1f5d8200-690b-11ea-8fe9-1d751fe102c5.png) |
 
-Ubuntu 18.04                  |  openSUSE                |  Void Linux
-:-------------------------:|:-------------------------:|:-------------------------:
-![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png)  |  ![kmon on opensuse](https://user-images.githubusercontent.com/24392180/77414512-38b27280-6dd2-11ea-888c-9bf6f7245387.png)  |  ![kmon on voidlinux](https://user-images.githubusercontent.com/24392180/77417004-c9d71880-6dd5-11ea-82b2-f6c7df9a05c3.png)
+|                                                      Ubuntu 18.04                                                       |                                                         openSUSE                                                          |                                                         Void Linux                                                         |
+| :---------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
+| ![kmon on ubuntu](https://user-images.githubusercontent.com/24392180/76690341-18571b00-6650-11ea-85c9-3f511c054194.png) | ![kmon on opensuse](https://user-images.githubusercontent.com/24392180/77414512-38b27280-6dd2-11ea-888c-9bf6f7245387.png) | ![kmon on voidlinux](https://user-images.githubusercontent.com/24392180/77417004-c9d71880-6dd5-11ea-82b2-f6c7df9a05c3.png) |
 
 ### Social Media
 
-* Follow [@kmonitor_](https://twitter.com/kmonitor_) on Twitter
-* Follow the [author](https://orhun.dev/):
-    * [@orhun](https://github.com/orhun) on GitHub
-    * [@orhunp_](https://twitter.com/orhunp_) on Twitter
+- Follow [@kmonitor\_](https://twitter.com/kmonitor_) on Twitter
+- Follow the [author](https://orhun.dev/):
+  - [@orhun](https://github.com/orhun) on GitHub
+  - [@orhunp\_](https://twitter.com/orhunp_) on Twitter
 
 ## Funding
 

@@ -254,7 +254,7 @@ mod tests {
 		let mut unicode = Unicode::new(true);
 		for symbol in unicode.symbols.clone() {
 			if symbol.0 != Symbol::Blank {
-				assert_eq!(true, symbol.1[1].len() < 2)
+				assert!(symbol.1[1].len() < 2)
 			}
 		}
 		unicode.replace = false;

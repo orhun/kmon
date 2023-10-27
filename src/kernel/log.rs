@@ -1,5 +1,6 @@
 use crate::app::ScrollDirection;
 use crate::util;
+use std::fmt::Write as _;
 
 /* Kernel activity logs */
 #[derive(Clone, Debug, Default)]
@@ -24,12 +25,11 @@ impl KernelLogs {
 		)
 		.unwrap_or_else(|_| String::from("failed to retrieve dmesg output"));
 		let logs_updated =
-			self.output.lines().rev().next().unwrap_or_default() != self.last_line;
+			self.output.lines().next_back().unwrap_or_default() != self.last_line;
 		self.last_line = self
 			.output
 			.lines()
-			.rev()
-			.next()
+			.next_back()
 			.unwrap_or_default()
 			.to_string();
 		logs_updated
@@ -67,8 +67,10 @@ impl KernelLogs {
 					})
 					.unwrap_or(0),
 			)
-			.map(|i| format!("{i}\n"))
-			.collect::<String>();
+			.fold(String::new(), |mut s, i| {
+				let _ = writeln!(s, "{i}");
+				s
+			});
 		&self.selected_output
 	}
 
@@ -114,7 +116,7 @@ mod tests {
 		{
 			kernel_logs.scroll(*direction, *direction == ScrollDirection::Top);
 		}
-		assert_eq!(true, kernel_logs.update());
+		assert!(kernel_logs.update());
 		assert_ne!(0, kernel_logs.output.lines().count());
 		assert_ne!(0, kernel_logs.select(10, 2).len());
 	}

@@ -114,8 +114,13 @@ impl KernelModules<'_> {
 			SortType::Dependent => module_read_cmd += " | sort -n -r -t ' ' -k3",
 			_ => {}
 		}
-		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])
-			.unwrap_or_else(|_| String::new());
+		let modules_content = match util::exec_cmd("sh", &["-c", &module_read_cmd]) {
+			Ok(v) => v,
+			Err(e) => {
+				eprintln!("{e}");
+				String::new()
+			}
+		};
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();

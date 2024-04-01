@@ -115,7 +115,7 @@ impl KernelModules<'_> {
 			_ => {}
 		}
 		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])
-			.expect("failed to read /proc/modules");
+			.unwrap_or_else(|_| String::new());
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();

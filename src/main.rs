@@ -1,7 +1,7 @@
 use kmon::args;
-use kmon::util;
 use kmon::event::Events;
 use kmon::kernel::Kernel;
+use kmon::util;
 use ratatui::backend::TermionBackend;
 use ratatui::Terminal;
 use std::error::Error;

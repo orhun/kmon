@@ -1,4 +1,8 @@
 use std::process::Command;
+use std::error::Error;
+use std::io::{self, Write};
+use std::panic;
+use termion::raw::IntoRawMode;
 
 /* Macro for concise initialization of hashmap */
 macro_rules! map {
@@ -60,6 +64,33 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 		}
 		Err(e) => Err(e.to_string()),
 	}
+}
+
+pub fn setup_panic_hook() -> Result<(), Box<dyn Error>> {
+    let raw_output = io::stdout().into_raw_mode()?;
+
+    raw_output.suspend_raw_mode()?;
+
+    let panic_hook = panic::take_hook();
+    panic::set_hook(Box::new(move |panic| {
+        let panic_cleanup = || -> Result<(), Box<dyn Error>> {
+            let mut output = io::stdout();
+            write!(
+                output,
+                "{}{}{}",
+                termion::clear::All,
+                termion::screen::ToMainScreen,
+                termion::cursor::Show
+            )?;
+            raw_output.suspend_raw_mode()?;
+            output.flush()?;
+            Ok(())
+        };
+        panic_cleanup().expect("failed to clean up for panic");
+        panic_hook(panic);
+    }));
+
+    Ok(())
 }
 
 #[cfg(test)]

@@ -1,6 +1,7 @@
 use kmon::args;
 use kmon::event::Events;
 use kmon::kernel::Kernel;
+use kmon::util;
 use ratatui::backend::TermionBackend;
 use ratatui::Terminal;
 use std::error::Error;
@@ -25,6 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 		&kernel.logs,
 	);
 	if !cfg!(test) {
+		util::setup_panic_hook()?;
 		let stdout = stdout().into_raw_mode()?.into_alternate_screen()?;
 		let stdout = MouseTerminal::from(stdout);
 		let backend = TermionBackend::new(stdout);

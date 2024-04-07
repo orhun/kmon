@@ -34,6 +34,6 @@ impl Kernel {
 	pub fn refresh(&mut self) {
 		self.logs.refresh();
 		self.info.refresh();
-		self.modules.refresh();
+		let _ = self.modules.refresh();
 	}
 }

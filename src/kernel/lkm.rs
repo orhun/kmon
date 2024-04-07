@@ -5,6 +5,7 @@ use crate::util;
 use bytesize::ByteSize;
 use clap::ArgMatches;
 use ratatui::text::{Line, Span, Text};
+use std::error::Error;
 use std::slice::Iter;
 
 /* Type of the sorting of module list */
@@ -99,12 +100,14 @@ impl KernelModules<'_> {
 			args,
 			style,
 		};
-		kernel_modules.refresh();
+		if let Err(e) = kernel_modules.refresh() {
+			eprintln!("{e}");
+		}
 		kernel_modules
 	}
 
 	/* Parse kernel modules from '/proc/modules'. */
-	pub fn refresh(&mut self) {
+	pub fn refresh(&mut self) -> Result<(), Box<dyn Error>> {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
 		/* Set the command for reading kernel modules and execute it. */
 		let mut module_read_cmd = String::from("cat /proc/modules");
@@ -114,13 +117,8 @@ impl KernelModules<'_> {
 			SortType::Dependent => module_read_cmd += " | sort -n -r -t ' ' -k3",
 			_ => {}
 		}
-		let modules_content = match util::exec_cmd("sh", &["-c", &module_read_cmd]) {
-			Ok(v) => v,
-			Err(e) => {
-				eprintln!("{e}");
-				String::new()
-			}
-		};
+		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])?;
+
 		/* Parse content for module name, size and related information. */
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();
@@ -143,6 +141,7 @@ impl KernelModules<'_> {
 		self.default_list = module_list.clone();
 		self.list = module_list;
 		self.scroll_list(ScrollDirection::Top);
+		Ok(())
 	}
 
 	/**

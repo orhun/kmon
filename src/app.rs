@@ -477,6 +477,11 @@ impl App {
 							Row::new(item).style(self.style.colored)
 						}
 					}),
+				&[
+					Constraint::Percentage(30),
+					Constraint::Percentage(20),
+					Constraint::Percentage(50),
+				],
 			)
 			.header(
 				Row::new(TABLE_HEADER.iter().map(|v| v.to_string()))
@@ -507,12 +512,7 @@ impl App {
 						),
 						self.style.bold,
 					)),
-			)
-			.widths(&[
-				Constraint::Percentage(30),
-				Constraint::Percentage(20),
-				Constraint::Percentage(50),
-			]),
+			),
 			area,
 		);
 		if self.show_options {

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.5] - 2024-04-12
+### Added
+- Add a panic hook to reset terminal upon panic by @eld4niz in [#141](https://github.com/orhun/kmon/pull/141)
+
+### Changed
+- Upgrade dependencies by @orhun
+- Bump the Rust version in Dockerfile by @orhun
+- Update funding options
+- Update license copyright years
+- Prepare for the release v1.6.5
+
+### Fixed
+- Do not panic when /proc/modules does not exist by @eld4niz in [#139](https://github.com/orhun/kmon/pull/139)
+
+### New Contributors
+* @eld4niz made their first contribution in [#139](https://github.com/orhun/kmon/pull/139)
+
 ## [1.6.4] - 2023-10-27
 ### Changed
 - Bump dependencies

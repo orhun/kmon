@@ -1,5 +1,5 @@
 # Builder
-FROM rust:1.70.0-slim-buster as builder
+FROM rust:1.77.2-slim-buster as builder
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     --allow-unauthenticated \

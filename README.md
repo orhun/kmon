@@ -143,7 +143,7 @@ The minimum supported Rust version (MSRV) is `1.70.0`.
 
 ### Arch Linux
 
-**kmon** can be installed from the Arch Linux [official repository](https://www.archlinux.org/packages/community/x86_64/kmon/).
+**kmon** can be installed from the Arch Linux [official repository](https://www.archlinux.org/packages/extra/x86_64/kmon/).
 
 ```
 pacman -S kmon

@@ -579,7 +579,7 @@ kmon should be tested and reported on different architectures for further develo
 - Follow [@kmonitor\_](https://twitter.com/kmonitor_) on Twitter
 - Follow the [author](https://orhun.dev/):
   - [@orhun](https://github.com/orhun) on GitHub
-  - [@orhunp\_](https://twitter.com/orhunp_) on Twitter
+  - [@orhundev](https://twitter.com/orhundev) on Twitter
 
 ## Funding
 

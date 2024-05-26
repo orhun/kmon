@@ -138,7 +138,7 @@ impl KernelModules<'_> {
 		if self.args.reverse {
 			module_list.reverse();
 		}
-		self.default_list = module_list.clone();
+		self.default_list.clone_from(&module_list);
 		self.list = module_list;
 		self.scroll_list(ScrollDirection::Top);
 		Ok(())

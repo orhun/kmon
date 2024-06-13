@@ -339,7 +339,7 @@ dependencies = [
  "copypasta-ext",
  "enum-iterator",
  "ratatui",
- "termion 4.0.0",
+ "termion 4.0.2",
  "unicode-width",
 ]
 
@@ -688,9 +688,9 @@ dependencies = [
 
 [[package]]
 name = "termion"
-version = "4.0.0"
+version = "4.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7af3fa9183465b9af93355585a6b1e24cc2ff25938b52aa6956f647b6490257a"
+checksum = "1ccce68e518d1173e80876edd54760b60b792750d0cab6444a79101c6ea03848"
 dependencies = [
  "libc",
  "libredox",

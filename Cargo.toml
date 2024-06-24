@@ -14,7 +14,7 @@ include = ["src/**/*", "Cargo.*", "LICENSE", "README.md", "CHANGELOG.md"]
 edition = "2021"
 
 [dependencies]
-ratatui = { version = "0.26.3", default-features = false, features = [
+ratatui = { version = "0.27.0", default-features = false, features = [
   "termion",
 ] }
 termion = "4.0.0"

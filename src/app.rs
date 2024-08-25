@@ -504,8 +504,7 @@ impl App {
 							self.style.unicode.get(Symbol::LeftBracket),
 							if !kernel_modules.list.is_empty() {
 								((kernel_modules.index + 1) as f64
-									/ kernel_modules.list.len() as f64
-									* 100.0) as u64
+									/ kernel_modules.list.len() as f64 * 100.0) as u64
 							} else {
 								0
 							},

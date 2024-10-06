@@ -8,7 +8,7 @@ use info::KernelInfo;
 use lkm::{KernelModules, ListArgs};
 use log::KernelLogs;
 
-/* Kernel struct for logs, information and modules */
+/// Kernel struct for logs, information and modules 
 pub struct Kernel {
 	pub logs: KernelLogs,
 	pub info: KernelInfo,
@@ -16,12 +16,12 @@ pub struct Kernel {
 }
 
 impl Kernel {
-	/**
-	 * Create a new kernel instance.
-	 *
-	 * @param  ArgMatches
-	 * @return Kernel
-	 */
+	
+	/// Create a new kernel instance.
+	 
+	/// @param  ArgMatches
+	/// @return Kernel
+	
 	pub fn new(args: &ArgMatches) -> Self {
 		Self {
 			logs: KernelLogs::default(),
@@ -30,7 +30,7 @@ impl Kernel {
 		}
 	}
 
-	/* Refresh kernel logs, modules and information. */
+	/// Refresh kernel logs, modules and information. 
 	pub fn refresh(&mut self) {
 		self.logs.refresh();
 		self.info.refresh();

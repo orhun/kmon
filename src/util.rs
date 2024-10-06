@@ -4,7 +4,7 @@ use std::panic;
 use std::process::Command;
 use termion::raw::IntoRawMode;
 
-/* Macro for concise initialization of hashmap */
+/// Macro for concise initialization of hashmap 
 macro_rules! map {
     ($( $key: expr => $val: expr ),*) => {{
          let mut map = ::std::collections::HashMap::new();
@@ -13,7 +13,7 @@ macro_rules! map {
     }}
 }
 
-/* Array of the key bindings */
+/// Array of the key bindings 
 pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("'?', f1", "help"),
 	("right/left, h/l", "switch between blocks"),
@@ -40,13 +40,14 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("q, ctrl-c/d, esc", "quit"),
 ];
 
-/**
- * Execute a operating system command and return its output.
- *
- * @param  cmd
- * @param  cmd_args
- * @return Result
- */
+
+/// Execute a operating system command and return its output.
+
+/// @param  cmd
+/// @param  cmd_args
+/// @return Result
+
+
 pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 	match Command::new(cmd).args(cmd_args).output() {
 		Ok(output) => {
@@ -66,13 +67,13 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 	}
 }
 
-/**
- * Sets up the panic hook for the terminal.
- *
- * See <https://ratatui.rs/how-to/develop-apps/panic-hooks/#termion>
- *
- * @return Result
- */
+
+/// Sets up the panic hook for the terminal.
+
+/// See <https://ratatui.rs/how-to/develop-apps/panic-hooks/#termion>
+ 
+/// @return Result
+
 pub fn setup_panic_hook() -> Result<(), Box<dyn Error>> {
 	let raw_output = io::stdout().into_raw_mode()?;
 	raw_output.suspend_raw_mode()?;

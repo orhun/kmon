@@ -1,6 +1,6 @@
 use crate::style::Symbol;
 
-/* Kernel module related command */
+/// Kernel module related command 
 #[derive(Debug)]
 pub struct Command {
 	pub cmd: String,
@@ -10,21 +10,21 @@ pub struct Command {
 }
 
 impl Command {
-	/**
-	 * Create a new command instance.
-	 *
-	 * @param  command
-	 * @param  description
-	 * @param  command_title
-	 * @return Command
-	 */
+	
+	/// Create a new command instance.
+	
+	/// @param  command
+	/// @param  description
+	/// @param  command_title
+	/// @return Command
+	
 	fn new(
 		cmd: String,
 		desc: &'static str,
 		mut title: String,
 		symbol: Symbol,
 	) -> Self {
-		/* Parse the command title if '!' is given. */
+		/// Parse the command title if '!' is given. 
 		if title.contains('!') {
 			title = (*title
 				.split('!')
@@ -42,7 +42,7 @@ impl Command {
 	}
 }
 
-/* Kernel module management commands */
+/// Kernel module management commands 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ModuleCommand {
 	None,
@@ -68,12 +68,12 @@ impl TryFrom<String> for ModuleCommand {
 }
 
 impl ModuleCommand {
-	/**
-	 * Get Command struct from a enum element.
-	 *
-	 * @param  module_name
-	 * @return Command
-	 */
+	
+	/// Get Command struct from a enum element.
+	 
+	/// @param  module_name
+	/// @return Command
+	
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
             Self::None => Command::new(String::from(""), "", format!("Module: {module_name}"), Symbol::None),
@@ -130,20 +130,20 @@ impl ModuleCommand {
         }
 	}
 
-	/**
-	 * Check if module command is set.
-	 *
-	 * @return bool
-	 */
+	
+	/// Check if module command is set.
+	
+	/// @return bool
+	
 	pub fn is_none(self) -> bool {
 		self == Self::None
 	}
 
-	/**
-	 * Check if module name is a filename with suffix 'ko'
-	 *
-	 * @return bool
-	 */
+	
+	/// Check if module name is a filename with suffix 'ko'
+	 
+	/// @return bool
+	
 	pub fn is_module_filename(module_name: &str) -> bool {
 		match module_name.split('.').collect::<Vec<&str>>().last() {
 			Some(v) => *v == "ko",

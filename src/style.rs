@@ -4,7 +4,7 @@ use ratatui::style::{Color, Modifier, Style as TuiStyle};
 use ratatui::text::{Line, Span, Text};
 use std::collections::HashMap;
 
-/* Unicode symbol */
+/// Unicode symbol 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Symbol {
 	None,
@@ -24,7 +24,7 @@ pub enum Symbol {
 	HistoricSite,
 }
 
-/* Supported Unicode symbols */
+/// Supported Unicode symbols 
 #[derive(Clone, Debug)]
 pub struct Unicode<'a> {
 	symbols: HashMap<Symbol, &'a [&'a str; 2]>,
@@ -32,12 +32,12 @@ pub struct Unicode<'a> {
 }
 
 impl Unicode<'_> {
-	/**
-	 * Create a new Unicode instance.
-	 *
-	 * @param  replace
-	 * @return Unicode
-	 */
+	
+	/// Create a new Unicode instance.
+	 
+	/// @param  replace
+	/// @return Unicode
+	 
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
@@ -60,18 +60,18 @@ impl Unicode<'_> {
 			replace,
 		}
 	}
-	/**
-	 * Get string from a Unicode symbol.
-	 *
-	 * @param  Symbol
-	 * @return str
-	 */
+	
+	/// Get string from a Unicode symbol.
+	 
+	/// @param  Symbol
+	/// @return str
+	
 	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
 	}
 }
 
-/* Style properties */
+/// Style properties 
 #[derive(Clone, Debug)]
 pub struct Style {
 	pub default: TuiStyle,
@@ -81,12 +81,12 @@ pub struct Style {
 }
 
 impl Style {
-	/**
-	 * Create a new style instance from given arguments.
-	 *
-	 * @param  args
-	 * @return Style
-	 */
+	
+	/// Create a new style instance from given arguments.
+	 
+	/// @param  args
+	/// @return Style
+	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut default = TuiStyle::reset();
 		if let Ok(true) = args.try_contains_id("accent-color") {
@@ -107,14 +107,14 @@ impl Style {
 		}
 	}
 
-	/**
-	 * Parse a color value from arguments.
-	 *
-	 * @param  args
-	 * @param  arg_name
-	 * @param  default_color
-	 * @return Color
-	 */
+	
+	/// Parse a color value from arguments.
+	 
+	/// @param  args
+	/// @param  arg_name
+	/// @param  default_color
+	/// @return Color
+	 
 	fn get_color(args: &ArgMatches, arg_name: &str, default_color: Color) -> Color {
 		let colors = map![
 			"black" => Color::Black,
@@ -151,7 +151,7 @@ impl Style {
 	}
 }
 
-/* Styled text that has raw and style parts */
+/// Styled text that has raw and style parts 
 #[derive(Debug, Default)]
 pub struct StyledText<'a> {
 	pub raw_text: String,
@@ -159,11 +159,11 @@ pub struct StyledText<'a> {
 }
 
 impl<'a> StyledText<'a> {
-	/**
-	 * Get a vector of Text widget from styled text.
-	 *
-	 * @return vector
-	 */
+	
+	/// Get a vector of Text widget from styled text.
+	 
+	/// @return vector
+	
 	pub fn get(&'a self) -> Text<'a> {
 		if self.styled_text.lines.is_empty() {
 			Text::raw(&self.raw_text)
@@ -172,25 +172,25 @@ impl<'a> StyledText<'a> {
 		}
 	}
 
-	/**
-	 * Set a styled text.
-	 *
-	 * @param text
-	 * @param placeholder
-	 */
+	
+	/// Set a styled text.
+	 
+	/// @param text
+	/// @param placeholder
+	 
 	pub fn set(&mut self, text: Text<'static>, placeholder: String) {
 		self.styled_text = text;
 		self.raw_text = placeholder;
 	}
 
-	/**
-	 * Add style to given text depending on a delimiter.
-	 *
-	 * @param  text
-	 * @param  delimiter
-	 * @param  style
-	 * @return vector
-	 */
+	
+	/// Add style to given text depending on a delimiter.
+	 
+	/// @param  text
+	/// @param  delimiter
+	/// @param  style
+	/// @return vector
+	
 	pub fn stylize_data(
 		&mut self,
 		text: &'a str,
@@ -215,11 +215,11 @@ impl<'a> StyledText<'a> {
 		self.styled_text.clone()
 	}
 
-	/**
-	 * Return the line count of styled text.
-	 *
-	 * @return usize
-	 */
+	
+	/// Return the line count of styled text.
+	 
+	/// @return usize
+	
 	pub fn lines(&self) -> usize {
 		if self.styled_text.lines.is_empty() {
 			self.raw_text.lines().count()

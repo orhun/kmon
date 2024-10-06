@@ -8,7 +8,7 @@ use ratatui::text::{Line, Span, Text};
 use std::error::Error;
 use std::slice::Iter;
 
-/* Type of the sorting of module list */
+/// Type of the sorting of module list 
 #[derive(Clone, Copy, Debug)]
 enum SortType {
 	None,
@@ -18,11 +18,11 @@ enum SortType {
 }
 
 impl SortType {
-	/**
-	 * Return iterator for the sort types.
-	 *
-	 * @return Iter
-	 */
+	
+	/// Return iterator for the sort types.
+	
+	/// @return Iter
+	
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, SortType> {
 		[
@@ -35,19 +35,19 @@ impl SortType {
 	}
 }
 
-/* Listing properties of module list */
+/// Listing properties of module list 
 pub struct ListArgs {
 	sort: SortType,
 	reverse: bool,
 }
 
 impl ListArgs {
-	/**
-	 * Create a new list arguments instance.
-	 *
-	 * @param  ArgMatches
-	 * @return ListArgs
-	 */
+	
+	/// Create a new list arguments instance.
+	
+	/// @param  ArgMatches
+	/// @return ListArgs
+	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
 		if let Some(("sort", matches)) = args.subcommand() {
@@ -67,7 +67,7 @@ impl ListArgs {
 	}
 }
 
-/* Loadable kernel modules */
+/// Loadable kernel modules 
 pub struct KernelModules<'a> {
 	pub default_list: Vec<Vec<String>>,
 	pub list: Vec<Vec<String>>,
@@ -81,13 +81,13 @@ pub struct KernelModules<'a> {
 }
 
 impl KernelModules<'_> {
-	/**
-	 * Create a new kernel modules instance.
-	 *
-	 * @param  ListArgs
-	 * @param  Style
-	 * @return KernelModules
-	 */
+	
+	/// Create a new kernel modules instance.
+	 
+	/// @param  ListArgs
+	/// @param  Style
+	/// @return KernelModules
+	
 	pub fn new(args: ListArgs, style: Style) -> Self {
 		let mut kernel_modules = Self {
 			default_list: Vec::new(),
@@ -106,10 +106,10 @@ impl KernelModules<'_> {
 		kernel_modules
 	}
 
-	/* Parse kernel modules from '/proc/modules'. */
+	/// Parse kernel modules from '/proc/modules'. 
 	pub fn refresh(&mut self) -> Result<(), Box<dyn Error>> {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
-		/* Set the command for reading kernel modules and execute it. */
+		/// Set the command for reading kernel modules and execute it.
 		let mut module_read_cmd = String::from("cat /proc/modules");
 		match self.args.sort {
 			SortType::Size => module_read_cmd += " | sort -n -r -t ' ' -k2",
@@ -119,7 +119,7 @@ impl KernelModules<'_> {
 		}
 		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])?;
 
-		/* Parse content for module name, size and related information. */
+		/// Parse content for module name, size and related information. 
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();
 			let mut module_name = format!(" {}", columns[0]);
@@ -134,7 +134,7 @@ impl KernelModules<'_> {
 				ByteSize::b(columns[1].to_string().parse().unwrap_or(0)).to_string();
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
-		/* Reverse the kernel modules if the argument is provided. */
+		/// Reverse the kernel modules if the argument is provided. 
 		if self.args.reverse {
 			module_list.reverse();
 		}
@@ -144,21 +144,21 @@ impl KernelModules<'_> {
 		Ok(())
 	}
 
-	/**
-	 * Get the current command using current module name.
-	 *
-	 * @return Command
-	 */
+	
+	/// Get the current command using current module name.
+	 
+	/// @return Command
+	
 	pub fn get_current_command(&self) -> Command {
 		self.command.get(&self.current_name)
 	}
 
-	/**
-	 * Set the current module command and show confirmation message.
-	 *
-	 * @param module_command
-	 * @param command_name
-	 */
+	
+	/// Set the current module command and show confirmation message.
+	 
+	/// @param module_command
+	/// @param command_name
+	
 	pub fn set_current_command(
 		&mut self,
 		module_command: ModuleCommand,
@@ -197,11 +197,11 @@ impl KernelModules<'_> {
 		}
 	}
 
-	/**
-	 * Execute the current module command.
-	 *
-	 * @return command_executed
-	 */
+	
+	/// Execute the current module command.
+	
+	/// @return command_executed
+	
 	pub fn execute_command(&mut self) -> bool {
 		let mut command_executed = false;
 		if !self.command.is_none() {
@@ -242,11 +242,11 @@ impl KernelModules<'_> {
 		command_executed
 	}
 
-	/**
-	 * Cancel the execution of the current command.
-	 *
-	 * @return cancelled
-	 */
+	
+	/// Cancel the execution of the current command.
+	
+	/// @return cancelled
+	 
 	pub fn cancel_execution(&mut self) -> bool {
 		if !self.command.is_none() {
 			self.command = ModuleCommand::None;
@@ -263,11 +263,11 @@ impl KernelModules<'_> {
 		}
 	}
 
-	/**
-	 * Scroll to the position of used module at given index.
-	 *
-	 * @param mod_index
-	 */
+	
+	/// Scroll to the position of used module at given index.
+	
+	/// @param mod_index
+	
 	pub fn show_used_module(&mut self, mod_index: usize) {
 		if let Some(used_module) = self.list[self.index][2]
 			.split(' ')
@@ -298,17 +298,17 @@ impl KernelModules<'_> {
 		}
 	}
 
-	/**
-	 * Scroll module list up/down and select module.
-	 *
-	 * @param direction
-	 */
+	
+	/// Scroll module list up/down and select module.
+	 
+	/// @param direction
+	
 	pub fn scroll_list(&mut self, direction: ScrollDirection) {
 		self.info_scroll_offset = 0;
 		if self.list.is_empty() {
 			self.index = 0;
 		} else {
-			/* Scroll module list. */
+			/// Scroll module list. 
 			match direction {
 				ScrollDirection::Up => self.previous_module(),
 				ScrollDirection::Down => self.next_module(),
@@ -316,14 +316,14 @@ impl KernelModules<'_> {
 				ScrollDirection::Bottom => self.index = self.list.len() - 1,
 				_ => {}
 			}
-			/* Set current module name. */
+			/// Set current module name. 
 			self.current_name = self.list[self.index][0]
 				.split_whitespace()
 				.next()
 				.unwrap_or("?")
 				.trim()
 				.to_string();
-			/* Execute 'modinfo' and add style to its output. */
+			/// Execute 'modinfo' and add style to its output. 
 			self.current_info.stylize_data(
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
@@ -336,16 +336,16 @@ impl KernelModules<'_> {
 				":",
 				self.style.clone(),
 			);
-			/* Clear the current command. */
+			/// Clear the current command. 
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}
 		}
 	}
 
-	/**
-	 * Select the next module.
-	 */
+	
+	/// Select the next module.
+	
 	pub fn next_module(&mut self) {
 		self.index += 1;
 		if self.index > self.list.len() - 1 {
@@ -353,9 +353,9 @@ impl KernelModules<'_> {
 		}
 	}
 
-	/**
-	 * Select the previous module.
-	 */
+	
+	/// Select the previous module.
+	
 	pub fn previous_module(&mut self) {
 		if self.index > 0 {
 			self.index -= 1;
@@ -364,12 +364,12 @@ impl KernelModules<'_> {
 		}
 	}
 
-	/**
-	 * Scroll the module information text up/down.
-	 *
-	 * @param direction
-	 * @param smooth_scroll
-	 */
+	
+	/// Scroll the module information text up/down.
+	
+	/// @param direction
+	/// @param smooth_scroll
+	
 	pub fn scroll_mod_info(
 		&mut self,
 		direction: ScrollDirection,

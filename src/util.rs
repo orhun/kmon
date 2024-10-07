@@ -43,9 +43,7 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 
 /// Execute a operating system command and return its output.
 
-/// @param  cmd
-/// @param  cmd_args
-/// @return Result
+
 
 
 pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
@@ -72,7 +70,7 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 
 /// See <https://ratatui.rs/how-to/develop-apps/panic-hooks/#termion>
  
-/// @return Result
+
 
 pub fn setup_panic_hook() -> Result<(), Box<dyn Error>> {
 	let raw_output = io::stdout().into_raw_mode()?;

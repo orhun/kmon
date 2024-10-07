@@ -27,10 +27,7 @@ impl Events {
 	
 	/// Create a new events instance.
 	 
-	/// @param  refresh_rate
-	/// @param  kernel_logs
-	/// @return Events
-	 
+
 	pub fn new(refresh_rate: u64, kernel_logs: &KernelLogs) -> Self {
 		/// Convert refresh rate to Duration from milliseconds. 
 		let refresh_rate = Duration::from_millis(refresh_rate);

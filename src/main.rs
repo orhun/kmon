@@ -13,7 +13,7 @@ use termion::screen::IntoAlternateScreen;
 
 /// Entry point.
  
-/// @return Result
+
  
 fn main() -> Result<(), Box<dyn Error>> {
 	let args = args::get_args().get_matches();

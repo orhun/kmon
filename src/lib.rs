@@ -24,10 +24,7 @@ use unicode_width::UnicodeWidthStr;
 
 /// Configure the terminal and draw its widgets.
  
-/// @param  Terminal
-/// @param  Kernel
-/// @param  Events
-/// @return Result
+
  
 pub fn start_tui<B>(
 	mut terminal: Terminal<B>,
@@ -572,7 +569,7 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
-			/* Test the general keys. */
+			/// Test the general keys. 
 			for key in [
 				Key::Char('?'),
 				Key::Ctrl('t'),
@@ -648,8 +645,7 @@ mod tests {
 	
 	/// Try to send a key event until Sender succeeds.
 	 
-	/// @param Sender
-	/// @param Key
+
 	
 	fn send_key(tx: &Sender<Event<Key>>, key: Key) {
 		let mut x = true;

@@ -17,7 +17,7 @@ impl KernelInfo {
 	
 	/// Create a new kernel info instance.
 	 
-	/// @return KernelInfo
+
 	
 	pub fn new() -> Self {
 		let mut kernel_info = Self {
@@ -47,7 +47,7 @@ impl KernelInfo {
 
 	/// Execute 'uname' command and return its output along with its description.
 	 
-	/// @return Iterator
+
 	 
 	fn get_infos() -> IntoIter<Vec<String>> {
 		vec![

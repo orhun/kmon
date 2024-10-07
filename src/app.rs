@@ -51,7 +51,6 @@ impl ScrollDirection {
 	
 	/// Return iterator of the available scroll directions.
 	 
-	/// @return Iter
 	 
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, ScrollDirection> {
@@ -107,7 +106,6 @@ impl InputMode {
 	
 	/// Check if input mode is set.
 	 
-	/// @return bool
 	
 	pub fn is_none(self) -> bool {
 		self == Self::None
@@ -146,9 +144,6 @@ impl App {
 	
 	/// Create a new app instance.
 	 
-	/// @param  Block
-	/// @param  Style
-	/// @return App
 	
 	pub fn new(block: Block, style: Style) -> Self {
 		Self {
@@ -192,8 +187,6 @@ impl App {
 	
 	/// Get style depending on the selected state of the block.
 	 
-	/// @param  block
-	/// @return TuiStyle
 	
 	pub fn block_style(&self, block: Block) -> TuiStyle {
 		if self.show_options {
@@ -208,7 +201,7 @@ impl App {
 	
 	/// Get the size of the selected block.
 	 
-	/// @return u16
+
 	
 	pub fn block_size(&mut self) -> &mut u16 {
 		match self.selected_block {
@@ -221,8 +214,7 @@ impl App {
 	
 	/// Get clipboard contents as String.
 	 
-	/// @return contents
-	
+
 	pub fn get_clipboard_contents(&mut self) -> String {
 		if let Some(clipboard) = self.clipboard.as_mut() {
 			if let Ok(contents) = clipboard.get_contents() {
@@ -235,8 +227,7 @@ impl App {
 	
 	/// Set clipboard contents.
 	
-	/// @param contents
-	
+
 	pub fn set_clipboard_contents(&mut self, contents: &str) {
 		if let Some(clipboard) = self.clipboard.as_mut() {
 			if let Err(e) = clipboard.set_contents(contents.to_string()) {
@@ -248,7 +239,6 @@ impl App {
 	
 	/// Show help message on the information block.
 	 
-	/// @param kernel_modules
 	
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
@@ -278,7 +268,6 @@ impl App {
 	
 	/// Show dependent modules on the information block.
 	
-	/// @param kernel_modules
 	
 	#[allow(clippy::nonminimal_bool)]
 	pub fn show_dependent_modules(
@@ -320,9 +309,7 @@ impl App {
 	
 	/// Draw a block according to the index.
 	
-	/// @param frame
-	/// @param area
-	/// @param kernel
+
 	
 	pub fn draw_dynamic_block(
 		&mut self,
@@ -345,9 +332,7 @@ impl App {
 	
 	/// Draw a paragraph widget for using as user input.
 	
-	/// @param frame
-	/// @param area
-	/// @param tx
+
 	
 	pub fn draw_user_input(
 		&self,
@@ -390,9 +375,7 @@ impl App {
 	
 	/// Draw a paragraph widget for showing the kernel information.
 	 
-	/// @param frame
-	/// @param area
-	/// @param info
+
 	 
 	pub fn draw_kernel_info(&self, frame: &mut Frame, area: Rect, info: &[String]) {
 		frame.render_widget(
@@ -420,9 +403,7 @@ impl App {
 	
 	/// Configure and draw kernel modules table.
 	 
-	/// @param frame
-	/// @param area
-	/// @param kernel_modules
+
 	
 	pub fn draw_kernel_modules(
 		&mut self,
@@ -523,8 +504,7 @@ impl App {
 	
 	/// Draws the options menu as a popup.
 	 
-	/// @param frame
-	/// @param area
+
 	
 	pub fn draw_options_menu(
 		&mut self,
@@ -606,9 +586,6 @@ impl App {
 	
 	/// Draw a paragraph widget for showing module information.
 	 
-	/// @param frame
-	/// @param area
-	/// @param kernel_modules
 	
 	pub fn draw_module_info(
 		&self,
@@ -654,9 +631,6 @@ impl App {
 	
 	/// Draw a paragraph widget for showing kernel activities.
 	
-	/// @param frame
-	/// @param area
-	/// @param kernel_logs
 	
 	pub fn draw_kernel_activities(
 		&self,

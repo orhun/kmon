@@ -13,10 +13,6 @@ impl Command {
 	
 	/// Create a new command instance.
 	
-	/// @param  command
-	/// @param  description
-	/// @param  command_title
-	/// @return Command
 	
 	fn new(
 		cmd: String,
@@ -71,8 +67,6 @@ impl ModuleCommand {
 	
 	/// Get Command struct from a enum element.
 	 
-	/// @param  module_name
-	/// @return Command
 	
 	pub fn get(self, module_name: &str) -> Command {
 		match self {
@@ -133,7 +127,7 @@ impl ModuleCommand {
 	
 	/// Check if module command is set.
 	
-	/// @return bool
+
 	
 	pub fn is_none(self) -> bool {
 		self == Self::None
@@ -142,7 +136,7 @@ impl ModuleCommand {
 	
 	/// Check if module name is a filename with suffix 'ko'
 	 
-	/// @return bool
+
 	
 	pub fn is_module_filename(module_name: &str) -> bool {
 		match module_name.split('.').collect::<Vec<&str>>().last() {

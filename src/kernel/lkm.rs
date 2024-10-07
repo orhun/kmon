@@ -21,7 +21,7 @@ impl SortType {
 	
 	/// Return iterator for the sort types.
 	
-	/// @return Iter
+
 	
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, SortType> {
@@ -45,8 +45,7 @@ impl ListArgs {
 	
 	/// Create a new list arguments instance.
 	
-	/// @param  ArgMatches
-	/// @return ListArgs
+
 	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
@@ -84,9 +83,6 @@ impl KernelModules<'_> {
 	
 	/// Create a new kernel modules instance.
 	 
-	/// @param  ListArgs
-	/// @param  Style
-	/// @return KernelModules
 	
 	pub fn new(args: ListArgs, style: Style) -> Self {
 		let mut kernel_modules = Self {
@@ -147,7 +143,7 @@ impl KernelModules<'_> {
 	
 	/// Get the current command using current module name.
 	 
-	/// @return Command
+
 	
 	pub fn get_current_command(&self) -> Command {
 		self.command.get(&self.current_name)
@@ -156,8 +152,6 @@ impl KernelModules<'_> {
 	
 	/// Set the current module command and show confirmation message.
 	 
-	/// @param module_command
-	/// @param command_name
 	
 	pub fn set_current_command(
 		&mut self,
@@ -200,7 +194,7 @@ impl KernelModules<'_> {
 	
 	/// Execute the current module command.
 	
-	/// @return command_executed
+
 	
 	pub fn execute_command(&mut self) -> bool {
 		let mut command_executed = false;
@@ -245,7 +239,7 @@ impl KernelModules<'_> {
 	
 	/// Cancel the execution of the current command.
 	
-	/// @return cancelled
+
 	 
 	pub fn cancel_execution(&mut self) -> bool {
 		if !self.command.is_none() {
@@ -266,7 +260,6 @@ impl KernelModules<'_> {
 	
 	/// Scroll to the position of used module at given index.
 	
-	/// @param mod_index
 	
 	pub fn show_used_module(&mut self, mod_index: usize) {
 		if let Some(used_module) = self.list[self.index][2]
@@ -301,7 +294,6 @@ impl KernelModules<'_> {
 	
 	/// Scroll module list up/down and select module.
 	 
-	/// @param direction
 	
 	pub fn scroll_list(&mut self, direction: ScrollDirection) {
 		self.info_scroll_offset = 0;
@@ -367,8 +359,6 @@ impl KernelModules<'_> {
 	
 	/// Scroll the module information text up/down.
 	
-	/// @param direction
-	/// @param smooth_scroll
 	
 	pub fn scroll_mod_info(
 		&mut self,

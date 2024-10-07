@@ -35,8 +35,7 @@ impl Unicode<'_> {
 	
 	/// Create a new Unicode instance.
 	 
-	/// @param  replace
-	/// @return Unicode
+	
 	 
 	pub fn new(replace: bool) -> Self {
 		Self {
@@ -62,9 +61,7 @@ impl Unicode<'_> {
 	}
 	
 	/// Get string from a Unicode symbol.
-	 
-	/// @param  Symbol
-	/// @return str
+	
 	
 	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
@@ -84,8 +81,7 @@ impl Style {
 	
 	/// Create a new style instance from given arguments.
 	 
-	/// @param  args
-	/// @return Style
+	
 	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut default = TuiStyle::reset();
@@ -110,10 +106,7 @@ impl Style {
 	
 	/// Parse a color value from arguments.
 	 
-	/// @param  args
-	/// @param  arg_name
-	/// @param  default_color
-	/// @return Color
+	
 	 
 	fn get_color(args: &ArgMatches, arg_name: &str, default_color: Color) -> Color {
 		let colors = map![
@@ -162,7 +155,7 @@ impl<'a> StyledText<'a> {
 	
 	/// Get a vector of Text widget from styled text.
 	 
-	/// @return vector
+	
 	
 	pub fn get(&'a self) -> Text<'a> {
 		if self.styled_text.lines.is_empty() {
@@ -175,8 +168,7 @@ impl<'a> StyledText<'a> {
 	
 	/// Set a styled text.
 	 
-	/// @param text
-	/// @param placeholder
+	
 	 
 	pub fn set(&mut self, text: Text<'static>, placeholder: String) {
 		self.styled_text = text;
@@ -186,10 +178,7 @@ impl<'a> StyledText<'a> {
 	
 	/// Add style to given text depending on a delimiter.
 	 
-	/// @param  text
-	/// @param  delimiter
-	/// @param  style
-	/// @return vector
+	
 	
 	pub fn stylize_data(
 		&mut self,
@@ -218,7 +207,7 @@ impl<'a> StyledText<'a> {
 	
 	/// Return the line count of styled text.
 	 
-	/// @return usize
+	
 	
 	pub fn lines(&self) -> usize {
 		if self.styled_text.lines.is_empty() {

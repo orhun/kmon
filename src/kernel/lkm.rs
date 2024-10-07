@@ -20,9 +20,6 @@ enum SortType {
 impl SortType {
 	
 	/// Return iterator for the sort types.
-	
-
-	
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, SortType> {
 		[
@@ -44,9 +41,6 @@ pub struct ListArgs {
 impl ListArgs {
 	
 	/// Create a new list arguments instance.
-	
-
-	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut sort_type = SortType::None;
 		if let Some(("sort", matches)) = args.subcommand() {
@@ -82,8 +76,6 @@ pub struct KernelModules<'a> {
 impl KernelModules<'_> {
 	
 	/// Create a new kernel modules instance.
-	 
-	
 	pub fn new(args: ListArgs, style: Style) -> Self {
 		let mut kernel_modules = Self {
 			default_list: Vec::new(),
@@ -142,17 +134,12 @@ impl KernelModules<'_> {
 
 	
 	/// Get the current command using current module name.
-	 
-
-	
 	pub fn get_current_command(&self) -> Command {
 		self.command.get(&self.current_name)
 	}
 
 	
 	/// Set the current module command and show confirmation message.
-	 
-	
 	pub fn set_current_command(
 		&mut self,
 		module_command: ModuleCommand,
@@ -193,9 +180,6 @@ impl KernelModules<'_> {
 
 	
 	/// Execute the current module command.
-	
-
-	
 	pub fn execute_command(&mut self) -> bool {
 		let mut command_executed = false;
 		if !self.command.is_none() {
@@ -238,9 +222,6 @@ impl KernelModules<'_> {
 
 	
 	/// Cancel the execution of the current command.
-	
-
-	 
 	pub fn cancel_execution(&mut self) -> bool {
 		if !self.command.is_none() {
 			self.command = ModuleCommand::None;
@@ -259,8 +240,6 @@ impl KernelModules<'_> {
 
 	
 	/// Scroll to the position of used module at given index.
-	
-	
 	pub fn show_used_module(&mut self, mod_index: usize) {
 		if let Some(used_module) = self.list[self.index][2]
 			.split(' ')
@@ -293,8 +272,6 @@ impl KernelModules<'_> {
 
 	
 	/// Scroll module list up/down and select module.
-	 
-	
 	pub fn scroll_list(&mut self, direction: ScrollDirection) {
 		self.info_scroll_offset = 0;
 		if self.list.is_empty() {
@@ -337,7 +314,6 @@ impl KernelModules<'_> {
 
 	
 	/// Select the next module.
-	
 	pub fn next_module(&mut self) {
 		self.index += 1;
 		if self.index > self.list.len() - 1 {
@@ -347,7 +323,6 @@ impl KernelModules<'_> {
 
 	
 	/// Select the previous module.
-	
 	pub fn previous_module(&mut self) {
 		if self.index > 0 {
 			self.index -= 1;
@@ -358,8 +333,6 @@ impl KernelModules<'_> {
 
 	
 	/// Scroll the module information text up/down.
-	
-	
 	pub fn scroll_mod_info(
 		&mut self,
 		direction: ScrollDirection,

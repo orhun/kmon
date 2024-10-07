@@ -50,8 +50,6 @@ pub enum ScrollDirection {
 impl ScrollDirection {
 	
 	/// Return iterator of the available scroll directions.
-	 
-	 
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, ScrollDirection> {
 		[
@@ -67,7 +65,6 @@ impl ScrollDirection {
 }
 
 /// Main blocks of the terminal 
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Sequence)]
 pub enum Block {
 	UserInput,
@@ -105,8 +102,6 @@ pub enum InputMode {
 impl InputMode {
 	
 	/// Check if input mode is set.
-	 
-	
 	pub fn is_none(self) -> bool {
 		self == Self::None
 	}
@@ -143,8 +138,6 @@ pub struct App {
 impl App {
 	
 	/// Create a new app instance.
-	 
-	
 	pub fn new(block: Block, style: Style) -> Self {
 		Self {
 			selected_block: block,
@@ -186,8 +179,6 @@ impl App {
 
 	
 	/// Get style depending on the selected state of the block.
-	 
-	
 	pub fn block_style(&self, block: Block) -> TuiStyle {
 		if self.show_options {
 			self.style.colored
@@ -200,9 +191,6 @@ impl App {
 
 	
 	/// Get the size of the selected block.
-	 
-
-	
 	pub fn block_size(&mut self) -> &mut u16 {
 		match self.selected_block {
 			Block::ModuleInfo => &mut self.block_size.info,
@@ -213,8 +201,6 @@ impl App {
 
 	
 	/// Get clipboard contents as String.
-	 
-
 	pub fn get_clipboard_contents(&mut self) -> String {
 		if let Some(clipboard) = self.clipboard.as_mut() {
 			if let Ok(contents) = clipboard.get_contents() {
@@ -226,8 +212,6 @@ impl App {
 
 	
 	/// Set clipboard contents.
-	
-
 	pub fn set_clipboard_contents(&mut self, contents: &str) {
 		if let Some(clipboard) = self.clipboard.as_mut() {
 			if let Err(e) = clipboard.set_contents(contents.to_string()) {
@@ -238,8 +222,6 @@ impl App {
 
 	
 	/// Show help message on the information block.
-	 
-	
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
 		let mut help_text = Vec::new();
@@ -267,8 +249,6 @@ impl App {
 
 	
 	/// Show dependent modules on the information block.
-	
-	
 	#[allow(clippy::nonminimal_bool)]
 	pub fn show_dependent_modules(
 		&mut self,
@@ -308,9 +288,6 @@ impl App {
 
 	
 	/// Draw a block according to the index.
-	
-
-	
 	pub fn draw_dynamic_block(
 		&mut self,
 		frame: &mut Frame,
@@ -331,9 +308,6 @@ impl App {
 
 	
 	/// Draw a paragraph widget for using as user input.
-	
-
-	
 	pub fn draw_user_input(
 		&self,
 		frame: &mut Frame,
@@ -374,9 +348,6 @@ impl App {
 
 	
 	/// Draw a paragraph widget for showing the kernel information.
-	 
-
-	 
 	pub fn draw_kernel_info(&self, frame: &mut Frame, area: Rect, info: &[String]) {
 		frame.render_widget(
 			Paragraph::new(Span::raw(&info[1]))
@@ -402,9 +373,6 @@ impl App {
 
 	
 	/// Configure and draw kernel modules table.
-	 
-
-	
 	pub fn draw_kernel_modules(
 		&mut self,
 		frame: &mut Frame,
@@ -503,9 +471,6 @@ impl App {
 
 	
 	/// Draws the options menu as a popup.
-	 
-
-	
 	pub fn draw_options_menu(
 		&mut self,
 		frame: &mut Frame,
@@ -585,8 +550,6 @@ impl App {
 
 	
 	/// Draw a paragraph widget for showing module information.
-	 
-	
 	pub fn draw_module_info(
 		&self,
 		frame: &mut Frame,
@@ -630,8 +593,6 @@ impl App {
 
 	
 	/// Draw a paragraph widget for showing kernel activities.
-	
-	
 	pub fn draw_kernel_activities(
 		&self,
 		frame: &mut Frame,

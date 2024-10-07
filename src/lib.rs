@@ -23,9 +23,6 @@ use unicode_width::UnicodeWidthStr;
 
 
 /// Configure the terminal and draw its widgets.
- 
-
- 
 pub fn start_tui<B>(
 	mut terminal: Terminal<B>,
 	mut kernel: Kernel,
@@ -644,9 +641,6 @@ mod tests {
 	}
 	
 	/// Try to send a key event until Sender succeeds.
-	 
-
-	
 	fn send_key(tx: &Sender<Event<Key>>, key: Key) {
 		let mut x = true;
 		while x {

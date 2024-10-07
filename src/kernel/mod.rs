@@ -18,8 +18,6 @@ pub struct Kernel {
 impl Kernel {
 	
 	/// Create a new kernel instance.
-	 
-	
 	pub fn new(args: &ArgMatches) -> Self {
 		Self {
 			logs: KernelLogs::default(),

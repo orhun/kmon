@@ -34,9 +34,6 @@ pub struct Unicode<'a> {
 impl Unicode<'_> {
 	
 	/// Create a new Unicode instance.
-	 
-	
-	 
 	pub fn new(replace: bool) -> Self {
 		Self {
 			symbols: map! {
@@ -61,8 +58,6 @@ impl Unicode<'_> {
 	}
 	
 	/// Get string from a Unicode symbol.
-	
-	
 	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
 	}
@@ -80,9 +75,6 @@ pub struct Style {
 impl Style {
 	
 	/// Create a new style instance from given arguments.
-	 
-	
-	
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut default = TuiStyle::reset();
 		if let Ok(true) = args.try_contains_id("accent-color") {
@@ -105,9 +97,6 @@ impl Style {
 
 	
 	/// Parse a color value from arguments.
-	 
-	
-	 
 	fn get_color(args: &ArgMatches, arg_name: &str, default_color: Color) -> Color {
 		let colors = map![
 			"black" => Color::Black,
@@ -154,9 +143,6 @@ pub struct StyledText<'a> {
 impl<'a> StyledText<'a> {
 	
 	/// Get a vector of Text widget from styled text.
-	 
-	
-	
 	pub fn get(&'a self) -> Text<'a> {
 		if self.styled_text.lines.is_empty() {
 			Text::raw(&self.raw_text)
@@ -167,9 +153,6 @@ impl<'a> StyledText<'a> {
 
 	
 	/// Set a styled text.
-	 
-	
-	 
 	pub fn set(&mut self, text: Text<'static>, placeholder: String) {
 		self.styled_text = text;
 		self.raw_text = placeholder;
@@ -177,9 +160,6 @@ impl<'a> StyledText<'a> {
 
 	
 	/// Add style to given text depending on a delimiter.
-	 
-	
-	
 	pub fn stylize_data(
 		&mut self,
 		text: &'a str,
@@ -206,9 +186,6 @@ impl<'a> StyledText<'a> {
 
 	
 	/// Return the line count of styled text.
-	 
-	
-	
 	pub fn lines(&self) -> usize {
 		if self.styled_text.lines.is_empty() {
 			self.raw_text.lines().count()

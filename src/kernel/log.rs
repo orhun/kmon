@@ -15,9 +15,6 @@ pub struct KernelLogs {
 impl KernelLogs {
 	
 	/// Update the output variable value if 'dmesg' logs changed.
-	 
-	
-	
 	pub fn update(&mut self) -> bool {
 		self.output = util::exec_cmd(
 			"dmesg",
@@ -45,9 +42,6 @@ impl KernelLogs {
 
 	
 	/// Select a part of the output depending on the area properties.
-	 
-
-	
 	pub fn select(&mut self, area_height: u16, area_sub: u16) -> &str {
 		self.selected_output = self
 			.output
@@ -74,8 +68,6 @@ impl KernelLogs {
 
 	
 	/// Scroll the kernel logs up/down.
-
-	
 	pub fn scroll(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
 		let scroll_amount = if smooth_scroll { 1 } else { 3 };
 		match direction {

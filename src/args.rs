@@ -12,8 +12,6 @@ const ASCII_LOGO: &str = "
 
 
 /// Parse command line arguments using clap.
- 
-
 pub fn get_args() -> App {
 	App::new(env!("CARGO_PKG_NAME"))
 		.version(env!("CARGO_PKG_VERSION"))

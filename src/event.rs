@@ -6,14 +6,14 @@ use std::time::Duration;
 use termion::event::Key;
 use termion::input::TermRead;
 
-/* Terminal event methods */
+/// Terminal event methods
 pub enum Event<I> {
 	Input(I),
 	Kernel(String),
 	Tick,
 }
 
-/* Terminal events */
+/// Terminal events
 #[allow(dead_code)]
 pub struct Events {
 	pub tx: mpsc::Sender<Event<Key>>,
@@ -24,19 +24,13 @@ pub struct Events {
 }
 
 impl Events {
-	/**
-	 * Create a new events instance.
-	 *
-	 * @param  refresh_rate
-	 * @param  kernel_logs
-	 * @return Events
-	 */
+	/// Create a new events instance.
 	pub fn new(refresh_rate: u64, kernel_logs: &KernelLogs) -> Self {
-		/* Convert refresh rate to Duration from milliseconds. */
+		// Convert refresh rate to Duration from milliseconds.
 		let refresh_rate = Duration::from_millis(refresh_rate);
-		/* Create a new asynchronous channel. */
+		// Create a new asynchronous channel.
 		let (tx, rx) = mpsc::channel();
-		/* Handle inputs using stdin stream and sender of the channel. */
+		// Handle inputs using stdin stream and sender of the channel.
 		let input_handler = {
 			let tx = tx.clone();
 			thread::spawn(move || {
@@ -46,7 +40,7 @@ impl Events {
 				}
 			})
 		};
-		/* Handle kernel logs using 'dmesg' output. */
+		// Handle kernel logs using 'dmesg' output.
 		let kernel_handler = {
 			let tx = tx.clone();
 			let mut kernel_logs = kernel_logs.clone();
@@ -58,7 +52,7 @@ impl Events {
 				thread::sleep(refresh_rate * 10);
 			})
 		};
-		/* Create a loop for handling events. */
+		// Create a loop for handling events.
 		let tick_handler = {
 			let tx = tx.clone();
 			thread::spawn(move || loop {
@@ -66,7 +60,7 @@ impl Events {
 				thread::sleep(refresh_rate);
 			})
 		};
-		/* Return events. */
+		// Return events.
 		Self {
 			tx,
 			rx,

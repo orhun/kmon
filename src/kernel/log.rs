@@ -2,7 +2,7 @@ use crate::app::ScrollDirection;
 use crate::util;
 use std::fmt::Write as _;
 
-/* Kernel activity logs */
+/// Kernel activity logs
 #[derive(Clone, Debug, Default)]
 pub struct KernelLogs {
 	pub output: String,
@@ -13,11 +13,7 @@ pub struct KernelLogs {
 }
 
 impl KernelLogs {
-	/**
-	 * Update the output variable value if 'dmesg' logs changed.
-	 *
-	 * @return logs_updated
-	 */
+	/// Update the output variable value if 'dmesg' logs changed.
 	pub fn update(&mut self) -> bool {
 		self.output = util::exec_cmd(
 			"dmesg",
@@ -35,7 +31,7 @@ impl KernelLogs {
 		logs_updated
 	}
 
-	/* Refresh the kernel logs. */
+	/// Refresh the kernel logs.
 	pub fn refresh(&mut self) {
 		self.last_line = String::new();
 		self.index = 0;
@@ -43,13 +39,7 @@ impl KernelLogs {
 		self.update();
 	}
 
-	/**
-	 * Select a part of the output depending on the area properties.
-	 *
-	 * @param  area_height
-	 * @param  area_sub
-	 * @return selected_output
-	 */
+	/// Select a part of the output depending on the area properties.
 	pub fn select(&mut self, area_height: u16, area_sub: u16) -> &str {
 		self.selected_output = self
 			.output
@@ -74,12 +64,7 @@ impl KernelLogs {
 		&self.selected_output
 	}
 
-	/**
-	 * Scroll the kernel logs up/down.
-	 *
-	 * @param direction
-	 * @param smooth_scroll
-	 */
+	/// Scroll the kernel logs up/down.
 	pub fn scroll(&mut self, direction: ScrollDirection, smooth_scroll: bool) {
 		let scroll_amount = if smooth_scroll { 1 } else { 3 };
 		match direction {

@@ -4,7 +4,7 @@ use ratatui::style::{Color, Modifier, Style as TuiStyle};
 use ratatui::text::{Line, Span, Text};
 use std::collections::HashMap;
 
-/// Unicode symbol 
+/// Unicode symbol
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Symbol {
 	None,
@@ -24,7 +24,7 @@ pub enum Symbol {
 	HistoricSite,
 }
 
-/// Supported Unicode symbols 
+/// Supported Unicode symbols
 #[derive(Clone, Debug)]
 pub struct Unicode<'a> {
 	symbols: HashMap<Symbol, &'a [&'a str; 2]>,
@@ -32,7 +32,6 @@ pub struct Unicode<'a> {
 }
 
 impl Unicode<'_> {
-	
 	/// Create a new Unicode instance.
 	pub fn new(replace: bool) -> Self {
 		Self {
@@ -56,14 +55,14 @@ impl Unicode<'_> {
 			replace,
 		}
 	}
-	
+
 	/// Get string from a Unicode symbol.
 	pub fn get(&self, symbol: Symbol) -> &str {
 		self.symbols[&symbol][self.replace as usize]
 	}
 }
 
-/// Style properties 
+/// Style properties
 #[derive(Clone, Debug)]
 pub struct Style {
 	pub default: TuiStyle,
@@ -73,7 +72,6 @@ pub struct Style {
 }
 
 impl Style {
-	
 	/// Create a new style instance from given arguments.
 	pub fn new(args: &ArgMatches) -> Self {
 		let mut default = TuiStyle::reset();
@@ -95,7 +93,6 @@ impl Style {
 		}
 	}
 
-	
 	/// Parse a color value from arguments.
 	fn get_color(args: &ArgMatches, arg_name: &str, default_color: Color) -> Color {
 		let colors = map![
@@ -133,7 +130,7 @@ impl Style {
 	}
 }
 
-/// Styled text that has raw and style parts 
+/// Styled text that has raw and style parts
 #[derive(Debug, Default)]
 pub struct StyledText<'a> {
 	pub raw_text: String,
@@ -141,7 +138,6 @@ pub struct StyledText<'a> {
 }
 
 impl<'a> StyledText<'a> {
-	
 	/// Get a vector of Text widget from styled text.
 	pub fn get(&'a self) -> Text<'a> {
 		if self.styled_text.lines.is_empty() {
@@ -151,14 +147,12 @@ impl<'a> StyledText<'a> {
 		}
 	}
 
-	
 	/// Set a styled text.
 	pub fn set(&mut self, text: Text<'static>, placeholder: String) {
 		self.styled_text = text;
 		self.raw_text = placeholder;
 	}
 
-	
 	/// Add style to given text depending on a delimiter.
 	pub fn stylize_data(
 		&mut self,
@@ -184,7 +178,6 @@ impl<'a> StyledText<'a> {
 		self.styled_text.clone()
 	}
 
-	
 	/// Return the line count of styled text.
 	pub fn lines(&self) -> usize {
 		if self.styled_text.lines.is_empty() {

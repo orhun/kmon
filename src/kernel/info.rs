@@ -1,7 +1,7 @@
 use crate::util;
 use std::vec::IntoIter;
 
-/// Kernel and system information 
+/// Kernel and system information
 pub struct KernelInfo {
 	pub current_info: Vec<String>,
 	uname_output: IntoIter<Vec<String>>,
@@ -14,7 +14,6 @@ impl Default for KernelInfo {
 }
 
 impl KernelInfo {
-	
 	/// Create a new kernel info instance.
 	pub fn new() -> Self {
 		let mut kernel_info = Self {
@@ -25,13 +24,12 @@ impl KernelInfo {
 		kernel_info
 	}
 
-	/// Refresh the kernel information fields. 
+	/// Refresh the kernel information fields.
 	pub fn refresh(&mut self) {
 		self.uname_output = KernelInfo::get_infos();
 		self.next();
 	}
 
-	
 	/// Select the next 'uname' output as kernel information.
 	pub fn next(&mut self) {
 		match self.uname_output.next() {
@@ -39,7 +37,6 @@ impl KernelInfo {
 			None => self.refresh(),
 		}
 	}
-
 
 	/// Execute 'uname' command and return its output along with its description.
 	fn get_infos() -> IntoIter<Vec<String>> {

@@ -22,10 +22,10 @@ use std::sync::mpsc::Sender;
 use termion::event::Key;
 use unicode_width::UnicodeWidthStr;
 
-/// Table header of the module table 
+/// Table header of the module table
 pub const TABLE_HEADER: &[&str] = &[" Module", "Size", "Used by"];
 
-/// Available options in the module management menu 
+/// Available options in the module management menu
 const OPTIONS: &[(&str, &str)] = &[
 	("unload", "Unload the module"),
 	("reload", "Reload the module"),
@@ -36,7 +36,7 @@ const OPTIONS: &[(&str, &str)] = &[
 	("clear", "Clear the ring buffer"),
 ];
 
-/// Supported directions of scrolling 
+/// Supported directions of scrolling
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ScrollDirection {
 	Up,
@@ -48,7 +48,6 @@ pub enum ScrollDirection {
 }
 
 impl ScrollDirection {
-	
 	/// Return iterator of the available scroll directions.
 	#[allow(dead_code)]
 	pub fn iter() -> Iter<'static, ScrollDirection> {
@@ -64,7 +63,7 @@ impl ScrollDirection {
 	}
 }
 
-/// Main blocks of the terminal 
+/// Main blocks of the terminal
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Sequence)]
 pub enum Block {
 	UserInput,
@@ -73,14 +72,14 @@ pub enum Block {
 	Activities,
 }
 
-/// Sizes of the terminal blocks 
+/// Sizes of the terminal blocks
 pub struct BlockSize {
 	pub input: u16,
 	pub info: u16,
 	pub activities: u16,
 }
 
-/// Default initialization values for BlockSize 
+/// Default initialization values for BlockSize
 impl Default for BlockSize {
 	fn default() -> Self {
 		Self {
@@ -91,7 +90,7 @@ impl Default for BlockSize {
 	}
 }
 
-/// User input mode 
+/// User input mode
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Sequence)]
 pub enum InputMode {
 	None,
@@ -100,14 +99,13 @@ pub enum InputMode {
 }
 
 impl InputMode {
-	
 	/// Check if input mode is set.
 	pub fn is_none(self) -> bool {
 		self == Self::None
 	}
 }
 
-/// Implementation of Display for using InputMode members as string 
+/// Implementation of Display for using InputMode members as string
 impl Display for InputMode {
 	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 		let mut input_mode = *self;
@@ -136,7 +134,6 @@ pub struct App {
 }
 
 impl App {
-	
 	/// Create a new app instance.
 	pub fn new(block: Block, style: Style) -> Self {
 		Self {
@@ -166,7 +163,7 @@ impl App {
 		}
 	}
 
-	/// Reset app properties to default. 
+	/// Reset app properties to default.
 	pub fn refresh(&mut self) {
 		self.selected_block = self.default_block;
 		self.block_size = BlockSize::default();
@@ -177,7 +174,6 @@ impl App {
 		self.show_options = false;
 	}
 
-	
 	/// Get style depending on the selected state of the block.
 	pub fn block_style(&self, block: Block) -> TuiStyle {
 		if self.show_options {
@@ -189,7 +185,6 @@ impl App {
 		}
 	}
 
-	
 	/// Get the size of the selected block.
 	pub fn block_size(&mut self) -> &mut u16 {
 		match self.selected_block {
@@ -199,7 +194,6 @@ impl App {
 		}
 	}
 
-	
 	/// Get clipboard contents as String.
 	pub fn get_clipboard_contents(&mut self) -> String {
 		if let Some(clipboard) = self.clipboard.as_mut() {
@@ -210,7 +204,6 @@ impl App {
 		String::new()
 	}
 
-	
 	/// Set clipboard contents.
 	pub fn set_clipboard_contents(&mut self, contents: &str) {
 		if let Some(clipboard) = self.clipboard.as_mut() {
@@ -220,7 +213,6 @@ impl App {
 		}
 	}
 
-	
 	/// Show help message on the information block.
 	pub fn show_help_message(&mut self, kernel_modules: &mut KernelModules<'_>) {
 		let key_bindings: Vec<(&str, &str)> = util::KEY_BINDINGS.to_vec();
@@ -247,7 +239,6 @@ impl App {
 			.set(Text::from(help_text), help_text_raw.join("\n"));
 	}
 
-	
 	/// Show dependent modules on the information block.
 	#[allow(clippy::nonminimal_bool)]
 	pub fn show_dependent_modules(
@@ -286,7 +277,6 @@ impl App {
 		}
 	}
 
-	
 	/// Draw a block according to the index.
 	pub fn draw_dynamic_block(
 		&mut self,
@@ -306,7 +296,6 @@ impl App {
 		}
 	}
 
-	
 	/// Draw a paragraph widget for using as user input.
 	pub fn draw_user_input(
 		&self,
@@ -346,7 +335,6 @@ impl App {
 		);
 	}
 
-	
 	/// Draw a paragraph widget for showing the kernel information.
 	pub fn draw_kernel_info(&self, frame: &mut Frame, area: Rect, info: &[String]) {
 		frame.render_widget(
@@ -371,7 +359,6 @@ impl App {
 		);
 	}
 
-	
 	/// Configure and draw kernel modules table.
 	pub fn draw_kernel_modules(
 		&mut self,
@@ -379,7 +366,7 @@ impl App {
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
 	) {
-		// Filter the module list depending on the input query. 
+		// Filter the module list depending on the input query.
 		let mut kernel_module_list = kernel_modules.default_list.clone();
 		if (self.input_mode == InputMode::None
 			|| self.input_mode == InputMode::Search)
@@ -391,7 +378,7 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
-		// Append '...' if dependent modules exceed the block width. 
+		// Append '...' if dependent modules exceed the block width.
 		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {
 			if module[2].len() > dependent_width {
@@ -400,13 +387,13 @@ impl App {
 			}
 		}
 		kernel_modules.list = kernel_module_list;
-		// Set the scroll offset for modules. 
+		// Set the scroll offset for modules.
 		let modules_scroll_offset = area
 			.height
 			.checked_sub(5)
 			.and_then(|height| kernel_modules.index.checked_sub(height as usize))
 			.unwrap_or(0);
-		// Set selected state of the modules and render the table widget. 
+		// Set selected state of the modules and render the table widget.
 		frame.render_widget(
 			Table::new(
 				kernel_modules
@@ -453,7 +440,8 @@ impl App {
 							self.style.unicode.get(Symbol::LeftBracket),
 							if !kernel_modules.list.is_empty() {
 								((kernel_modules.index + 1) as f64
-									/ kernel_modules.list.len() as f64 * 100.0) as u64
+									/ kernel_modules.list.len() as f64
+									* 100.0) as u64
 							} else {
 								0
 							},
@@ -469,7 +457,6 @@ impl App {
 		}
 	}
 
-	
 	/// Draws the options menu as a popup.
 	pub fn draw_options_menu(
 		&mut self,
@@ -548,7 +535,6 @@ impl App {
 		);
 	}
 
-	
 	/// Draw a paragraph widget for showing module information.
 	pub fn draw_module_info(
 		&self,
@@ -591,7 +577,6 @@ impl App {
 		);
 	}
 
-	
 	/// Draw a paragraph widget for showing kernel activities.
 	pub fn draw_kernel_activities(
 		&self,

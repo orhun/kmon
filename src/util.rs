@@ -4,7 +4,7 @@ use std::panic;
 use std::process::Command;
 use termion::raw::IntoRawMode;
 
-/// Macro for concise initialization of hashmap 
+/// Macro for concise initialization of hashmap
 macro_rules! map {
     ($( $key: expr => $val: expr ),*) => {{
          let mut map = ::std::collections::HashMap::new();
@@ -13,7 +13,7 @@ macro_rules! map {
     }}
 }
 
-/// Array of the key bindings 
+/// Array of the key bindings
 pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("'?', f1", "help"),
 	("right/left, h/l", "switch between blocks"),
@@ -40,7 +40,6 @@ pub const KEY_BINDINGS: &[(&str, &str)] = &[
 	("q, ctrl-c/d, esc", "quit"),
 ];
 
-
 /// Execute a operating system command and return its output.
 pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 	match Command::new(cmd).args(cmd_args).output() {
@@ -60,7 +59,6 @@ pub fn exec_cmd(cmd: &str, cmd_args: &[&str]) -> Result<String, String> {
 		Err(e) => Err(e.to_string()),
 	}
 }
-
 
 /// Sets up the panic hook for the terminal.
 

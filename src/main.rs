@@ -10,7 +10,6 @@ use termion::input::MouseTerminal;
 use termion::raw::IntoRawMode;
 use termion::screen::IntoAlternateScreen;
 
-
 /// Entry point.
 fn main() -> Result<(), Box<dyn Error>> {
 	let args = args::get_args().get_matches();

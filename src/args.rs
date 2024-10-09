@@ -1,6 +1,6 @@
 use clap::{Arg, ArgAction, Command as App};
 
-/// ASCII format of the project logo 
+/// ASCII format of the project logo
 const ASCII_LOGO: &str = "
  ``    ````````````    ````   ```````````    ```````````
 :NNs `hNNNNNNNNNNNNh` sNNNy   yNNNNNNNNNN+   dNNNNNNNNNN:
@@ -9,7 +9,6 @@ const ASCII_LOGO: &str = "
 /MMMs:::hhhs   oMMM+:::MMMNhhhNMMMdhhdMMMmhhhNMMN   /MMM/
 :mmm/   dmmh   +mmm-  `mmmmmmmmmmmmmmmmmmmmmmmmmd   /mmm:
  ```    ```     ```    ``````````````````````````    ```";
-
 
 /// Parse command line arguments using clap.
 pub fn get_args() -> App {

@@ -97,7 +97,7 @@ impl KernelModules<'_> {
 	/// Parse kernel modules from '/proc/modules'. 
 	pub fn refresh(&mut self) -> Result<(), Box<dyn Error>> {
 		let mut module_list: Vec<Vec<String>> = Vec::new();
-		/// Set the command for reading kernel modules and execute it.
+		// Set the command for reading kernel modules and execute it.
 		let mut module_read_cmd = String::from("cat /proc/modules");
 		match self.args.sort {
 			SortType::Size => module_read_cmd += " | sort -n -r -t ' ' -k2",
@@ -107,7 +107,7 @@ impl KernelModules<'_> {
 		}
 		let modules_content = util::exec_cmd("sh", &["-c", &module_read_cmd])?;
 
-		/// Parse content for module name, size and related information. 
+		// Parse content for module name, size and related information. 
 		for line in modules_content.lines() {
 			let columns: Vec<&str> = line.split_whitespace().collect();
 			let mut module_name = format!(" {}", columns[0]);
@@ -122,7 +122,7 @@ impl KernelModules<'_> {
 				ByteSize::b(columns[1].to_string().parse().unwrap_or(0)).to_string();
 			module_list.push(vec![module_name, module_size, used_modules]);
 		}
-		/// Reverse the kernel modules if the argument is provided. 
+		// Reverse the kernel modules if the argument is provided. 
 		if self.args.reverse {
 			module_list.reverse();
 		}
@@ -277,7 +277,7 @@ impl KernelModules<'_> {
 		if self.list.is_empty() {
 			self.index = 0;
 		} else {
-			/// Scroll module list. 
+			// Scroll module list. 
 			match direction {
 				ScrollDirection::Up => self.previous_module(),
 				ScrollDirection::Down => self.next_module(),
@@ -285,14 +285,14 @@ impl KernelModules<'_> {
 				ScrollDirection::Bottom => self.index = self.list.len() - 1,
 				_ => {}
 			}
-			/// Set current module name. 
+			// Set current module name. 
 			self.current_name = self.list[self.index][0]
 				.split_whitespace()
 				.next()
 				.unwrap_or("?")
 				.trim()
 				.to_string();
-			/// Execute 'modinfo' and add style to its output. 
+			// Execute 'modinfo' and add style to its output. 
 			self.current_info.stylize_data(
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
@@ -305,7 +305,7 @@ impl KernelModules<'_> {
 				":",
 				self.style.clone(),
 			);
-			/// Clear the current command. 
+			// Clear the current command. 
 			if !self.command.is_none() {
 				self.command = ModuleCommand::None;
 			}

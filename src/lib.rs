@@ -31,9 +31,9 @@ pub fn start_tui<B>(
 where
 	B: Backend,
 {
-	/// Configure the application.
+	// Configure the application.
 	let mut app = App::new(Block::ModuleTable, kernel.modules.style.clone());
-	/// Draw terminal and render the widgets. 
+	// Draw terminal and render the widgets. 
 	loop {
 		terminal.draw(|frame| {
 			let chunks = Layout::default()
@@ -98,15 +98,15 @@ where
 				frame.set_cursor(1 + app.input_query.width() as u16, 1);
 			}
 		})?;
-		/// Handle terminal events. 
+		// Handle terminal events. 
 		match events.rx.recv()? {
-			/// Key input events. 
+			// Key input events. 
 			Event::Input(input) => {
 				let mut hide_options = true;
 				if app.input_mode.is_none() {
-					/// Default input mode. 
+					// Default input mode. 
 					match input {
-						/// Quit. 
+						// Quit. 
 						Key::Char('q')
 						| Key::Char('Q')
 						| Key::Ctrl('c')
@@ -118,12 +118,12 @@ where
 								break;
 							}
 						}
-						/// Refresh. 
+						// Refresh. 
 						Key::Char('r') | Key::Char('R') | Key::F(5) => {
 							app.refresh();
 							kernel.refresh();
 						}
-						/// Show help message. 
+						// Show help message. 
 						Key::Char('?') | Key::F(1) => {
 							app.show_help_message(&mut kernel.modules);
 						}
@@ -131,7 +131,7 @@ where
 							app.show_options = true;
 							hide_options = false;
 						}
-						/// Scroll the selected block up. 
+						// Scroll the selected block up. 
 						Key::Up
 						| Key::Char('k')
 						| Key::Char('K')
@@ -161,7 +161,7 @@ where
 								_ => {}
 							}
 						}
-						/// Scroll the selected block down. 
+						// Scroll the selected block down. 
 						Key::Down
 						| Key::Char('j')
 						| Key::Char('J')
@@ -191,7 +191,7 @@ where
 								_ => {}
 							}
 						}
-						/// Select the next terminal block. 
+						// Select the next terminal block. 
 						Key::Left | Key::Char('h') | Key::Char('H') => {
 							app.selected_block = match app.selected_block.previous()
 							{
@@ -199,14 +199,14 @@ where
 								None => Block::last().unwrap(),
 							}
 						}
-						/// Select the previous terminal block. 
+						// Select the previous terminal block. 
 						Key::Right | Key::Char('l') | Key::Char('L') => {
 							app.selected_block = match app.selected_block.next() {
 								Some(v) => v,
 								None => Block::first().unwrap(),
 							}
 						}
-						/// Expand the selected block. 
+						// Expand the selected block. 
 						Key::Alt('e') => {
 							let block_size = app.block_size();
 							if *block_size < 95 {
@@ -215,13 +215,13 @@ where
 								*block_size = 100;
 							}
 						}
-						/// Shrink the selected block. 
+						// Shrink the selected block. 
 						Key::Alt('s') => {
 							let block_size = app.block_size();
 							*block_size =
 								(*block_size).checked_sub(5).unwrap_or_default()
 						}
-						/// Change the block position. 
+						// Change the block position. 
 						Key::Ctrl('x') => {
 							if app.block_index == 2 {
 								app.block_index = 0;
@@ -229,61 +229,61 @@ where
 								app.block_index += 1;
 							}
 						}
-						/// Scroll to the top of the module list. 
+						// Scroll to the top of the module list. 
 						Key::Ctrl('t') | Key::Home => {
 							app.options.state.select(Some(0));
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Top)
 						}
-						/// Scroll to the bottom of the module list. 
+						// Scroll to the bottom of the module list. 
 						Key::Ctrl('b') | Key::End => {
 							app.options.state.select(Some(0));
 							app.selected_block = Block::ModuleTable;
 							kernel.modules.scroll_list(ScrollDirection::Bottom)
 						}
-						/// Scroll kernel activities up. 
+						// Scroll kernel activities up. 
 						Key::PageUp => {
 							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Up, false);
 						}
-						/// Scroll kernel activities down. 
+						// Scroll kernel activities down. 
 						Key::PageDown => {
 							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Down, false);
 						}
-						/// Scroll kernel activities left.
+						// Scroll kernel activities left.
 						Key::Alt('h') | Key::Alt('H') => {
 							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Left, false);
 						}
-						/// Scroll kernel activities right. 
+						// Scroll kernel activities right. 
 						Key::Alt('l') | Key::Alt('L') => {
 							app.selected_block = Block::Activities;
 							kernel.logs.scroll(ScrollDirection::Right, false);
 						}
-						/// Scroll module information up. 
+						// Scroll module information up. 
 						Key::Char('<') | Key::Alt(' ') => {
 							app.selected_block = Block::ModuleInfo;
 							kernel
 								.modules
 								.scroll_mod_info(ScrollDirection::Up, false)
 						}
-						/// Scroll module information down. 
+						// Scroll module information down. 
 						Key::Char('>') | Key::Char(' ') => {
 							app.selected_block = Block::ModuleInfo;
 							kernel
 								.modules
 								.scroll_mod_info(ScrollDirection::Down, false)
 						}
-						/// Show the next kernel information. 
+						// Show the next kernel information. 
 						Key::Char('\\') | Key::Char('\t') | Key::BackTab => {
 							kernel.info.next();
 						}
-						/// Display the dependent modules. 
+						// Display the dependent modules. 
 						Key::Char('d') | Key::Alt('d') => {
 							app.show_dependent_modules(&mut kernel.modules);
 						}
-						/// Clear the kernel ring buffer. 
+						// Clear the kernel ring buffer. 
 						Key::Ctrl('l')
 						| Key::Ctrl('u')
 						| Key::Alt('c')
@@ -293,7 +293,7 @@ where
 								String::new(),
 							);
 						}
-						/// Unload kernel module. 
+						// Unload kernel module. 
 						Key::Char('u')
 						| Key::Char('U')
 						| Key::Char('-')
@@ -304,7 +304,7 @@ where
 								String::new(),
 							);
 						}
-						/// Blacklist kernel module. 
+						// Blacklist kernel module. 
 						Key::Char('x')
 						| Key::Char('X')
 						| Key::Char('b')
@@ -315,7 +315,7 @@ where
 								String::new(),
 							);
 						}
-						/// Reload kernel module. 
+						// Reload kernel module. 
 						Key::Ctrl('r')
 						| Key::Ctrl('R')
 						| Key::Alt('r')
@@ -325,7 +325,7 @@ where
 								String::new(),
 							);
 						}
-						/// Execute the current command. 
+						// Execute the current command. 
 						Key::Char('y') | Key::Char('Y') => {
 							if kernel.modules.execute_command() {
 								events
@@ -334,13 +334,13 @@ where
 									.unwrap();
 							}
 						}
-						/// Cancel the execution of current command. 
+						// Cancel the execution of current command. 
 						Key::Char('n') | Key::Char('N') => {
 							if kernel.modules.cancel_execution() {
 								app.selected_block = Block::ModuleTable;
 							}
 						}
-						/// Copy the data in selected block to clipboard. 
+						// Copy the data in selected block to clipboard. 
 						Key::Char('c') | Key::Char('C') => {
 							app.set_clipboard_contents(match app.selected_block {
 								Block::ModuleTable => &kernel.modules.current_name,
@@ -353,14 +353,14 @@ where
 								_ => "",
 							});
 						}
-						/// Paste the clipboard contents and switch to search mode. 
+						// Paste the clipboard contents and switch to search mode. 
 						Key::Char('v') | Key::Ctrl('V') | Key::Ctrl('v') => {
 							let clipboard_contents = app.get_clipboard_contents();
 							app.input_query += &clipboard_contents;
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
 							kernel.modules.index = 0;
 						}
-						/// User input mode. 
+						// User input mode. 
 						Key::Char('\n')
 						| Key::Char('s')
 						| Key::Char('S')
@@ -418,11 +418,11 @@ where
 								}
 							}
 						}
-						/// Other character input. 
+						// Other character input. 
 						Key::Char(v) => {
-							/// Check if input is a number except zero. 
+							// Check if input is a number except zero. 
 							let index = v.to_digit(10).unwrap_or(0);
-							/// Show the used module info at given index. 
+							// Show the used module info at given index. 
 							if index != 0 && !kernel.modules.list.is_empty() {
 								app.selected_block = Block::ModuleTable;
 								kernel.modules.show_used_module(index as usize - 1);
@@ -431,13 +431,13 @@ where
 						_ => {}
 					}
 				} else {
-					/// User input mode. 
+					// User input mode. 
 					match input {
-						/// Quit with ctrl-d. 
+						// Quit with ctrl-d. 
 						Key::Ctrl('d') => {
 							break;
 						}
-						/// Switch to the previous input mode. 
+						// Switch to the previous input mode. 
 						Key::Up => {
 							app.input_mode = match app.input_mode.previous() {
 								Some(v) => v,
@@ -448,7 +448,7 @@ where
 							}
 							app.input_query = String::new();
 						}
-						/// Switch to the next input mode. 
+						// Switch to the next input mode. 
 						Key::Down => {
 							app.input_mode = match app.input_mode.next() {
 								Some(v) => v,
@@ -458,24 +458,24 @@ where
 							};
 							app.input_query = String::new();
 						}
-						/// Copy input query to the clipboard. 
+						// Copy input query to the clipboard. 
 						Key::Ctrl('c') => {
 							let query = app.input_query.clone();
 							app.set_clipboard_contents(&query);
 						}
-						/// Paste the clipboard contents. 
+						// Paste the clipboard contents. 
 						Key::Ctrl('v') => {
 							let clipboard_contents = app.get_clipboard_contents();
 							app.input_query += &clipboard_contents;
 						}
-						/// Exit user input mode. 
+						// Exit user input mode. 
 						Key::Char('\n')
 						| Key::Char('\t')
 						| Key::Char('?')
 						| Key::F(1)
 						| Key::Right
 						| Key::Left => {
-							/// Select the next eligible block for action. 
+							// Select the next eligible block for action. 
 							app.selected_block = match input {
 								Key::Left => match app.selected_block.previous() {
 									Some(v) => v,
@@ -496,12 +496,12 @@ where
 								}
 								_ => Block::ModuleTable,
 							};
-							/// Show the first modules information if the search mode is set. 
+							// Show the first modules information if the search mode is set. 
 							if app.input_mode == InputMode::Search
 								&& kernel.modules.index == 0
 							{
 								kernel.modules.scroll_list(ScrollDirection::Top);
-							/// Load kernel module. 
+							// Load kernel module. 
 							} else if app.input_mode == InputMode::Load
 								&& !app.input_query.is_empty()
 							{
@@ -511,25 +511,25 @@ where
 								);
 								app.input_query = String::new();
 							}
-							/// Set the input mode flag. 
+							// Set the input mode flag. 
 							app.input_mode = InputMode::None;
 						}
-						/// Append character to input query. 
+						// Append character to input query. 
 						Key::Char(c) => {
 							app.input_query.push(c);
 							kernel.modules.index = 0;
 						}
-						/// Delete the last character from input query. 
+						// Delete the last character from input query. 
 						Key::Backspace | Key::Ctrl('h') => {
 							app.input_query.pop();
 							kernel.modules.index = 0;
 						}
-						/// Clear the input query. 
+						// Clear the input query. 
 						Key::Delete | Key::Ctrl('l') => {
 							app.input_query = String::new();
 							kernel.modules.index = 0;
 						}
-						/// Clear the input query and exit user input mode. 
+						// Clear the input query and exit user input mode. 
 						Key::Esc => {
 							events.tx.send(Event::Input(Key::Delete)).unwrap();
 							events.tx.send(Event::Input(Key::Char('\n'))).unwrap();
@@ -541,7 +541,7 @@ where
 					app.show_options = false;
 				}
 			}
-			/// Kernel events. 
+			// Kernel events. 
 			Event::Kernel(logs) => {
 				kernel.logs.output = logs;
 			}
@@ -566,7 +566,7 @@ mod tests {
 		let events = Events::new(100, &kernel.logs);
 		let tx = events.tx.clone();
 		thread::spawn(move || {
-			/// Test the general keys. 
+			// Test the general keys. 
 			for key in [
 				Key::Char('?'),
 				Key::Ctrl('t'),
@@ -597,7 +597,7 @@ mod tests {
 				send_key(&tx, key);
 			}
 			send_key(&tx, Key::Char('r'));
-			/// Test the switch keys. 
+			// Test the switch keys. 
 			for arrow_key in [Key::Right, Key::Left] {
 				for selected_key in [arrow_key; Block::CARDINALITY] {
 					send_key(&tx, selected_key);
@@ -614,7 +614,7 @@ mod tests {
 					}
 				}
 			}
-			/// Test the input mode keys. 
+			// Test the input mode keys. 
 			for key in [
 				Key::Char('v'),
 				Key::Delete,
@@ -634,13 +634,13 @@ mod tests {
 			] {
 				send_key(&tx, key);
 			}
-			/// Exit. 
+			// Exit. 
 			send_key(&tx, Key::Esc)
 		});
 		start_tui(Terminal::new(TestBackend::new(20, 10))?, kernel, &events)
 	}
 	
-	/// Try to send a key event until Sender succeeds.
+	// Try to send a key event until Sender succeeds.
 	fn send_key(tx: &Sender<Event<Key>>, key: Key) {
 		let mut x = true;
 		while x {

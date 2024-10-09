@@ -18,7 +18,7 @@ impl Command {
 		mut title: String,
 		symbol: Symbol,
 	) -> Self {
-		/// Parse the command title if '!' is given. 
+		// Parse the command title if '!' is given. 
 		if title.contains('!') {
 			title = (*title
 				.split('!')

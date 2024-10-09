@@ -379,7 +379,7 @@ impl App {
 		area: Rect,
 		kernel_modules: &mut KernelModules<'_>,
 	) {
-		/// Filter the module list depending on the input query. 
+		// Filter the module list depending on the input query. 
 		let mut kernel_module_list = kernel_modules.default_list.clone();
 		if (self.input_mode == InputMode::None
 			|| self.input_mode == InputMode::Search)
@@ -391,7 +391,7 @@ impl App {
 					.contains(&self.input_query.to_lowercase())
 			});
 		}
-		/// Append '...' if dependent modules exceed the block width. 
+		// Append '...' if dependent modules exceed the block width. 
 		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {
 			if module[2].len() > dependent_width {
@@ -400,13 +400,13 @@ impl App {
 			}
 		}
 		kernel_modules.list = kernel_module_list;
-		/// Set the scroll offset for modules. 
+		// Set the scroll offset for modules. 
 		let modules_scroll_offset = area
 			.height
 			.checked_sub(5)
 			.and_then(|height| kernel_modules.index.checked_sub(height as usize))
 			.unwrap_or(0);
-		/// Set selected state of the modules and render the table widget. 
+		// Set selected state of the modules and render the table widget. 
 		frame.render_widget(
 			Table::new(
 				kernel_modules

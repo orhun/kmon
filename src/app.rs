@@ -16,6 +16,7 @@ use ratatui::widgets::{
 	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
 };
 use ratatui::Frame;
+use regex::RegexBuilder;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
 use std::sync::mpsc::Sender;
@@ -368,16 +369,26 @@ impl App {
 	) {
 		// Filter the module list depending on the input query.
 		let mut kernel_module_list = kernel_modules.default_list.clone();
-		if (self.input_mode == InputMode::None
-			|| self.input_mode == InputMode::Search)
-			&& !self.input_query.is_empty()
-		{
-			kernel_module_list.retain(|module| {
-				module[0]
-					.to_lowercase()
-					.contains(&self.input_query.to_lowercase())
-			});
+		match self.input_mode {
+			InputMode::None | InputMode::Search if !self.input_query.is_empty() => {
+				if kernel_modules.args.regex() {
+					if let Ok(regex) = RegexBuilder::new(&self.input_query)
+						.case_insensitive(true)
+						.build()
+					{
+						kernel_module_list
+							.retain(|module| regex.is_match(module[0].trim_start()))
+					}
+				} else {
+					let input_query = &self.input_query.to_lowercase();
+					kernel_module_list.retain(|module| {
+						module[0].to_lowercase().contains(input_query)
+					});
+				}
+			}
+			_ => {}
 		}
+
 		// Append '...' if dependent modules exceed the block width.
 		let dependent_width = (area.width / 2).saturating_sub(7) as usize;
 		for module in &mut kernel_module_list {

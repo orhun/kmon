@@ -258,6 +258,7 @@ kmon [OPTIONS] [COMMAND]
 -t, --tickrate <MS>         Set the refresh rate of the terminal [default: 250]
 -r, --reverse               Reverse the kernel module list
 -u, --unicode               Show Unicode symbols for the block titles
+-E, --regex                 Interpret the module search query as a regular expression
 -h, --help                  Print help information
 -V, --version               Print version information
 ```
@@ -523,6 +524,10 @@ kmon --unicode
 `-t, --tickrate` option can be used for setting the refresh interval of the terminal UI in milliseconds.
 
 ![Setting the terminal tick rate](https://user-images.githubusercontent.com/24392180/76807925-1aa7a980-67f7-11ea-9af5-bb80849f5629.gif)
+
+### Searching modules by regular expression
+
+`-E, --regex` option can be used for searching modules by regular expression.
 
 ## Roadmap
 

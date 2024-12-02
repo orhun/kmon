@@ -68,6 +68,13 @@ pub fn get_args() -> App {
 				.help("Show Unicode symbols for the block titles")
 				.action(ArgAction::SetTrue),
 		)
+		.arg(
+			Arg::new("regex")
+				.short('E')
+				.long("regex")
+				.help("Interpret the module search query as a regular expression")
+				.action(ArgAction::SetTrue),
+		)
 		.subcommand(
 			App::new("sort")
 				.about("Sort kernel modules")

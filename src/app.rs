@@ -383,7 +383,7 @@ impl App {
 		for module in &mut kernel_module_list {
 			if module[2].len() > dependent_width {
 				module[2].truncate(dependent_width);
-				module[2] = format!("{}...", module[2]);
+				module[2].push_str("...");
 			}
 		}
 		kernel_modules.list = kernel_module_list;

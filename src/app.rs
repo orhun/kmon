@@ -345,7 +345,7 @@ impl App {
 						.border_style(self.style.colored)
 						.borders(Borders::ALL)
 						.title(Span::styled(
-							&format!(
+							format!(
 								"{}{}",
 								info[0],
 								self.style.unicode.get(Symbol::Gear)

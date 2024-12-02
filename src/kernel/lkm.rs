@@ -109,7 +109,8 @@ impl KernelModules<'_> {
 			let columns: Vec<&str> = line.split_whitespace().collect();
 			let mut module_name = format!(" {}", columns[0]);
 			if columns.len() >= 7 {
-				module_name = format!("{} {}", module_name, columns[6]);
+				module_name.push(' ');
+				module_name.push_str(columns[6]);
 			}
 			let mut used_modules = format!("{} {}", columns[2], columns[3]);
 			if used_modules.ends_with(',') {

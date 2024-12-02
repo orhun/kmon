@@ -28,7 +28,7 @@ fn build_shell_completions(out_dir: &Path) -> Result<(), IoError> {
 fn build_manpage(out_dir: &Path) -> Result<(), IoError> {
 	fs::create_dir_all(out_dir)?;
 	let app = args::get_args();
-	let file = out_dir.join(format!("{}.8", env!("CARGO_PKG_NAME")));
+	let file = out_dir.join(concat!(env!("CARGO_PKG_NAME"), ".8"));
 	let mut file = File::create(file)?;
 	Man::new(app).render(&mut file)?;
 	Ok(())

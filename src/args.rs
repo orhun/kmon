@@ -15,12 +15,15 @@ pub fn get_args() -> App {
 	App::new(env!("CARGO_PKG_NAME"))
 		.version(env!("CARGO_PKG_VERSION"))
 		.author(env!("CARGO_PKG_AUTHORS"))
-		.about(format!(
-			"{} {}\n{}\n{}\n\n{}",
+		.about(concat!(
 			env!("CARGO_PKG_NAME"),
+			" ",
 			env!("CARGO_PKG_VERSION"),
+			"\n",
 			env!("CARGO_PKG_AUTHORS"),
+			"\n",
 			env!("CARGO_PKG_DESCRIPTION"),
+			"\n\n",
 			"Press '?' while running the terminal UI to see key bindings."
 		))
 		.before_help(ASCII_LOGO)

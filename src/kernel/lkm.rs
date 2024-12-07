@@ -35,6 +35,7 @@ impl SortType {
 pub struct ListArgs {
 	sort: SortType,
 	reverse: bool,
+	regex: bool,
 }
 
 impl ListArgs {
@@ -54,7 +55,12 @@ impl ListArgs {
 			sort: sort_type,
 			reverse: args.try_get_one::<bool>("reverse").ok().flatten()
 				== Some(&true),
+			regex: args.try_get_one::<bool>("regex").ok().flatten() == Some(&true),
 		}
+	}
+
+	pub fn regex(&self) -> bool {
+		self.regex
 	}
 }
 

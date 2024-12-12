@@ -139,7 +139,7 @@ kmon is written in [Rust](https://www.rust-lang.org/) and uses [Ratatui](https:/
 cargo install kmon
 ```
 
-The minimum supported Rust version (MSRV) is `1.70.0`.
+The minimum supported Rust version (MSRV) is `1.74.1`.
 
 ### Arch Linux
 

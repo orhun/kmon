@@ -44,7 +44,7 @@ where
 					]
 					.as_ref(),
 				)
-				.split(frame.size());
+				.split(frame.area());
 			{
 				let chunks = Layout::default()
 					.direction(Direction::Horizontal)
@@ -94,7 +94,7 @@ where
 			}
 			app.draw_dynamic_block(frame, chunks[1], &mut kernel);
 			if !app.input_mode.is_none() {
-				frame.set_cursor(1 + app.input_query.width() as u16, 1);
+				frame.set_cursor_position((1 + app.input_query.width() as u16, 1));
 			}
 		})?;
 		// Handle terminal events.

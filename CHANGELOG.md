@@ -5,9 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Master
+## [1.7.0] - 2024-12-12
+
 ### Added
-- Support for searching kernel modules by regular expression
+- Add support for searching kernel modules by regex by @Integral-Tech in [#178](https://github.com/orhun/kmon/pull/178)
+
+### Changed
+- Use binary units for size instead of decimal units by @Integral-Tech in [#177](https://github.com/orhun/kmon/pull/177)
+- Replace make with $(MAKE) in example Makefile by @Integral-Tech in [#175](https://github.com/orhun/kmon/pull/175)
+- Replace format! with other macros/methods when unnecessary by @Integral-Tech in [#176](https://github.com/orhun/kmon/pull/176)
+- Use the conventional comment syntax by @Muhammad-Owais-Warsi in [#174](https://github.com/orhun/kmon/pull/174)
+- Run cargo fmt for formatting by @orhun
+- Update formatting for Rust nightly by @orhun
+- Apply clippy suggestions by @orhun
+- Update Twitter handle by @orhun
+- Update Arch Linux package link by @orhun
+- Update tui reference by @orhun
+- Update table of contents by @orhun
+- Update MSRV to 1.74.1 by @orhun
+- Upgrade dependencies by @orhun
+
+## New Contributors
+
+* @Integral-Tech made their first contribution in [#178](https://github.com/orhun/kmon/pull/178)
+* @Muhammad-Owais-Warsi made their first contribution in [#174](https://github.com/orhun/kmon/pull/174)
+
+[1.7.0]: https://github.com/orhun/kmon/compare/v1.6.5..1.7.0
 
 ## [1.6.5] - 2024-04-12
 ### Added

@@ -470,7 +470,6 @@ where
 						// Exit user input mode.
 						Key::Char('\n')
 						| Key::Char('\t')
-						| Key::Char('?')
 						| Key::F(1)
 						| Key::Right
 						| Key::Left => {
@@ -488,11 +487,6 @@ where
 									}
 									_ => Block::ModuleTable,
 								},
-								Key::Char('?') | Key::F(1) => {
-									app.show_help_message(&mut kernel.modules);
-									app.input_mode = InputMode::None;
-									Block::ModuleTable
-								}
 								_ => Block::ModuleTable,
 							};
 							// Show the first modules information if the search mode is set.

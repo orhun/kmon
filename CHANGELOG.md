@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] - 2024-12-15
+
+### Fixed
+- Use the smaller regex-lite crate by @omnivagant in [#180](https://github.com/orhun/kmon/pull/180)
+- Allow '?' as search query by @orhun
+
+### Changed
+- Update Cargo.lock by @orhun
+- Update Cargo.lock format version by @orhun
+
+## New Contributors
+
+* @omnivagant made their first contribution in [#180](https://github.com/orhun/kmon/pull/180)
+
 ## [1.7.0] - 2024-12-12
 
 ### Added

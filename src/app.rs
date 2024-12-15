@@ -16,7 +16,7 @@ use ratatui::widgets::{
 	Block as TuiBlock, Borders, Clear, List, ListItem, Paragraph, Row, Table, Wrap,
 };
 use ratatui::Frame;
-use regex::RegexBuilder;
+use regex_lite::RegexBuilder;
 use std::fmt::{Debug, Display, Formatter};
 use std::slice::Iter;
 use std::sync::mpsc::Sender;

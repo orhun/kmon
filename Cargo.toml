@@ -24,7 +24,7 @@ colorsys = "0.6.7"
 enum-iterator = "2.1.0"
 clap = "4.5.23"
 copypasta-ext = "0.4.4"
-regex = "1.11.1"
+regex-lite = "0.1.6"
 
 [build-dependencies]
 clap_mangen = "0.2.24"

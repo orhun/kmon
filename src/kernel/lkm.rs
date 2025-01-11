@@ -294,8 +294,8 @@ impl KernelModules<'_> {
 			self.current_info.stylize_data(
 				Box::leak(
 					util::exec_cmd("modinfo", &[&self.current_name])
-						.unwrap_or_else(|_| {
-							String::from("module information not available")
+						.unwrap_or_else(|e| {
+							format!("module information not available: {e}")
 						})
 						.replace("signature: ", "signature: \n")
 						.into_boxed_str(),

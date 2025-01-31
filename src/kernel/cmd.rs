@@ -1,4 +1,5 @@
 use crate::style::Symbol;
+use std::{ffi::OsStr, path::Path};
 
 /// Kernel module related command
 #[derive(Debug)]
@@ -56,7 +57,7 @@ impl ModuleCommand {
 		match self {
             Self::None => Command::new(String::from(""), "", &format!("Module: {module_name}"), Symbol::None),
             Self::Load => Command::new(
-                if Self::is_module_filename(module_name) {
+                if Self::is_module_filename(Path::new(module_name)) {
 					format!("insmod {}", &module_name)
 				} else {
 					format!("modprobe {0} || insmod {0}.ko", &module_name)
@@ -114,8 +115,8 @@ impl ModuleCommand {
 	}
 
 	/// Check if module name is a filename with suffix 'ko'
-	pub fn is_module_filename(module_name: &str) -> bool {
-		module_name.ends_with(".ko")
+	pub fn is_module_filename(module_name: &Path) -> bool {
+		module_name.extension() == Some(OsStr::new("ko"))
 	}
 }
 

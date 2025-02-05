@@ -246,13 +246,12 @@ impl App {
 		&mut self,
 		kernel_modules: &mut KernelModules<'_>,
 	) {
+		// If there is no space in "used_modules", return a vector with "-"
+		// Otherwise, split the modules by commas and collect them into a vector
 		let dependent_modules_list = kernel_modules.default_list
 			[kernel_modules.index][2]
-			.split(' ')
-			.last()
-			.unwrap_or("-")
-			.split(',')
-			.collect::<Vec<&str>>();
+			.rsplit_once(' ')
+			.map_or(vec!["-"], |(_, modules)| modules.split(',').collect());
 		if !(dependent_modules_list[0] == "-"
 			|| kernel_modules.current_name.contains("Dependent modules"))
 			|| cfg!(test)

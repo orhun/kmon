@@ -246,6 +246,8 @@ impl App {
 		&mut self,
 		kernel_modules: &mut KernelModules<'_>,
 	) {
+		// If there is no space in "used_modules", return a vector with "-"
+		// Otherwise, split the modules by commas and collect them into a vector
 		let dependent_modules_list = kernel_modules.default_list
 			[kernel_modules.index][2]
 			.rsplit_once(' ')

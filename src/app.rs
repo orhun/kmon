@@ -246,34 +246,38 @@ impl App {
 		&mut self,
 		kernel_modules: &mut KernelModules<'_>,
 	) {
-		// If there is no space in "used_modules", return a vector with "-"
-		// Otherwise, split the modules by commas and collect them into a vector
-		let dependent_modules_list = kernel_modules.default_list
-			[kernel_modules.index][2]
-			.rsplit_once(' ')
-			.map_or(vec!["-"], |(_, modules)| modules.split(',').collect());
-		if !(dependent_modules_list[0] == "-"
-			|| kernel_modules.current_name.contains("Dependent modules"))
-			|| cfg!(test)
-		{
-			kernel_modules.info_scroll_offset = 0;
-			kernel_modules.command = ModuleCommand::None;
-			kernel_modules.current_name = format!(
-				"!Dependent modules of {}{}",
-				kernel_modules.current_name,
-				self.style.unicode.get(Symbol::HistoricSite)
-			);
-			let mut dependent_modules = Vec::new();
-			for module in &dependent_modules_list {
-				dependent_modules.push(Line::from(vec![
-					Span::styled("-", self.style.colored),
-					Span::styled(format!(" {module}"), self.style.default),
-				]));
+		let current_line = kernel_modules.default_list.get(kernel_modules.index);
+
+		if let Some(line) = current_line {
+			// If there is no space in "used_modules", return a vector with "-"
+			// Otherwise, split the modules by commas and collect them into a vector
+			let dependent_modules_list = line[2]
+				.rsplit_once(' ')
+				.map_or(vec!["-"], |(_, modules)| modules.split(',').collect());
+
+			if !(dependent_modules_list[0] == "-"
+				|| kernel_modules.current_name.contains("Dependent modules"))
+				|| cfg!(test)
+			{
+				kernel_modules.info_scroll_offset = 0;
+				kernel_modules.command = ModuleCommand::None;
+				kernel_modules.current_name = format!(
+					"!Dependent modules of {}{}",
+					kernel_modules.current_name,
+					self.style.unicode.get(Symbol::HistoricSite)
+				);
+				let mut dependent_modules = Vec::new();
+				for module in &dependent_modules_list {
+					dependent_modules.push(Line::from(vec![
+						Span::styled("-", self.style.colored),
+						Span::styled(format!(" {module}"), self.style.default),
+					]));
+				}
+				kernel_modules.current_info.set(
+					Text::from(dependent_modules),
+					kernel_modules.current_name.clone(),
+				);
 			}
-			kernel_modules.current_info.set(
-				Text::from(dependent_modules),
-				kernel_modules.current_name.clone(),
-			);
 		}
 	}
 

@@ -18,7 +18,7 @@ ratatui = { version = "0.29.0", default-features = false, features = [
   "termion",
 ] }
 termion = "4.0.3"
-bytesize = "1.3.0"
+bytesize = "2.0.1"
 unicode-width = "0.1.14"
 colorsys = "0.6.7"
 enum-iterator = "2.1.0"

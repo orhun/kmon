@@ -27,7 +27,7 @@ copypasta-ext = "0.4.4"
 regex-lite = "0.1.6"
 
 [build-dependencies]
-clap_mangen = "0.2.24"
+clap_mangen = "0.3.0"
 clap_complete = "4.5.38"
 clap = "4.5.23"
 

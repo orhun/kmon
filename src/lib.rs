@@ -1,6 +1,7 @@
 #![allow(clippy::tabs_in_doc_comments)]
 
 pub mod app;
+mod clipboard;
 pub mod event;
 pub mod kernel;
 pub mod widgets;

@@ -142,6 +142,22 @@ cargo install kmon
 
 The minimum supported Rust version (MSRV) is `1.74.1`.
 
+Clipboard support is selected at build time. Both `x11` and `wayland` are
+enabled by default:
+
+```sh
+cargo install kmon --no-default-features --features wayland # Wayland only
+cargo install kmon --no-default-features --features x11     # X11 only
+cargo install kmon --no-default-features                    # No clipboard
+```
+
+Wayland clipboard access requires `wl-copy` and `wl-paste` from
+[wl-clipboard](https://github.com/bugaevc/wl-clipboard). X11 clipboard access
+requires [xclip](https://github.com/astrand/xclip). Install the helper for your
+session and keep it available in `PATH`. These helpers retain copied text
+after kmon exits. Builds without clipboard support still provide the other
+kernel-management features.
+
 ### Arch Linux
 
 **kmon** can be installed from the Arch Linux [official repository](https://www.archlinux.org/packages/extra/x86_64/kmon/).

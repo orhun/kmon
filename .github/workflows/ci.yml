@@ -33,7 +33,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --allow-unauthenticated -y -qq \
-            libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev musl-tools
+            musl-tools
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -61,6 +61,13 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+
+      - name: Check clipboard feature combinations
+        if: matrix.TOOLCHAIN == 'stable' && matrix.TARGET == 'x86_64-unknown-linux-gnu'
+        run: |
+          cargo test --locked --no-default-features
+          cargo test --locked --no-default-features --features wayland
+          cargo test --locked --no-default-features --features x11
 
       - name: Setup cargo-tarpaulin
         if: matrix.TARGET == 'x86_64-unknown-linux-gnu'

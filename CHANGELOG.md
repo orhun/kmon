@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Selectable `x11` and `wayland` clipboard features, both enabled by default.
+
+### Changed
+- Use `wl-clipboard` or `xclip` helpers for clipboard access instead of linking
+  X11/Wayland clipboard libraries. The helper for the current session is required.
+
 ## [1.7.1] - 2024-12-15
 
 ### Fixed

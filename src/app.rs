@@ -1,3 +1,4 @@
+use crate::clipboard::Clipboard;
 use crate::event::Event;
 use crate::kernel::cmd::ModuleCommand;
 use crate::kernel::lkm::KernelModules;
@@ -6,8 +7,6 @@ use crate::kernel::Kernel;
 use crate::style::{Style, StyledText, Symbol};
 use crate::util;
 use crate::widgets::StatefulList;
-use copypasta_ext::display::DisplayServer as ClipboardDisplayServer;
-use copypasta_ext::ClipboardProviderExt;
 use enum_iterator::Sequence;
 use ratatui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use ratatui::style::Style as TuiStyle;
@@ -131,7 +130,7 @@ pub struct App {
 	pub options: StatefulList<(String, String)>,
 	pub show_options: bool,
 	style: Style,
-	clipboard: Option<Box<dyn ClipboardProviderExt>>,
+	clipboard: Option<Clipboard>,
 }
 
 impl App {
@@ -154,7 +153,7 @@ impl App {
 			),
 			show_options: false,
 			style,
-			clipboard: match ClipboardDisplayServer::select().try_context() {
+			clipboard: match Clipboard::new() {
 				None => {
 					eprintln!("failed to initialize clipboard, no suitable clipboard provider found");
 					None
@@ -637,6 +636,7 @@ mod tests {
 		let mut kernel_modules =
 			KernelModules::new(ListArgs::new(&args), Style::new(&args));
 		let mut app = App::new(Block::ModuleTable, kernel_modules.style.clone());
+		app.clipboard = None;
 		app.set_clipboard_contents("test");
 		assert_ne!("x", app.get_clipboard_contents());
 		assert_eq!(app.style.default, app.block_style(Block::ModuleTable));
